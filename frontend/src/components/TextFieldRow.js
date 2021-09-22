@@ -11,7 +11,7 @@ import {
 
 let {height, width} = Dimensions.get('window');
 
-const TextFieldRow = ({title, text, onChange, keyboardType, children}) => {
+const TextFieldRow = ({title, text, onChange, keyboardType, children, style}) => {
     const [editableText, setEditableText] = useState("");
     const {colors} = useTheme();
     
@@ -28,7 +28,8 @@ const TextFieldRow = ({title, text, onChange, keyboardType, children}) => {
                         borderTopWidth: StyleSheet.hairlineWidth,
                         borderBottomWidth: StyleSheet.hairlineWidth,
                         borderColor: colors.border,
-                    }
+                    },
+                    style
                 ]}>
                     <View style={{flexDirection: 'column'}}>
                     <Text style={styles.title}>{title}</Text>
@@ -52,13 +53,15 @@ const TextFieldRow = ({title, text, onChange, keyboardType, children}) => {
         <TouchableWithoutFeedback onPress={() => ref_textBox.current.focus()}>
             <View
                 style={[
-                styles.row,
-                {
-                    backgroundColor: colors.card, 
-                    borderTopWidth: StyleSheet.hairlineWidth,
-                    borderBottomWidth: StyleSheet.hairlineWidth,
-                    borderColor: colors.border,
-                }]}
+                    styles.row,
+                    {
+                        backgroundColor: colors.card, 
+                        borderTopWidth: StyleSheet.hairlineWidth,
+                        borderBottomWidth: StyleSheet.hairlineWidth,
+                        borderColor: colors.border,
+                    },
+                    style
+                ]}
             > 
                 <TextInput 
                     style={styles.text} 
@@ -93,9 +96,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 17,
     fontWeight: '400'
-  },
-  separator: {
-    height: StyleSheet.hairlineWidth,
   },
   rightComponent: {
     flexGrow: 1,

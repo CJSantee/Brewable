@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
     StyleSheet,
     ScrollView,
-    Text
+    View
 } from 'react-native';
 import { CustomTheme } from '../Themes';
 import Constants from "expo-constants";
@@ -14,9 +14,11 @@ import { useTheme } from '@react-navigation/native';
 import TableView from './components/TableView';
 import RowItem from './components/RowItem';
 import TextFieldRow from './components/TextFieldRow';
+import SliderRow from './components/SliderRow';
+import DatePickerRow from './components/DatePickerRow';
 
 const NewPage = ({ route, navigation }) => {
-    const [brew, setBrew] = useState({brew_method: "...", grind_setting: "", coffee: 0, water: 0, temperature: 0, flavor: 0, acidity: 0, aroma: 0, body: 0, sweetness: 0, aftertaste: 0});
+    const [brew, setBrew] = useState({brew_method: "...", grind_setting: "", coffee: 0, water: 0, temperature: 0, flavor: 0, acidity: 0, aroma: 0, body: 0, sweetness: 0, aftertaste: 0, notes: "", date: new Date()});
     const {colors} = useTheme();
 
     useEffect(() => {
@@ -80,38 +82,44 @@ const NewPage = ({ route, navigation }) => {
                     />
                 </TextFieldRow>
             </TableView>
-            <TableView header="Flavor">
-                <Slider 
+            <TableView header="Profile">
+                <SliderRow 
+                    title="Flavor"
                     value={brew.flavor}
                     onValueChange={value => setBrew({...brew, flavor: value})}
                     minValue={0}
                     maxValue={500}
                 />
-                <Slider 
+                <SliderRow 
+                    title="Acidity"
                     value={brew.acidity}
                     onValueChange={value => setBrew({...brew, acidity: value})}
                     minValue={0}
                     maxValue={500}
                 />
-                <Slider 
+                <SliderRow 
+                    title="Aroma"
                     value={brew.aroma}
                     onValueChange={value => setBrew({...brew, aroma: value})}
                     minValue={0}
                     maxValue={500}
                 />
-                <Slider 
+                <SliderRow 
+                    title="Body"
                     value={brew.body}
                     onValueChange={value => setBrew({...brew, body: value})}
                     minValue={0}
                     maxValue={500}
                 />
-                <Slider 
+                <SliderRow 
+                    title="Sweetness"
                     value={brew.sweetness}
                     onValueChange={value => setBrew({...brew, sweetness: value})}
                     minValue={0}
                     maxValue={500}
                 />
-                <Slider 
+                <SliderRow 
+                    title="Aftertaste"
                     value={brew.aftertaste}
                     onValueChange={value => setBrew({...brew, aftertaste: value})}
                     minValue={0}
@@ -119,12 +127,14 @@ const NewPage = ({ route, navigation }) => {
                 />
             </TableView>
             <TableView header="More Info">
-                <RowItem text="Notes"/>
-                <RowItem text="Date"/>
+                <TextFieldRow title="Notes" text={brew.notes} onChange={(value) => setBrew({...brew, notes: value})} style={{minHeight: 129, alignItems: 'baseline'}}/>
+            </TableView>
+            <TableView header="Date">  
+                <DatePickerRow open={false} />
             </TableView>
         </ScrollView>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
