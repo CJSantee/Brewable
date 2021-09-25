@@ -4,7 +4,7 @@ const CustomTheme = {
     ...DefaultTheme,
     colors: {
         ...DefaultTheme.colors,
-        // primary: '#fff',
+        primary: '#71816d',
         // background: "#000",
         card: "#F9F9F9",
         placeholder: "#8A8A8F",

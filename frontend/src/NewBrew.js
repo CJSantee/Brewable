@@ -17,7 +17,7 @@ import TextFieldRow from './components/TextFieldRow';
 import SliderRow from './components/SliderRow';
 import DatePickerRow from './components/DatePickerRow';
 
-const NewPage = ({ route, navigation }) => {
+const NewBrew = ({ route, navigation }) => {
     const [brew, setBrew] = useState({brew_method: "...", grind_setting: "", coffee: 0, water: 0, temperature: 0, flavor: 0, acidity: 0, aroma: 0, body: 0, sweetness: 0, aftertaste: 0, notes: "", date: new Date()});
     const {colors} = useTheme();
 
@@ -136,6 +136,8 @@ const NewPage = ({ route, navigation }) => {
     );
 };
 
+export default NewBrew;
+
 const styles = StyleSheet.create({
     container: {
         flex: 1, 
@@ -146,5 +148,3 @@ const styles = StyleSheet.create({
         color: CustomTheme.colors.text
     }
 })
-
-export default NewPage;

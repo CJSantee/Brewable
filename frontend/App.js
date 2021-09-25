@@ -10,7 +10,8 @@ import { faPlusCircle, faHome, faHeart, faSearch, faMale } from '@fortawesome/fr
 import { createTables } from './ DatabaseUtils';
 import { CustomTheme } from './Themes';
 import ProfilePage from './src/ProfilePage';
-import NewPage from './src/NewPage';
+import HomePage from './src/HomePage';
+import NewBrew from './src/NewBrew';
 import BrewMethods from './src/BrewMethods';
 
 function openDatabase() {
@@ -22,20 +23,24 @@ const db = openDatabase();
 
 const Tab = createBottomTabNavigator();
 const NewStack = createNativeStackNavigator();
+const NewBrewStack = createNativeStackNavigator();
 
-const NewStackScreen = () => {
+const NewStackScreen = ({navigation}) => {
   return (
-    <NewStack.Navigator >
-      <NewStack.Screen name="main" component={NewPage} options={{
+    <NewBrewStack.Navigator >
+      <NewBrewStack.Screen name="main" component={NewBrew} options={{
+        headerLeft: () => (
+          <Button onPress={() => navigation.goBack()} title="Back"/>
+        ),
         headerTitle: "New Brew",
         headerRight: () => (
           <Button onPress={() => alert("Added")} title="Add"/>
         )
       }}/>
-      <NewStack.Screen name="brewMethods" component={BrewMethods} options={{
+      <NewBrewStack.Screen name="brewMethods" component={BrewMethods} options={{
         headerTitle: "Brew Methods"
       }}/>
-    </NewStack.Navigator>
+    </NewBrewStack.Navigator>
   );
 };
 
@@ -48,7 +53,11 @@ export default function App() {
   return (
     <NavigationContainer theme={CustomTheme}>
         <StatusBar barStyle="dark-content"/>
-        <Tab.Navigator screenOptions={({ route }) => ({
+        <NewStack.Navigator screenOptions={{headerShown: false}}>
+          <NewStack.Screen name="Home" component={HomePage} />
+          <NewStack.Screen name="New Brew" component={NewStackScreen}/>
+        </NewStack.Navigator>
+        {/* <Tab.Navigator screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let icon;
             if (route.name === "Home") icon = faHome;
@@ -67,14 +76,7 @@ export default function App() {
           <Tab.Screen name="New" component={ NewStackScreen }/>
           <Tab.Screen name="Search" component={ ProfilePage }/>
           <Tab.Screen name="Profile" component={ ProfilePage }/>
-        </Tab.Navigator>
+        </Tab.Navigator> */}
     </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000'
-  },
-});
