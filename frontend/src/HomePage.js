@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
     View,
     TouchableOpacity,
@@ -6,13 +6,23 @@ import {
     Dimensions,
     TextInput,
     Text,
+    ScrollView,
+    FlatList
 } from 'react-native';
-import { useTheme } from '@react-navigation/native';
+import * as SQLite from 'expo-sqlite';
+import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import Constants from "expo-constants";
 
 let {height, width} = Dimensions.get('window');
+
+function openDatabase() {
+    const db = SQLite.openDatabase("CoffeeLab.db");
+    return db;
+}
+  
+const db = openDatabase();
 
 const Modal = ({navigation}) => {
     return (
@@ -30,8 +40,25 @@ const Modal = ({navigation}) => {
 
 const HomePage = ({navigation}) => {
     const {colors} = useTheme();
-    const [button, setButton] = useState({open: false});
     const [modal, setModal] = useState(false);
+    const [beans, setBeans] = useState([]);
+
+    const readBeans = () => {
+        db.transaction((tx) => {
+            tx.executeSql("SELECT * FROM beans;",
+            [],
+            (_, { rows: { _array } }) =>
+                setBeans(_array)
+            );
+        });
+    }
+
+    useFocusEffect(
+        useCallback(()=> {
+            readBeans();
+            return () => {};
+        }, [])
+    );
 
     return (
         <View style={{flex: 1, flexDirection: 'column' }}>  
@@ -40,12 +67,19 @@ const HomePage = ({navigation}) => {
                     <TextInput style={{flex: 1, marginLeft: 10}}/>
                 </View>
                 <View style={styles.button}>
-                    <TouchableOpacity onPress={() => setModal(!modal)}>
+                    <TouchableOpacity onPress={() => navigation.navigate("New Beans")}>
                         <FontAwesomeIcon icon={faPlus} size={30}/>
                     </TouchableOpacity>
                 </View>
             </View>
             {modal ? <Modal navigation={navigation}/> : <View/>}
+            {beans === null || beans.length === 0 ? <View/> : 
+            <FlatList 
+                data={beans}
+                renderItem={(item) => <Text>{item.item.name}</Text>}
+                keyExtractor={item => item.id.toString()}
+            />
+            }
         </View>
     );
 };

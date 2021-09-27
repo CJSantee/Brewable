@@ -1,3 +1,5 @@
+// CoffeeLab.db
+
 const createTables = (db) => {
     db.transaction((tx) => {
         tx.executeSql(
@@ -38,6 +40,5 @@ const createTables = (db) => {
     (e) => {console.log(e)},
     null);
 };
-
 
 export { createTables };

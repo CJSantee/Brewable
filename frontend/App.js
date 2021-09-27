@@ -30,17 +30,7 @@ const NewBrewStack = createNativeStackNavigator();
 const NewBeansScreen = ({navigation}) => {
   return (
     <NewBeansStack.Navigator>
-      <NewBeansStack.Screen name="main" component={NewBeans} options={{
-        headerLeft: () => (
-          <Button onPress={() => navigation.goBack()} title="Back"/>
-        ),
-        headerTitle: "New Beans",
-        headerRight: () => (
-          <Button onPress={() => alert("Added")} title="Add"/>
-        )
-      }}>
-
-      </NewBeansStack.Screen>
+      <NewBeansStack.Screen name="main" component={NewBeans} options={{ headerShown: false }}/>
     </NewBeansStack.Navigator>
   );
 };
