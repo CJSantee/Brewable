@@ -8,7 +8,7 @@ import { CustomTheme } from '../Themes';
 import Constants from "expo-constants";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { SegmentedControl, Slider } from 'react-native-ios-kit';
+import { SegmentedControl } from 'react-native-ios-kit';
 import { useTheme } from '@react-navigation/native';
 
 import TableView from './components/TableView';
@@ -130,7 +130,7 @@ const NewBrew = ({ route, navigation }) => {
                 <TextFieldRow title="Notes" text={brew.notes} onChange={(value) => setBrew({...brew, notes: value})} style={{minHeight: 129, alignItems: 'baseline'}}/>
             </TableView>
             <TableView header="Date">  
-                <DatePickerRow open={false} />
+                <DatePickerRow value={brew.date} onChange={(value) => setBrew({...brew, date: value})}/>
             </TableView>
         </ScrollView>
     );

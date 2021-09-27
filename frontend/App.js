@@ -11,6 +11,7 @@ import { createTables } from './ DatabaseUtils';
 import { CustomTheme } from './Themes';
 import ProfilePage from './src/ProfilePage';
 import HomePage from './src/HomePage';
+import NewBeans from './src/NewBeans';
 import NewBrew from './src/NewBrew';
 import BrewMethods from './src/BrewMethods';
 
@@ -23,11 +24,31 @@ const db = openDatabase();
 
 const Tab = createBottomTabNavigator();
 const NewStack = createNativeStackNavigator();
+const NewBeansStack = createNativeStackNavigator();
 const NewBrewStack = createNativeStackNavigator();
 
-const NewStackScreen = ({navigation}) => {
+const NewBeansScreen = ({navigation}) => {
+  return (
+    <NewBeansStack.Navigator>
+      <NewBeansStack.Screen name="main" component={NewBeans} options={{
+        headerLeft: () => (
+          <Button onPress={() => navigation.goBack()} title="Back"/>
+        ),
+        headerTitle: "New Beans",
+        headerRight: () => (
+          <Button onPress={() => alert("Added")} title="Add"/>
+        )
+      }}>
+
+      </NewBeansStack.Screen>
+    </NewBeansStack.Navigator>
+  );
+};
+
+const NewBrewScreen = ({navigation}) => {
   return (
     <NewBrewStack.Navigator >
+      
       <NewBrewStack.Screen name="main" component={NewBrew} options={{
         headerLeft: () => (
           <Button onPress={() => navigation.goBack()} title="Back"/>
@@ -55,7 +76,8 @@ export default function App() {
         <StatusBar barStyle="dark-content"/>
         <NewStack.Navigator screenOptions={{headerShown: false}}>
           <NewStack.Screen name="Home" component={HomePage} />
-          <NewStack.Screen name="New Brew" component={NewStackScreen}/>
+          <NewStack.Screen name="New Beans" component={NewBeansScreen}/>
+          <NewStack.Screen name="New Brew" component={NewBrewScreen}/>
         </NewStack.Navigator>
         {/* <Tab.Navigator screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {

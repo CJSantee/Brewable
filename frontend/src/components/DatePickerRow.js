@@ -10,9 +10,8 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 let {height, width} = Dimensions.get('window');
 
-const DatePickerRow = ({open}) => {
+const DatePickerRow = ({title, value, onChange}) => {
     const {colors} = useTheme();
-    const [date, setDate] = useState(new Date());
 
     return (
         <View
@@ -26,13 +25,14 @@ const DatePickerRow = ({open}) => {
                 }
             ]}
         >
-            <View style={{position: 'absolute', right: 0, width: width/2, alignItems: 'center'}}>
+            <Text style={styles.text}>{title}</Text>
+            <View style={title ? styles.rightPicker : styles.centerPicker}>
                 <DateTimePicker
                     title="Test"
                     mode="date"
-                    value={date}
+                    value={value}
                     display="default"          
-                    onDateChange={setDate}
+                    onDateChange={onChange}
                     style={{width: 320}}
                 />
             </View>  
@@ -48,8 +48,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 15,
     paddingVertical: 4,
-    minHeight: 43,
+    minHeight: 43
   },
+  centerPicker: {
+    position: 'absolute', 
+    right: 0, 
+    width: width/2, 
+    alignItems: 'center'
+  },
+  rightPicker: {
+    position: 'absolute',
+    right: "-51%"
+},
   title: {
     fontSize: 10,
   },
