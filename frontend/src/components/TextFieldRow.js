@@ -47,7 +47,7 @@ const TextFieldRow = ({title, text, onChange, keyboardType, children, style}) =>
             </View>
         </TouchableWithoutFeedback>
     );
-};
+}
 
 export default TextFieldRow;
 

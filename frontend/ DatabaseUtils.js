@@ -2,6 +2,9 @@
 
 const createTables = (db) => {
     db.transaction((tx) => {
+        tx.executeSql("DROP TABLE IF EXISTS beans;");
+        tx.executeSql("DROP TABLE IF EXISTS brews;");
+
         tx.executeSql(
           `CREATE TABLE IF NOT EXISTS beans (
             id INTEGER PRIMARY KEY NOT NULL,
@@ -22,7 +25,6 @@ const createTables = (db) => {
               grind_setting TEXT,
               water REAL,
               coffee REAL,
-              bloom_time TEXT,
               temperature REAL,
               brew_method TEXT,
               date TEXT,
@@ -32,7 +34,9 @@ const createTables = (db) => {
               aroma INTEGER,
               body INTEGER,
               sweetness INTEGER,
-              aftertaste INTEGER
+              aftertaste INTEGER,
+              beans_id INTEGER,
+              FOREIGN KEY (beans_id) REFERENCES beans(id)
           );`
         );
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
     View,
     TouchableOpacity,
@@ -7,7 +7,8 @@ import {
     TextInput,
     Text,
     ScrollView,
-    FlatList
+    FlatList,
+    TouchableHighlight
 } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
@@ -24,7 +25,7 @@ function openDatabase() {
   
 const db = openDatabase();
 
-const Modal = ({navigation}) => {
+const Modal = ({ navigation }) => {
     return (
         <View style={styles.modal}>
             <TouchableOpacity onPress={() => navigation.navigate("New Beans")}>
@@ -36,9 +37,42 @@ const Modal = ({navigation}) => {
             </TouchableOpacity>
         </View>
     );
-};
+}
 
-const HomePage = ({navigation}) => {
+const BrewList = ({beans_id}) => {
+    const [brews, setBrews] = useState([]);
+
+    const readBrews = () => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                "SELECT * FROM brews WHERE beans_id = ?;",
+                [beans_id],
+                (_, { rows: { _array } }) =>
+                setBrews(_array)
+            );
+        },
+        (e) => console.log(e),
+        null);
+    }
+
+    useEffect(() => {
+        readBrews();
+    }, []); 
+
+    return (
+        <View>
+            <Text>{beans_id}</Text>
+            <FlatList
+                data={brews}
+                horizontal={true}
+                renderItem={(item) => <Text>{item.item.brew_method}</Text>}
+                keyExtractor={item => item.id.toString()}
+            />
+        </View>
+    );
+}
+
+const HomePage = ({ navigation }) => {
     const {colors} = useTheme();
     const [modal, setModal] = useState(false);
     const [beans, setBeans] = useState([]);
@@ -67,7 +101,7 @@ const HomePage = ({navigation}) => {
                     <TextInput style={{flex: 1, marginLeft: 10}}/>
                 </View>
                 <View style={styles.button}>
-                    <TouchableOpacity onPress={() => navigation.navigate("New Beans")}>
+                    <TouchableOpacity onPress={() => setModal(!modal)}>
                         <FontAwesomeIcon icon={faPlus} size={30}/>
                     </TouchableOpacity>
                 </View>
@@ -76,13 +110,13 @@ const HomePage = ({navigation}) => {
             {beans === null || beans.length === 0 ? <View/> : 
             <FlatList 
                 data={beans}
-                renderItem={(item) => <Text>{item.item.name}</Text>}
+                renderItem={(item) => <BrewList beans_id={item.item.beans_id}/>}
                 keyExtractor={item => item.id.toString()}
             />
             }
         </View>
     );
-};
+}
 
 export default HomePage;
 
@@ -112,6 +146,7 @@ const styles = StyleSheet.create({
         marginLeft: 10
     },
     modal: {
+        zIndex: 1,
         backgroundColor: "#71816d",
         height: 100,
         width: 100,

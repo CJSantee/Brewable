@@ -58,7 +58,6 @@ const RowItem = ({title, text, onPress, children, style}) => {
     return (
       <TouchableHighlight
         onPress={onPress}
-        // TODO: add undberlayColor and BackgroundColor from theme
       >
         <Row title={title} text={text} children={children} style={style}/>
       </TouchableHighlight>
