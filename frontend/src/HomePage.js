@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
     View,
     TouchableOpacity,
@@ -6,15 +6,15 @@ import {
     Dimensions,
     TextInput,
     Text,
-    ScrollView,
     FlatList,
-    TouchableHighlight
 } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import Constants from "expo-constants";
+
+import BrewList from './BrewList';
 
 let {height, width} = Dimensions.get('window');
 
@@ -39,39 +39,6 @@ const Modal = ({ navigation }) => {
     );
 }
 
-const BrewList = ({beans_id}) => {
-    const [brews, setBrews] = useState([]);
-
-    const readBrews = () => {
-        db.transaction((tx) => {
-            tx.executeSql(
-                "SELECT * FROM brews WHERE beans_id = ?;",
-                [beans_id],
-                (_, { rows: { _array } }) =>
-                setBrews(_array)
-            );
-        },
-        (e) => console.log(e),
-        null);
-    }
-
-    useEffect(() => {
-        readBrews();
-    }, []); 
-
-    return (
-        <View>
-            <Text>{beans_id}</Text>
-            <FlatList
-                data={brews}
-                horizontal={true}
-                renderItem={(item) => <Text>{item.item.brew_method}</Text>}
-                keyExtractor={item => item.id.toString()}
-            />
-        </View>
-    );
-}
-
 const HomePage = ({ navigation }) => {
     const {colors} = useTheme();
     const [modal, setModal] = useState(false);
@@ -89,13 +56,14 @@ const HomePage = ({ navigation }) => {
 
     useFocusEffect(
         useCallback(()=> {
+            setModal(false);
             readBeans();
             return () => {};
         }, [])
     );
 
     return (
-        <View style={{flex: 1, flexDirection: 'column' }}>  
+        <View style={{flex: 1, flexDirection: 'column'}}>  
             <View style={styles.header}>
                 <View style={styles.searchBar}>
                     <TextInput style={{flex: 1, marginLeft: 10}}/>
@@ -110,10 +78,9 @@ const HomePage = ({ navigation }) => {
             {beans === null || beans.length === 0 ? <View/> : 
             <FlatList 
                 data={beans}
-                renderItem={(item) => <BrewList beans_id={item.item.beans_id}/>}
+                renderItem={(object) => <BrewList beans={object.item}/>}
                 keyExtractor={item => item.id.toString()}
-            />
-            }
+            />}
         </View>
     );
 }
@@ -155,7 +122,8 @@ const styles = StyleSheet.create({
         top: "13.5%",
         borderRadius: 25,
         justifyContent: 'space-evenly',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderWidth: 0.5
     },
     text: {
         fontSize: 18,
