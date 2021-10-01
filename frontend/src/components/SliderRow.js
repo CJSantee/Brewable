@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { Slider } from 'react-native-ios-kit';
 
-const SliderRow = ({title, value, onValueChange, minValue, maxValue}) => {
+const SliderRow = ({title, value, onValueChange}) => {
     const {colors} = useTheme();
 
     return (

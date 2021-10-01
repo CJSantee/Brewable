@@ -26,12 +26,36 @@ function openDatabase() {
 
 const db = openDatabase();
 
+function mapFlavor(value) {
+    if (value <= 10)
+        return 0;
+    else if (value >= 90)
+        return 5;
+    else 
+        return Math.floor((value-10)/20)+1;
+}
+
+function mapFlavors(brew) {
+    console.log(brew);
+
+    brew.flavor = mapFlavor(brew.flavor);
+    brew.acidity = mapFlavor(brew.acidity);``
+    brew.aroma = mapFlavor(brew.aroma);
+    brew.body = mapFlavor(brew.body);
+    brew.sweetness = mapFlavor(brew.sweetness);
+    brew.aftertaste = mapFlavor(brew.aftertaste);
+
+    console.log(brew);
+    return brew;
+}
+
 const addBrew = (brew) => {
     if (brew === null) {
         console.log("error");
         return false;
     }
 
+    brew = mapFlavors(brew);
     db.transaction(
         (tx) => {
             tx.executeSql(`
@@ -128,43 +152,31 @@ const NewBrew = ({ route, navigation }) => {
                         title="Flavor"
                         value={brew.flavor}
                         onValueChange={value => setBrew({...brew, flavor: value})}
-                        minValue={0}
-                        maxValue={500}
                     />
                     <SliderRow 
                         title="Acidity"
                         value={brew.acidity}
                         onValueChange={value => setBrew({...brew, acidity: value})}
-                        minValue={0}
-                        maxValue={500}
                     />
                     <SliderRow 
                         title="Aroma"
                         value={brew.aroma}
                         onValueChange={value => setBrew({...brew, aroma: value})}
-                        minValue={0}
-                        maxValue={500}
                     />
                     <SliderRow 
                         title="Body"
                         value={brew.body}
                         onValueChange={value => setBrew({...brew, body: value})}
-                        minValue={0}
-                        maxValue={500}
                     />
                     <SliderRow 
                         title="Sweetness"
                         value={brew.sweetness}
                         onValueChange={value => setBrew({...brew, sweetness: value})}
-                        minValue={0}
-                        maxValue={500}
                     />
                     <SliderRow 
                         title="Aftertaste"
                         value={brew.aftertaste}
                         onValueChange={value => setBrew({...brew, aftertaste: value})}
-                        minValue={0}
-                        maxValue={500}
                     />
                 </TableView>
                 <TableView header="More Info">
