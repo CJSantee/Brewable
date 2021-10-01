@@ -1,14 +1,15 @@
-// CoffeeLab.db
+const beansData = require('./assets/Beans.json');
 
+// CoffeeLab.db
 const createTables = (db) => {
     db.transaction((tx) => {
-        // tx.executeSql("DROP TABLE IF EXISTS beans;");
-        // tx.executeSql("DROP TABLE IF EXISTS brews;");
+        tx.executeSql("DROP TABLE IF EXISTS beans;");
+        tx.executeSql("DROP TABLE IF EXISTS brews;");
 
         tx.executeSql(
           `CREATE TABLE IF NOT EXISTS beans (
             id INTEGER PRIMARY KEY NOT NULL,
-            name TEXT,
+            region TEXT,
             roaster TEXT,
             origin TEXT,
             roast_date TEXT,
@@ -45,4 +46,19 @@ const createTables = (db) => {
     null);
 };
 
-export { createTables };
+const populateBeans = (db) => {
+  db.transaction((tx) => {
+    for (let beans of beansData){
+      tx.executeSql(
+        `INSERT INTO beans
+        (region, roaster, origin, roast_date, price, roast_level, weight, flavor_notes)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
+        [beans.region, beans.roaster, beans.origin, beans.roast_date, beans.price, beans.roast_level, beans.weight, beans.flavor_notes]
+      );
+    }
+  },
+  (e) => console.log(e),
+  null);
+}
+
+export { createTables, populateBeans };

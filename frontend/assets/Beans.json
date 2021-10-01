@@ -1,0 +1,145 @@
+[
+    {
+        "region": "Geta Bore", 
+        "roaster": "Metric", 
+        "origin": "Ethiopia", 
+        "roast_level": "", 
+        "roast_date": "2021-08-06T00:00:00", 
+        "price": 0, 
+        "weight": 325,
+        "weight_unit": "g",
+        "flavor_notes": "Jasmine,Lemon,Watermelon Candy"
+    },
+    {
+        "region": "Tana Luwu", 
+        "roaster": "Kwizera", 
+        "origin": "Indonesia", 
+        "roast_level": "Medium", 
+        "roast_date": "2021-08-17T00:00:00", 
+        "price": 0, 
+        "weight": 250,
+        "weight_unit": "g",
+        "flavor_notes": "Cherry Jam,Sweet Potato Pie"
+    },
+    {
+        "region": "Bella Vista", 
+        "roaster": "MáQuina Coffee Roasters", 
+        "origin": "Mexico", 
+        "roast_level": "", 
+        "roast_date": "2021-09-23T00:00:00", 
+        "price": 0, 
+        "weight": 12,
+        "weight_unit": "oz",
+        "flavor_notes": "Caramel,Creamy,Brown Sugar"  
+    },
+    {
+        "region": "San Fernando", 
+        "roaster": "Wonderstate Coffee", 
+        "origin": "Peru", 
+        "roast_level": "Light", 
+        "roast_date": "2021-04-21T00:00:00", 
+        "price": 0, 
+        "weight": 340,
+        "weight_unit": "g",
+        "flavor_notes": "Fudge,Citrus,Nougat"  
+    },
+    {
+        "region": "Rutsiro Mushonyi", 
+        "roaster": "Sterling Coffee Roasters", 
+        "origin": "Rwanda", 
+        "roast_level": "", 
+        "roast_date": "2021-06-25T00:00:00", 
+        "price": 0, 
+        "weight": 283,
+        "weight_unit": "g",
+        "flavor_notes": "Dried Apples,Honey"  
+    },
+    {
+        "region": "Motherland", 
+        "roaster": "Red Bay Coffee", 
+        "origin": "Burundi", 
+        "roast_level": "Medium", 
+        "roast_date": "2021-09-02T00:00:00", 
+        "price": 0, 
+        "weight": 340,
+        "weight_unit": "g",
+        "flavor_notes": "Orange Blossom,Turbinado Sugar,Damson Plum"  
+    },
+    {
+        "region": "Worka Chelbessa Yirgacheffe", 
+        "roaster": "Sight Glass", 
+        "origin": "Ethiopia", 
+        "roast_level": "", 
+        "roast_date": "2021-09-23T00:00:00", 
+        "price": 0, 
+        "weight": 340,
+        "weight_unit": "g",
+        "flavor_notes": "Peach,Boysenberry,Elderflower"  
+    },
+    {
+        "region": "Kubingo", 
+        "roaster": "Brandywine Coffee Roasters", 
+        "origin": "Burundi", 
+        "roast_level": "", 
+        "roast_date": "2021-01-25T00:00:00", 
+        "price": 0, 
+        "weight": 4,
+        "weight_unit": "oz",
+        "flavor_notes": "French Toast,Apple,Apricot Jam,Orange"  
+    },
+    {
+        "region": "Bella Vista", 
+        "roaster": "MáQuina", 
+        "origin": "Mexico", 
+        "roast_level": "", 
+        "roast_date": "2021-09-23T00:00:00", 
+        "price": 0, 
+        "weight": 12,
+        "weight_unit": "oz",
+        "flavor_notes": "Caramel,Creamy,Brown Sugar"  
+    },
+    {
+        "region": "Konga", 
+        "roaster": "Irving Farm", 
+        "origin": "Ethiopia", 
+        "roast_level": "", 
+        "roast_date": "2021-03-09T00:00:00", 
+        "price": 0, 
+        "weight": 12,
+        "weight_unit": "oz",
+        "flavor_notes": "White Peach,Jamine,Tangerine"  
+    },
+    {
+        "region": "", 
+        "roaster": "Portland Coffee Roasters", 
+        "origin": "Costa Rica", 
+        "roast_level": "Light", 
+        "roast_date": "", 
+        "price": 0, 
+        "weight": 340,
+        "weight_unit": "g",
+        "flavor_notes": ""  
+    },
+    {
+        "region": "Amparo Maya", 
+        "roaster": "Verve Coffee Roasters", 
+        "origin": "Colombia", 
+        "roast_level": "", 
+        "roast_date": "2021-05-13T00:00:00", 
+        "price": 0, 
+        "weight": 340,
+        "weight_unit": "g",
+        "flavor_notes": "Aprium,Cane Sugar,Lime"  
+    },
+    {
+        "region": "La Familia Guarnizo", 
+        "roaster": "Joe Coffee", 
+        "origin": "Colombia", 
+        "roast_level": "Light", 
+        "roast_date": "2021-04-01T00:00:00", 
+        "price": 0, 
+        "weight": 12,
+        "weight_unit": "oz",
+        "flavor_notes": "Caramel,Honey,Clementine"  
+    }
+]

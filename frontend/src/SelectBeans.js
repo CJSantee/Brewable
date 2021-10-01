@@ -13,7 +13,6 @@ import TableView from './components/TableView';
 import RowItem from './components/RowItem';
 
 import { CustomTheme } from '../Themes';
-import Constants from "expo-constants";
 
 function openDatabase() {
     const db = SQLite.openDatabase("CoffeeLab.db");
@@ -46,7 +45,7 @@ const SelectBeans = ({ route, navigation }) => {
     return (
         <FlatList 
             data={beans}
-            renderItem={(item) => <RowItem text={item.item.name} onPress={() => { navigation.navigate("main", {beans: item.item.name, beans_id: item.item.id}); }}/>}
+            renderItem={(item) => <RowItem text={item.item.roaster + " - " + item.item.region} onPress={() => { navigation.navigate("main", {beans: item.item.region, beans_id: item.item.id}); }}/>}
             keyExtractor={item => item.id.toString()}
         />
     );

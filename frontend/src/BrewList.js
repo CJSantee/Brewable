@@ -50,7 +50,7 @@ const BrewList = ({beans}) => {
 
     return (
         <View style={styles.beans}>
-            <Text style={styles.title}>{beans.name}</Text>
+            <Text style={styles.title}>{beans.roaster}</Text>
             <FlatList
                 data={brews}
                 horizontal={true}

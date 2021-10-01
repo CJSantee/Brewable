@@ -7,7 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlusCircle, faHome, faHeart, faSearch, faMale } from '@fortawesome/free-solid-svg-icons';
 
-import { createTables } from './ DatabaseUtils';
+import { createTables, populateBeans } from './ DatabaseUtils';
 import { CustomTheme } from './Themes';
 import ProfilePage from './src/ProfilePage';
 import HomePage from './src/HomePage';
@@ -51,6 +51,7 @@ export default function App() {
 
   useEffect(() => {
     createTables(db);
+    populateBeans(db);
   }, []);
 
   return (

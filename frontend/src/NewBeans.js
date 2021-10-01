@@ -21,7 +21,7 @@ function openDatabase() {
 const db = openDatabase();
 
 const addBeans = (beans) => {
-    if (beans === null ||  beans.name === "") {
+    if (beans === null ||  beans.region === "") {
         console.log("Missing Name");
         return false;
     }
@@ -30,9 +30,9 @@ const addBeans = (beans) => {
         (tx) => {
             tx.executeSql(`
                 INSERT INTO beans
-                (name, roaster, origin, roast_date, price, roast_level, weight, flavor_notes)
+                (region, roaster, origin, roast_date, price, roast_level, weight, flavor_notes)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
-                [beans.name, beans.roaster, beans.origin, beans.roast_date, beans.price, beans.roast_level, beans.weight, beans.flavor_notes]);
+                [beans.region, beans.roaster, beans.origin, beans.roast_date, beans.price, beans.roast_level, beans.weight, beans.flavor_notes]);
         },
         (e) => {console.log(e)},
         null
@@ -40,7 +40,7 @@ const addBeans = (beans) => {
 }
 
 const NewBeans = ({ navigation }) => {
-    const [beans, setBeans] = useState({name: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0});
+    const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: (new Date()).toJSON(), price: 0, weight: 0});
 
     return (
         <View style={{width: "100%", height: "100%"}}>
@@ -49,8 +49,8 @@ const NewBeans = ({ navigation }) => {
                 <TableView header="Roast">
                     <TextFieldRow 
                         title="Name"
-                        text={beans.name}
-                        onChange={(value) => setBeans({...beans, name: value})}    
+                        text={beans.region}
+                        onChange={(value) => setBeans({...beans, region: value})}    
                     />
                     <TextFieldRow 
                         title="Roaster"
