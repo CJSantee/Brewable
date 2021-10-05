@@ -4,12 +4,12 @@ import {
     Text,
     FlatList,
     StyleSheet,
+    TouchableOpacity
 } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTint, faFire, faStopwatch } from '@fortawesome/free-solid-svg-icons';
-import CoffeeBeans from '../assets/coffeeBeans.svg';
 import CoffeeBean from '../assets/coffeeBean.svg';
 // import { SvgXml } from 'react-native-svg';
 import TastingWheel from './components/TastingWheel';
@@ -60,7 +60,7 @@ const Brew = ({ brew }) => {
     );
 }
 
-const BrewList = ({beans}) => {
+const BrewList = ({beans, onPress}) => {
     const [brews, setBrews] = useState([]);
 
     const readBrews = () => {
@@ -85,10 +85,12 @@ const BrewList = ({beans}) => {
 
     return (
         <View style={styles.beans}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text style={styles.title}>{beans.roaster} </Text>
-                <Text style={styles.subtitle}>{beans.region}</Text>
-            </View>
+            <TouchableOpacity onPress={onPress}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Text style={styles.title}>{beans.roaster} </Text>
+                    <Text style={styles.subtitle}>{beans.region}</Text>
+                </View>
+            </TouchableOpacity>
             <FlatList
                 data={brews}
                 horizontal={true}

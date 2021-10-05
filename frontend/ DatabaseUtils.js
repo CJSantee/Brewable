@@ -12,10 +12,11 @@ const createTables = (db) => {
             region TEXT,
             roaster TEXT,
             origin TEXT,
+            roast_level TEXT,
             roast_date TEXT,
             price REAL,
-            roast_level TEXT,
             weight REAL,
+            weight_unit TEXT,
             flavor_notes TEXT
           );`
         );

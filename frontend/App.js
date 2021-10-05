@@ -16,6 +16,7 @@ import NewBrew from './src/NewBrew';
 import BrewMethods from './src/BrewMethods';
 import SelectBeans from './src/SelectBeans';
 import InfoPage from './src/InfoPage';
+import DisplayBeans from './DisplayBeans';
 
 function openDatabase() {
   const db = SQLite.openDatabase("CoffeeLab.db");
@@ -60,6 +61,7 @@ export default function App() {
         <StatusBar barStyle="dark-content"/>
         <NewStack.Navigator screenOptions={{headerShown: false}}>
           <NewStack.Screen name="Home" component={HomePage} />
+          <NewStack.Screen name="Beans" component={DisplayBeans} />
           <NewStack.Screen name="New Beans" component={NewBeansScreen}/>
           <NewStack.Screen name="New Brew" component={NewBrewScreen}/>
         </NewStack.Navigator>

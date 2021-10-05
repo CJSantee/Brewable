@@ -30,9 +30,9 @@ const addBeans = (beans) => {
         (tx) => {
             tx.executeSql(`
                 INSERT INTO beans
-                (region, roaster, origin, roast_date, price, roast_level, weight, flavor_notes)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
-                [beans.region, beans.roaster, beans.origin, beans.roast_date, beans.price, beans.roast_level, beans.weight, beans.flavor_notes]);
+                (region, roaster, origin, roast_level, roast_date, price, weight, weight_unit, flavor_notes)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+                [beans.region, beans.roaster, beans.origin, beans.roast_level, beans.roast_date, beans.price, beans.weight, beans.weight_unit, beans.flavor_notes]);
         },
         (e) => {console.log(e)},
         null
@@ -48,14 +48,14 @@ const NewBeans = ({ navigation }) => {
             <ScrollView>
                 <TableView header="Roast">
                     <TextFieldRow 
-                        title="Name"
-                        text={beans.region}
-                        onChange={(value) => setBeans({...beans, region: value})}    
-                    />
-                    <TextFieldRow 
                         title="Roaster"
                         text={beans.roaster}
                         onChange={(value) => setBeans({...beans, roaster: value})}    
+                    />
+                    <TextFieldRow 
+                        title="Region"
+                        text={beans.region}
+                        onChange={(value) => setBeans({...beans, region: value})}    
                     />
                     <TextFieldRow 
                         title="Origin"
@@ -85,7 +85,7 @@ const NewBeans = ({ navigation }) => {
                         <SegmentedControl
                             values={['g', 'oz']}
                             selectedIndex={0}
-                            onValueChange={() => setBeans({...beans})}
+                            onValueChange={(value) => setBeans({...beans, weight_unit: value})}
                             style={{width: 100}}
                         />
                     </TextFieldRow>

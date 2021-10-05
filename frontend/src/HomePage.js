@@ -78,7 +78,7 @@ const HomePage = ({ navigation }) => {
             {beans === null || beans.length === 0 ? <View/> : 
             <FlatList 
                 data={beans}
-                renderItem={(object) => <BrewList beans={object.item}/>}
+                renderItem={(object) => <BrewList beans={object.item} onPress={() => navigation.navigate("Beans", {beans_id: object.item.id})}/>}
                 keyExtractor={item => item.id.toString()}
             />}
         </View>
