@@ -7,7 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlusCircle, faHome, faHeart, faSearch, faMale } from '@fortawesome/free-solid-svg-icons';
 
-import { createTables, populateBeans } from './ DatabaseUtils';
+import { createTables, populateBeans, populateBrews } from './ DatabaseUtils';
 import { CustomTheme } from './Themes';
 import ProfilePage from './src/ProfilePage';
 import HomePage from './src/HomePage';
@@ -16,7 +16,8 @@ import NewBrew from './src/NewBrew';
 import BrewMethods from './src/BrewMethods';
 import SelectBeans from './src/SelectBeans';
 import InfoPage from './src/InfoPage';
-import DisplayBeans from './DisplayBeans';
+import DisplayBeans from './src/DisplayBeans';
+import DisplayBrew from './src/DisplayBrew';
 
 function openDatabase() {
   const db = SQLite.openDatabase("CoffeeLab.db");
@@ -54,6 +55,7 @@ export default function App() {
   useEffect(() => {
     createTables(db);
     populateBeans(db);
+    populateBrews(db);
   }, []);
 
   return (
@@ -62,6 +64,7 @@ export default function App() {
         <NewStack.Navigator screenOptions={{headerShown: false}}>
           <NewStack.Screen name="Home" component={HomePage} />
           <NewStack.Screen name="Beans" component={DisplayBeans} />
+          <NewStack.Screen name="Brew" component={DisplayBrew}/>
           <NewStack.Screen name="New Beans" component={NewBeansScreen}/>
           <NewStack.Screen name="New Brew" component={NewBrewScreen}/>
         </NewStack.Navigator>

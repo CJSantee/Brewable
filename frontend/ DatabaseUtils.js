@@ -1,4 +1,5 @@
 const beansData = require('./assets/Beans.json');
+const brewData = require('./assets/Brews.json');
 
 // CoffeeLab.db
 const createTables = (db) => {
@@ -52,7 +53,7 @@ const createTables = (db) => {
 
 const populateBeans = (db) => {
   db.transaction((tx) => {
-    for (let beans of beansData){
+    for (let beans of beansData) {
       tx.executeSql(
         `INSERT INTO beans
         (region, roaster, origin, roast_date, price, roast_level, weight, flavor_notes)
@@ -65,4 +66,19 @@ const populateBeans = (db) => {
   null);
 }
 
-export { createTables, populateBeans };
+const populateBrews = (db) => {
+  db.transaction((tx) => {
+    for (let brew of brewData) {
+      tx.executeSql(
+        `INSERT INTO brews
+        (acidity, aftertaste, aroma, beans_id, body, brew_method, coffee, coffee_unit, date, flavor, grind_setting, notes, sweetness, temp_unit, temperature, water, water_unit)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);`,
+        [brew.acidity, brew.aftertaste, brew.aroma, brew.beans_id, brew.body, brew.brew_method, brew.coffee, brew.coffee_unit, brew.date, brew.flavor, brew.grind_setting, brew.notes, brew.sweetness, brew.temp_unit, brew.temperature, brew.water, brew.water_unit]
+      );
+    }
+  },
+  (e) => console.log(e),
+  null);
+}
+
+export { createTables, populateBeans, populateBrews };

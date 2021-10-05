@@ -1,0 +1,21 @@
+[
+    {
+        "acidity": 4,
+        "aftertaste": 4,
+        "aroma": 3,
+        "beans_id": 1,
+        "body": 4,
+        "brew_method": "V60",
+        "coffee": 18,
+        "coffee_unit": "g",
+        "date": "2021-10-05T22:57:49.286Z",
+        "flavor": 5,
+        "grind_setting": "7.1",
+        "notes": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "sweetness": 1,
+        "temp_unit": "f",
+        "temperature": 207,
+        "water": 300,
+        "water_unit": "g"
+    }
+]

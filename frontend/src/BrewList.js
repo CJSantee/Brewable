@@ -4,7 +4,8 @@ import {
     Text,
     FlatList,
     StyleSheet,
-    TouchableOpacity
+    TouchableOpacity,
+    TouchableWithoutFeedback
 } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
@@ -21,7 +22,7 @@ function openDatabase() {
   
 const db = openDatabase();
 
-const Brew = ({ brew }) => {
+const Brew = ({ brew, navigation }) => {
     const {colors} = useTheme();
     const options = { weekdate: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
@@ -29,6 +30,7 @@ const Brew = ({ brew }) => {
     let date_string = brew_date.toLocaleDateString('en-US', options);
 
     return (
+        <TouchableWithoutFeedback onPress={() => navigation.navigate("Brew", {brew_id: brew.id})}>
         <View style={{...styles.brew, backgroundColor: colors.card}}>
             <View style={styles.cardItem}>
                 <Text style={{fontWeight: 'bold', fontSize: 18}}>{brew.brew_method}</Text>
@@ -51,16 +53,17 @@ const Brew = ({ brew }) => {
             <View style={styles.cardItem}>
                 <FontAwesomeIcon size={20} icon={faStopwatch}/>
             </View>
-            <View style={styles.cardItem}>
+            <View style={styles.notes}>
                 <Text>{brew.notes}</Text>
             </View>
             <TastingWheel style={styles.wheel} displayText={false} width="125" height="125" values={[brew.body*20, brew.aftertaste*20, brew.sweetness*20, brew.aroma*20, brew.flavor*20, brew.acidity*20]}/>
             <Text style={{position: 'absolute', bottom: 8, right: 12}}>{date_string}</Text>
         </View>
+        </TouchableWithoutFeedback>
     );
 }
 
-const BrewList = ({beans, onPress}) => {
+const BrewList = ({beans, navigation}) => {
     const [brews, setBrews] = useState([]);
 
     const readBrews = () => {
@@ -85,7 +88,7 @@ const BrewList = ({beans, onPress}) => {
 
     return (
         <View style={styles.beans}>
-            <TouchableOpacity onPress={onPress}>
+            <TouchableOpacity onPress={() => navigation.navigate("Beans", {beans_id: beans.id})}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <Text style={styles.title}>{beans.roaster} </Text>
                     <Text style={styles.subtitle}>{beans.region}</Text>
@@ -94,7 +97,7 @@ const BrewList = ({beans, onPress}) => {
             <FlatList
                 data={brews}
                 horizontal={true}
-                renderItem={(item) => <Brew brew={item.item}/>}
+                renderItem={(item) => <Brew brew={item.item} navigation={navigation}/>}
                 keyExtractor={item => item.id.toString()}
             />
         </View>
@@ -141,5 +144,9 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginLeft: 2,
         marginRight: 1,
+    },
+    notes: {
+        overflow: 'hidden',
+        width: "55%",
     }
 });
