@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import {
     View,
-    StyleSheet,
-    Dimensions
+    StyleSheet
 } from 'react-native';
 import Svg, {
     Circle,
@@ -11,8 +10,6 @@ import Svg, {
     Text,
     Rect
 } from 'react-native-svg';
-
-let {height, width} = Dimensions.get('window');
 
 function dtoi(degrees){
     var pi = Math.PI;
@@ -39,13 +36,13 @@ export function shape(points) {
     return ret;
 }
 
-const TastingWheel = ({values, style, displayText}) => {
+const TastingWheel = ({values, style, displayText, width, height}) => {
     const descriptors = ["Body", "Aftertaste", "Sweetness", "Aroma", "Flavor", "Acidity"];
     const colors = ["#fff", "#fff", "#fff"]
 
     return (
         <View style={style}> 
-            <Svg width="250" height="250" rotation="50" viewBox="-140 -140 280 280">
+            <Svg width={width} height={height} rotation="50" viewBox="-140 -140 280 280">
                 {/* <Rect 
                     x="-150"
                     y="-150"
@@ -131,12 +128,3 @@ const TastingWheel = ({values, style, displayText}) => {
 }
 
 export default TastingWheel;
-
-const styles = StyleSheet.create({
-    container: {
-        height: height,
-        width: width,
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
-});

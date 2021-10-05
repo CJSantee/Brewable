@@ -52,7 +52,7 @@ export default function App() {
 
   useEffect(() => {
     createTables(db);
-    // populateBeans(db);
+    populateBeans(db);
   }, []);
 
   return (

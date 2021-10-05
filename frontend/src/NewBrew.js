@@ -57,9 +57,9 @@ const addBrew = (brew) => {
         (tx) => {
             tx.executeSql(`
                 INSERT INTO brews
-                (grind_setting, water, coffee, temperature, brew_method, date, notes, flavor, acidity, aroma, body, sweetness, aftertaste, beans_id)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-                [brew.grind_setting, brew.water, brew.coffee, brew.temperature, brew.brew_method, brew.date, brew.notes, brew.flavor, brew.acidity, brew.aroma, brew.body, brew.sweetness, brew.aftertaste, brew.beans_id]);
+                (grind_setting, water, water_unit, coffee, coffee_unit, temperature, temp_unit, brew_method, date, notes, flavor, acidity, aroma, body, sweetness, aftertaste, beans_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+                [brew.grind_setting, brew.water, brew.water_unit, brew.coffee, brew.coffee_unit, brew.temperature, brew.temp_unit, brew.brew_method, brew.date.toJSON(), brew.notes, brew.flavor, brew.acidity, brew.aroma, brew.body, brew.sweetness, brew.aftertaste, brew.beans_id]);
         },
         (e) => {console.log(e)},
         null
@@ -67,7 +67,7 @@ const addBrew = (brew) => {
 }
 
 const NewBrew = ({ route, navigation }) => {
-    const [brew, setBrew] = useState({beans: "Select Beans", brew_method: "Select Brew Method", grind_setting: "", coffee: 0, water: 0, temperature: 0, flavor: 0, acidity: 0, aroma: 0, body: 0, sweetness: 0, aftertaste: 0, notes: "", date: new Date(), beans_id: 0});
+    const [brew, setBrew] = useState({beans: "Select Beans", brew_method: "Select Brew Method", grind_setting: "", coffee: 0, coffee_unit: "g", water: 0, water_unit: "g", temperature: 0, temp_unit: "f", flavor: 0, acidity: 0, aroma: 0, body: 0, sweetness: 0, aftertaste: 0, notes: "", date: new Date(), beans_id: 0});
     const {colors} = useTheme();
 
     useEffect(() => {
@@ -114,7 +114,7 @@ const NewBrew = ({ route, navigation }) => {
                         <SegmentedControl
                             values={['g', 'oz']}
                             selectedIndex={0}
-                            onValueChange={() => setBrew({...brew})}
+                            onValueChange={(value) => setBrew({...brew, coffee_unit: value})}
                             style={{width: 100}}
                         />
                     </TextFieldRow>
@@ -127,7 +127,7 @@ const NewBrew = ({ route, navigation }) => {
                         <SegmentedControl
                             values={['g', 'oz', 'ml']}
                             selectedIndex={0}
-                            onValueChange={() => setBrew({...brew})}
+                            onValueChange={(value) => setBrew({...brew, water_unit: value})}
                             style={{width: 100}}
                         />
                     </TextFieldRow>
@@ -139,7 +139,7 @@ const NewBrew = ({ route, navigation }) => {
                         <SegmentedControl
                             values={['f', 'c']}
                             selectedIndex={0}
-                            onValueChange={() => setBrew({...brew})}
+                            onValueChange={(value) => setBrew({...brew, temp_unit: value})}
                             style={{width: 100}}
                         />
                     </TextFieldRow>
