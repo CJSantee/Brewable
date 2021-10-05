@@ -7,6 +7,10 @@ import {
 } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faTint, faFire, faStopwatch } from '@fortawesome/free-solid-svg-icons';
+import Beans from '../assets/coffeeBeans.svg';
+import TastingWheel from './components/TastingWheel';
 
 function openDatabase() {
     const db = SQLite.openDatabase("CoffeeLab.db");
@@ -19,8 +23,9 @@ const Brew = ({ brew }) => {
     const {colors} = useTheme();
 
     return (
-        <View style={{...styles.brew, backgroundColor: colors.primary}}>
-            <Text>{brew.brew_method}</Text>
+        <View style={{...styles.brew, backgroundColor: colors.card}}>
+            <Text>Test</Text>
+            <TastingWheel style={styles.wheel} displayText={true} values={[brew.body*20, brew.aftertaste*20, brew.sweetness*20, brew.aroma*20, brew.flavor*20, brew.acidity*20]}/>
         </View>
     );
 }
@@ -50,7 +55,10 @@ const BrewList = ({beans}) => {
 
     return (
         <View style={styles.beans}>
-            <Text style={styles.title}>{beans.roaster}</Text>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Text style={styles.title}>{beans.roaster} </Text>
+                <Text style={styles.subtitle}>{beans.region}</Text>
+            </View>
             <FlatList
                 data={brews}
                 horizontal={true}
@@ -70,14 +78,28 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 18,
         fontWeight: 'bold',
-        margin: 2,
+    },
+    subtitle: {
+        fontSize: 18,
     },
     brew: {
+        marginTop: 5,
         marginRight: 10,
         borderWidth: 0.5,
-        minWidth: 300,
-        minHeight: 175,
+        borderColor: "rgb(201, 210, 217)",
+        width: 300,
+        height: 200,
         borderRadius: 10,
         padding: 5,
+        flexDirection: 'row'
+    },
+    wheel: {
+        width: "100%",
+        height: "100%",
+        position: 'absolute',
+        top: 10,
+        right: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 });

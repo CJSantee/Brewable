@@ -3,8 +3,8 @@ const beansData = require('./assets/Beans.json');
 // CoffeeLab.db
 const createTables = (db) => {
     db.transaction((tx) => {
-        tx.executeSql("DROP TABLE IF EXISTS beans;");
-        tx.executeSql("DROP TABLE IF EXISTS brews;");
+        // tx.executeSql("DROP TABLE IF EXISTS beans;");
+        // tx.executeSql("DROP TABLE IF EXISTS brews;");
 
         tx.executeSql(
           `CREATE TABLE IF NOT EXISTS beans (

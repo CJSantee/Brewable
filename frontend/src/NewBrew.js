@@ -35,17 +35,14 @@ function mapFlavor(value) {
         return Math.floor((value-10)/20)+1;
 }
 
+// Maps the values of the flavor wheel from 0-100 to 0-5
 function mapFlavors(brew) {
-    console.log(brew);
-
     brew.flavor = mapFlavor(brew.flavor);
     brew.acidity = mapFlavor(brew.acidity);``
     brew.aroma = mapFlavor(brew.aroma);
     brew.body = mapFlavor(brew.body);
     brew.sweetness = mapFlavor(brew.sweetness);
     brew.aftertaste = mapFlavor(brew.aftertaste);
-
-    console.log(brew);
     return brew;
 }
 

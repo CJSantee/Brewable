@@ -45,7 +45,7 @@ const SelectBeans = ({ route, navigation }) => {
     return (
         <FlatList 
             data={beans}
-            renderItem={(item) => <RowItem text={item.item.roaster + " - " + item.item.region} onPress={() => { navigation.navigate("main", {beans: item.item.region, beans_id: item.item.id}); }}/>}
+            renderItem={(item) => <RowItem text={item.item.roaster + " - " + item.item.region} onPress={() => { navigation.navigate("main", {beans: (item.item.roaster+" - "+item.item.region), beans_id: item.item.id}); }}/>}
             keyExtractor={item => item.id.toString()}
         />
     );

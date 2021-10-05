@@ -63,7 +63,7 @@ const HomePage = ({ navigation }) => {
     );
 
     return (
-        <View style={{flex: 1, flexDirection: 'column'}}>  
+        <View style={{flex: 1, flexDirection: 'column', backgroundColor: colors.background}}>  
             <View style={styles.header}>
                 <View style={styles.searchBar}>
                     <TextInput style={{flex: 1, marginLeft: 10}}/>

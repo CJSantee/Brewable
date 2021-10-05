@@ -15,6 +15,7 @@ import NewBeans from './src/NewBeans';
 import NewBrew from './src/NewBrew';
 import BrewMethods from './src/BrewMethods';
 import SelectBeans from './src/SelectBeans';
+import TastingWheel from './src/components/TastingWheel';
 
 function openDatabase() {
   const db = SQLite.openDatabase("CoffeeLab.db");
@@ -51,7 +52,7 @@ export default function App() {
 
   useEffect(() => {
     createTables(db);
-    populateBeans(db);
+    // populateBeans(db);
   }, []);
 
   return (
