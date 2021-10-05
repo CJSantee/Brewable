@@ -3,33 +3,37 @@ import React from 'react';
 import {
     View,
     StyleSheet,
-    Text
+    Text,
+    Touchable,
+    TouchableOpacity
 } from 'react-native';
 import { Slider } from 'react-native-ios-kit';
 
-const SliderRow = ({title, value, onValueChange}) => {
+const SliderRow = ({title, value, onValueChange, onPress}) => {
     const {colors} = useTheme();
 
     return (
-        <View
-            style={[
-                styles.row,
-                {
-                    backgroundColor: colors.card, 
-                    borderTopWidth: StyleSheet.hairlineWidth,
-                    borderBottomWidth: StyleSheet.hairlineWidth,
-                    borderColor: colors.border,
-                }
-            ]}
-        >
-            <View style={{flexDirection: 'column', width: '100%', alignItems: 'center'}}>
-                <Text >{title}</Text>
-                <Slider 
-                    value={value}
-                    onValueChange={onValueChange}
-                />
-            </View>
-        </View>  
+        <TouchableOpacity onPress={onPress}>
+          <View
+              style={[
+                  styles.row,
+                  {
+                      backgroundColor: colors.card, 
+                      borderTopWidth: StyleSheet.hairlineWidth,
+                      borderBottomWidth: StyleSheet.hairlineWidth,
+                      borderColor: colors.border,
+                  }
+              ]}
+          >
+              <View style={{flexDirection: 'column', width: '100%', alignItems: 'center'}}>
+                  <Text >{title}</Text>
+                  <Slider 
+                      value={value}
+                      onValueChange={onValueChange}
+                  />
+              </View>
+          </View>  
+        </TouchableOpacity>
     );
 };
 
