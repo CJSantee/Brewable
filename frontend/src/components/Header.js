@@ -3,19 +3,26 @@ import {
     View, 
     StyleSheet,
     Text,
-    Button
+    TouchableOpacity,
+    Dimensions
 } from 'react-native';
 import Constants from "expo-constants";
 import { useTheme } from '@react-navigation/native';
+
+let {height, width} = Dimensions.get('window');
 
 const Header = ({title, leftText, rightText, leftOnPress, rightOnPress}) => {
     const {colors} = useTheme();
 
     return (
         <View style={{...styles.header, backgroundColor: colors.card}}>  
-            <Button title={leftText} onPress={leftOnPress}/>
+            <TouchableOpacity style={styles.left} onPress={leftOnPress}>
+                <Text style={styles.text}>{leftText}</Text>
+            </TouchableOpacity>
             <Text style={styles.title}>{title}</Text>
-            <Button title={rightText} onPress={rightOnPress}/>
+            <TouchableOpacity style={styles.right} onPress={rightOnPress}>
+                <Text style={styles.text}>{rightText}</Text>
+            </TouchableOpacity>
         </View>
     );
 };
@@ -28,10 +35,30 @@ const styles = StyleSheet.create({
         height: "12%",
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: 5
+        paddingHorizontal: 5,
+        borderColor: "rgb(201, 210, 217)",
+        borderBottomWidth: 1
     },
     title: {
         fontSize: 18,
+    },
+    text: {
+        fontSize: 16
+    },
+    left: {
+        width: "20%",
+        height: "100%",
+        marginRight: 'auto',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    right: {
+        width: "20%",
+        height: "100%",
+        marginLeft: 'auto',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 })
