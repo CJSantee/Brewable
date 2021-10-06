@@ -180,7 +180,7 @@ const NewBrew = ({ route, navigation }) => {
                         title="Aftertaste"
                         value={brew.aftertaste}
                         onValueChange={value => setBrew({...brew, aftertaste: value})}
-                        onPress={() => navigation.navigate("moreInfo",{topic: "Afteertaste"})}
+                        onPress={() => navigation.navigate("moreInfo",{topic: "Aftertaste"})}
                     />
                 </TableView>
                 <TableView header="More Info">

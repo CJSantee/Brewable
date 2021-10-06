@@ -12,7 +12,6 @@ import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTint, faFire, faStopwatch } from '@fortawesome/free-solid-svg-icons';
 import CoffeeBean from '../assets/coffeeBean.svg';
-// import { SvgXml } from 'react-native-svg';
 import TastingWheel from './components/TastingWheel';
 
 function openDatabase() {
