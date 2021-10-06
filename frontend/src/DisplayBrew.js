@@ -87,7 +87,7 @@ const DisplayBrew = ({ route, navigation }) => {
                 </View>
                 <View style={styles.row}>
                     <FontAwesomeIcon size={25} icon={faStopwatch}/>
-                    <Text style={styles.value}>3:30</Text>
+                    <Text style={styles.value}>{brew.time}</Text>
                 </View>
             </View>
             

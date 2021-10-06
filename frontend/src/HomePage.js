@@ -29,10 +29,10 @@ const Modal = ({ navigation }) => {
     const {colors} = useTheme();
     return (
         <View style={styles.modal}>
-            <RowItem text="Beans" onPress={() => navigation.navigate("New Beans")}>
+            <RowItem title="Beans" text="" onPress={() => navigation.navigate("New Beans")}>
                 <FontAwesomeIcon icon={faChevronRight} size={20} color={colors.primary}/>
             </RowItem>
-            <RowItem text="Brew" onPress={() => navigation.navigate("New Brew")}>
+            <RowItem title="Brew" text="" onPress={() => navigation.navigate("New Brew")}>
                 <FontAwesomeIcon icon={faChevronRight} size={20} color={colors.primary}/>
             </RowItem>
         </View>

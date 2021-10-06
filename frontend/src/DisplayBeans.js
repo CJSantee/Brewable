@@ -79,7 +79,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginHorizontal: 10,
         marginVertical: 5,
-        alignItems: 'center'
+        alignItems: 'center',
+        flexWrap: 'wrap'
     },
     title: {
         fontWeight: 'bold',

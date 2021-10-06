@@ -33,6 +33,7 @@ const createTables = (db) => {
               temperature REAL,
               temp_unit TEXT,
               brew_method TEXT,
+              time TEXT,
               date TEXT,
               notes TEXT,
               flavor INTEGER,
@@ -71,9 +72,9 @@ const populateBrews = (db) => {
     for (let brew of brewData) {
       tx.executeSql(
         `INSERT INTO brews
-        (acidity, aftertaste, aroma, beans_id, body, brew_method, coffee, coffee_unit, date, flavor, grind_setting, notes, sweetness, temp_unit, temperature, water, water_unit)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);`,
-        [brew.acidity, brew.aftertaste, brew.aroma, brew.beans_id, brew.body, brew.brew_method, brew.coffee, brew.coffee_unit, brew.date, brew.flavor, brew.grind_setting, brew.notes, brew.sweetness, brew.temp_unit, brew.temperature, brew.water, brew.water_unit]
+        (acidity, aftertaste, aroma, beans_id, body, brew_method, coffee, coffee_unit, time, date, flavor, grind_setting, notes, sweetness, temp_unit, temperature, water, water_unit)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);`,
+        [brew.acidity, brew.aftertaste, brew.aroma, brew.beans_id, brew.body, brew.brew_method, brew.coffee, brew.coffee_unit, brew.time, brew.date, brew.flavor, brew.grind_setting, brew.notes, brew.sweetness, brew.temp_unit, brew.temperature, brew.water, brew.water_unit]
       );
     }
   },

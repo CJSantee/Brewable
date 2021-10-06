@@ -9,49 +9,31 @@ import {
 
 const Row = ({title, text, children, style}) => {
   const {colors} = useTheme();
-  if (title) {
-    return (
-      <View
-        style={[
-          styles.row,
-          {
-            backgroundColor: colors.card, 
-            borderTopWidth: StyleSheet.hairlineWidth,
-            borderBottomWidth: StyleSheet.hairlineWidth,
-            borderColor: colors.border,
-          },
-      ]}>
-        <View style={{flexDirection: 'column'}}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.text}>{text}</Text>
-        </View>
-        <View style={styles.rightComponent}>
-          {children}
-        </View>
-      </View>
-    );
-  }
 
   return (
     <View
-        style={[
-          styles.row,
-          {
-            backgroundColor: colors.card, 
-            borderTopWidth: StyleSheet.hairlineWidth,
-            borderBottomWidth: StyleSheet.hairlineWidth,
-            borderColor: colors.border,
-          },
-          style
-        ]}
-      > 
-        <Text style={styles.text}>{text}</Text>
-        <View style={styles.rightComponent}>
-          {children}
-        </View>
+      style={[
+      styles.row,
+      {
+          backgroundColor: colors.card, 
+          borderTopWidth: StyleSheet.hairlineWidth,
+          borderBottomWidth: StyleSheet.hairlineWidth,
+          borderColor: colors.border,
+      },
+      style
+  ]}>
+      <View style={{justifyContent: 'center'}}>
+          {text !== "" && text !== "00:00" && text !== 0 ? <Text style={styles.title}>{title}</Text> : <View/>}
+          <Text style={styles.text}>
+            {text === 0 || text === "00:00" || text === "" ? title : text.toString()} 
+          </Text>
       </View>
+      <View style={styles.rightComponent}>
+          {children}
+      </View>
+    </View>
   );
-};
+}
 
 const RowItem = ({title, text, onPress, children, style}) => {
   if (onPress) {
@@ -83,7 +65,6 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 17,
-    fontWeight: '400'
   },
   separator: {
     height: StyleSheet.hairlineWidth,

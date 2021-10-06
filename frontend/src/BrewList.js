@@ -51,6 +51,7 @@ const Brew = ({ brew, navigation }) => {
             </View>
             <View style={styles.cardItem}>
                 <FontAwesomeIcon size={20} icon={faStopwatch}/>
+                <Text style={styles.value}>{brew.time}</Text>
             </View>
             <View style={styles.notes}>
                 <Text>{brew.notes}</Text>

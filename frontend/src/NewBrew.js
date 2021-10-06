@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     StyleSheet,
     ScrollView,
@@ -7,7 +7,7 @@ import {
 import { CustomTheme } from '../Themes';
 import Constants from "expo-constants";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faStopwatch } from '@fortawesome/free-solid-svg-icons';
 import { SegmentedControl } from 'react-native-ios-kit';
 import { useTheme } from '@react-navigation/native';
 import * as SQLite from 'expo-sqlite';
@@ -46,7 +46,7 @@ function mapFlavors(brew) {
     return brew;
 }
 
-const addBrew = (brew) => {
+const addBrew = (brew, time) => {
     if (brew === null) {
         console.log("error");
         return false;
@@ -57,9 +57,9 @@ const addBrew = (brew) => {
         (tx) => {
             tx.executeSql(`
                 INSERT INTO brews
-                (grind_setting, water, water_unit, coffee, coffee_unit, temperature, temp_unit, brew_method, date, notes, flavor, acidity, aroma, body, sweetness, aftertaste, beans_id)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-                [brew.grind_setting, brew.water, brew.water_unit, brew.coffee, brew.coffee_unit, brew.temperature, brew.temp_unit, brew.brew_method, brew.date.toJSON(), brew.notes, brew.flavor, brew.acidity, brew.aroma, brew.body, brew.sweetness, brew.aftertaste, brew.beans_id]);
+                (grind_setting, water, water_unit, coffee, coffee_unit, temperature, temp_unit, brew_method, time, date, notes, flavor, acidity, aroma, body, sweetness, aftertaste, beans_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+                [brew.grind_setting, brew.water, brew.water_unit, brew.coffee, brew.coffee_unit, brew.temperature, brew.temp_unit, brew.brew_method, time, brew.date.toJSON(), brew.notes, brew.flavor, brew.acidity, brew.aroma, brew.body, brew.sweetness, brew.aftertaste, brew.beans_id]);
         },
         (e) => {console.log(e)},
         null
@@ -69,6 +69,30 @@ const addBrew = (brew) => {
 const NewBrew = ({ route, navigation }) => {
     const [brew, setBrew] = useState({beans: "Select Beans", brew_method: "Select Brew Method", grind_setting: "", coffee: 0, coffee_unit: "g", water: 0, water_unit: "g", temperature: 0, temp_unit: "f", flavor: 0, acidity: 0, aroma: 0, body: 0, sweetness: 0, aftertaste: 0, notes: "", date: new Date(), beans_id: 0});
     const {colors} = useTheme();
+
+    const [timer, setTimer] = useState(0);
+    const [isActive, setIsActive] = useState(false);
+    const countRef = useRef(null);
+
+    const toggleTimer = () => {
+        if (!isActive) {
+            setIsActive(true);
+            countRef.current = setInterval(() => {
+                setTimer((timer) => timer + 1);
+            }, 1000);        
+        } else {
+            clearInterval(countRef.current);
+            setIsActive(false);
+        }
+    }
+
+    const getSeconds = `0${(timer % 60)}`.slice(-2);
+    const minutes = `${Math.floor(timer / 60)}`;
+    const getMinutes = `0${minutes % 60}`.slice(-2);   
+
+    const formatTime = () => {
+        return `${getMinutes}:${getSeconds}`;
+    }
 
     useEffect(() => {
         if (route.params?.method) {
@@ -81,19 +105,21 @@ const NewBrew = ({ route, navigation }) => {
 
     return (
         <View style={{width: "100%", height: "100%"}}>
-            <Header title="New Brew" leftText="Cancel" rightText="Done" leftOnPress={() => navigation.goBack()} rightOnPress={() => { addBrew(brew); navigation.goBack();}}/>
+            <Header title="New Brew" leftText="Cancel" rightText="Done" leftOnPress={() => navigation.goBack()} rightOnPress={() => { addBrew(brew, formatTime()); navigation.goBack();}}/>
             <ScrollView style={styles.container}>
                 <TableView header="Beans">
                     <RowItem
-                        text={brew.beans}
-                        onPress={() => navigation.navigate("beansOptions", {selected: null})}
+                        title={brew.beans}
+                        text=""
+                        onPress={() => navigation.navigate("beansOptions", {selected: brew.beans_id})}
                     >   
                         <FontAwesomeIcon icon={faChevronRight} size={20} color={colors.primary}/>
                     </RowItem>
                 </TableView>
                 <TableView header="Method">
                     <RowItem
-                        text={brew.brew_method}
+                        title={brew.brew_method}
+                        text=""
                         onPress={() => navigation.navigate("brewMethods", {selected: brew.brew_method})}
                     >   
                         <FontAwesomeIcon icon={faChevronRight} size={20} color={colors.primary}/>
@@ -144,6 +170,11 @@ const NewBrew = ({ route, navigation }) => {
                             style={{width: 100}}
                         />
                     </TextFieldRow>
+                </TableView>
+                <TableView header="Time">
+                    <RowItem title="Brew Timer" text={formatTime()}>
+                        <FontAwesomeIcon icon={faStopwatch} size={25} color={isActive ? "#a00" : "#0a0"} onPress={toggleTimer}/>
+                    </RowItem>
                 </TableView>
                 <TableView header="Profile">
                     <SliderRow 
