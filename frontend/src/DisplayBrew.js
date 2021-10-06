@@ -46,8 +46,8 @@ const DisplayBrew = ({ route, navigation }) => {
 
     const options = { weekdate: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     function brewDate() {
-        let brew_date = new Date(brew.date);
-        return brew_date.toLocaleDateString('en-US', options);
+        let date = new Date(brew.date);
+        return date.toLocaleDateString('en-US', options);
     }
 
     useFocusEffect(

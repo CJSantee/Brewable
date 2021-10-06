@@ -40,7 +40,7 @@ const addBeans = (beans) => {
 }
 
 const NewBeans = ({ navigation }) => {
-    const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: (new Date()).toJSON(), price: 0, weight: 0});
+    const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: (new Date()).toJSON(), price: 0, weight: 0, weight_unit: "g"});
 
     return (
         <View style={{width: "100%", height: "100%"}}>

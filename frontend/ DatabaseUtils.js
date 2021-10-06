@@ -56,9 +56,9 @@ const populateBeans = (db) => {
     for (let beans of beansData) {
       tx.executeSql(
         `INSERT INTO beans
-        (region, roaster, origin, roast_date, price, roast_level, weight, flavor_notes)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
-        [beans.region, beans.roaster, beans.origin, beans.roast_date, beans.price, beans.roast_level, beans.weight, beans.flavor_notes]
+        (region, roaster, origin, roast_date, price, roast_level, weight, weight_unit, flavor_notes)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+        [beans.region, beans.roaster, beans.origin, beans.roast_date, beans.price, beans.roast_level, beans.weight, beans.weight_unit, beans.flavor_notes]
       );
     }
   },
