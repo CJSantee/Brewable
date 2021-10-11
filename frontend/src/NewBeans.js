@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import {
     ScrollView,
     View,
-    Button,
-    Text,
 } from 'react-native';
 import { SegmentedControl } from 'react-native-ios-kit';
 import * as SQLite from 'expo-sqlite';
+import { useTheme } from '@react-navigation/native';
 
 import TableView from './components/TableView';
 import TextFieldRow from './components/TextFieldRow';
@@ -41,6 +40,7 @@ const addBeans = (beans) => {
 
 const NewBeans = ({ navigation }) => {
     const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: (new Date()).toJSON(), price: 0, weight: 0, weight_unit: "g"});
+    const {colors} = useTheme();
 
     return (
         <View style={{width: "100%", height: "100%"}}>
@@ -87,6 +87,7 @@ const NewBeans = ({ navigation }) => {
                             selectedIndex={0}
                             onValueChange={(value) => setBeans({...beans, weight_unit: value})}
                             style={{width: 100}}
+                            theme={{primaryColor: colors.primary}}
                         />
                     </TextFieldRow>
                 </TableView>

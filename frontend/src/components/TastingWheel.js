@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import {
-    View,
-    StyleSheet
+    View
 } from 'react-native';
 import Svg, {
-    Circle,
     Line,
     Polygon,
     Text,
-    Rect
 } from 'react-native-svg';
+import { useTheme } from '@react-navigation/native';
 
 function dtoi(degrees){
     var pi = Math.PI;
@@ -38,7 +36,7 @@ export function shape(points) {
 
 const TastingWheel = ({values, style, displayText, width, height}) => {
     const descriptors = ["Body", "Aftertaste", "Sweetness", "Aroma", "Flavor", "Acidity"];
-    const colors = ["#fff", "#fff", "#fff"]
+    const {colors} = useTheme();
 
     return (
         <View style={style}> 
@@ -55,8 +53,7 @@ const TastingWheel = ({values, style, displayText, width, height}) => {
                     <Polygon
                         key={value} 
                         points={shape([100-(20*value),100-(20*value),100-(20*value),100-(20*value),100-(20*value),100-(20*value)])}
-                        stroke="black"
-                        fill={colors[value%3]}
+                        stroke={colors.text}
                     />
                 ))}
 
@@ -67,7 +64,7 @@ const TastingWheel = ({values, style, displayText, width, height}) => {
                         y1="0"
                         x2={circleX(0, value*60, 100)}
                         y2={circleY(0, value*60, 100)}
-                        stroke="#000"
+                        stroke={colors.text}
                         strokeWidth="1"
                     />
                 ))}
@@ -75,7 +72,7 @@ const TastingWheel = ({values, style, displayText, width, height}) => {
                 
                 {displayText ? // Body
                 <Text
-                    fill="#000"
+                    fill={colors.text}
                     x={circleX(0, 350, 95)}
                     y={circleY(0, 350, 95)}
                     textAnchor="start"
@@ -83,7 +80,7 @@ const TastingWheel = ({values, style, displayText, width, height}) => {
 
                 {displayText ? // Aftertaste
                 <Text
-                    fill="#000"
+                    fill={colors.text}
                     x={circleX(0, 55, 100)}
                     y={circleY(0, 55, 105)}
                     textAnchor="start"
@@ -91,7 +88,7 @@ const TastingWheel = ({values, style, displayText, width, height}) => {
 
                 {displayText ? // Sweetness
                 <Text
-                    fill="#000"
+                    fill={colors.text}
                     x={circleX(0, 120, 115)}
                     y={circleY(0, 120, 100)}
                     textAnchor="end"
@@ -99,7 +96,7 @@ const TastingWheel = ({values, style, displayText, width, height}) => {
 
                 {displayText ? // Aroma
                 <Text
-                    fill="#000"
+                    fill={colors.text}
                     x={circleX(0, 190, 95)}
                     y={circleY(0, 190, 105)}
                     textAnchor="end"
@@ -107,7 +104,7 @@ const TastingWheel = ({values, style, displayText, width, height}) => {
 
                 {displayText ? // Flavor
                 <Text
-                    fill="#000"
+                    fill={colors.text}
                     x={circleX(0, 240, 95)}
                     y={circleY(0, 240, 105)}
                     textAnchor="end"
@@ -115,7 +112,7 @@ const TastingWheel = ({values, style, displayText, width, height}) => {
 
                 {displayText ? // Acidity
                 <Text
-                    fill="#000"
+                    fill={colors.text}
                     x={circleX(0, 300, 95)}
                     y={circleY(0, 300, 105)}
                     textAnchor="start" 
@@ -123,9 +120,9 @@ const TastingWheel = ({values, style, displayText, width, height}) => {
                 
                 <Polygon 
                     points={shape(values)}
-                    fill="#444" //#742900
+                    fill={colors.primary}
                     fillOpacity="0.5"
-                    stroke="#222" //#964B00
+                    stroke={colors.secondary} 
                 />
             </Svg>
         </View>

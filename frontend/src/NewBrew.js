@@ -5,7 +5,6 @@ import {
     View,
 } from 'react-native';
 import { CustomTheme } from '../Themes';
-import Constants from "expo-constants";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronRight, faStopwatch } from '@fortawesome/free-solid-svg-icons';
 import { SegmentedControl } from 'react-native-ios-kit';
@@ -142,6 +141,7 @@ const NewBrew = ({ route, navigation }) => {
                             selectedIndex={0}
                             onValueChange={(value) => setBrew({...brew, coffee_unit: value})}
                             style={{width: 100}}
+                            theme={{primaryColor: colors.primary}}
                         />
                     </TextFieldRow>
                     <TextFieldRow
@@ -155,6 +155,8 @@ const NewBrew = ({ route, navigation }) => {
                             selectedIndex={0}
                             onValueChange={(value) => setBrew({...brew, water_unit: value})}
                             style={{width: 100}}
+                            theme={{primaryColor: colors.primary}}
+
                         />
                     </TextFieldRow>
                     <TextFieldRow
@@ -168,6 +170,7 @@ const NewBrew = ({ route, navigation }) => {
                             selectedIndex={0}
                             onValueChange={(value) => setBrew({...brew, temp_unit: value})}
                             style={{width: 100}}
+                            theme={{primaryColor: colors.primary}}
                         />
                     </TextFieldRow>
                 </TableView>

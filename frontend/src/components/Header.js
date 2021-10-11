@@ -17,11 +17,11 @@ const Header = ({title, leftText, rightText, leftOnPress, rightOnPress}) => {
     return (
         <View style={{...styles.header, backgroundColor: colors.card}}>  
             <TouchableOpacity style={styles.left} onPress={leftOnPress}>
-                <Text style={styles.text}>{leftText}</Text>
+                <Text style={{...styles.text, color: colors.text}}>{leftText}</Text>
             </TouchableOpacity>
-            <Text style={styles.title}>{title}</Text>
+            <Text style={{...styles.title, color: colors.text}}>{title}</Text>
             <TouchableOpacity style={styles.right} onPress={rightOnPress}>
-                <Text style={styles.text}>{rightText}</Text>
+                <Text style={{...styles.text, color: colors.text}}>{rightText}</Text>
             </TouchableOpacity>
         </View>
     );

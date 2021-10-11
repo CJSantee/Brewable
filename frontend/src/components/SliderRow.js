@@ -4,7 +4,6 @@ import {
     View,
     StyleSheet,
     Text,
-    Touchable,
     TouchableOpacity
 } from 'react-native';
 import { Slider } from 'react-native-ios-kit';
@@ -30,6 +29,7 @@ const SliderRow = ({title, value, onValueChange, onPress}) => {
                   <Slider 
                       value={value}
                       onSlidingComplete={onValueChange}
+                      theme={{primaryColor: colors.primary}}
                   />
               </View>
           </View>  

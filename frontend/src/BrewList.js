@@ -35,7 +35,7 @@ const Brew = ({ brew, navigation }) => {
                 <Text style={{fontWeight: 'bold', fontSize: 18}}>{brew.brew_method}</Text>
             </View>
             <View style={styles.cardItem}>
-                <FontAwesomeIcon size={20} icon={faTint}/>
+                <FontAwesomeIcon size={20} icon={faTint} color="rgb(0,105,167)"/>
                 <Text style={styles.value}>{brew.water}</Text>
                 <Text>{brew.water_unit}</Text>
             </View>
@@ -45,7 +45,7 @@ const Brew = ({ brew, navigation }) => {
                 <Text>{brew.coffee_unit}</Text>
             </View>
             <View style={styles.cardItem}>
-                <FontAwesomeIcon size={20} icon={faFire}/>
+                <FontAwesomeIcon size={20} icon={faFire} color="#e17714"/>
                 <Text style={styles.value}>{brew.temperature}</Text>
                 <Text>°{brew.temp_unit}</Text>
             </View>

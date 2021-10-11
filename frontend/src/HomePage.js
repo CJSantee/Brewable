@@ -79,18 +79,6 @@ const HomePage = ({ navigation }) => {
 export default HomePage;
 
 const styles = StyleSheet.create({
-    button: {
-        backgroundColor: "rgb(180, 135, 117)",
-        position: 'absolute',
-        right: 20,
-        bottom: 20,
-        width: 80,
-        height: 80,
-        borderRadius: 40, 
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginLeft: 10
-    },
     modal: {
         zIndex: 1,
         borderColor: "rgb(201, 210, 217)",
