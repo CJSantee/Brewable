@@ -29,7 +29,7 @@ const SliderRow = ({title, value, onValueChange, onPress}) => {
                   <Text >{title}</Text>
                   <Slider 
                       value={value}
-                      onValueChange={onValueChange}
+                      onSlidingComplete={onValueChange}
                   />
               </View>
           </View>  

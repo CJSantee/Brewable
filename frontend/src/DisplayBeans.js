@@ -38,6 +38,7 @@ const DisplayBeans = ({ route, navigation }) => {
 
     const options = { weekdate: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     function roastDate() {
+        if (beans.roast_date === "") return "";
         let date = new Date(beans.roast_date);
         return date.toLocaleDateString('en-US', options);
     }
@@ -57,7 +58,7 @@ const DisplayBeans = ({ route, navigation }) => {
                 <Text style={styles.subtitle}>{beans.region}</Text>
             </View>
             <View style={styles.row}>
-                <Text style={{fontSize: 18}}>{roastDate()}</Text>
+                {roastDate()!==""?<Text style={{fontSize: 18}}>{roastDate()}</Text>:<View/>}
             </View>
             <View style={styles.row}>
                 <Text>{beans.origin}</Text>

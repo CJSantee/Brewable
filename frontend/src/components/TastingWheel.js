@@ -72,42 +72,48 @@ const TastingWheel = ({values, style, displayText, width, height}) => {
                     />
                 ))}
 
-                {displayText ?
+                
+                {displayText ? // Body
                 <Text
                     fill="#000"
                     x={circleX(0, 350, 95)}
                     y={circleY(0, 350, 95)}
                     textAnchor="start"
                 >{descriptors[0]}</Text> : <View/> }
-                {displayText ?
+
+                {displayText ? // Aftertaste
                 <Text
                     fill="#000"
                     x={circleX(0, 55, 100)}
                     y={circleY(0, 55, 105)}
                     textAnchor="start"
                 >{descriptors[1]}</Text> : <View/> }
-                {displayText ?
+
+                {displayText ? // Sweetness
                 <Text
                     fill="#000"
                     x={circleX(0, 120, 115)}
                     y={circleY(0, 120, 100)}
                     textAnchor="end"
                 >{descriptors[2]}</Text> : <View/> }
-                {displayText ?
+
+                {displayText ? // Aroma
                 <Text
                     fill="#000"
                     x={circleX(0, 190, 95)}
                     y={circleY(0, 190, 105)}
                     textAnchor="end"
                 >{descriptors[3]}</Text> : <View/> }
-                {displayText ?
+
+                {displayText ? // Flavor
                 <Text
                     fill="#000"
                     x={circleX(0, 240, 95)}
                     y={circleY(0, 240, 105)}
                     textAnchor="end"
                 >{descriptors[4]}</Text> : <View/> }
-                {displayText ?
+
+                {displayText ? // Acidity
                 <Text
                     fill="#000"
                     x={circleX(0, 300, 95)}

@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   },
   rightPicker: {
     position: 'absolute',
-    right: "-51%"
+    right: "-54%"
 },
   title: {
     fontSize: 10,
