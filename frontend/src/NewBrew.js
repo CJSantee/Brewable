@@ -118,7 +118,7 @@ const NewBrew = ({ route, navigation }) => {
                     <RowItem
                         title="Brew Method"
                         text=""
-                        onPress={() => navigation.navigate("brewMethods", {selected: brew.brew_method})}
+                        onPress={() => navigation.navigate("brewMethods", {method: brew.brew_method})}
                     >   
                         <Text style={{...styles.text, color: colors.placeholder}}>{brew.brew_method}</Text>
                         <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
@@ -157,7 +157,6 @@ const NewBrew = ({ route, navigation }) => {
                             onValueChange={(value) => setBrew({...brew, water_unit: value})}
                             style={{width: 100}}
                             theme={{primaryColor: colors.interactive}}
-
                         />
                     </TextFieldRow>
                     <TextFieldRow

@@ -6,11 +6,11 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faChevronLeft, faPlus } from '@fortawesome/free-solid-svg-icons';
 import Constants from "expo-constants";
 import { useTheme } from '@react-navigation/native';
 
-const Header = ({title, leftText, rightText, leftOnPress, rightOnPress, leftChevron, rightChevrom}) => {
+const Header = ({title, leftText, rightText, leftOnPress, rightOnPress, leftChevron, rightChevrom, plus, plusOnPress}) => {
     const {colors} = useTheme();
 
     return (
@@ -20,10 +20,18 @@ const Header = ({title, leftText, rightText, leftOnPress, rightOnPress, leftChev
                 <Text style={{...styles.text, color: colors.interactive}}>{leftText}</Text>
             </TouchableOpacity>
             <Text style={{...styles.title, color: colors.text}}>{title}</Text>
-            <TouchableOpacity style={{...styles.right, right: rightChevrom ? 10 : 15}} onPress={rightOnPress}>
-                {rightChevrom ? <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.interactive}/> : <View/>}
-                <Text style={{...styles.text, color: colors.interactive}}>{rightText}</Text>
-            </TouchableOpacity>
+            <View style={{...styles.right, right: rightChevrom ? 10 : 15}}>
+                {plus 
+                    ?<TouchableOpacity onPress={plusOnPress}>
+                        <FontAwesomeIcon icon={faPlus} size={14} color={colors.interactive} style={{marginRight: 15}}/> 
+                    </TouchableOpacity>
+                    : <View/>}
+                <TouchableOpacity onPress={rightOnPress}>
+                    <Text style={{...styles.text, color: colors.interactive}}>{rightText}</Text>
+                    {rightChevrom ? <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.interactive}/> : <View/>}
+                </TouchableOpacity>
+            </View>
+            
         </View>
     );
 };

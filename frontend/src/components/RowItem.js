@@ -1,13 +1,18 @@
 import { useTheme } from '@react-navigation/native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     View,
     Text,
     StyleSheet,
-    TouchableHighlight
+    TouchableHighlight,
+    TouchableOpacity
 } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCircle as solidCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCircle as hollowCircle } from '@fortawesome/free-regular-svg-icons';
 
-const Row = ({title, text, children, style}) => {
+// TODO: Add gesture controls to rows
+const Row = ({title, text, style, showSelect, selected, toggleSelect, children }) => {
   const {colors} = useTheme();
 
   return (
@@ -22,6 +27,13 @@ const Row = ({title, text, children, style}) => {
       },
       style
   ]}>
+    {showSelect
+    ?<TouchableOpacity onPress={() => toggleSelect(title)}>  
+      <View>
+        <FontAwesomeIcon icon={selected?solidCircle:hollowCircle} size={20} color={colors.placeholder} style={{marginRight: 5}}/>
+      </View>
+    </TouchableOpacity>
+    :<View/>}
       <View style={{justifyContent: 'center'}}>
           {text !== "" && text !== "00:00" && text !== 0 ? <Text style={styles.title}>{title}</Text> : <View/>}
           <Text style={styles.text}>
@@ -35,18 +47,18 @@ const Row = ({title, text, children, style}) => {
   );
 }
 
-const RowItem = ({title, text, onPress, children, style}) => {
+const RowItem = ({title, text, onPress, children, style, showSelect, selected, toggleSelect}) => {
   if (onPress) {
     return (
       <TouchableHighlight
         onPress={onPress}
       >
-        <Row title={title} text={text} children={children} style={style}/>
+        <Row title={title} text={text} children={children} style={style} showSelect={showSelect} selected={selected} toggleSelect={toggleSelect}/>
       </TouchableHighlight>
     );
   }
   return (
-    <Row title={title} text={text} children={children} style={style}/>
+    <Row title={title} text={text} children={children} style={style} showSelect={showSelect} selected={selected} toggleSelect={toggleSelect}/>
   );
 };
 
