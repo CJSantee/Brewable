@@ -6,6 +6,8 @@ import {
     Text,
     TouchableOpacity
 } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { Slider } from 'react-native-ios-kit';
 
 const SliderRow = ({title, value, onValueChange, onPress}) => {
@@ -25,7 +27,10 @@ const SliderRow = ({title, value, onValueChange, onPress}) => {
               ]}
           >
               <View style={{flexDirection: 'column', width: '100%', alignItems: 'center'}}>
-                  <Text style={{color: colors.interactive}}>{title}</Text>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Text style={{color: colors.interactive}}>{title}</Text>
+                    <FontAwesomeIcon icon={faChevronRight} size={10} color={colors.interactive}/>
+                  </View>
                   <Slider 
                       value={value}
                       onSlidingComplete={onValueChange}

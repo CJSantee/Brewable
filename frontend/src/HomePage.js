@@ -17,6 +17,8 @@ import Constants from "expo-constants";
 import BrewList from './BrewList';
 import Header from './components/Header';
 import RowItem from './components/RowItem';
+import SearchBar from './components/SearchBar';
+import TabBar from './components/TabBar';
 
 function openDatabase() {
     const db = SQLite.openDatabase("CoffeeLab.db");
@@ -43,6 +45,7 @@ const HomePage = ({ navigation }) => {
     const {colors} = useTheme();
     const [modal, setModal] = useState(false);
     const [beans, setBeans] = useState([]);
+    const [searchText, setSearchText] = useState("");
 
     const readBeans = () => {
         db.transaction((tx) => {
@@ -66,12 +69,14 @@ const HomePage = ({ navigation }) => {
         <View style={{flex: 1, flexDirection: 'column', backgroundColor: colors.background}}>
             <Header title="Brews" leftText="" rightText="New" leftOnPress={null} rightOnPress={()=>setModal(!modal)}/>
             {modal ? <Modal navigation={navigation}/> : <View/>}
+            <SearchBar />
             {beans === null || beans.length === 0 ? <View/> : 
             <FlatList 
                 data={beans}
                 renderItem={(object) => <BrewList beans={object.item} navigation={navigation}/>}
                 keyExtractor={item => item.id.toString()}
             />}
+            <TabBar />
         </View>
     );
 }

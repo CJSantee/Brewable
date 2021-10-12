@@ -9,7 +9,8 @@ import {
 import * as SQLite from 'expo-sqlite';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faTint, faFire, faStopwatch } from '@fortawesome/free-solid-svg-icons';
+import { faTint, faFire, faStopwatch, faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import CoffeeBean from '../assets/coffeeBean.svg';
 
 import TastingWheel from './components/TastingWheel';
@@ -67,6 +68,9 @@ const DisplayBrew = ({ route, navigation }) => {
                     <Text style={styles.title}>{brew.roaster} </Text>
                     <Text style={styles.subtitle}>{brew.region}</Text>
                 </View>
+                <View style={styles.favorite}>
+                    <FontAwesomeIcon icon={brew.favorite?faHeartSolid:faHeart} size={25} color={brew.favorite?"#a00": colors.placeholder}/>
+                </View>
                 <View style={styles.row}>
                     <Text style={{fontSize: 18}}>{brewDate()} - </Text>
                     <Text style={{fontSize: 18}}>{brew.brew_method}</Text>
@@ -74,7 +78,7 @@ const DisplayBrew = ({ route, navigation }) => {
 
                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: 10}}>
                     <View style={styles.row}>
-                        <FontAwesomeIcon size={25} icon={faTint}/>
+                        <FontAwesomeIcon size={25} icon={faTint} color="#0069A7"/>
                         <Text style={styles.value}>{brew.water}</Text>
                         <Text>{brew.water_unit}</Text>
                     </View>
@@ -84,12 +88,12 @@ const DisplayBrew = ({ route, navigation }) => {
                         <Text>{brew.coffee_unit}</Text>
                     </View>
                     <View style={styles.row}>
-                        <FontAwesomeIcon size={25} icon={faFire}/>
+                        <FontAwesomeIcon size={25} icon={faFire} color="#EB811E"/>
                         <Text style={styles.value}>{brew.temperature}°</Text>
                         <Text>{brew.temp_unit}</Text>
                     </View>
                     <View style={styles.row}>
-                        <FontAwesomeIcon size={25} icon={faStopwatch}/>
+                        <FontAwesomeIcon size={25} icon={faStopwatch} color="#4D814B"/>
                         <Text style={styles.value}>{brew.time}</Text>
                     </View>
                 </View>
@@ -114,6 +118,11 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         marginVertical: 5,
         alignItems: 'center'
+    },
+    favorite: {
+        position: 'absolute',
+        right: 10,
+        top: 5
     },
     title: {
         fontWeight: 'bold',

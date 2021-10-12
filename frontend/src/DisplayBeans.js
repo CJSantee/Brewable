@@ -76,15 +76,13 @@ const DisplayBeans = ({ route, navigation }) => {
             </View>
             <View style={styles.row}>
                 {roastDate()!==""?<Text style={{fontSize: 18}}>{roastDate()}</Text>:<View/>}
+                <Text style={{fontSize: 18}}> - {beans.weight}{beans.weight_unit}</Text>
             </View>
             <View style={styles.row}>
                 <Text>{beans.origin}</Text>
             </View>
-            <View style={styles.row}>
-                <Text>{beans.weight}{beans.weight_unit}</Text>
-            </View>
             <View style={styles.col}>
-                <Text style={{fontSize: 18}}>Brews</Text>
+                <Text style={{fontSize: 14, color: colors.placeholder}}>Brews</Text>
                 <FlatList
                     data={brews}
                     style={{alignSelf: 'center'}}
@@ -114,7 +112,8 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         marginHorizontal: 10,
         marginVertical: 5,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     title: {
         fontWeight: 'bold',

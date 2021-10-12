@@ -39,7 +39,7 @@ const BrewList = ({beans, navigation}) => {
         useCallback(()=> {
             readBrews();
             return () => {};
-        }, [])
+        }, [brews])
     );
 
     return (
@@ -53,7 +53,13 @@ const BrewList = ({beans, navigation}) => {
             <FlatList
                 data={brews}
                 horizontal={true}
-                renderItem={(item) => <Brew brew={item.item} navigation={navigation}/>}
+                renderItem={(item) => 
+                    <Brew 
+                        brew={item.item} 
+                        setFavorite={(value) => db.transaction((tx) => {
+                            tx.executeSql("UPDATE brews SET favorite = ? WHERE id = ?;", [value?1:0, item.item.id])
+                        }, (e) => console.log(e), null)}
+                        navigation={navigation}/>}
                 keyExtractor={item => item.id.toString()}
             />
         </View>

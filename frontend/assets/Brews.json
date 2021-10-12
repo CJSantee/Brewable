@@ -17,6 +17,7 @@
         "temp_unit": "f",
         "temperature": 207,
         "water": 300,
-        "water_unit": "g"
+        "water_unit": "g",
+        "favorite": 1 
     }
 ]
