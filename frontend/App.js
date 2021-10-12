@@ -30,6 +30,7 @@ const Tab = createBottomTabNavigator();
 const NewStack = createNativeStackNavigator();
 const NewBeansStack = createNativeStackNavigator();
 const NewBrewStack = createNativeStackNavigator();
+const SettingsStack = createNativeStackNavigator();
 
 const NewBeansScreen = ({navigation}) => {
   return (
@@ -50,6 +51,14 @@ const NewBrewScreen = ({navigation}) => {
   );
 };
 
+const SettingsScreen = ({navigation}) => {
+  return (
+    <SettingsStack.Navigator>
+      <SettingsStack.Screen name="main" component={ProfilePage} options={{ headerShown: false }}/>
+    </SettingsStack.Navigator>
+  );
+}
+
 export default function App() {
 
   useEffect(() => {
@@ -67,27 +76,8 @@ export default function App() {
           <NewStack.Screen name="Brew" component={DisplayBrew}/>
           <NewStack.Screen name="New Beans" component={NewBeansScreen}/>
           <NewStack.Screen name="New Brew" component={NewBrewScreen}/>
+          <NewStack.Screen name="Profile" component={SettingsScreen}/>
         </NewStack.Navigator>
-        {/* <Tab.Navigator screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let icon;
-            if (route.name === "Home") icon = faHome;
-            else if (route.name === "Favorites") icon = faHeart;
-            else if (route.name === "New") icon = faPlusCircle;
-            else if (route.name === "Search") icon = faSearch;
-            else icon = faMale;
-            return <FontAwesomeIcon icon={icon} size={size} color={color}/>;
-          },
-          headerShown: false,
-          tabBarStyle: { height: 60 },
-          tabBarLabelStyle: { marginBottom: 5 }
-        })}>
-          <Tab.Screen name="Home" component={ ProfilePage }/>
-          <Tab.Screen name="Favorites" component={ ProfilePage }/>
-          <Tab.Screen name="New" component={ NewStackScreen }/>
-          <Tab.Screen name="Search" component={ ProfilePage }/>
-          <Tab.Screen name="Profile" component={ ProfilePage }/>
-        </Tab.Navigator> */}
     </NavigationContainer>
   );
 };

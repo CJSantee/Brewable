@@ -37,7 +37,7 @@ const Brew = ({ brew, setFavorite, navigation }) => {
                 <Text>{brew.water_unit}</Text>
             </View>
             <View style={styles.cardItem}>
-                <CoffeeBean width={20} height={20}/>
+                <CoffeeBean width={20} height={20} style={{color: "#714B33"}}/>
                 <Text style={styles.value}>{brew.coffee}</Text>
                 <Text>{brew.coffee_unit}</Text>
             </View>

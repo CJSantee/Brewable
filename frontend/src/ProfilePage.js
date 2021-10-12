@@ -6,10 +6,12 @@ import {
 } from 'react-native';
 import Constants from "expo-constants";
 
-const ProfilePage = () => {
+import Header from './components/Header';
+
+const ProfilePage = ({ navigation }) => {
     return (
         <View style={styles.container}>
-            <Text>Test</Text>
+            <Header title="Profile" leftText="Back" leftChevron={true} leftOnPress={() => navigation.goBack()}/>
         </View>
     )
 }
@@ -17,7 +19,6 @@ const ProfilePage = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1, 
-        marginTop: Constants.statusBarHeight
     }
 })
 

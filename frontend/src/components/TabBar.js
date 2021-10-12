@@ -12,15 +12,15 @@ import { useTheme } from '@react-navigation/native';
 
 import CoffeeBean from '../../assets/coffeeBean.svg';
 
-const TabBar = ({title, leftText, rightText, leftOnPress, rightOnPress, leftChevron, rightChevrom}) => {
+const TabBar = ({ navigation }) => {
     const {colors} = useTheme();
 
     return (
         <View style={{...styles.footer, backgroundColor: colors.card, borderColor: colors.border}}>  
             <TouchableOpacity style={styles.tab}>
-                <CoffeeBean width={35} height={35}/>
+                <CoffeeBean width={35} height={35} style={{color: colors.text}}/>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
                 <FontAwesomeIcon icon={faUserCircle} size={35}/>
             </TouchableOpacity>
         </View>

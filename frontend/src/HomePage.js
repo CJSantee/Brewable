@@ -76,7 +76,7 @@ const HomePage = ({ navigation }) => {
                 renderItem={(object) => <BrewList beans={object.item} navigation={navigation}/>}
                 keyExtractor={item => item.id.toString()}
             />}
-            <TabBar />
+            <TabBar navigation={navigation}/>
         </View>
     );
 }

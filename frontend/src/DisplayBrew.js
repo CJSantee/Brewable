@@ -83,7 +83,7 @@ const DisplayBrew = ({ route, navigation }) => {
                         <Text>{brew.water_unit}</Text>
                     </View>
                     <View style={styles.row}>
-                        <CoffeeBean width={25} height={25}/>
+                        <CoffeeBean width={25} height={25} style={{color: "#714B33"}}/>
                         <Text style={styles.value}>{brew.coffee}</Text>
                         <Text>{brew.coffee_unit}</Text>
                     </View>
