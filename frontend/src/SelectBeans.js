@@ -8,6 +8,7 @@ import * as SQLite from 'expo-sqlite';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
+import Header from './components/Header';
 import RowItem from './components/RowItem';
 
 function openDatabase() {
@@ -40,17 +41,21 @@ const SelectBeans = ({ route, navigation }) => {
     );
 
     return (
-        <FlatList 
-            data={beans}
-            renderItem={(item) => 
-                <RowItem 
-                    title={item.item.roaster + " - " + item.item.region} 
-                    text=""
-                    onPress={() => { navigation.navigate("main", {beans: (item.item.roaster+" - "+item.item.region), beans_id: item.item.id}); }}>
-                    {selected === item.item.id ? <FontAwesomeIcon icon={faCheck} size={20} color={colors.primary}/> : <View/>}
-                </RowItem>}
-            keyExtractor={item => item.id.toString()}
-        />
+        <View style={{height: "100%", width: "100%"}}>
+            <Header title="Select Beans" leftText="Back" leftOnPress={() => navigation.goBack()} leftChevron={true}/>
+            <FlatList 
+                data={beans}
+                renderItem={(item) => 
+                    <RowItem 
+                        title={item.item.roaster + " - " + item.item.region} 
+                        text=""
+                        onPress={() => { navigation.navigate("main", {beans: (item.item.roaster+" - "+item.item.region), beans_id: item.item.id}); }}>
+                        {selected === item.item.id ? <FontAwesomeIcon icon={faCheck} size={20} color={colors.placeholder}/> : <View/>}
+                    </RowItem>}
+                keyExtractor={item => item.id.toString()}
+            />
+        </View>
+        
     );
 }
 

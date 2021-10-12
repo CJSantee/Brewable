@@ -30,10 +30,10 @@ const Modal = ({ navigation }) => {
     return (
         <View style={styles.modal}>
             <RowItem title="Beans" text="" onPress={() => navigation.navigate("New Beans")}>
-                <FontAwesomeIcon icon={faChevronRight} size={20} color={colors.primary}/>
+                <FontAwesomeIcon icon={faChevronRight} size={20} color={colors.interactive}/>
             </RowItem>
             <RowItem title="Brew" text="" onPress={() => navigation.navigate("New Brew")}>
-                <FontAwesomeIcon icon={faChevronRight} size={20} color={colors.primary}/>
+                <FontAwesomeIcon icon={faChevronRight} size={20} color={colors.interactive}/>
             </RowItem>
         </View>
     );

@@ -3,8 +3,8 @@ import {
     StyleSheet,
     ScrollView,
     View,
+    Text
 } from 'react-native';
-import { CustomTheme } from '../Themes';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronRight, faStopwatch } from '@fortawesome/free-solid-svg-icons';
 import { SegmentedControl } from 'react-native-ios-kit';
@@ -66,7 +66,7 @@ const addBrew = (brew, time) => {
 }
 
 const NewBrew = ({ route, navigation }) => {
-    const [brew, setBrew] = useState({beans: "Select Beans", brew_method: "Select Brew Method", grind_setting: "", coffee: 0, coffee_unit: "g", water: 0, water_unit: "g", temperature: 0, temp_unit: "f", flavor: 0, acidity: 0, aroma: 0, body: 0, sweetness: 0, aftertaste: 0, notes: "", date: new Date(), beans_id: 0});
+    const [brew, setBrew] = useState({beans: "", brew_method: "", grind_setting: "", coffee: 0, coffee_unit: "g", water: 0, water_unit: "g", temperature: 0, temp_unit: "f", flavor: 0, acidity: 0, aroma: 0, body: 0, sweetness: 0, aftertaste: 0, notes: "", date: new Date(), beans_id: 0});
     const {colors} = useTheme();
 
     const [timer, setTimer] = useState(0);
@@ -105,25 +105,26 @@ const NewBrew = ({ route, navigation }) => {
     return (
         <View style={{width: "100%", height: "100%"}}>
             <Header title="New Brew" leftText="Cancel" rightText="Done" leftOnPress={() => navigation.goBack()} rightOnPress={() => { addBrew(brew, formatTime()); navigation.goBack();}}/>
-            <ScrollView style={styles.container}>
-                <TableView header="Beans">
+            <ScrollView style={{...styles.container, backgroundColor: colors.background}}>
+                <TableView header="Info">
                     <RowItem
-                        title={brew.beans}
+                        title="Beans"
                         text=""
                         onPress={() => navigation.navigate("beansOptions", {selected: brew.beans_id})}
                     >   
-                        <FontAwesomeIcon icon={faChevronRight} size={20} color={colors.primary}/>
+                        <Text style={{...styles.text, color: colors.placeholder}}>{brew.beans}</Text>
+                        <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
                     </RowItem>
-                </TableView>
-                <TableView header="Method">
                     <RowItem
-                        title={brew.brew_method}
+                        title="Brew Method"
                         text=""
                         onPress={() => navigation.navigate("brewMethods", {selected: brew.brew_method})}
                     >   
-                        <FontAwesomeIcon icon={faChevronRight} size={20} color={colors.primary}/>
+                        <Text style={{...styles.text, color: colors.placeholder}}>{brew.brew_method}</Text>
+                        <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
                     </RowItem>
                 </TableView>
+                    
                 <TableView header="Recipe">
                     <TextFieldRow 
                         title="Grind Setting"
@@ -141,7 +142,7 @@ const NewBrew = ({ route, navigation }) => {
                             selectedIndex={0}
                             onValueChange={(value) => setBrew({...brew, coffee_unit: value})}
                             style={{width: 100}}
-                            theme={{primaryColor: colors.primary}}
+                            theme={{primaryColor: colors.interactive}}
                         />
                     </TextFieldRow>
                     <TextFieldRow
@@ -155,7 +156,7 @@ const NewBrew = ({ route, navigation }) => {
                             selectedIndex={0}
                             onValueChange={(value) => setBrew({...brew, water_unit: value})}
                             style={{width: 100}}
-                            theme={{primaryColor: colors.primary}}
+                            theme={{primaryColor: colors.interactive}}
 
                         />
                     </TextFieldRow>
@@ -170,13 +171,13 @@ const NewBrew = ({ route, navigation }) => {
                             selectedIndex={0}
                             onValueChange={(value) => setBrew({...brew, temp_unit: value})}
                             style={{width: 100}}
-                            theme={{primaryColor: colors.primary}}
+                            theme={{primaryColor: colors.interactive}}
                         />
                     </TextFieldRow>
                 </TableView>
                 <TableView header="Time">
                     <RowItem title="Brew Timer" text={formatTime()}>
-                        <FontAwesomeIcon icon={faStopwatch} size={25} color={isActive ? "#a00" : "#0a0"} onPress={toggleTimer}/>
+                        <FontAwesomeIcon icon={faStopwatch} size={25} color={isActive ? "#a00" : colors.interactive} onPress={toggleTimer}/>
                     </RowItem>
                 </TableView>
                 <TableView header="Profile">
@@ -233,9 +234,9 @@ export default NewBrew;
 const styles = StyleSheet.create({
     container: {
         flex: 1, 
-        backgroundColor: CustomTheme.colors.background, 
     },
     text: {
-        color: CustomTheme.colors.text
+        fontSize: 17,
+        marginRight: 5
     }
 });

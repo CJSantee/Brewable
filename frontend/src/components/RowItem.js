@@ -71,6 +71,8 @@ const styles = StyleSheet.create({
   },
   rightComponent: {
     flexGrow: 1,
-    alignItems: 'flex-end',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
   },
 });

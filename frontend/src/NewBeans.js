@@ -87,7 +87,7 @@ const NewBeans = ({ navigation }) => {
                             selectedIndex={0}
                             onValueChange={(value) => setBeans({...beans, weight_unit: value})}
                             style={{width: 100}}
-                            theme={{primaryColor: colors.primary}}
+                            theme={{primaryColor: colors.interactive}}
                         />
                     </TextFieldRow>
                 </TableView>

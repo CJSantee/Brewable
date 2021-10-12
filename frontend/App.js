@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlusCircle, faHome, faHeart, faSearch, faMale } from '@fortawesome/free-solid-svg-icons';
 
 import { createTables, populateBeans, populateBrews } from './ DatabaseUtils';
-import { CustomTheme } from './Themes';
+import { LightTheme, DarkTheme } from './Themes';
 import ProfilePage from './src/ProfilePage';
 import HomePage from './src/HomePage';
 import NewBeans from './src/NewBeans';
@@ -41,11 +41,11 @@ const NewBeansScreen = ({navigation}) => {
 
 const NewBrewScreen = ({navigation}) => {
   return (
-    <NewBrewStack.Navigator >
+    <NewBrewStack.Navigator theme={DarkTheme}>
       <NewBrewStack.Screen name="main" component={NewBrew} options={{ headerShown: false }}/>
-      <NewBrewStack.Screen name="brewMethods" component={BrewMethods} options={{ headerTitle: "Brew Methods" }}/>
-      <NewBrewStack.Screen name="beansOptions" component={SelectBeans} options={{ headerTitle: "Select Beans" }}/>
-      <NewBrewStack.Screen name="moreInfo" component={InfoPage} options={{ headerTitle: "More Info" }}/>
+      <NewBrewStack.Screen name="brewMethods" component={BrewMethods} options={{ headerShown: false }}/>
+      <NewBrewStack.Screen name="beansOptions" component={SelectBeans} options={{ headerShown: false }}/>
+      <NewBrewStack.Screen name="moreInfo" component={InfoPage} options={{ headerShown: false }}/>
     </NewBrewStack.Navigator>
   );
 };
@@ -59,7 +59,7 @@ export default function App() {
   }, []);
 
   return (
-    <NavigationContainer theme={CustomTheme}>
+    <NavigationContainer theme={LightTheme}>
         <StatusBar barStyle="dark-content"/>
         <NewStack.Navigator screenOptions={{headerShown: false}}>
           <NewStack.Screen name="Home" component={HomePage} />

@@ -8,6 +8,7 @@ import { useTheme } from '@react-navigation/native';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import Header from './components/Header';
 
 import Constants from "expo-constants";
 
@@ -17,6 +18,7 @@ const InfoPage = ({ route, navigation }) => {
 
     return (
         <View style={styles.container}>
+            <Header title="Select Beans" leftText="Back" leftOnPress={() => navigation.goBack()} leftChevron={true}/>
             <View style={{...styles.card, backgroundColor: colors.card}}>
                 <Text style={styles.title}>{topic}</Text>
             </View>

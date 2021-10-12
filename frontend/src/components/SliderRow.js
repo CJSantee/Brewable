@@ -25,11 +25,11 @@ const SliderRow = ({title, value, onValueChange, onPress}) => {
               ]}
           >
               <View style={{flexDirection: 'column', width: '100%', alignItems: 'center'}}>
-                  <Text >{title}</Text>
+                  <Text style={{color: colors.interactive}}>{title}</Text>
                   <Slider 
                       value={value}
                       onSlidingComplete={onValueChange}
-                      theme={{primaryColor: colors.primary}}
+                      theme={{primaryColor: colors.interactive}}
                   />
               </View>
           </View>  
