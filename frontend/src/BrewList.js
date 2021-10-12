@@ -9,10 +9,8 @@ import {
 } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faTint, faFire, faStopwatch } from '@fortawesome/free-solid-svg-icons';
-import CoffeeBean from '../assets/coffeeBean.svg';
-import TastingWheel from './components/TastingWheel';
+
+import Brew from './Brew';
 
 function openDatabase() {
     const db = SQLite.openDatabase("CoffeeLab.db");
@@ -20,48 +18,6 @@ function openDatabase() {
 }
   
 const db = openDatabase();
-
-const Brew = ({ brew, navigation }) => {
-    const {colors} = useTheme();
-    const options = { weekdate: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-
-    var brew_date = new Date(brew.date);
-    let date_string = brew_date.toLocaleDateString('en-US', options);
-
-    return (
-        <TouchableWithoutFeedback onPress={() => navigation.navigate("Brew", {brew_id: brew.id})}>
-        <View style={{...styles.brew, backgroundColor: colors.card}}>
-            <View style={styles.cardItem}>
-                <Text style={{fontWeight: 'bold', fontSize: 18}}>{brew.brew_method}</Text>
-            </View>
-            <View style={styles.cardItem}>
-                <FontAwesomeIcon size={20} icon={faTint} color="rgb(0,105,167)"/>
-                <Text style={styles.value}>{brew.water}</Text>
-                <Text>{brew.water_unit}</Text>
-            </View>
-            <View style={styles.cardItem}>
-                <CoffeeBean width={20} height={20}/>
-                <Text style={styles.value}>{brew.coffee}</Text>
-                <Text>{brew.coffee_unit}</Text>
-            </View>
-            <View style={styles.cardItem}>
-                <FontAwesomeIcon size={20} icon={faFire} color="#e17714"/>
-                <Text style={styles.value}>{brew.temperature}</Text>
-                <Text>°{brew.temp_unit}</Text>
-            </View>
-            <View style={styles.cardItem}>
-                <FontAwesomeIcon size={20} icon={faStopwatch}/>
-                <Text style={styles.value}>{brew.time}</Text>
-            </View>
-            <View style={styles.notes}>
-                <Text>{brew.notes}</Text>
-            </View>
-            <TastingWheel style={styles.wheel} displayText={false} width="125" height="125" values={[brew.body*20, brew.aftertaste*20, brew.sweetness*20, brew.aroma*20, brew.flavor*20, brew.acidity*20]}/>
-            <Text style={{position: 'absolute', bottom: 8, right: 12}}>{date_string}</Text>
-        </View>
-        </TouchableWithoutFeedback>
-    );
-}
 
 const BrewList = ({beans, navigation}) => {
     const [brews, setBrews] = useState([]);

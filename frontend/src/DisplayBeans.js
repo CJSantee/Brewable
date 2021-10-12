@@ -2,12 +2,14 @@ import React, { useCallback, useState } from 'react';
 import {
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    FlatList
 } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 
 import Header from './components/Header';
+import Brew from './Brew';
 
 function openDatabase() {
     const db = SQLite.openDatabase("CoffeeLab.db");
@@ -18,10 +20,11 @@ const db = openDatabase();
 
 const DisplayBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: (new Date()).toJSON(), price: 0, weight: 0, weight_unit: "g"});
+    const [brews, setBrews] = useState([]);
     const { beans_id } = route.params;
     const {colors} = useTheme();
 
-    const readBeans = () => {
+    function readBeans() {
         db.transaction((tx) => {
             tx.executeSql(
                 `SELECT * 
@@ -30,6 +33,19 @@ const DisplayBeans = ({ route, navigation }) => {
                 [beans_id],
                 (_, { rows: { _array } }) =>
                 setBeans(_array[0])
+            );
+        },
+        (e) => console.log(e),
+        null);
+    }
+
+    function readBrews() {
+        db.transaction((tx) => {
+            tx.executeSql(
+                "SELECT * FROM brews WHERE beans_id = ?;",
+                [beans_id],
+                (_, { rows: { _array } }) =>
+                setBrews(_array)
             );
         },
         (e) => console.log(e),
@@ -46,6 +62,7 @@ const DisplayBeans = ({ route, navigation }) => {
     useFocusEffect(
         useCallback(()=> {
             readBeans();
+            readBrews();
             return () => {};
         }, [])
     );
@@ -66,6 +83,16 @@ const DisplayBeans = ({ route, navigation }) => {
             <View style={styles.row}>
                 <Text>{beans.weight}{beans.weight_unit}</Text>
             </View>
+            <View style={styles.col}>
+                <Text style={{fontSize: 18}}>Brews</Text>
+                <FlatList
+                    data={brews}
+                    style={{alignSelf: 'center'}}
+                    horizontal={false}
+                    renderItem={(item) => <Brew brew={item.item} navigation={navigation}/>}
+                    keyExtractor={item => item.id.toString()}
+                />
+            </View>
         </View>
     );
 }
@@ -82,6 +109,12 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         alignItems: 'center',
         flexWrap: 'wrap'
+    },
+    col: {
+        flexDirection: 'column',
+        marginHorizontal: 10,
+        marginVertical: 5,
+        justifyContent: 'center'
     },
     title: {
         fontWeight: 'bold',
