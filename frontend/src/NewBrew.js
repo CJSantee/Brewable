@@ -10,6 +10,7 @@ import { faChevronRight, faStopwatch } from '@fortawesome/free-solid-svg-icons';
 import { SegmentedControl } from 'react-native-ios-kit';
 import { useTheme } from '@react-navigation/native';
 import * as SQLite from 'expo-sqlite';
+import { useSelector } from 'react-redux'
 
 import Header from './components/Header';
 import TableView from './components/TableView';
@@ -68,10 +69,10 @@ const addBrew = (brew, time) => {
 const NewBrew = ({ route, navigation }) => {
     const [brew, setBrew] = useState({beans: "", brew_method: "", grind_setting: "", coffee: 0, coffee_unit: "g", water: 0, water_unit: "g", temperature: 0, temp_unit: "f", flavor: 0, acidity: 0, aroma: 0, body: 0, sweetness: 0, aftertaste: 0, notes: "", date: new Date(), beans_id: 0});
     const {colors} = useTheme();
-
     const [timer, setTimer] = useState(0);
     const [isActive, setIsActive] = useState(false);
     const countRef = useRef(null);
+    const user_preferences = useSelector(state => state.user_preferences);
 
     const toggleTimer = () => {
         if (!isActive) {
@@ -139,7 +140,7 @@ const NewBrew = ({ route, navigation }) => {
                     >
                         <SegmentedControl
                             values={['g', 'oz']}
-                            selectedIndex={0}
+                            selectedIndex={user_preferences.coffee_unit==='g'?0:1}
                             onValueChange={(value) => setBrew({...brew, coffee_unit: value})}
                             style={{width: 100}}
                             theme={{primaryColor: colors.interactive}}
@@ -153,7 +154,7 @@ const NewBrew = ({ route, navigation }) => {
                     >
                         <SegmentedControl
                             values={['g', 'oz', 'ml']}
-                            selectedIndex={0}
+                            selectedIndex={['g', 'oz', 'ml'].indexOf(user_preferences.water_unit)}
                             onValueChange={(value) => setBrew({...brew, water_unit: value})}
                             style={{width: 100}}
                             theme={{primaryColor: colors.interactive}}
@@ -167,7 +168,7 @@ const NewBrew = ({ route, navigation }) => {
                     >
                         <SegmentedControl
                             values={['f', 'c']}
-                            selectedIndex={0}
+                            selectedIndex={user_preferences.temp_unit==="f"?0:1}
                             onValueChange={(value) => setBrew({...brew, temp_unit: value})}
                             style={{width: 100}}
                             theme={{primaryColor: colors.interactive}}

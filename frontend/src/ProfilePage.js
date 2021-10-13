@@ -5,17 +5,23 @@ import {
     StyleSheet,
     ScrollView
 } from 'react-native';
-import Constants from "expo-constants";
 import { SegmentedControl } from 'react-native-ios-kit';
 import { useTheme } from '@react-navigation/native';
+
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faChevronRight, faStopwatch } from '@fortawesome/free-solid-svg-icons';
+
+import { useSelector, useDispatch } from 'react-redux'
+import { updateWaterUnit, updateCoffeeUnit, updateTempUnit } from './redux/PreferenceActions';
 
 import Header from './components/Header';
 import TableView from './components/TableView';
 import RowItem from './components/RowItem';
-import TextFieldRow from './components/TextFieldRow';
 
 const ProfilePage = ({ navigation }) => {
     const {colors} = useTheme();
+    const dispatch = useDispatch();
+    const user_preferences = useSelector(state => state.user_preferences);
 
     return (
         <View style={{width: "100%", height: "100%"}}>
@@ -25,8 +31,8 @@ const ProfilePage = ({ navigation }) => {
                     <RowItem title="Coffee" text="">
                         <SegmentedControl
                             values={['g', 'oz']}
-                            selectedIndex={0}
-                            onValueChange={(value) => console.log(value)}
+                            selectedIndex={['g','oz'].indexOf(user_preferences.coffee_unit)}
+                            onValueChange={(value) => dispatch(updateCoffeeUnit(value))}
                             style={{width: 100}}
                             theme={{primaryColor: colors.interactive}}
                         />
@@ -34,8 +40,8 @@ const ProfilePage = ({ navigation }) => {
                     <RowItem title="Water" text="">
                         <SegmentedControl
                             values={['g', 'oz', 'ml']}
-                            selectedIndex={0}
-                            onValueChange={(value) => console.log(value)}
+                            selectedIndex={['g', 'oz', 'ml'].indexOf(user_preferences.water_unit)}
+                            onValueChange={(value) => dispatch(updateWaterUnit(value))}
                             style={{width: 100}}
                             theme={{primaryColor: colors.interactive}}
                         />
@@ -43,11 +49,20 @@ const ProfilePage = ({ navigation }) => {
                     <RowItem title="Temperature" text="">
                         <SegmentedControl
                             values={['f', 'c']}
-                            selectedIndex={0}
-                            onValueChange={(value) => console.log(value)}
+                            selectedIndex={['f', 'c'].indexOf(user_preferences.temp_unit)}
+                            onValueChange={(value) => dispatch(updateTempUnit(value))}
                             style={{width: 100}}
                             theme={{primaryColor: colors.interactive}}
                         />
+                    </RowItem>
+                </TableView>
+                <TableView header=" ">
+                    <RowItem
+                        title="Brew Methods"
+                        text=""
+                        onPress={() => navigation.navigate("brewMethods", {method: "none"})}
+                    >   
+                        <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
                     </RowItem>
                 </TableView>
             </ScrollView>

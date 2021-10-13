@@ -67,16 +67,15 @@ const HomePage = ({ navigation }) => {
 
     return (
         <View style={{flex: 1, flexDirection: 'column', backgroundColor: colors.background}}>
-            <Header title="Brews" leftText="" rightText="New" leftOnPress={null} rightOnPress={()=>setModal(!modal)}/>
+            <Header title="Brews" leftText="Settings" rightText="New" leftOnPress={()=>navigation.navigate("Profile")} rightOnPress={()=>setModal(!modal)}/>
             {modal ? <Modal navigation={navigation}/> : <View/>}
-            <SearchBar />
+            {modal ? <View/> : <SearchBar/>}
             {beans === null || beans.length === 0 ? <View/> : 
             <FlatList 
                 data={beans}
                 renderItem={(object) => <BrewList beans={object.item} navigation={navigation}/>}
                 keyExtractor={item => item.id.toString()}
             />}
-            <TabBar navigation={navigation}/>
         </View>
     );
 }

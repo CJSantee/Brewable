@@ -1,14 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as SQLite from 'expo-sqlite';
-import { StyleSheet, Text, View, StatusBar, Button } from 'react-native';
+import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPlusCircle, faHome, faHeart, faSearch, faMale } from '@fortawesome/free-solid-svg-icons';
 
 import { createTables, populateBeans, populateBrewMethods, populateBrews } from './ DatabaseUtils';
 import { LightTheme, DarkTheme } from './Themes';
+
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import { preferenceReducer } from './src/redux/PreferenceReducer';
+
 import ProfilePage from './src/ProfilePage';
 import HomePage from './src/HomePage';
 import NewBeans from './src/NewBeans';
@@ -31,7 +34,6 @@ const Tab = createBottomTabNavigator();
 const NewStack = createNativeStackNavigator();
 const NewBeansStack = createNativeStackNavigator();
 const NewBrewStack = createNativeStackNavigator();
-const SettingsStack = createNativeStackNavigator();
 
 const NewBeansScreen = ({navigation}) => {
   return (
@@ -53,13 +55,7 @@ const NewBrewScreen = ({navigation}) => {
   );
 };
 
-const SettingsScreen = ({navigation}) => {
-  return (
-    <SettingsStack.Navigator>
-      <SettingsStack.Screen name="main" component={ProfilePage} options={{ headerShown: false }}/>
-    </SettingsStack.Navigator>
-  );
-}
+const store = createStore(preferenceReducer);
 
 export default function App() {
 
@@ -71,6 +67,7 @@ export default function App() {
   }, []);
 
   return (
+    <Provider store={store}>
     <NavigationContainer theme={LightTheme}>
         <StatusBar barStyle="dark-content"/>
         <NewStack.Navigator screenOptions={{headerShown: false}}>
@@ -79,8 +76,11 @@ export default function App() {
           <NewStack.Screen name="Brew" component={DisplayBrew}/>
           <NewStack.Screen name="New Beans" component={NewBeansScreen}/>
           <NewStack.Screen name="New Brew" component={NewBrewScreen}/>
-          <NewStack.Screen name="Profile" component={SettingsScreen}/>
+          <NewStack.Screen name="Profile" component={ProfilePage}/>
+          <NewBrewStack.Screen name="brewMethods" component={BrewMethods} options={{ headerShown: false }}/>
+          <NewBrewStack.Screen name="addMethod" component={NewBrewMethod} options={{ headerShown: false }}/>
         </NewStack.Navigator>
     </NavigationContainer>
+    </Provider>
   );
 };

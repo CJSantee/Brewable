@@ -28,7 +28,7 @@ const SliderRow = ({title, value, onValueChange, onPress}) => {
           >
               <View style={{flexDirection: 'column', width: '100%', alignItems: 'center'}}>
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <Text style={{color: colors.interactive}}>{title}</Text>
+                    <Text style={{color: colors.text}}>{title}</Text>
                     <FontAwesomeIcon icon={faChevronRight} size={10} color={colors.interactive}/>
                   </View>
                   <Slider 

@@ -53,7 +53,7 @@ const createTables = (db) => {
         tx.executeSql(
           `CREATE TABLE IF NOT EXISTS brew_methods (
             id INTEGER PRIMARY KEY NOT NULL,
-            method TEXT
+            method TEXT UNIQUE
           );`
         );
 

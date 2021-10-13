@@ -2,10 +2,9 @@ import React, { memo, useCallback, useEffect, useState } from 'react';
 import {
     View,
     StyleSheet,
-    ScrollView,
     FlatList
 } from 'react-native';
-import { useTheme, useFocusEffect } from '@react-navigation/native';
+import { useTheme } from '@react-navigation/native';
 import * as SQLite from 'expo-sqlite';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -22,7 +21,7 @@ const db = openDatabase();
 
 const BrewMethods = ({ route, navigation }) => {
     const [methods, setMethods] = useState([]);
-    const { method } = route.params;
+    const { method } = route.params || "none";
     const { colors } = useTheme();
     const [editing, setEditing]= useState(false);
     const [selected, setSelected] = useState(new Set());
@@ -54,24 +53,23 @@ const BrewMethods = ({ route, navigation }) => {
         null);
         toggleEditing();
     }
-    
-    const readMethods = () => {
+
+    useEffect(() => {
+        let mounted = true;
         db.transaction((tx) => {
             tx.executeSql(
                 "SELECT * FROM brew_methods;",
                 [],
-                (_, { rows: { _array } }) =>
-                setMethods(_array)
-            );
+                (_, { rows: { _array } }) => {
+                if (mounted) {
+                    setMethods(_array);
+                }
+            });
         },
         (e) => console.log(e),
         null);
-    }
-
-    useEffect(() => {
-        readMethods();
-        return () => {}; // Solution to "Warning: Can't perform a React state update on an unmounted component."
-    },[]);
+        return () => mounted = false;
+    },[methods]);
 
     return (
         <View style={{height: "100%", width: "100%"}}>  
@@ -89,7 +87,10 @@ const BrewMethods = ({ route, navigation }) => {
                 renderItem={(item) => 
                     <RowItem 
                         title={item.item.method} text=""
-                        onPress={() => { navigation.navigate("main", {method: item.item.method}); }}
+                        onPress={
+                            (method!=="none")?
+                            () => { navigation.navigate("main", {method: item.item.method})}:null
+                        }
                         showSelect={editing}
                         selected={selected.has(item.item.method)}
                         toggleSelect={(value) => toggleSelected(value)}
