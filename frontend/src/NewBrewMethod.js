@@ -19,32 +19,36 @@ function openDatabase() {
 
 const db = openDatabase();
 
-const addMethod = (value) => {
-    if (value === null ||  value === "") {
-        console.log("Missing Value");
-        return false;
-    }
-
-    db.transaction(
-        (tx) => {
-            tx.executeSql(`
-                INSERT INTO brew_methods
-                (method)
-                VALUES (?);`,
-                [value]);
-        },
-        (e) => {console.log(e)},
-        null
-    );
-}
-
 const NewBrewMethod = ({ navigation }) => {
     const [method, setMethod] = useState("");
     const {colors} = useTheme();
 
+    const addMethod = () => {
+        if (method === "") {
+            console.log("Missing Value");
+            return false;
+        }
+    
+        db.transaction(
+            (tx) => {
+                tx.executeSql(`
+                    INSERT INTO brew_methods
+                    (method)
+                    VALUES (?);`,
+                    [method]);
+            },
+            (e) => {console.log(e)},
+            () => navigation.goBack()
+        );
+    }
+
     return (
         <View style={{width: "100%", height: "100%"}}>
-            <Header title="New Brew Method" leftText="Cancel" rightText="Done" leftOnPress={() => navigation.goBack()} rightOnPress={() => {addMethod(method); navigation.goBack();}}/>
+            <Header 
+                title="New Brew Method" 
+                leftText="Cancel" rightText="Done" 
+                leftOnPress={() => navigation.goBack()} 
+                rightOnPress={() => addMethod()}/>
             <TableView header="Brew Method">
                 <TextFieldRow 
                     title="Name"

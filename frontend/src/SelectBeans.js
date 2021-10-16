@@ -20,7 +20,7 @@ const db = openDatabase();
 
 const SelectBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState([]);
-    const { selected } = route.params;
+    const { beans_id, parent } = route.params;
     const { colors } = useTheme();
 
     const readBeans = () => {
@@ -49,8 +49,8 @@ const SelectBeans = ({ route, navigation }) => {
                     <RowItem 
                         title={item.item.roaster + " - " + item.item.region} 
                         text=""
-                        onPress={() => { navigation.navigate("New Brew", {beans: (item.item.roaster+" - "+item.item.region), beans_id: item.item.id}); }}>
-                        {selected === item.item.id ? <FontAwesomeIcon icon={faCheck} size={20} color={colors.placeholder}/> : <View/>}
+                        onPress={() => { navigation.navigate(parent, {roaster: item.item.roaster, region: item.item.region, beans_id: item.item.id}); }}>
+                        {beans_id === item.item.id ? <FontAwesomeIcon icon={faCheck} size={20} color={colors.placeholder}/> : <View/>}
                     </RowItem>}
                 keyExtractor={item => item.id.toString()}
             />

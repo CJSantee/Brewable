@@ -49,17 +49,17 @@ export default function App() {
     <NavigationContainer theme={LightTheme}>
         <StatusBar barStyle="dark-content"/>
         <NewStack.Navigator screenOptions={{headerShown: false}}>
-          <NewStack.Screen name="Home" component={HomePage} />
-          <NewStack.Screen name="Beans" component={DisplayBeans} />
-          <NewStack.Screen name="Brew" component={DisplayBrew}/>
-          <NewStack.Screen name="Edit Brew" component={EditBrew}/>
-          <NewStack.Screen name="New Beans" component={NewBeans}/>
-          <NewStack.Screen name="New Brew" component={NewBrew}/>
-          <NewStack.Screen name="beansOptions" component={SelectBeans}/>
-          <NewStack.Screen name="moreInfo" component={InfoPage}/>
-          <NewStack.Screen name="Profile" component={ProfilePage}/>
-          <NewStack.Screen name="brewMethods" component={BrewMethods}/>
-          <NewStack.Screen name="addMethod" component={NewBrewMethod}/>
+          <NewStack.Screen name="HomePage" component={HomePage} />
+          <NewStack.Screen name="DisplayBeans" component={DisplayBeans} />
+          <NewStack.Screen name="DisplayBrew" component={DisplayBrew}/>
+          <NewStack.Screen name="EditBrew" component={EditBrew}/>
+          <NewStack.Screen name="NewBeans" component={NewBeans}/>
+          <NewStack.Screen name="NewBrew" component={NewBrew}/>
+          <NewStack.Screen name="SelectBeans" component={SelectBeans}/>
+          <NewStack.Screen name="InfoPage" component={InfoPage}/>
+          <NewStack.Screen name="ProfilePage" component={ProfilePage}/>
+          <NewStack.Screen name="BrewMethods" component={BrewMethods}/>
+          <NewStack.Screen name="NewBrewMethod" component={NewBrewMethod}/>
         </NewStack.Navigator>
     </NavigationContainer>
     </Provider>

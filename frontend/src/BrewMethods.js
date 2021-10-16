@@ -21,7 +21,7 @@ const db = openDatabase();
 
 const BrewMethods = ({ route, navigation }) => {
     const [methods, setMethods] = useState([]);
-    const { method } = route.params || "none";
+    const { brew_method, parent } = route.params;
     const { colors } = useTheme();
     const [editing, setEditing]= useState(false);
     const [selected, setSelected] = useState(new Set());
@@ -80,7 +80,7 @@ const BrewMethods = ({ route, navigation }) => {
                 leftOnPress={editing?deleteSelected:() => navigation.goBack()} 
                 leftChevron={editing?false:true}  
                 rightOnPress={toggleEditing}
-                plus={true} plusOnPress={() => navigation.navigate("addMethod")}
+                plus={true} plusOnPress={() => navigation.navigate("NewBrewMethod")}
             />
             <FlatList 
                 data={methods}
@@ -88,14 +88,14 @@ const BrewMethods = ({ route, navigation }) => {
                     <RowItem 
                         title={item.item.method} text=""
                         onPress={
-                            (method!=="none")?
-                            () => { navigation.navigate("New Brew", {method: item.item.method})}:null
+                            (brew_method!=="none")?
+                            () => { navigation.navigate(parent, {brew_method: item.item.method})}:null
                         }
                         showSelect={editing}
                         selected={selected.has(item.item.method)}
                         toggleSelect={(value) => toggleSelected(value)}
                     >
-                        {method === item.item.method ? <FontAwesomeIcon icon={faCheck} size={20} color={colors.placeholder}/> : <View/>}
+                        {brew_method === item.item.method ? <FontAwesomeIcon icon={faCheck} size={20} color={colors.placeholder}/> : <View/>}
                     </RowItem>  
                 }
                 keyExtractor={item => item.id.toString()}

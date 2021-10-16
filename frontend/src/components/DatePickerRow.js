@@ -34,7 +34,7 @@ const DatePickerRow = ({title, value, onChange}) => {
             <View style={title ? styles.rightPicker : styles.centerPicker}>
                 <DateTimePicker
                     mode="date"
-                    value={value}
+                    value={new Date(value)}
                     display="default"          
                     onChange={setDate}
                     style={{width: 320}}

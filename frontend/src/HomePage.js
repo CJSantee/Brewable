@@ -25,10 +25,10 @@ const Modal = ({ navigation }) => {
     const {colors} = useTheme();
     return (
         <View style={styles.modal}>
-            <RowItem title="Beans" text="" onPress={() => navigation.navigate("New Beans")}>
+            <RowItem title="Beans" text="" onPress={() => navigation.navigate("NewBeans")}>
                 <FontAwesomeIcon icon={faChevronRight} size={20} color={colors.interactive}/>
             </RowItem>
-            <RowItem title="Brew" text="" onPress={() => navigation.navigate("New Brew")}>
+            <RowItem title="Brew" text="" onPress={() => navigation.navigate("NewBrew")}>
                 <FontAwesomeIcon icon={faChevronRight} size={20} color={colors.interactive}/>
             </RowItem>
         </View>
@@ -95,7 +95,7 @@ const HomePage = ({ navigation }) => {
 
     return (
         <View style={{flex: 1, flexDirection: 'column', backgroundColor: colors.background}}>
-            <Header title="Brews" leftText="Settings" rightText="New" leftOnPress={()=>navigation.navigate("Profile")} rightOnPress={()=>setModal(!modal)}/>
+            <Header title="Brews" leftText="Settings" rightText="New" leftOnPress={()=>navigation.navigate("ProfilePage")} rightOnPress={()=>setModal(!modal)}/>
             {modal ? <Modal navigation={navigation}/> : <View/>}
             {modal ? <View/> : <SearchBar searchQuery={searchQuery} setSearchQuery={handleSearch}/>}
             {beans === null || beans.length === 0 ? <View/> : 

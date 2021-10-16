@@ -82,7 +82,7 @@ const DisplayBeans = ({ route, navigation }) => {
                 <Text>{beans.origin}</Text>
             </View>
             <View style={styles.col}>
-                <Text style={{fontSize: 14, color: colors.placeholder}}>Brews</Text>
+                <Text style={{fontSize: 14, color: colors.placeholder}}>{brews.length === 0?"No Brews":"- Brews -"}</Text>
                 <FlatList
                     data={brews}
                     style={{alignSelf: 'center'}}

@@ -52,7 +52,7 @@ const BrewList = ({beans, navigation}) => {
 
     return (
         <View style={styles.beans}>
-            <TouchableOpacity onPress={() => navigation.navigate("Beans", {beans_id: beans.id})}>
+            <TouchableOpacity onPress={() => navigation.navigate("DisplayBeans", {beans_id: beans.id})}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <Text style={styles.title}>{beans.roaster} </Text>
                     <Text style={styles.subtitle}>{beans.region}</Text>

@@ -26,7 +26,7 @@ const Brew = ({ brew, setFavorite, navigation }) => {
     }
 
     return (
-        <TouchableWithoutFeedback onPress={() => navigation.navigate("Brew", {brew_id: brew.id})}>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate("DisplayBrew", {brew_id: brew.id})}>
         <View style={{...styles.brew, backgroundColor: colors.card}}>
             <View style={styles.cardItem}>
                 <Text style={{fontWeight: 'bold', fontSize: 18}}>{brew.brew_method}</Text>

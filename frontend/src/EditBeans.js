@@ -19,37 +19,32 @@ function openDatabase() {
 
 const db = openDatabase();
 
-const NewBeans = ({ navigation }) => {
+const addBeans = (beans) => {
+    if (beans === null ||  beans.region === "") {
+        console.log("Missing Name");
+        return false;
+    }
+
+    db.transaction(
+        (tx) => {
+            tx.executeSql(`
+                INSERT INTO beans
+                (region, roaster, origin, roast_level, roast_date, price, weight, weight_unit, flavor_notes)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+                [beans.region, beans.roaster, beans.origin, beans.roast_level, beans.roast_date.toJSON(), beans.price, beans.weight, beans.weight_unit, beans.flavor_notes]);
+        },
+        (e) => {console.log(e)},
+        null
+    );
+}
+
+const EditBeans = ({ navigation }) => {
     const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g"});
     const {colors} = useTheme();
 
-    const addBeans = () => {
-        if (beans === null ||  beans.region === "") {
-            console.log("Missing Name");
-            return false;
-        }
-    
-        db.transaction(
-            (tx) => {
-                tx.executeSql(`
-                    INSERT INTO beans
-                    (region, roaster, origin, roast_level, roast_date, price, weight, weight_unit, flavor_notes)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-                    [beans.region, beans.roaster, beans.origin, beans.roast_level, beans.roast_date.toJSON(), beans.price, beans.weight, beans.weight_unit, beans.flavor_notes]);
-            },
-            (e) => {console.log(e)},
-            () => navigation.goBack()
-        );
-    }
-
     return (
         <View style={{width: "100%", height: "100%"}}>
-            <Header 
-                title="New Beans" 
-                leftText="Cancel" rightText="Done" 
-                leftOnPress={() => navigation.goBack()} 
-                rightOnPress={() => addBeans()}
-            />
+            <Header title="New Beans" leftText="Cancel" rightText="Done" leftOnPress={() => navigation.goBack()} rightOnPress={() => {addBeans(beans); navigation.goBack();}}/>
             <ScrollView>
                 <TableView header="Roast">
                     <TextFieldRow 
@@ -102,4 +97,4 @@ const NewBeans = ({ navigation }) => {
     );
 }
 
-export default NewBeans;
+export default EditBeans;

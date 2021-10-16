@@ -10,7 +10,7 @@ import { faChevronRight, faStopwatch } from '@fortawesome/free-solid-svg-icons';
 import { SegmentedControl } from 'react-native-ios-kit';
 import { useTheme } from '@react-navigation/native';
 import * as SQLite from 'expo-sqlite';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
 
 import Header from './components/Header';
 import TableView from './components/TableView';
@@ -45,91 +45,54 @@ function mapFlavors(brew) {
     return brew;
 }
 
-const updateBrew = (brew) => {
-    console.log("Test")
-    if (brew === null) {
-        console.log("error");
-        return false;
-    }
-
-    brew = mapFlavors(brew);
-    db.transaction(
-        (tx) => {
-            tx.executeSql(`
-                UPDATE brews
-                SET grind_setting = ?, water = ?, water_unit = ?, coffee = ?, coffee_unit = ?, temperature = ?,
-                temp_unit = ?, brew_method = ?, time = ?, date = ?, notes = ?, flavor = ?, acidity = ?, aroma = ?,
-                body = ?, sweetness = ?, aftertaste = ?, beans_id = ?, favorite = ?
-                WHERE id = ?;`,
-                [brew.grind_setting, brew.water, brew.water_unit, brew.coffee, brew.coffee_unit, brew.temperature, brew.temp_unit, brew.brew_method, brew.time, brew.date, brew.notes, brew.flavor, brew.acidity, brew.aroma, brew.body, brew.sweetness, brew.aftertaste, brew.beans_id,0,beans.id]);
-        },
-        (e) => {console.log(e)},
-        console.log(brew.date)
-    );
-}
-
 const EditBrew = ({ route, navigation }) => {
     const [brew, setBrew] = useState(route.params.brew);
-    const [beans, setBeans] = useState({roaster: "", region: ""});
     const {colors} = useTheme();
-    const [timer, setTimer] = useState(0);
-    const [isActive, setIsActive] = useState(false);
-    const countRef = useRef(null);
+    const user_preferences = useSelector(state => state.user_preferences);
 
-    const getBeans = () => {
+    const updateBrew = () => {
+        let newBrew = {...brew};
+
+        if (brew === null) {
+            console.log("error");
+            return false;
+        }
+    
+        newBrew = mapFlavors(brew);
+
         db.transaction(
             (tx) => {
                 tx.executeSql(`
-                    SELECT region, roaster
-                    FROM beans
+                    UPDATE brews
+                    SET grind_setting = ?, water = ?, water_unit = ?, coffee = ?, coffee_unit = ?, temperature = ?,
+                    temp_unit = ?, brew_method = ?, time = ?, date = ?, notes = ?, flavor = ?, acidity = ?, aroma = ?,
+                    body = ?, sweetness = ?, aftertaste = ?, beans_id = ?, favorite = ?
                     WHERE id = ?;`,
-                    [brew.beans_id],
-                    (_, { rows: { _array } }) =>
-                    setBeans(_array[0])
-                );
-            }, (e) => console.log(e),
-            null
+                    [brew.grind_setting, newBrew.water, newBrew.water_unit, newBrew.coffee, newBrew.coffee_unit, newBrew.temperature, newBrew.temp_unit, newBrew.brew_method, newBrew.time, new Date(brew.date).toJSON(), newBrew.notes, newBrew.flavor, newBrew.acidity, newBrew.aroma, newBrew.body, newBrew.sweetness, newBrew.aftertaste, newBrew.beans_id, 0, newBrew.id]);
+            },
+            (e) => {console.log(e)},
+            () => navigation.navigate("DisplayBrew", { brew_id: newBrew.id })
         );
-    }
-
-    const toggleTimer = () => {
-        if (!isActive) {
-            setIsActive(true);
-            countRef.current = setInterval(() => {
-                setTimer((timer) => timer + 1);
-            }, 1000);        
-        } else {
-            clearInterval(countRef.current);
-            setIsActive(false);
-        }
-    }
-
-    const getSeconds = `0${(timer % 60)}`.slice(-2);
-    const minutes = `${Math.floor(timer / 60)}`;
-    const getMinutes = `0${minutes % 60}`.slice(-2);   
-
-    const formatTime = () => {
-        return `${getMinutes}:${getSeconds}`;
     }
 
     useEffect(() => {
         if (route.params?.method) {
             setBrew({...brew, brew_method: route.params.method});
         }
-        if (route.params?.beans) {
-            setBrew({...brew, beans: route.params.beans, beans_id: route.params.beans_id});
+        if (route.params?.beans_id) {
+            setBrew({...brew, roaster: route.params.roaster, region: route.params.region, beans_id: route.params.beans_id});
         }
-    }, [route.params?.method, route.params?.beans]);
+    }, [route.params?.method, route.params?.beans_id]);
 
     return (
         <View style={{width: "100%", height: "100%"}}>
-            <Header title="Edit Brew" leftText="Cancel" rightText="Done" leftOnPress={() => navigation.goBack()} rightOnPress={() => { updateBrew(brew); navigation.goBack();}}/>
+            <Header title="Edit Brew" leftText="Cancel" rightText="Done" leftOnPress={() => navigation.navigate("DisplayBrew", { brew_id: brew.id })} rightOnPress={() => updateBrew()}/>
             <ScrollView style={{...styles.container, backgroundColor: colors.background}}>
                 <TableView header="Info">
                     <RowItem
                         title="Beans"
                         text=""
-                        onPress={() => navigation.navigate("beansOptions", {selected: brew.beans_id})}
+                        onPress={() => navigation.navigate("SelectBeans", {beans_id: brew.beans_id, parent: "EditBrew"})}
                     >   
                         <Text style={{...styles.text, color: colors.placeholder}}>{brew.roaster} - {brew.region}</Text>
                         <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
@@ -137,7 +100,7 @@ const EditBrew = ({ route, navigation }) => {
                     <RowItem
                         title="Brew Method"
                         text=""
-                        onPress={() => navigation.navigate("brewMethods", {method: brew.brew_method})}
+                        onPress={() => navigation.navigate("BrewMethods", {brew_method: brew.brew_method, parent: "EditBrew"})}
                     >   
                         <Text style={{...styles.text, color: colors.placeholder}}>{brew.brew_method}</Text>
                         <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
@@ -153,7 +116,7 @@ const EditBrew = ({ route, navigation }) => {
                     <TextFieldRow
                         title="Coffee Amount"
                         text={brew.coffee}
-                        onChange={(value) => setBrew({...brew, coffee: value})}
+                        onChange={(value) => setBrew({...brew, coffee: value, water: value*user_preferences.ratio})}
                         keyboardType="decimal-pad"
                     >
                         <SegmentedControl
@@ -195,47 +158,47 @@ const EditBrew = ({ route, navigation }) => {
                 </TableView>
                 <TableView header="Time">
                     <TextFieldRow
-                        title="Brew Time" text={brew.time}
+                        title="Brew Time" text={brew.time} onChange={(value) => setBrew({...brew, time: value})}
                     >
-                        <FontAwesomeIcon icon={faStopwatch} size={25} color={isActive ? "#a00" : colors.interactive}/>
+                        <FontAwesomeIcon icon={faStopwatch} size={25} color={colors.interactive}/>
                     </TextFieldRow>
                 </TableView>
                 <TableView header="Profile">
                     <SliderRow 
                         title="Flavor"
-                        value={brew.flavor*20}
+                        value={brew.flavor}
                         onValueChange={value => setBrew({...brew, flavor: value})}
-                        onPress={() => navigation.navigate("moreInfo",{topic: "Flavor"})}
+                        onPress={() => navigation.navigate("InfoPage",{topic: "Flavor"})}
                     />
                     <SliderRow 
                         title="Acidity"
-                        value={brew.acidity*20}
+                        value={brew.acidity}
                         onValueChange={value => setBrew({...brew, acidity: value})}
-                        onPress={() => navigation.navigate("moreInfo",{topic: "Acidity"})}
+                        onPress={() => navigation.navigate("InfoPage",{topic: "Acidity"})}
                     />
                     <SliderRow 
                         title="Aroma"
-                        value={brew.aroma*20}
+                        value={brew.aroma}
                         onValueChange={value => setBrew({...brew, aroma: value})}
-                        onPress={() => navigation.navigate("moreInfo",{topic: "Aroma"})}
+                        onPress={() => navigation.navigate("InfoPage",{topic: "Aroma"})}
                     />
                     <SliderRow 
                         title="Body"
-                        value={brew.body*20}
+                        value={brew.body}
                         onValueChange={value => setBrew({...brew, body: value})}
-                        onPress={() => navigation.navigate("moreInfo",{topic: "Body"})}
+                        onPress={() => navigation.navigate("InfoPage",{topic: "Body"})}
                     />
                     <SliderRow 
                         title="Sweetness"
-                        value={brew.sweetness*20}
+                        value={brew.sweetness}
                         onValueChange={value => setBrew({...brew, sweetness: value})}
-                        onPress={() => navigation.navigate("moreInfo",{topic: "Sweetness"})}
+                        onPress={() => navigation.navigate("InfoPage",{topic: "Sweetness"})}
                     />
                     <SliderRow 
                         title="Aftertaste"
-                        value={brew.aftertaste*20}
+                        value={brew.aftertaste}
                         onValueChange={value => setBrew({...brew, aftertaste: value})}
-                        onPress={() => navigation.navigate("moreInfo",{topic: "Aftertaste"})}
+                        onPress={() => navigation.navigate("InfoPage",{topic: "Aftertaste"})}
                     />
                 </TableView>
                 <TableView header="More Info">

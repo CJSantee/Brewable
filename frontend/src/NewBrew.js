@@ -95,13 +95,13 @@ const NewBrew = ({ route, navigation }) => {
     }
 
     useEffect(() => {
-        if (route.params?.method) {
-            setBrew({...brew, brew_method: route.params.method});
+        if (route.params?.brew_method) {
+            setBrew({...brew, brew_method: route.params.brew_method});
         }
-        if (route.params?.beans) {
-            setBrew({...brew, beans: route.params.beans, beans_id: route.params.beans_id});
+        if (route.params?.beans_id) {
+            setBrew({...brew, roaster: route.params.roaster, region: route.params.region, beans_id: route.params.beans_id});
         }
-    }, [route.params?.method, route.params?.beans]);
+    }, [route.params?.brew_method, route.params?.beans_id]);
 
     return (
         <View style={{width: "100%", height: "100%"}}>
@@ -111,15 +111,15 @@ const NewBrew = ({ route, navigation }) => {
                     <RowItem
                         title="Beans"
                         text=""
-                        onPress={() => navigation.navigate("beansOptions", {selected: brew.beans_id})}
+                        onPress={() => navigation.navigate("SelectBeans", {beans_id: brew.beans_id, parent: "NewBrew"})}
                     >   
-                        <Text style={{...styles.text, color: colors.placeholder}}>{brew.beans}</Text>
+                        <Text style={{...styles.text, color: colors.placeholder}}>{brew.roaster} - {brew.region}</Text>
                         <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
                     </RowItem>
                     <RowItem
                         title="Brew Method"
                         text=""
-                        onPress={() => navigation.navigate("brewMethods", {method: brew.brew_method})}
+                        onPress={() => navigation.navigate("BrewMethods", {brew_method: brew.brew_method, parent: "NewBrew"})}
                     >   
                         <Text style={{...styles.text, color: colors.placeholder}}>{brew.brew_method}</Text>
                         <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
