@@ -6,6 +6,7 @@ import {
 import { SegmentedControl } from 'react-native-ios-kit';
 import * as SQLite from 'expo-sqlite';
 import { useTheme } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 import TableView from './components/TableView';
 import TextFieldRow from './components/TextFieldRow';
@@ -22,6 +23,7 @@ const db = openDatabase();
 const NewBeans = ({ navigation }) => {
     const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g"});
     const {colors} = useTheme();
+    const user_preferences = useSelector(state => state.user_preferences);
 
     const addBeans = () => {
         if (beans === null ||  beans.region === "") {
@@ -89,7 +91,7 @@ const NewBeans = ({ navigation }) => {
                     >
                         <SegmentedControl
                             values={['g', 'oz']}
-                            selectedIndex={0}
+                            selectedIndex={['g', 'oz'].indexOf(user_preferences.coffe_unit)}
                             onValueChange={(value) => setBeans({...beans, weight_unit: value})}
                             style={{width: 100}}
                             theme={{primaryColor: colors.interactive}}

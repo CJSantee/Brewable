@@ -69,7 +69,11 @@ const DisplayBeans = ({ route, navigation }) => {
 
     return (
         <View style={{...styles.container, backgroundColor: colors.background}}>
-            <Header title="Beans" leftText="Back" rightText="Edit" leftOnPress={() => navigation.goBack()} rightOnPress={null}/>
+            <Header 
+                title="Beans" 
+                leftText="Back" rightText="Edit" 
+                leftOnPress={() => navigation.goBack()} 
+                rightOnPress={() => navigation.navigate("EditBeans", {beans: beans})}/>
             <View style={styles.row}>
                 <Text style={styles.title}>{beans.roaster} </Text>
                 <Text style={styles.subtitle}>{beans.region}</Text>
