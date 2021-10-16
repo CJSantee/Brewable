@@ -56,7 +56,7 @@ const ProfilePage = ({ navigation }) => {
                         />
                     </RowItem>
                 </TableView>
-                <TableView header=" ">
+                <TableView header="Methods">
                     <RowItem
                         title="Brew Methods"
                         text=""
@@ -64,6 +64,11 @@ const ProfilePage = ({ navigation }) => {
                     >   
                         <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
                     </RowItem>
+                </TableView>
+                <TableView header="Ratio">
+                    <RowItem 
+                        title="1 : " text=""
+                    />
                 </TableView>
             </ScrollView>
         </View>

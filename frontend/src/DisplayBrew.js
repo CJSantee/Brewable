@@ -62,7 +62,7 @@ const DisplayBrew = ({ route, navigation }) => {
 
     return (
         <View style={{...styles.container, backgroundColor: colors.background}}>
-            <Header title="Brew" leftText="Back" rightText="Edit" leftOnPress={() => navigation.goBack()} rightOnPress={null}/>
+            <Header title="Brew" leftText="Back" rightText="Edit" leftOnPress={() => navigation.goBack()} rightOnPress={() => navigation.navigate("Edit Brew", {brew: brew})}/>
             <ScrollView>
                 <View style={styles.row}>
                     <Text style={styles.title}>{brew.roaster} </Text>

@@ -89,7 +89,7 @@ const BrewMethods = ({ route, navigation }) => {
                         title={item.item.method} text=""
                         onPress={
                             (method!=="none")?
-                            () => { navigation.navigate("main", {method: item.item.method})}:null
+                            () => { navigation.navigate("New Brew", {method: item.item.method})}:null
                         }
                         showSelect={editing}
                         selected={selected.has(item.item.method)}

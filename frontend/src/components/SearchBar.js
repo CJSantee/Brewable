@@ -9,8 +9,7 @@ import { useTheme } from '@react-navigation/native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
-const SearchBar = () => {
-    const [text, setText] = useState("");
+const SearchBar = ({ searchQuery, setSearchQuery }) => {
     const { colors } = useTheme();
 
     return (
@@ -19,11 +18,13 @@ const SearchBar = () => {
                 <FontAwesomeIcon style={{marginHorizontal: 5}} icon={faSearch}/>
                 <TextInput   
                     style={{width: "85%"}}
-                    value={text} 
-                    onChangeText={setText}
+                    value={searchQuery} 
+                    onChangeText={setSearchQuery}
                 />
-                {text!==""
-                    ?<FontAwesomeIcon icon={faTimesCircle} size={18} style={styles.cancel} onPress={() => setText("")}/>
+                {searchQuery!==""
+                    ?<TouchableOpacity style={styles.cancel} onPress={() => setSearchQuery("")}>
+                        <FontAwesomeIcon icon={faTimesCircle} size={18}/>
+                    </TouchableOpacity>
                     :<View/>}
             </View>  
             
@@ -47,6 +48,10 @@ const styles = StyleSheet.create({
     },
     cancel: {
         position: 'absolute',
+        width: 25,
+        height: "100%",
+        alignItems: 'center',
+        justifyContent: 'center',
         marginHorizontal: 5, 
         right: 0, 
     }

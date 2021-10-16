@@ -49,7 +49,7 @@ const SelectBeans = ({ route, navigation }) => {
                     <RowItem 
                         title={item.item.roaster + " - " + item.item.region} 
                         text=""
-                        onPress={() => { navigation.navigate("main", {beans: (item.item.roaster+" - "+item.item.region), beans_id: item.item.id}); }}>
+                        onPress={() => { navigation.navigate("New Brew", {beans: (item.item.roaster+" - "+item.item.region), beans_id: item.item.id}); }}>
                         {selected === item.item.id ? <FontAwesomeIcon icon={faCheck} size={20} color={colors.placeholder}/> : <View/>}
                     </RowItem>}
                 keyExtractor={item => item.id.toString()}

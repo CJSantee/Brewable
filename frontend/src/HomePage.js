@@ -1,24 +1,18 @@
 import React, { useCallback, useState } from 'react';
 import {
     View,
-    TouchableOpacity,
     StyleSheet,
-    Dimensions,
-    TextInput,
-    Text,
     FlatList,
 } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPlus, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import Constants from "expo-constants";
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 import BrewList from './BrewList';
 import Header from './components/Header';
 import RowItem from './components/RowItem';
 import SearchBar from './components/SearchBar';
-import TabBar from './components/TabBar';
 
 function openDatabase() {
     const db = SQLite.openDatabase("CoffeeLab.db");
@@ -42,26 +36,53 @@ const Modal = ({ navigation }) => {
 }
 
 const HomePage = ({ navigation }) => {
-    const {colors} = useTheme();
-    const [modal, setModal] = useState(false);
-    const [beans, setBeans] = useState([]);
-    const [searchText, setSearchText] = useState("");
+    const {colors} = useTheme(); // Theme colors
+    const [modal, setModal] = useState(false); // Modal state
+    const [beans, setBeans] = useState([]); // Beans array
 
-    const readBeans = () => {
-        db.transaction((tx) => {
-            tx.executeSql("SELECT * FROM beans;",
-            [],
-            (_, { rows: { _array } }) =>
-                setBeans(_array)
-            );
-        });
+    // Search state variables
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
+    const [sortBy, setSortBy] = useState("roaster");
+
+    // Filter search queries by roaster and region
+    function searchFilter(item, query) {
+        query = query.toLowerCase();
+        if (item.roaster.toLowerCase().includes(query))
+            return true;
+        if (item.region.toLowerCase().includes(query))
+            return true;
+        return false;        
     }
+
+    // Update search query state and filter results
+    function handleSearch(newSearchQuery) {
+        setSearchQuery(newSearchQuery);
+        setSearchResults(beans.filter(item => searchFilter(item, newSearchQuery) ));
+    }
+
+    // Compare function for sorting beans
+    const compare = useCallback(
+        (a, b) => {
+            if (sortBy === "roaster")
+                return a.roaster.localeCompare(b.roaster);
+            return a - b;
+        },
+        [sortBy]
+    );
 
     useFocusEffect(
         useCallback(()=> {
+            let mounted = true;
             setModal(false);
-            readBeans();
-            return () => {};
+            db.transaction((tx) => {
+                tx.executeSql("SELECT * FROM beans;",
+                [],
+                (_, { rows: { _array } }) => {
+                    if (mounted) setBeans(_array.sort(compare))
+                });
+            });
+            return () => mounted = false;
         }, [])
     );
 
@@ -69,10 +90,10 @@ const HomePage = ({ navigation }) => {
         <View style={{flex: 1, flexDirection: 'column', backgroundColor: colors.background}}>
             <Header title="Brews" leftText="Settings" rightText="New" leftOnPress={()=>navigation.navigate("Profile")} rightOnPress={()=>setModal(!modal)}/>
             {modal ? <Modal navigation={navigation}/> : <View/>}
-            {modal ? <View/> : <SearchBar/>}
+            {modal ? <View/> : <SearchBar searchQuery={searchQuery} setSearchQuery={handleSearch}/>}
             {beans === null || beans.length === 0 ? <View/> : 
             <FlatList 
-                data={beans}
+                data={searchQuery===""?beans:searchResults}
                 renderItem={(object) => <BrewList beans={object.item} navigation={navigation}/>}
                 keyExtractor={item => item.id.toString()}
             />}

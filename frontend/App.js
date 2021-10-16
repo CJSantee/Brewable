@@ -22,6 +22,7 @@ import InfoPage from './src/InfoPage';
 import DisplayBeans from './src/DisplayBeans';
 import DisplayBrew from './src/DisplayBrew';
 import NewBrewMethod from './src/NewBrewMethod';
+import EditBrew from './src/EditBrew';
 
 function openDatabase() {
   const db = SQLite.openDatabase("CoffeeLab.db");
@@ -30,30 +31,7 @@ function openDatabase() {
 
 const db = openDatabase();
 
-const Tab = createBottomTabNavigator();
 const NewStack = createNativeStackNavigator();
-const NewBeansStack = createNativeStackNavigator();
-const NewBrewStack = createNativeStackNavigator();
-
-const NewBeansScreen = ({navigation}) => {
-  return (
-    <NewBeansStack.Navigator>
-      <NewBeansStack.Screen name="main" component={NewBeans} options={{ headerShown: false }}/>
-    </NewBeansStack.Navigator>
-  );
-};
-
-const NewBrewScreen = ({navigation}) => {
-  return (
-    <NewBrewStack.Navigator theme={DarkTheme}>
-      <NewBrewStack.Screen name="main" component={NewBrew} options={{ headerShown: false }}/>
-      <NewBrewStack.Screen name="brewMethods" component={BrewMethods} options={{ headerShown: false }}/>
-      <NewBrewStack.Screen name="addMethod" component={NewBrewMethod} options={{ headerShown: false }}/>
-      <NewBrewStack.Screen name="beansOptions" component={SelectBeans} options={{ headerShown: false }}/>
-      <NewBrewStack.Screen name="moreInfo" component={InfoPage} options={{ headerShown: false }}/>
-    </NewBrewStack.Navigator>
-  );
-};
 
 const store = createStore(preferenceReducer);
 
@@ -74,11 +52,14 @@ export default function App() {
           <NewStack.Screen name="Home" component={HomePage} />
           <NewStack.Screen name="Beans" component={DisplayBeans} />
           <NewStack.Screen name="Brew" component={DisplayBrew}/>
-          <NewStack.Screen name="New Beans" component={NewBeansScreen}/>
-          <NewStack.Screen name="New Brew" component={NewBrewScreen}/>
+          <NewStack.Screen name="Edit Brew" component={EditBrew}/>
+          <NewStack.Screen name="New Beans" component={NewBeans}/>
+          <NewStack.Screen name="New Brew" component={NewBrew}/>
+          <NewStack.Screen name="beansOptions" component={SelectBeans}/>
+          <NewStack.Screen name="moreInfo" component={InfoPage}/>
           <NewStack.Screen name="Profile" component={ProfilePage}/>
-          <NewBrewStack.Screen name="brewMethods" component={BrewMethods} options={{ headerShown: false }}/>
-          <NewBrewStack.Screen name="addMethod" component={NewBrewMethod} options={{ headerShown: false }}/>
+          <NewStack.Screen name="brewMethods" component={BrewMethods}/>
+          <NewStack.Screen name="addMethod" component={NewBrewMethod}/>
         </NewStack.Navigator>
     </NavigationContainer>
     </Provider>

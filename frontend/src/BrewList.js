@@ -37,8 +37,16 @@ const BrewList = ({beans, navigation}) => {
 
     useFocusEffect(
         useCallback(()=> {
-            readBrews();
-            return () => {};
+            let mounted = true;
+            db.transaction((tx) => {
+                tx.executeSql(
+                    "SELECT * FROM brews WHERE beans_id = ?;",
+                    [beans.id],
+                    (_, { rows: { _array } }) => {
+                        if (mounted) setBrews(_array);
+                });
+            });
+            return () => mounted = false;
         }, [brews])
     );
 
