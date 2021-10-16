@@ -6,13 +6,14 @@ import {
     ScrollView
 } from 'react-native';
 import { SegmentedControl } from 'react-native-ios-kit';
+import { Stepper } from 'react-native-ios-kit';
 import { useTheme } from '@react-navigation/native';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronRight, faStopwatch } from '@fortawesome/free-solid-svg-icons';
 
 import { useSelector, useDispatch } from 'react-redux'
-import { updateWaterUnit, updateCoffeeUnit, updateTempUnit } from './redux/PreferenceActions';
+import { updateWaterUnit, updateCoffeeUnit, updateTempUnit, updateRatio } from './redux/PreferenceActions';
 
 import Header from './components/Header';
 import TableView from './components/TableView';
@@ -67,8 +68,15 @@ const ProfilePage = ({ navigation }) => {
                 </TableView>
                 <TableView header="Ratio">
                     <RowItem 
-                        title="1 : " text=""
-                    />
+                        title={"1 : "+user_preferences.ratio} text=""
+                    >
+                        <Stepper
+                            value={user_preferences.ratio}
+                            onValueChange={(value) => dispatch(updateRatio(value))}
+                            minValue={1}
+                            maxValue={100}
+                        />
+                    </RowItem>
                 </TableView>
             </ScrollView>
         </View>

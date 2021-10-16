@@ -2,7 +2,8 @@ const initialState = {
     user_preferences: {
         water_unit: "oz",
         coffee_unit: "g",
-        temp_unit: "f"
+        temp_unit: "f",
+        ratio: 16,
     }
 }
 
@@ -29,6 +30,13 @@ const preferenceReducer = (state = initialState, action) => {
                     temp_unit: action.payload
                 }
             };
+        case 'update/ratio':
+            return {
+                user_preferences: {
+                    ...state.user_preferences,
+                    ratio: action.payload
+                }
+            }
         default:
             return state;
     }

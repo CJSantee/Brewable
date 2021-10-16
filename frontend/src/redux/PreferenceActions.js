@@ -19,3 +19,10 @@ export const updateTempUnit = unit => (
     }
 );
 
+export const updateRatio = value => (
+    {
+        type: 'update/ratio',
+        payload: value        
+    }
+);
+
