@@ -31,7 +31,7 @@ const addBeans = (beans) => {
                 INSERT INTO beans
                 (region, roaster, origin, roast_level, roast_date, price, weight, weight_unit, flavor_notes)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-                [beans.region, beans.roaster, beans.origin, beans.roast_level, beans.roast_date, beans.price, beans.weight, beans.weight_unit, beans.flavor_notes]);
+                [beans.region, beans.roaster, beans.origin, beans.roast_level, beans.roast_date.toJSON(), beans.price, beans.weight, beans.weight_unit, beans.flavor_notes]);
         },
         (e) => {console.log(e)},
         null
@@ -39,7 +39,7 @@ const addBeans = (beans) => {
 }
 
 const NewBeans = ({ navigation }) => {
-    const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: (new Date()).toJSON(), price: 0, weight: 0, weight_unit: "g"});
+    const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g"});
     const {colors} = useTheme();
 
     return (
@@ -69,7 +69,7 @@ const NewBeans = ({ navigation }) => {
                     />
                 </TableView>
                 <TableView header="Bag">
-                    <DatePickerRow title="Roast Date" value={beans.roast_date} onChange={(value) => setBeans({...beans, roast_date: value})}/>
+                    <DatePickerRow title="Roast Date" value={beans.roast_date} onChange={(value) => {setBeans({...beans, roast_date: value});}}/>
                     <TextFieldRow 
                         title="Price"
                         text={beans.price}

@@ -13,6 +13,11 @@ let {height, width} = Dimensions.get('window');
 const DatePickerRow = ({title, value, onChange}) => {
     const {colors} = useTheme();
 
+    const setDate = (event, selectedDate) => {
+      const currentDate = selectedDate || value;
+      onChange(currentDate);
+    };
+
     return (
         <View
             style={[
@@ -28,11 +33,10 @@ const DatePickerRow = ({title, value, onChange}) => {
             <Text style={styles.text}>{title}</Text>
             <View style={title ? styles.rightPicker : styles.centerPicker}>
                 <DateTimePicker
-                    title="Test"
                     mode="date"
                     value={value}
                     display="default"          
-                    onDateChange={onChange}
+                    onChange={setDate}
                     style={{width: 320}}
                 />
             </View>  

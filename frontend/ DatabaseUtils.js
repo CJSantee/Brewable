@@ -65,6 +65,7 @@ const createTables = (db) => {
 const populateBeans = (db) => {
   db.transaction((tx) => {
     for (let beans of beansData) {
+      beans.roast_date = new Date(beans.roast_date).toJSON();
       tx.executeSql(
         `INSERT INTO beans
         (region, roaster, origin, roast_date, price, roast_level, weight, weight_unit, flavor_notes)

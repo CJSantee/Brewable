@@ -19,7 +19,7 @@ function openDatabase() {
 const db = openDatabase();
 
 const DisplayBeans = ({ route, navigation }) => {
-    const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: (new Date()).toJSON(), price: 0, weight: 0, weight_unit: "g"});
+    const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g"});
     const [brews, setBrews] = useState([]);
     const { beans_id } = route.params;
     const {colors} = useTheme();

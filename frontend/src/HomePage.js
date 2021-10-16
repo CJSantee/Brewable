@@ -43,7 +43,7 @@ const HomePage = ({ navigation }) => {
     // Search state variables
     const [searchQuery, setSearchQuery] = useState("");
     const [searchResults, setSearchResults] = useState([]);
-    const [sortBy, setSortBy] = useState("roaster");
+    const [sortBy, setSortBy] = useState("roast_date");
 
     // Filter search queries by roaster and region
     function searchFilter(item, query) {
@@ -66,6 +66,13 @@ const HomePage = ({ navigation }) => {
         (a, b) => {
             if (sortBy === "roaster")
                 return a.roaster.localeCompare(b.roaster);
+            if (sortBy === "roast_date") {
+                a = new Date(a.roast_date).setHours(0,0,0,0);
+                b = new Date(b.roast_date).setHours(0,0,0,0);
+                if (a < b) return -1;
+                if (a > b) return 1;
+                return 0;
+            }
             return a - b;
         },
         [sortBy]
