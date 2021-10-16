@@ -3,16 +3,18 @@ import {
     ScrollView,
     View,
 } from 'react-native';
-import { SegmentedControl } from 'react-native-ios-kit';
 import * as SQLite from 'expo-sqlite';
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 
+// Component Imports
+import { SegmentedControl } from 'react-native-ios-kit';
 import TableView from './components/TableView';
 import TextFieldRow from './components/TextFieldRow';
 import DatePickerRow from './components/DatePickerRow';
 import Header from './components/Header';
 
+// Open SQLite Database
 function openDatabase() {
     const db = SQLite.openDatabase("CoffeeLab.db");
     return db;
@@ -21,10 +23,11 @@ function openDatabase() {
 const db = openDatabase();
 
 const NewBeans = ({ navigation }) => {
-    const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g"});
-    const {colors} = useTheme();
-    const user_preferences = useSelector(state => state.user_preferences);
+    const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g"}); // Beans state
+    const {colors} = useTheme(); // Color theme
+    const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
 
+    // Add beans to database
     const addBeans = () => {
         if (beans === null ||  beans.region === "") {
             console.log("Missing Name");
@@ -91,7 +94,7 @@ const NewBeans = ({ navigation }) => {
                     >
                         <SegmentedControl
                             values={['g', 'oz']}
-                            selectedIndex={['g', 'oz'].indexOf(user_preferences.coffe_unit)}
+                            selectedIndex={['g', 'oz'].indexOf(user_preferences.coffee_unit)}
                             onValueChange={(value) => setBeans({...beans, weight_unit: value})}
                             style={{width: 100}}
                             theme={{primaryColor: colors.interactive}}

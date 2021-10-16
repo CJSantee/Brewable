@@ -8,16 +8,18 @@ import {
 } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTint, faFire, faStopwatch, faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import CoffeeBean from '../assets/coffeeBean.svg';
 
+// Component Imports
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import TastingWheel from './components/TastingWheel';
 import Header from './components/Header';
 
 let {height, width} = Dimensions.get('window');
 
+// Open SQLite database
 function openDatabase() {
     const db = SQLite.openDatabase("CoffeeLab.db");
     return db;
@@ -26,10 +28,11 @@ function openDatabase() {
 const db = openDatabase();
 
 const DisplayBrew = ({ route, navigation }) => {
-    const [brew, setBrew] = useState({body: 0, aftertaste: 0, sweetness: 0, aroma: 0, flavor: 0, acidity: 0});
-    const { brew_id } = route.params;
-    const {colors} = useTheme();
+    const [brew, setBrew] = useState({body: 0, aftertaste: 0, sweetness: 0, aroma: 0, flavor: 0, acidity: 0}); // Initial values for flavor wheel
+    const { brew_id } = route.params; // Brew_id to retireve brew info
+    const {colors} = useTheme(); // Color theme
 
+    // Read brew info from database
     const readBrew = () => {
         db.transaction((tx) => {
             tx.executeSql(

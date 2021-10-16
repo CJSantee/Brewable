@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     View,
     StyleSheet,
@@ -6,11 +6,12 @@ import {
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import * as SQLite from 'expo-sqlite';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import RowItem from './components/RowItem';
 import Header from './components/Header';
+
 
 function openDatabase() {
     const db = SQLite.openDatabase("CoffeeLab.db");
@@ -20,17 +21,19 @@ function openDatabase() {
 const db = openDatabase();
 
 const BrewMethods = ({ route, navigation }) => {
-    const [methods, setMethods] = useState([]);
-    const { brew_method, parent } = route.params;
-    const { colors } = useTheme();
-    const [editing, setEditing]= useState(false);
-    const [selected, setSelected] = useState(new Set());
+    const [methods, setMethods] = useState([]); // Array of brew methods
+    const { brew_method, parent } = route.params; // Selected brew_method and parent navigation page
+    const { colors } = useTheme(); // Color theme
+    const [editing, setEditing]= useState(false); // Selecting methods to delete
+    const [selected, setSelected] = useState(new Set()); // Set of currently selected brew_methods
 
+    // Toggle editing and clear selected
     function toggleEditing() {
         setEditing(!editing);
         setSelected(new Set());
     }
 
+    // Add or remove element from set of selected methods
     function toggleSelected(value) {
         if (selected.has(value)) {
             let newSet = new Set(selected);
@@ -43,17 +46,20 @@ const BrewMethods = ({ route, navigation }) => {
         }
     }
 
+    // Remove each of the elements in the selected set from the database
     const deleteSelected = () => {
-        db.transaction((tx) => {
-            selected.forEach((value) => 
-                tx.executeSql("DELETE FROM brew_methods WHERE method = ?;", [value])
-            );
-        },
-        (e) => console.log(e),
-        null);
-        toggleEditing();
+        db.transaction(
+            (tx) => {
+                selected.forEach((value) => 
+                    tx.executeSql("DELETE FROM brew_methods WHERE method = ?;", [value])
+                );
+            },
+            (e) => console.log(e),
+            () => toggleEditing() // On success, stop editing
+        );
     }
 
+    // Retrieve the array of brew methods from database when component is mounted
     useEffect(() => {
         let mounted = true;
         db.transaction((tx) => {

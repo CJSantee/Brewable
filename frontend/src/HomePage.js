@@ -6,14 +6,16 @@ import {
 } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
+// Component Imports
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import BrewList from './BrewList';
 import Header from './components/Header';
 import RowItem from './components/RowItem';
 import SearchBar from './components/SearchBar';
 
+// Open SQLite Database
 function openDatabase() {
     const db = SQLite.openDatabase("CoffeeLab.db");
     return db;
@@ -21,6 +23,7 @@ function openDatabase() {
   
 const db = openDatabase();
 
+// Modal for listing new beans or brew
 const Modal = ({ navigation }) => {
     const {colors} = useTheme();
     return (
@@ -78,6 +81,7 @@ const HomePage = ({ navigation }) => {
         [sortBy]
     );
 
+    // Retrieve list of beans when component mounts
     useFocusEffect(
         useCallback(()=> {
             let mounted = true;

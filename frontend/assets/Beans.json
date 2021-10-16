@@ -114,7 +114,7 @@
         "roaster": "Portland Coffee Roasters", 
         "origin": "Costa Rica", 
         "roast_level": "Light", 
-        "roast_date": "", 
+        "roast_date": "2021-05-13T00:00:00", 
         "price": 0, 
         "weight": 340,
         "weight_unit": "g",

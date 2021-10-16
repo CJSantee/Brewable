@@ -4,14 +4,14 @@ import {
     Text,
     FlatList,
     StyleSheet,
-    TouchableOpacity,
-    TouchableWithoutFeedback
+    TouchableOpacity
 } from 'react-native';
 import * as SQLite from 'expo-sqlite';
-import { useTheme, useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 
 import Brew from './Brew';
 
+// Open SQLite Database
 function openDatabase() {
     const db = SQLite.openDatabase("CoffeeLab.db");
     return db;
@@ -19,22 +19,21 @@ function openDatabase() {
   
 const db = openDatabase();
 
-const BrewList = ({beans, navigation}) => {
+const BrewList = ({ beans, navigation }) => {
     const [brews, setBrews] = useState([]);
 
-    const readBrews = () => {
-        db.transaction((tx) => {
-            tx.executeSql(
-                "SELECT * FROM brews WHERE beans_id = ?;",
-                [beans.id],
-                (_, { rows: { _array } }) =>
-                setBrews(_array)
-            );
-        },
-        (e) => console.log(e),
-        null);
+    // Set Brew as Favorite
+    const setFavorite = (value, id) => {
+        db.transaction(
+            (tx) => {
+                tx.executeSql("UPDATE brews SET favorite = ? WHERE id = ?;", [value?1:0, id])
+            }, 
+            (e) => console.log(e), 
+            null
+        );
     }
 
+    // Update brews for given beans_id when component is mounted
     useFocusEffect(
         useCallback(()=> {
             let mounted = true;
@@ -64,9 +63,7 @@ const BrewList = ({beans, navigation}) => {
                 renderItem={(item) => 
                     <Brew 
                         brew={item.item} 
-                        setFavorite={(value) => db.transaction((tx) => {
-                            tx.executeSql("UPDATE brews SET favorite = ? WHERE id = ?;", [value?1:0, item.item.id])
-                        }, (e) => console.log(e), null)}
+                        setFavorite={(value) => setFavorite(value, item.item.id)}
                         navigation={navigation}/>}
                 keyExtractor={item => item.id.toString()}
             />

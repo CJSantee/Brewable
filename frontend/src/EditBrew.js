@@ -5,13 +5,14 @@ import {
     View,
     Text
 } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronRight, faStopwatch } from '@fortawesome/free-solid-svg-icons';
-import { SegmentedControl } from 'react-native-ios-kit';
 import { useTheme } from '@react-navigation/native';
 import * as SQLite from 'expo-sqlite';
 import { useSelector } from 'react-redux';
 
+// Component Imports
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { SegmentedControl } from 'react-native-ios-kit';
 import Header from './components/Header';
 import TableView from './components/TableView';
 import RowItem from './components/RowItem';
@@ -19,6 +20,7 @@ import TextFieldRow from './components/TextFieldRow';
 import SliderRow from './components/SliderRow';
 import DatePickerRow from './components/DatePickerRow';
 
+// Open SQLite Database
 function openDatabase() {
     const db = SQLite.openDatabase("CoffeeLab.db");
     return db;
@@ -26,6 +28,7 @@ function openDatabase() {
 
 const db = openDatabase();
 
+// Map individual flavor value
 function mapFlavor(value) {
     if (value <= 10)
         return 0;
@@ -46,12 +49,13 @@ function mapFlavors(brew) {
 }
 
 const EditBrew = ({ route, navigation }) => {
-    const [brew, setBrew] = useState(route.params.brew);
-    const {colors} = useTheme();
-    const user_preferences = useSelector(state => state.user_preferences);
+    const [brew, setBrew] = useState(route.params.brew); // Brew data from parent
+    const {colors} = useTheme(); // Color theme
+    const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
 
+    // Update brew in database
     const updateBrew = () => {
-        let newBrew = {...brew};
+        let newBrew = {...brew}; // Necessary because 'brew' is read-only
 
         if (brew === null) {
             console.log("error");
@@ -76,13 +80,13 @@ const EditBrew = ({ route, navigation }) => {
     }
 
     useEffect(() => {
-        if (route.params?.method) {
-            setBrew({...brew, brew_method: route.params.method});
+        if (route.params?.brew_method) { // If parent provides brew_method, update brew.brew_method
+            setBrew({...brew, brew_method: route.params.brew_method});
         }
-        if (route.params?.beans_id) {
+        if (route.params?.beans_id) { // If parent provides beans information, update brew
             setBrew({...brew, roaster: route.params.roaster, region: route.params.region, beans_id: route.params.beans_id});
         }
-    }, [route.params?.method, route.params?.beans_id]);
+    }, [route.params?.brew_method, route.params?.beans_id]);
 
     return (
         <View style={{width: "100%", height: "100%"}}>

@@ -5,12 +5,14 @@ import {
     FlatList
 } from 'react-native';
 import * as SQLite from 'expo-sqlite';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
+// Component Imports
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Header from './components/Header';
 import RowItem from './components/RowItem';
 
+// Open SQLite Database
 function openDatabase() {
     const db = SQLite.openDatabase("CoffeeLab.db");
     return db;
@@ -19,24 +21,24 @@ function openDatabase() {
 const db = openDatabase();
 
 const SelectBeans = ({ route, navigation }) => {
-    const [beans, setBeans] = useState([]);
-    const { beans_id, parent } = route.params;
-    const { colors } = useTheme();
+    const [beans, setBeans] = useState([]); // List of beans
+    const { beans_id, parent } = route.params; // Beans_id and parent page
+    const { colors } = useTheme(); // Color theme
 
-    const readBeans = () => {
-        db.transaction((tx) => {
-            tx.executeSql("SELECT * FROM beans;",
-            [],
-            (_, { rows: { _array } }) =>
-                setBeans(_array)
-            );
-        });
-    }
-
+    // Retrieve list of beans when component is mounted
     useFocusEffect(
         useCallback(()=> {
-            readBeans();
-            return () => {};
+            let mounted = true;
+            db.transaction(
+                (tx) => {
+                    tx.executeSql("SELECT * FROM beans;",
+                    [],
+                    (_, { rows: { _array } }) => {
+                        if (mounted) setBeans(_array);
+                    }
+                );
+            });
+            return () => mounted = false;
         }, [])
     );
 

@@ -5,13 +5,14 @@ import {
     View,
     Text
 } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronRight, faStopwatch } from '@fortawesome/free-solid-svg-icons';
-import { SegmentedControl } from 'react-native-ios-kit';
 import { useTheme } from '@react-navigation/native';
 import * as SQLite from 'expo-sqlite';
 import { useSelector } from 'react-redux'
 
+// Component Imports 
+import { SegmentedControl } from 'react-native-ios-kit';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Header from './components/Header';
 import TableView from './components/TableView';
 import RowItem from './components/RowItem';
@@ -19,6 +20,7 @@ import TextFieldRow from './components/TextFieldRow';
 import SliderRow from './components/SliderRow';
 import DatePickerRow from './components/DatePickerRow';
 
+// Open SQLite Database
 function openDatabase() {
     const db = SQLite.openDatabase("CoffeeLab.db");
     return db;
@@ -26,6 +28,7 @@ function openDatabase() {
 
 const db = openDatabase();
 
+// Map individual flavor
 function mapFlavor(value) {
     if (value <= 10)
         return 0;
@@ -46,6 +49,7 @@ function mapFlavors(brew) {
     return brew;
 }
 
+// Add brew to database
 const addBrew = (brew, time) => {
     if (brew === null) {
         console.log("error");
@@ -67,13 +71,14 @@ const addBrew = (brew, time) => {
 }
 
 const NewBrew = ({ route, navigation }) => {
-    const [brew, setBrew] = useState({beans: "", brew_method: "", grind_setting: "", coffee: 0, coffee_unit: "g", water: 0, water_unit: "g", temperature: 0, temp_unit: "f", flavor: 0, acidity: 0, aroma: 0, body: 0, sweetness: 0, aftertaste: 0, notes: "", date: new Date(), beans_id: 0});
-    const {colors} = useTheme();
-    const [timer, setTimer] = useState(0);
-    const [isActive, setIsActive] = useState(false);
-    const countRef = useRef(null);
-    const user_preferences = useSelector(state => state.user_preferences);
+    const [brew, setBrew] = useState({beans: "", brew_method: "", grind_setting: "", coffee: 0, coffee_unit: "g", water: 0, water_unit: "g", temperature: 0, temp_unit: "f", flavor: 0, acidity: 0, aroma: 0, body: 0, sweetness: 0, aftertaste: 0, notes: "", date: new Date(), beans_id: 0}); // Brew state
+    const {colors} = useTheme(); // Color theme
+    const [timer, setTimer] = useState(0); // Current timer value in seconds
+    const [isActive, setIsActive] = useState(false); // Timer isActive?
+    const countRef = useRef(null); // Counter
+    const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
 
+    // Start / Stop Timer
     const toggleTimer = () => {
         if (!isActive) {
             setIsActive(true);
@@ -86,19 +91,20 @@ const NewBrew = ({ route, navigation }) => {
         }
     }
 
+    // Map values to minutes and seconds
     const getSeconds = `0${(timer % 60)}`.slice(-2);
     const minutes = `${Math.floor(timer / 60)}`;
     const getMinutes = `0${minutes % 60}`.slice(-2);   
-
+    // Return formatted time
     const formatTime = () => {
         return `${getMinutes}:${getSeconds}`;
     }
 
     useEffect(() => {
-        if (route.params?.brew_method) {
+        if (route.params?.brew_method) { // If parent provides brew_method, update brew.brew_method
             setBrew({...brew, brew_method: route.params.brew_method});
         }
-        if (route.params?.beans_id) {
+        if (route.params?.beans_id) { // If parent provides beans info update beans
             setBrew({...brew, roaster: route.params.roaster, region: route.params.region, beans_id: route.params.beans_id});
         }
     }, [route.params?.brew_method, route.params?.beans_id]);

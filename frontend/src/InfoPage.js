@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     View,
     Text,
@@ -6,15 +6,12 @@ import {
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+// Component Imports
 import Header from './components/Header';
 
-import Constants from "expo-constants";
-
 const InfoPage = ({ route, navigation }) => {
-    const { topic } = route.params;
-    const { colors } = useTheme();
+    const { topic } = route.params; // Topic to display info on 
+    const { colors } = useTheme(); // Color theme
 
     return (
         <View style={styles.container}>

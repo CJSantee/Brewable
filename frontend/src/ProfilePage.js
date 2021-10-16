@@ -4,24 +4,23 @@ import {
     StyleSheet,
     ScrollView
 } from 'react-native';
-import { SegmentedControl } from 'react-native-ios-kit';
-import { Stepper } from 'react-native-ios-kit';
 import { useTheme } from '@react-navigation/native';
-
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
-
 import { useSelector, useDispatch } from 'react-redux'
 import { updateWaterUnit, updateCoffeeUnit, updateTempUnit, updateRatio } from './redux/PreferenceActions';
 
+// Component Imports
+import { SegmentedControl } from 'react-native-ios-kit';
+import { Stepper } from 'react-native-ios-kit';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Header from './components/Header';
 import TableView from './components/TableView';
 import RowItem from './components/RowItem';
 
 const ProfilePage = ({ navigation }) => {
-    const {colors} = useTheme();
-    const dispatch = useDispatch();
-    const user_preferences = useSelector(state => state.user_preferences);
+    const {colors} = useTheme(); // Color theme
+    const dispatch = useDispatch(); // Redux dispatch
+    const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
 
     return (
         <View style={{width: "100%", height: "100%"}}>

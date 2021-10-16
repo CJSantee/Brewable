@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import {
     View,
     Text,
@@ -14,15 +14,17 @@ import CoffeeBean from '../assets/coffeeBean.svg';
 import TastingWheel from './components/TastingWheel';
 
 const Brew = ({ brew, setFavorite, navigation }) => {
-    const {colors} = useTheme();
-    const options = { weekdate: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const {colors} = useTheme(); // Color theme
 
+    // Generate date format: 'Month D, YYYY'
+    const options = { weekdate: 'long', year: 'numeric', month: 'long', day: 'numeric' }; // Options for date string
     var brew_date = new Date(brew.date);
     let date_string = brew_date.toLocaleDateString('en-US', options);
     
+    // Add Favorite
     function toggleFavorite(e) {
-        e.stopPropagation();
-        setFavorite(!brew.favorite);
+        e.stopPropagation(); // Prevent card from being clicked
+        setFavorite(!brew.favorite); // API call pass by parent
     }
 
     return (
@@ -55,9 +57,6 @@ const Brew = ({ brew, setFavorite, navigation }) => {
                     <FontAwesomeIcon icon={brew.favorite?faHeartSolid:faHeart} size={22} color={brew.favorite?"#a00": colors.placeholder}/>
                 </View>
             </TouchableWithoutFeedback>
-            {/* <View style={styles.notes}>
-                <Text>{brew.notes}</Text>
-            </View> */}
             <TastingWheel style={styles.wheel} displayText={false} width="125" height="125" values={[brew.body*20, brew.aftertaste*20, brew.sweetness*20, brew.aroma*20, brew.flavor*20, brew.acidity*20]}/>
             <Text style={styles.date}>{date_string}</Text>
         </View>

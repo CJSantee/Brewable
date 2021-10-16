@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
-    ScrollView,
-    View,
+   View,
 } from 'react-native';
-import { SegmentedControl } from 'react-native-ios-kit';
 import * as SQLite from 'expo-sqlite';
-import { useTheme } from '@react-navigation/native';
 
+// Component Imports
 import TableView from './components/TableView';
 import TextFieldRow from './components/TextFieldRow';
-import DatePickerRow from './components/DatePickerRow';
 import Header from './components/Header';
 
+// Open SQLite database
 function openDatabase() {
     const db = SQLite.openDatabase("CoffeeLab.db");
     return db;
@@ -20,9 +18,9 @@ function openDatabase() {
 const db = openDatabase();
 
 const NewBrewMethod = ({ navigation }) => {
-    const [method, setMethod] = useState("");
-    const {colors} = useTheme();
+    const [method, setMethod] = useState(""); // New method state
 
+    // Add method to database
     const addMethod = () => {
         if (method === "") {
             console.log("Missing Value");
@@ -35,7 +33,8 @@ const NewBrewMethod = ({ navigation }) => {
                     INSERT INTO brew_methods
                     (method)
                     VALUES (?);`,
-                    [method]);
+                    [method]
+                );
             },
             (e) => {console.log(e)},
             () => navigation.goBack()

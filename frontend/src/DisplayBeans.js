@@ -11,6 +11,7 @@ import { useTheme, useFocusEffect } from '@react-navigation/native';
 import Header from './components/Header';
 import Brew from './Brew';
 
+// Open SQLite Database
 function openDatabase() {
     const db = SQLite.openDatabase("CoffeeLab.db");
     return db;
@@ -19,37 +20,13 @@ function openDatabase() {
 const db = openDatabase();
 
 const DisplayBeans = ({ route, navigation }) => {
-    const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g"});
-    const [brews, setBrews] = useState([]);
-    const { beans_id } = route.params;
-    const {colors} = useTheme();
-
-    function readBeans() {
-        db.transaction((tx) => {
-            tx.executeSql(
-                `SELECT * 
-                 FROM beans 
-                 WHERE id = ?;`,
-                [beans_id],
-                (_, { rows: { _array } }) =>
-                setBeans(_array[0])
-            );
-        },
-        (e) => console.log(e),
-        null);
-    }
+    const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g"}); // Beans state
+    const [brews, setBrews] = useState([]); // Array of brews for given beans
+    const { beans_id } = route.params; // Beans_id for which beans to display
+    const {colors} = useTheme(); // Color theme
 
     function readBrews() {
-        db.transaction((tx) => {
-            tx.executeSql(
-                "SELECT * FROM brews WHERE beans_id = ?;",
-                [beans_id],
-                (_, { rows: { _array } }) =>
-                setBrews(_array)
-            );
-        },
-        (e) => console.log(e),
-        null);
+        
     }
 
     const options = { weekdate: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -59,12 +36,33 @@ const DisplayBeans = ({ route, navigation }) => {
         return date.toLocaleDateString('en-US', options);
     }
 
+    // Retrieve beans and associated brews from database on mounted
     useFocusEffect(
         useCallback(()=> {
-            readBeans();
-            readBrews();
-            return () => {};
-        }, [])
+            let mounted = true;
+            db.transaction(
+                (tx) => {
+                    tx.executeSql(
+                        `SELECT * 
+                        FROM beans 
+                        WHERE id = ?;`,
+                        [beans_id],
+                        (_, { rows: { _array } }) => {
+                            if (mounted) setBeans(_array[0]);
+                        }
+                    );
+                    tx.executeSql(
+                        "SELECT * FROM brews WHERE beans_id = ?;",
+                        [beans_id],
+                        (_, { rows: { _array } }) => {
+                            if (mounted) setBrews(_array);
+                        }
+                    );
+                },
+                (e) => console.log(e), null
+            );
+            return () => mounted= false;
+        }, [beans, brews])
     );
 
     return (

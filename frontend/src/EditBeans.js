@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     ScrollView,
     View,
@@ -8,11 +8,13 @@ import * as SQLite from 'expo-sqlite';
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 
+// Component Imports 
 import TableView from './components/TableView';
 import TextFieldRow from './components/TextFieldRow';
 import DatePickerRow from './components/DatePickerRow';
 import Header from './components/Header';
 
+// Open SQLite Databse
 function openDatabase() {
     const db = SQLite.openDatabase("CoffeeLab.db");
     return db;
@@ -21,10 +23,11 @@ function openDatabase() {
 const db = openDatabase();
 
 const EditBeans = ({ route, navigation }) => {
-    const [beans, setBeans] = useState(route.params.beans);
-    const {colors} = useTheme();
-    const user_preferences = useSelector(state => state.user_preferences);
+    const [beans, setBeans] = useState(route.params.beans); // Retrieve beans data from parent
+    const {colors} = useTheme(); // Color theme
+    const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
 
+    // Update Beans Database call
     const updateBeans = () => {
         if (beans === null ||  beans.region === "") {
             console.log("Missing Name");
@@ -40,7 +43,7 @@ const EditBeans = ({ route, navigation }) => {
                     [beans.region, beans.roaster, beans.origin, beans.roast_level, new Date(beans.roast_date).toJSON(), beans.price, beans.weight, beans.weight_unit, beans.flavor_notes, beans.id]);
             },
             (e) => {console.log(e)},
-            () => navigation.goBack()
+            () => navigation.goBack() // Go back on success
         );
     }
 
