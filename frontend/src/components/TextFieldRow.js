@@ -12,7 +12,6 @@ import {
 let {height, width} = Dimensions.get('window');
 
 const TextFieldRow = ({title, text, onChange, keyboardType, children, style}) => {
-    const [editableText, setEditableText] = useState("");
     const {colors} = useTheme();
     
     const ref_textBox = useRef();
@@ -39,6 +38,7 @@ const TextFieldRow = ({title, text, onChange, keyboardType, children, style}) =>
                         onChangeText={onChange}
                         keyboardType={keyboardType}
                         ref={ref_textBox}
+                        multiline
                     />
                 </View>
                 <View style={styles.rightComponent}>

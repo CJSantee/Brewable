@@ -18,6 +18,7 @@ import TextFieldRow from './components/TextFieldRow';
 import DatePickerRow from './components/DatePickerRow';
 import RowItem from './components/RowItem';
 import Header from './components/Header';
+import SliderRow from './components/SliderRow';
 
 // Open SQLite Database
 function openDatabase() {
@@ -27,8 +28,17 @@ function openDatabase() {
 
 const db = openDatabase();
 
+function mapRating(value) {
+    if (value <= 10)
+        return 0;
+    else if (value >= 90)
+        return 5;
+    else 
+        return Math.floor((value-10)/20)+1;
+}
+
 const NewBeans = ({ route, navigation }) => {
-    const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g", flavor_notes: ""}); // Beans state
+    const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g", flavor_notes: "", rating: 0}); // Beans state
     const {colors} = useTheme(); // Color theme
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
 
@@ -43,9 +53,9 @@ const NewBeans = ({ route, navigation }) => {
             (tx) => {
                 tx.executeSql(`
                     INSERT INTO beans
-                    (region, roaster, origin, roast_level, roast_date, price, weight, weight_unit, flavor_notes)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-                    [beans.region, beans.roaster, beans.origin, beans.roast_level, beans.roast_date.toJSON(), beans.price, beans.weight, beans.weight_unit, beans.flavor_notes]);
+                    (region, roaster, origin, roast_level, roast_date, price, weight, weight_unit, flavor_notes, rating)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+                    [beans.region, beans.roaster, beans.origin, beans.roast_level, beans.roast_date.toJSON(), beans.price, beans.weight, beans.weight_unit, beans.flavor_notes, mapRating(beans.rating)]);
             },
             (e) => {console.log(e)},
             () => navigation.goBack()
@@ -131,7 +141,14 @@ const NewBeans = ({ route, navigation }) => {
                         ) : <View/>}
                     </View>
                 </TableView>
-                
+                <TableView header="Review">
+                    <SliderRow 
+                        title="Rating"
+                        value={beans.rating}
+                        onValueChange={value => setBeans({...beans, rating: value})}
+                        onPress={() => navigation.navigate("InfoPage",{topic: "Rating"})}
+                    />
+                </TableView>
             </ScrollView>
         </View>   
         

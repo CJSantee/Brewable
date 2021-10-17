@@ -41,11 +41,12 @@ function mapFlavor(value) {
 // Maps the values of the flavor wheel from 0-100 to 0-5
 function mapFlavors(brew) {
     brew.flavor = mapFlavor(brew.flavor);
-    brew.acidity = mapFlavor(brew.acidity);``
+    brew.acidity = mapFlavor(brew.acidity);
     brew.aroma = mapFlavor(brew.aroma);
     brew.body = mapFlavor(brew.body);
     brew.sweetness = mapFlavor(brew.sweetness);
     brew.aftertaste = mapFlavor(brew.aftertaste);
+    brew.rating = mapFlavor(brew.rating);
     return brew;
 }
 
@@ -61,9 +62,9 @@ const addBrew = (brew, time) => {
         (tx) => {
             tx.executeSql(`
                 INSERT INTO brews
-                (grind_setting, water, water_unit, coffee, coffee_unit, temperature, temp_unit, brew_method, time, date, notes, flavor, acidity, aroma, body, sweetness, aftertaste, beans_id, favorite)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-                [brew.grind_setting, brew.water, brew.water_unit, brew.coffee, brew.coffee_unit, brew.temperature, brew.temp_unit, brew.brew_method, time, brew.date.toJSON(), brew.notes, brew.flavor, brew.acidity, brew.aroma, brew.body, brew.sweetness, brew.aftertaste, brew.beans_id,0]);
+                (grind_setting, water, water_unit, coffee, coffee_unit, temperature, temp_unit, brew_method, time, date, notes, flavor, acidity, aroma, body, sweetness, aftertaste, beans_id, favorite, rating)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+                [brew.grind_setting, brew.water, brew.water_unit, brew.coffee, brew.coffee_unit, brew.temperature, brew.temp_unit, brew.brew_method, time, brew.date.toJSON(), brew.notes, brew.flavor, brew.acidity, brew.aroma, brew.body, brew.sweetness, brew.aftertaste, brew.beans_id,0, brew.rating]);
         },
         (e) => {console.log(e)},
         null
@@ -71,7 +72,7 @@ const addBrew = (brew, time) => {
 }
 
 const NewBrew = ({ route, navigation }) => {
-    const [brew, setBrew] = useState({beans: "", brew_method: "", grind_setting: "", coffee: 0, coffee_unit: "g", water: 0, water_unit: "g", temperature: 0, temp_unit: "f", flavor: 0, acidity: 0, aroma: 0, body: 0, sweetness: 0, aftertaste: 0, notes: "", date: new Date(), beans_id: 0}); // Brew state
+    const [brew, setBrew] = useState({beans: "", brew_method: "", grind_setting: "", coffee: 0, coffee_unit: "g", water: 0, water_unit: "g", temperature: 0, temp_unit: "f", flavor: 0, acidity: 0, aroma: 0, body: 0, sweetness: 0, aftertaste: 0, notes: "", date: new Date(), beans_id: 0, rating: 0}); // Brew state
     const {colors} = useTheme(); // Color theme
     const [timer, setTimer] = useState(0); // Current timer value in seconds
     const [isActive, setIsActive] = useState(false); // Timer isActive?
@@ -224,8 +225,16 @@ const NewBrew = ({ route, navigation }) => {
                         onPress={() => navigation.navigate("InfoPage",{topic: "Aftertaste"})}
                     />
                 </TableView>
+                <TableView header="Review">
+                    <SliderRow 
+                        title="Rating"
+                        value={brew.rating}
+                        onValueChange={value => setBrew({...brew, rating: value})}
+                        onPress={() => navigation.navigate("InfoPage",{topic: "Rating"})}
+                    />
+                </TableView>
                 <TableView header="More Info">
-                    <TextFieldRow title="Notes" text={brew.notes} onChange={(value) => setBrew({...brew, notes: value})} style={{minHeight: 129, alignItems: 'baseline'}}/>
+                    <TextFieldRow title="Notes" text={brew.notes} onChange={(value) => setBrew({...brew, notes: value})} style={{minHeight: 129, alignItems: 'baseline', flexWrap: 'wrap'}}/>
                 </TableView>
                 <TableView header="Date">  
                     <DatePickerRow value={brew.date} onChange={(value) => setBrew({...brew, date: value})}/>

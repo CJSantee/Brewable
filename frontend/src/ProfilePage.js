@@ -24,9 +24,9 @@ const ProfilePage = ({ navigation }) => {
 
     return (
         <View style={{width: "100%", height: "100%"}}>
-            <Header title="Profile" leftText="Back" leftChevron={true} leftOnPress={() => navigation.goBack()}/>
+            <Header title="Settings" leftText="Back" leftChevron={true} leftOnPress={() => navigation.goBack()}/>
             <ScrollView style={styles.container}>
-                <TableView header="Unit Defaults">
+                <TableView header="Unit Preferences">
                     <RowItem title="Coffee" text="">
                         <SegmentedControl
                             values={['g', 'oz']}

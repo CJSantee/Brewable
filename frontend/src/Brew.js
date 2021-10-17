@@ -55,6 +55,7 @@ const Brew = ({ brew, setFavorite, navigation }) => {
             <TouchableWithoutFeedback onPress={toggleFavorite}>
                 <View style={styles.favorite}>
                     <FontAwesomeIcon icon={brew.favorite?faHeartSolid:faHeart} size={22} color={brew.favorite?"#a00": colors.placeholder}/>
+                    <Text style={{marginLeft: 5, fontWeight: 'bold', fontSize: 16}}>{brew.rating}/5</Text>
                 </View>
             </TouchableWithoutFeedback>
             <TastingWheel style={styles.wheel} displayText={false} width="125" height="125" values={[brew.body*20, brew.aftertaste*20, brew.sweetness*20, brew.aroma*20, brew.flavor*20, brew.acidity*20]}/>
@@ -119,6 +120,8 @@ const styles = StyleSheet.create({
     },
     favorite: {
         position: 'absolute',
+        flexDirection: 'row',
+        alignItems: 'center',
         bottom: 8,
         left: 10,
         zIndex: 1,

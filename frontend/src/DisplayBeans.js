@@ -26,6 +26,7 @@ const DisplayBeans = ({ route, navigation }) => {
     const { beans_id } = route.params; // Beans_id for which beans to display
     const {colors} = useTheme(); // Color theme
 
+    // Format roast_date
     const options = { weekdate: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     function roastDate() {
         if (beans.roast_date === "") return "";
@@ -33,9 +34,12 @@ const DisplayBeans = ({ route, navigation }) => {
         return date.toLocaleDateString('en-US', options);
     }
 
+    // Split flavor_notes into array
     useEffect(() => {
         if (beans.flavor_notes !== undefined)
             setFlavorNotes(beans.flavor_notes.split(','));
+        if (beans.flavor_notes === "")
+            setFlavorNotes([]);
     }, [beans]);
 
     // Retrieve beans and associated brews from database on mounted

@@ -50,14 +50,13 @@ const DisplayBrew = ({ route, navigation }) => {
             db.transaction(
                 (tx) => {
                     tx.executeSql(
-                        `SELECT * 
+                        `SELECT brews.*, beans.roaster, beans.region 
                         FROM brews 
                         LEFT JOIN beans ON brews.beans_id = beans.id
                         WHERE brews.id = ?;`,
                         [brew_id],
                         (_, { rows: { _array } }) => {
                             if (mounted) setBrew(_array[0]);
-                            console.log(_array);
                         }
                     );
                 },
