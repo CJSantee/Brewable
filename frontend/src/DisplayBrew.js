@@ -34,19 +34,7 @@ const DisplayBrew = ({ route, navigation }) => {
 
     // Read brew info from database
     const readBrew = () => {
-        db.transaction((tx) => {
-            tx.executeSql(
-                `SELECT * 
-                 FROM brews 
-                 LEFT JOIN beans ON brews.beans_id = brews.id
-                 WHERE brews.id = ?;`,
-                [brew_id],
-                (_, { rows: { _array } }) =>
-                setBrew(_array[0])
-            );
-        },
-        (e) => console.log(e),
-        null);
+        
     }
 
     const options = { weekdate: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -58,8 +46,24 @@ const DisplayBrew = ({ route, navigation }) => {
 
     useFocusEffect(
         useCallback(()=> {
-            readBrew();
-            return () => {};
+            let mounted = true;
+            db.transaction(
+                (tx) => {
+                    tx.executeSql(
+                        `SELECT * 
+                        FROM brews 
+                        LEFT JOIN beans ON brews.beans_id = beans.id
+                        WHERE brews.id = ?;`,
+                        [brew_id],
+                        (_, { rows: { _array } }) => {
+                            if (mounted) setBrew(_array[0]);
+                            console.log(_array);
+                        }
+                    );
+                },
+                (e) => console.log(e), null
+            );
+            return () => mounted = false;
         }, [])
     );
 

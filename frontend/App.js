@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { createTables, populateBeans, populateBrewMethods, populateBrews, populateFlavors } from './ DatabaseUtils';
+import { createTables, populateBeans, populateBrewMethods, populateBrews, populateFlavors, populateRandomBrews } from './ DatabaseUtils';
 import { LightTheme, DarkTheme } from './Themes';
 
 import { Provider } from 'react-redux';
@@ -43,7 +43,7 @@ export default function App() {
   useEffect(() => {
     createTables(db);
     populateBeans(db);
-    populateBrews(db);
+    populateRandomBrews(db);
     populateBrewMethods(db);
     populateFlavors(db);
   }, []);

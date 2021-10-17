@@ -102,6 +102,53 @@ const populateBrews = (db) => {
   null);
 }
 
+function randomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function randomTime() {
+  const min = randomInt(0,5);
+  const sec = randomInt(0,59);
+  const minText = '0'+min;
+  const secText = (sec < 10) ? ('0'+sec) : ''+sec;
+  return minText+":"+secText;
+}
+function randomDate() {
+  const start = new Date(2012, 0, 1);
+  const end = new Date();
+  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).toJSON();
+}
+function randomText() {
+  const loremIpsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ut dapibus ante. Aliquam ac laoreet ex. Etiam luctus neque ante, ut pellentesque justo posuere eu. Pellentesque pharetra odio et arcu hendrerit, blandit efficitur mi scelerisque. Proin tincidunt ultricies turpis, ullamcorper tempor tortor pharetra ac. Aliquam dapibus velit vel convallis cursus. Ut non vestibulum diam, eu molestie magna. Donec interdum velit id lectus vehicula, quis viverra dolor semper. Aliquam erat volutpat. Aenean feugiat orci efficitur, aliquet sapien a, iaculis ex. Vestibulum ullamcorper augue non ante ornare finibus. Quisque accumsan, metus non aliquet consectetur, tortor turpis laoreet nulla, non porttitor metus augue eu eros. Etiam porta magna vitae nulla rhoncus eleifend. Proin auctor nisi sit amet fringilla condimentum.';
+  return loremIpsum.substring(0, randomInt(1, loremIpsum.length));
+}
+function randomBrewMethod() {
+  let brewMethods = [];
+  for (let method of brewMethodData) {
+    brewMethods.push(method.method);
+  }
+  return brewMethods[randomInt(0,brewMethods.length-1)];
+}
+
+const populateRandomBrews = (db) => {
+  const numBrews = 25;
+
+  db.transaction((tx) => {
+    for (let i = 0; i < numBrews; i++) {
+      tx.executeSql(
+        `INSERT INTO brews
+        (acidity, aftertaste, aroma, beans_id, body, brew_method, coffee, coffee_unit, time, date, flavor, grind_setting, notes, sweetness, temp_unit, temperature, water, water_unit, favorite)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);`,
+        [randomInt(0,5), randomInt(0,5), randomInt(0,5), randomInt(1,beansData.length), randomInt(0,5), randomBrewMethod(), randomInt(15,30), 'g',              randomTime(), randomDate(), randomInt(0,5), randomInt(1,10),    randomText(), randomInt(0,5), 'f',            randomInt(200, 212), randomInt(250,500), 'g',             randomInt(0,1)]
+      //[brew.acidity,   brew.aftertaste,brew.aroma,     brew.beans_id,                 brew.body,      brew.brew_method,   brew.coffee,      brew.coffee_unit, brew.time,    brew.date,    brew.flavor,    brew.grind_setting, brew.notes,   brew.sweetness, brew.temp_unit, brew.temperature,    brew.water,         brew.water_unit, brew.favorite]
+      );
+    }
+  },
+  (e) => console.log(e),
+  null);
+}
+
 const populateBrewMethods = (db) => {
   db.transaction((tx) => {
     for (let method of brewMethodData) {
@@ -130,4 +177,4 @@ const populateFlavors = (db) => {
   null);
 }
 
-export { createTables, populateBeans, populateBrews, populateBrewMethods, populateFlavors };
+export { createTables, populateBeans, populateBrews, populateRandomBrews, populateBrewMethods, populateFlavors };
