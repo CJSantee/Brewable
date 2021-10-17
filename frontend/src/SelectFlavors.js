@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
     View,
     StyleSheet,
@@ -12,6 +12,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import RowItem from './components/RowItem';
 import Header from './components/Header';
+import SearchBar from './components/SearchBar';
 
 // Open SQLite Database
 function openDatabase() {
@@ -28,6 +29,36 @@ const SelectFlavors = ({ route, navigation }) => {
     const [editing, setEditing]= useState(false); // Selecting methods to delete
     const [selected, setSelected] = useState(new Set()); // Set of currently selected brew_methods
     const [picked, setPicked] = useState(new Set()); // Set of the flavors picked for beans
+
+    // Search state variables
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
+    const [sortBy, setSortBy] = useState("flavor"); // other ideas: add flavor popularity to database and sort by that
+
+    // Filter search queries by flavor name
+    function searchFilter(item, query) {
+        query = query.toLowerCase();
+        if (item.flavor.toLowerCase().includes(query)) {
+            return true;
+        }
+        return false;
+    }
+
+    // Update search query state and filter results
+    function handleSearch(newSearchQuery) {
+        setSearchQuery(newSearchQuery);
+        setSearchResults(flavors.filter(item => searchFilter(item, newSearchQuery) ));
+    }
+
+    // Compare function for sorting flavors
+    const compare = useCallback(
+        (a, b) => {
+            if (sortBy === "flavor")
+                return a.flavor.localeCompare(b.flavor);
+            return a - b;
+        },
+        [sortBy]
+    );
 
     // Toggle editing and clear selected
     function toggleEditing() {
@@ -88,12 +119,6 @@ const SelectFlavors = ({ route, navigation }) => {
             } 
         );
     }
-    
-    useEffect(() => {
-        if (route.params?.flavor_notes) { // If parent provides flavor_notes, update beans.flavor_notes
-            setPicked(new Set(route.params?.flavor_notes.split(',')));
-        }
-    },[])
 
     // Retrieve the array of brew methods from database when component is mounted
     useEffect(() => {
@@ -104,7 +129,7 @@ const SelectFlavors = ({ route, navigation }) => {
                 [],
                 (_, { rows: { _array } }) => {
                 if (mounted) {
-                    setFlavors(_array);
+                    setFlavors(_array.sort(compare));
                 }
             });
         },
@@ -112,6 +137,13 @@ const SelectFlavors = ({ route, navigation }) => {
         null);
         return () => mounted = false;
     },[flavors]);
+
+    // Second useEffect without dependencies so only run once on render
+    useEffect(() => {
+        if (route.params?.flavor_notes) { // If parent provides flavor_notes, update beans.flavor_notes
+            setPicked(new Set(route.params?.flavor_notes.split(',')));
+        }
+    },[])
 
     return (
         <View style={{height: "100%", width: "100%"}}>  
@@ -124,8 +156,9 @@ const SelectFlavors = ({ route, navigation }) => {
                 rightOnPress={toggleEditing}
                 plus={true} plusOnPress={() => navigation.navigate("NewFlavor")}
             />
+            <SearchBar searchQuery={searchQuery} setSearchQuery={handleSearch}/> 
             <FlatList 
-                data={flavors}
+                data={searchQuery===""?flavors:searchResults}
                 renderItem={(item) => 
                     <RowItem 
                         title={item.item.flavor} text=""

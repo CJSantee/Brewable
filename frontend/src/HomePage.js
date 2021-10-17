@@ -90,7 +90,7 @@ const HomePage = ({ navigation }) => {
                 tx.executeSql("SELECT * FROM beans;",
                 [],
                 (_, { rows: { _array } }) => {
-                    if (mounted) setBeans(_array.sort(compare))
+                    if (mounted) setBeans(_array.sort(compare));
                 });
             });
             return () => mounted = false;
