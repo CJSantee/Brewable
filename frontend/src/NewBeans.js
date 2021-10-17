@@ -4,14 +4,17 @@ import {
     View,
 } from 'react-native';
 import * as SQLite from 'expo-sqlite';
-import { useTheme } from '@react-navigation/native';
+import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 // Component Imports
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { SegmentedControl } from 'react-native-ios-kit';
 import TableView from './components/TableView';
 import TextFieldRow from './components/TextFieldRow';
 import DatePickerRow from './components/DatePickerRow';
+import RowItem from './components/RowItem';
 import Header from './components/Header';
 
 // Open SQLite Database
@@ -22,8 +25,8 @@ function openDatabase() {
 
 const db = openDatabase();
 
-const NewBeans = ({ navigation }) => {
-    const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g"}); // Beans state
+const NewBeans = ({ route, navigation }) => {
+    const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g", flavor_notes: ""}); // Beans state
     const {colors} = useTheme(); // Color theme
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
 
@@ -46,6 +49,12 @@ const NewBeans = ({ navigation }) => {
             () => navigation.goBack()
         );
     }
+
+    useEffect(() => {
+        if (route.params?.flavor_notes) { // If parent provides flavor_notes, update beans.flavor_notes
+            setBeans({ ...beans, flavor_notes: route.params.flavor_notes});
+        }
+    }, [route.params?.flavor_notes]);
 
     return (
         <View style={{width: "100%", height: "100%"}}>
@@ -77,6 +86,13 @@ const NewBeans = ({ navigation }) => {
                         text={beans.roast_level}
                         onChange={(value) => setBeans({...beans, roast_level: value})}    
                     />
+                    <RowItem
+                        title="Flavor Notes"
+                        text=""
+                        onPress={() => navigation.navigate("SelectFlavors", { parent: "NewBeans", flavor_notes: beans.flavor_notes })}
+                    >   
+                        <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
+                    </RowItem>
                 </TableView>
                 <TableView header="Bag">
                     <DatePickerRow title="Roast Date" value={beans.roast_date} onChange={(value) => {setBeans({...beans, roast_date: value});}}/>
@@ -100,6 +116,7 @@ const NewBeans = ({ navigation }) => {
                             theme={{primaryColor: colors.interactive}}
                         />
                     </TextFieldRow>
+                    <RowItem text={beans.flavor_notes} title="Flavors"/>
                 </TableView>
             </ScrollView>
         </View>   

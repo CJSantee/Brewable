@@ -8,6 +8,7 @@ const createTables = (db) => {
         tx.executeSql("DROP TABLE IF EXISTS beans;");
         tx.executeSql("DROP TABLE IF EXISTS brews;");
         tx.executeSql("DROP TABLE IF EXISTS brew_methods;");
+        tx.executeSql("DROP TABLE IF EXISTS flavors;");
 
         tx.executeSql(
           `CREATE TABLE IF NOT EXISTS beans (
@@ -56,6 +57,13 @@ const createTables = (db) => {
             method TEXT UNIQUE
           );`
         );
+
+        tx.executeSql(
+          `CREATE TABLE IF NOT EXISTS flavors (
+            id INTEGER PRIMARY KEY NOT NULL,
+            flavor TEXT UNIQUE
+          );`
+        )  
 
     },
     (e) => {console.log(e)},

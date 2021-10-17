@@ -7,8 +7,11 @@ import { SegmentedControl } from 'react-native-ios-kit';
 import * as SQLite from 'expo-sqlite';
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 // Component Imports 
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import RowItem from './components/RowItem';
 import TableView from './components/TableView';
 import TextFieldRow from './components/TextFieldRow';
 import DatePickerRow from './components/DatePickerRow';
@@ -77,6 +80,13 @@ const EditBeans = ({ route, navigation }) => {
                         text={beans.roast_level}
                         onChange={(value) => setBeans({...beans, roast_level: value})}    
                     />
+                    <RowItem
+                        title="Flavor Notes"
+                        text=""
+                        onPress={() => navigation.navigate("SelectFlavors", { parent: "EditBeans", flavor_notes: beans.flavor_notes })}
+                    >   
+                        <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
+                    </RowItem>
                 </TableView>
                 <TableView header="Bag">
                     <DatePickerRow title="Roast Date" value={beans.roast_date} onChange={(value) => setBeans({...beans, roast_date: value})}/>
