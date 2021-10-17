@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
     View,
     Text,
@@ -22,12 +22,9 @@ const db = openDatabase();
 const DisplayBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g"}); // Beans state
     const [brews, setBrews] = useState([]); // Array of brews for given beans
+    const [flavorNotes, setFlavorNotes] = useState([]);
     const { beans_id } = route.params; // Beans_id for which beans to display
     const {colors} = useTheme(); // Color theme
-
-    function readBrews() {
-        
-    }
 
     const options = { weekdate: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     function roastDate() {
@@ -35,6 +32,11 @@ const DisplayBeans = ({ route, navigation }) => {
         let date = new Date(beans.roast_date);
         return date.toLocaleDateString('en-US', options);
     }
+
+    useEffect(() => {
+        if (beans.flavor_notes !== undefined)
+            setFlavorNotes(beans.flavor_notes.split(','));
+    }, [beans]);
 
     // Retrieve beans and associated brews from database on mounted
     useFocusEffect(
@@ -71,7 +73,7 @@ const DisplayBeans = ({ route, navigation }) => {
                 title="Beans" 
                 leftText="Back" rightText="Edit" 
                 leftOnPress={() => navigation.goBack()} 
-                rightOnPress={() => navigation.navigate("EditBeans", {beans: beans})}/>
+                rightOnPress={() => navigation.navigate("EditBeans", {beans: beans, flavor_notes: beans.flavor_notes})}/>
             <View style={styles.row}>
                 <Text style={styles.title}>{beans.roaster} </Text>
                 <Text style={styles.subtitle}>{beans.region}</Text>
@@ -82,6 +84,13 @@ const DisplayBeans = ({ route, navigation }) => {
             </View>
             <View style={styles.row}>
                 <Text>{beans.origin}</Text>
+            </View>
+            <View style={styles.flavors}>
+                {flavorNotes.map((item) => 
+                    <View key={item } style={styles.flavor}>
+                        <Text style={styles.flavorText}>{item}</Text>
+                    </View>
+                )}
             </View>
             <View style={styles.col}>
                 <Text style={{fontSize: 14, color: colors.placeholder}}>{brews.length === 0?"No Brews":"- Brews -"}</Text>
@@ -124,4 +133,22 @@ const styles = StyleSheet.create({
     subtitle: {
         fontSize: 22,
     },
+    flavors: {
+        flexDirection: 'row',
+        marginVertical: 5,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap'
+    },  
+    flavor: {
+        display: 'flex',
+        marginHorizontal: 10,
+        marginBottom: 15,
+        borderWidth: 1,
+        padding: 10,
+        borderRadius: 15
+    },
+    flavorText: {
+        fontSize: 16
+    }
 });

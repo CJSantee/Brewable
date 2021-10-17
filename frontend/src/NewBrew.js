@@ -191,37 +191,37 @@ const NewBrew = ({ route, navigation }) => {
                         title="Flavor"
                         value={brew.flavor}
                         onValueChange={value => setBrew({...brew, flavor: value})}
-                        onPress={() => navigation.navigate("moreInfo",{topic: "Flavor"})}
+                        onPress={() => navigation.navigate("InfoPage",{topic: "Flavor"})}
                     />
                     <SliderRow 
                         title="Acidity"
                         value={brew.acidity}
                         onValueChange={value => setBrew({...brew, acidity: value})}
-                        onPress={() => navigation.navigate("moreInfo",{topic: "Acidity"})}
+                        onPress={() => navigation.navigate("InfoPage",{topic: "Acidity"})}
                     />
                     <SliderRow 
                         title="Aroma"
                         value={brew.aroma}
                         onValueChange={value => setBrew({...brew, aroma: value})}
-                        onPress={() => navigation.navigate("moreInfo",{topic: "Aroma"})}
+                        onPress={() => navigation.navigate("InfoPage",{topic: "Aroma"})}
                     />
                     <SliderRow 
                         title="Body"
                         value={brew.body}
                         onValueChange={value => setBrew({...brew, body: value})}
-                        onPress={() => navigation.navigate("moreInfo",{topic: "Body"})}
+                        onPress={() => navigation.navigate("InfoPage",{topic: "Body"})}
                     />
                     <SliderRow 
                         title="Sweetness"
                         value={brew.sweetness}
                         onValueChange={value => setBrew({...brew, sweetness: value})}
-                        onPress={() => navigation.navigate("moreInfo",{topic: "Sweetness"})}
+                        onPress={() => navigation.navigate("InfoPage",{topic: "Sweetness"})}
                     />
                     <SliderRow 
                         title="Aftertaste"
                         value={brew.aftertaste}
                         onValueChange={value => setBrew({...brew, aftertaste: value})}
-                        onPress={() => navigation.navigate("moreInfo",{topic: "Aftertaste"})}
+                        onPress={() => navigation.navigate("InfoPage",{topic: "Aftertaste"})}
                     />
                 </TableView>
                 <TableView header="More Info">

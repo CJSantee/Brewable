@@ -1,6 +1,7 @@
 const beansData = require('./assets/Beans.json');
 const brewData = require('./assets/Brews.json');
 const brewMethodData = require('./assets/BrewMethods.json');
+const flavorData = require('./assets/Flavors.json');
 
 // CoffeeLab.db
 const createTables = (db) => {
@@ -115,4 +116,18 @@ const populateBrewMethods = (db) => {
   null);
 }
 
-export { createTables, populateBeans, populateBrews, populateBrewMethods };
+const populateFlavors = (db) => {
+  db.transaction((tx) => {
+    for (let flavor of flavorData) {
+      tx.executeSql(
+        `INSERT INTO flavors
+        (flavor) VALUES (?);`,
+        [flavor.flavor]
+      );
+    }
+  },
+  (e) => console.log(e),
+  null);
+}
+
+export { createTables, populateBeans, populateBrews, populateBrewMethods, populateFlavors };

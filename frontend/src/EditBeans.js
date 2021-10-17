@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     ScrollView,
     View,
+    StyleSheet,
+    Text
 } from 'react-native';
 import { SegmentedControl } from 'react-native-ios-kit';
 import * as SQLite from 'expo-sqlite';
@@ -50,6 +52,14 @@ const EditBeans = ({ route, navigation }) => {
         );
     }
 
+    useEffect(() => {
+        if (route.params?.flavor_notes) { // If parent provides flavor_notes, update beans.flavor_notes
+            setBeans({ ...beans, flavor_notes: route.params.flavor_notes});
+        } else {
+            setBeans({ ...beans, flavor_notes: "" })
+        }
+    }, [route.params?.flavor_notes]);
+
     return (
         <View style={{width: "100%", height: "100%"}}>
             <Header 
@@ -80,13 +90,6 @@ const EditBeans = ({ route, navigation }) => {
                         text={beans.roast_level}
                         onChange={(value) => setBeans({...beans, roast_level: value})}    
                     />
-                    <RowItem
-                        title="Flavor Notes"
-                        text=""
-                        onPress={() => navigation.navigate("SelectFlavors", { parent: "EditBeans", flavor_notes: beans.flavor_notes })}
-                    >   
-                        <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
-                    </RowItem>
                 </TableView>
                 <TableView header="Bag">
                     <DatePickerRow title="Roast Date" value={beans.roast_date} onChange={(value) => setBeans({...beans, roast_date: value})}/>
@@ -111,6 +114,22 @@ const EditBeans = ({ route, navigation }) => {
                         />
                     </TextFieldRow>
                 </TableView>
+                <TableView header="Flavor">
+                    <RowItem
+                        title="Flavor Notes"
+                        text=""
+                        onPress={() => navigation.navigate("SelectFlavors", { parent: "EditBeans", flavor_notes: beans.flavor_notes })}
+                    >   
+                        <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
+                    </RowItem>
+                    <View style={styles.flavors}>
+                        {beans.flavor_notes !== "" ? beans.flavor_notes.split(',').map((item) => 
+                            <View key={item} style={styles.flavor}>
+                                <Text style={styles.flavorText}>{item}</Text>
+                            </View>
+                        ) : <View/>}
+                    </View>
+                </TableView>
             </ScrollView>
         </View>   
         
@@ -118,3 +137,24 @@ const EditBeans = ({ route, navigation }) => {
 }
 
 export default EditBeans;
+
+const styles = StyleSheet.create({
+    flavors: {
+        flexDirection: 'row',
+        marginVertical: 5,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap'
+    },  
+    flavor: {
+        display: 'flex',
+        marginHorizontal: 10,
+        marginBottom: 15,
+        borderWidth: 1,
+        padding: 10,
+        borderRadius: 15
+    },
+    flavorText: {
+        fontSize: 16
+    }
+});

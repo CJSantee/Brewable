@@ -88,17 +88,6 @@
         "flavor_notes": "French Toast,Apple,Apricot Jam,Orange"  
     },
     {
-        "region": "Bella Vista", 
-        "roaster": "MáQuina", 
-        "origin": "Mexico", 
-        "roast_level": "", 
-        "roast_date": "2021-09-23T00:00:00", 
-        "price": 0, 
-        "weight": 12,
-        "weight_unit": "oz",
-        "flavor_notes": "Caramel,Creamy,Brown Sugar"  
-    },
-    {
         "region": "Konga", 
         "roaster": "Irving Farm", 
         "origin": "Ethiopia", 
@@ -107,7 +96,7 @@
         "price": 0, 
         "weight": 12,
         "weight_unit": "oz",
-        "flavor_notes": "White Peach,Jamine,Tangerine"  
+        "flavor_notes": "White Peach,Jasmine,Tangerine"  
     },
     {
         "region": "", 

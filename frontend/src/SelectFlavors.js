@@ -63,6 +63,8 @@ const SelectFlavors = ({ route, navigation }) => {
 
     // Convert set of picked flavors to comma-separated values
     function flavorNotes() {
+        if (picked.size === 0)
+            return "";
         let flavor_notes = "";
         picked.forEach(item => flavor_notes+=(item+","));
         return flavor_notes.substring(0, flavor_notes.length-1);

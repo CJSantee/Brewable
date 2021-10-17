@@ -15,7 +15,7 @@ const InfoPage = ({ route, navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Header title="Select Beans" leftText="Back" leftOnPress={() => navigation.goBack()} leftChevron={true}/>
+            <Header title="About" leftText="Back" leftOnPress={() => navigation.goBack()} leftChevron={true}/>
             <View style={{...styles.card, backgroundColor: colors.card}}>
                 <Text style={styles.title}>{topic}</Text>
             </View>

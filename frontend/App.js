@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { createTables, populateBeans, populateBrewMethods, populateBrews } from './ DatabaseUtils';
+import { createTables, populateBeans, populateBrewMethods, populateBrews, populateFlavors } from './ DatabaseUtils';
 import { LightTheme, DarkTheme } from './Themes';
 
 import { Provider } from 'react-redux';
@@ -45,6 +45,7 @@ export default function App() {
     populateBeans(db);
     populateBrews(db);
     populateBrewMethods(db);
+    populateFlavors(db);
   }, []);
 
   return (
@@ -53,19 +54,19 @@ export default function App() {
         <StatusBar barStyle="dark-content"/>
         <NewStack.Navigator screenOptions={{headerShown: false}}>
           <NewStack.Screen name="HomePage" component={HomePage} />
-          <NewStack.Screen name="DisplayBeans" component={DisplayBeans} />
-          <NewStack.Screen name="EditBeans" component={EditBeans}/>
-          <NewStack.Screen name="DisplayBrew" component={DisplayBrew}/>
-          <NewStack.Screen name="EditBrew" component={EditBrew}/>
-          <NewStack.Screen name="NewBeans" component={NewBeans}/>
-          <NewStack.Screen name="SelectFlavors" component={SelectFlavors}/>
-          <NewStack.Screen name="NewFlavor" component={NewFlavor}/>
-          <NewStack.Screen name="NewBrew" component={NewBrew}/>
-          <NewStack.Screen name="SelectBeans" component={SelectBeans}/>
-          <NewStack.Screen name="InfoPage" component={InfoPage}/>
           <NewStack.Screen name="ProfilePage" component={ProfilePage}/>
           <NewStack.Screen name="BrewMethods" component={BrewMethods}/>
           <NewStack.Screen name="NewBrewMethod" component={NewBrewMethod}/>
+          <NewStack.Screen name="NewBeans" component={NewBeans}/>
+          <NewStack.Screen name="SelectFlavors" component={SelectFlavors}/>
+          <NewStack.Screen name="NewFlavor" component={NewFlavor}/>
+          <NewStack.Screen name="DisplayBeans" component={DisplayBeans} />
+          <NewStack.Screen name="EditBeans" component={EditBeans}/>
+          <NewStack.Screen name="NewBrew" component={NewBrew}/>
+          <NewStack.Screen name="SelectBeans" component={SelectBeans}/>
+          <NewStack.Screen name="InfoPage" component={InfoPage}/>
+          <NewStack.Screen name="DisplayBrew" component={DisplayBrew}/>
+          <NewStack.Screen name="EditBrew" component={EditBrew}/>
         </NewStack.Navigator>
     </NavigationContainer>
     </Provider>
