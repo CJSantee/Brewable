@@ -20,14 +20,6 @@ import TextFieldRow from './components/TextFieldRow';
 import SliderRow from './components/SliderRow';
 import DatePickerRow from './components/DatePickerRow';
 
-// Open SQLite Database
-function openDatabase() {
-    const db = SQLite.openDatabase("CoffeeLab.db");
-    return db;
-}
-
-const db = openDatabase();
-
 // Map individual flavor
 function mapFlavor(value) {
     if (value <= 10)

@@ -14,7 +14,7 @@ const Header = ({title, leftText, rightText, leftOnPress, rightOnPress, leftChev
     const {colors} = useTheme();
 
     return (
-        <View style={{...styles.header, backgroundColor: colors.card}}>  
+        <View style={{...styles.header, backgroundColor: colors.card, borderColor: colors.border}}>  
             <TouchableOpacity style={{...styles.left, left: leftChevron ? 10 : 15}} onPress={leftOnPress}>
                 {leftChevron ? <FontAwesomeIcon icon={faChevronLeft} size={16} color={colors.interactive}/> : <View/>}
                 <Text style={{...styles.text, color: colors.interactive}}>{leftText}</Text>
@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 15,
-        borderColor: "rgb(201, 210, 217)",
         borderBottomWidth: 1
     },
     title: {

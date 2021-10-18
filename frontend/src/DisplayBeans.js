@@ -11,14 +11,6 @@ import { useTheme, useFocusEffect } from '@react-navigation/native';
 import Header from './components/Header';
 import Brew from './Brew';
 
-// Open SQLite Database
-function openDatabase() {
-    const db = SQLite.openDatabase("CoffeeLab.db");
-    return db;
-}
-  
-const db = openDatabase();
-
 const DisplayBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g"}); // Beans state
     const [brews, setBrews] = useState([]); // Array of brews for given beans

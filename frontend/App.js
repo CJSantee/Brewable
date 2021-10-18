@@ -27,12 +27,8 @@ import EditBeans from './src/EditBeans';
 import SelectFlavors from './src/SelectFlavors';
 import NewFlavor from './src/NewFlavor';
 
-function openDatabase() {
-  const db = SQLite.openDatabase("CoffeeLab.db");
-  return db;
-}
-
-const db = openDatabase();
+// Global declaration of SQLite Database
+global.db = SQLite.openDatabase("CoffeeLab.db");
 
 const NewStack = createNativeStackNavigator();
 

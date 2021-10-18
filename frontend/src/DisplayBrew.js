@@ -19,14 +19,6 @@ import Header from './components/Header';
 
 let {height, width} = Dimensions.get('window');
 
-// Open SQLite database
-function openDatabase() {
-    const db = SQLite.openDatabase("CoffeeLab.db");
-    return db;
-}
-  
-const db = openDatabase();
-
 const DisplayBrew = ({ route, navigation }) => {
     const [brew, setBrew] = useState({body: 0, aftertaste: 0, sweetness: 0, aroma: 0, flavor: 0, acidity: 0}); // Initial values for flavor wheel
     const { brew_id } = route.params; // Brew_id to retireve brew info

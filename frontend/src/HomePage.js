@@ -15,14 +15,6 @@ import Header from './components/Header';
 import RowItem from './components/RowItem';
 import SearchBar from './components/SearchBar';
 
-// Open SQLite Database
-function openDatabase() {
-    const db = SQLite.openDatabase("CoffeeLab.db");
-    return db;
-}
-  
-const db = openDatabase();
-
 // Modal for listing new beans or brew
 const Modal = ({ navigation }) => {
     const {colors} = useTheme();
@@ -106,6 +98,7 @@ const HomePage = ({ navigation }) => {
             <FlatList 
                 data={searchQuery===""?beans:searchResults}
                 renderItem={(object) => <BrewList beans={object.item} navigation={navigation}/>}
+                initialNumToRender={3}
                 keyExtractor={item => item.id.toString()}
             />}
         </View>

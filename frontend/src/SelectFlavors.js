@@ -14,14 +14,6 @@ import RowItem from './components/RowItem';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 
-// Open SQLite Database
-function openDatabase() {
-    const db = SQLite.openDatabase("CoffeeLab.db");
-    return db;
-}
-  
-const db = openDatabase();
-
 const SelectFlavors = ({ route, navigation }) => {
     const [flavors, setFlavors] = useState([]); // Array of brew methods
     const { parent } = route.params; // Selected brew_method and parent navigation page

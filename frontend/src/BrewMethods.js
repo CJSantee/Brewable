@@ -12,14 +12,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import RowItem from './components/RowItem';
 import Header from './components/Header';
 
-
-function openDatabase() {
-    const db = SQLite.openDatabase("CoffeeLab.db");
-    return db;
-}
-  
-const db = openDatabase();
-
 const BrewMethods = ({ route, navigation }) => {
     const [methods, setMethods] = useState([]); // Array of brew methods
     const { brew_method, parent } = route.params; // Selected brew_method and parent navigation page

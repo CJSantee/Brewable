@@ -29,7 +29,7 @@ const Brew = ({ brew, setFavorite, navigation }) => {
 
     return (
         <TouchableWithoutFeedback onPress={() => navigation.navigate("DisplayBrew", {brew_id: brew.id})}>
-        <View style={{...styles.brew, backgroundColor: colors.card}}>
+        <View style={{...styles.brew, backgroundColor: colors.card, borderColor: colors.border}}>
             <View style={styles.cardItem}>
                 <Text style={{fontWeight: 'bold', fontSize: 18}}>{brew.brew_method}</Text>
             </View>
@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
         marginTop: 5,
         marginRight: 10,
         borderWidth: 0.5,
-        borderColor: "rgb(201, 210, 217)",
         width: 300,
         height: 200,
         borderRadius: 10,

@@ -11,14 +11,6 @@ import { useFocusEffect } from '@react-navigation/native';
 
 import Brew from './Brew';
 
-// Open SQLite Database
-function openDatabase() {
-    const db = SQLite.openDatabase("CoffeeLab.db");
-    return db;
-}
-  
-const db = openDatabase();
-
 const BrewList = ({ beans, navigation }) => {
     const [brews, setBrews] = useState([]);
 

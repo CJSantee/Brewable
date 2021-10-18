@@ -20,14 +20,6 @@ import RowItem from './components/RowItem';
 import Header from './components/Header';
 import SliderRow from './components/SliderRow';
 
-// Open SQLite Database
-function openDatabase() {
-    const db = SQLite.openDatabase("CoffeeLab.db");
-    return db;
-}
-
-const db = openDatabase();
-
 function mapRating(value) {
     if (value <= 10)
         return 0;

@@ -9,14 +9,6 @@ import TableView from './components/TableView';
 import TextFieldRow from './components/TextFieldRow';
 import Header from './components/Header';
 
-// Open SQLite database
-function openDatabase() {
-    const db = SQLite.openDatabase("CoffeeLab.db");
-    return db;
-}
-
-const db = openDatabase();
-
 const NewBrewMethod = ({ navigation }) => {
     const [method, setMethod] = useState(""); // New method state
 

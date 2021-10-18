@@ -19,14 +19,6 @@ import TextFieldRow from './components/TextFieldRow';
 import DatePickerRow from './components/DatePickerRow';
 import Header from './components/Header';
 
-// Open SQLite Databse
-function openDatabase() {
-    const db = SQLite.openDatabase("CoffeeLab.db");
-    return db;
-}
-
-const db = openDatabase();
-
 const EditBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState(route.params.beans); // Retrieve beans data from parent
     const {colors} = useTheme(); // Color theme

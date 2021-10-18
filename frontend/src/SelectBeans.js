@@ -12,14 +12,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Header from './components/Header';
 import RowItem from './components/RowItem';
 
-// Open SQLite Database
-function openDatabase() {
-    const db = SQLite.openDatabase("CoffeeLab.db");
-    return db;
-}
-  
-const db = openDatabase();
-
 const SelectBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState([]); // List of beans
     const { beans_id, parent } = route.params; // Beans_id and parent page
