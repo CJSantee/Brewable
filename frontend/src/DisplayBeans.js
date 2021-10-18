@@ -5,7 +5,6 @@ import {
     StyleSheet,
     FlatList
 } from 'react-native';
-import * as SQLite from 'expo-sqlite';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 
 import Header from './components/Header';
@@ -15,6 +14,8 @@ const DisplayBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g"}); // Beans state
     const [brews, setBrews] = useState([]); // Array of brews for given beans
     const [flavorNotes, setFlavorNotes] = useState([]);
+    const [sortBy, setSortBy] = useState("brew_date");
+
     const { beans_id } = route.params; // Beans_id for which beans to display
     const {colors} = useTheme(); // Color theme
 
@@ -25,6 +26,21 @@ const DisplayBeans = ({ route, navigation }) => {
         let date = new Date(beans.roast_date);
         return date.toLocaleDateString('en-US', options);
     }
+
+    // Compare function for sorting brews
+    const compare = useCallback(
+        (a, b) => {
+            if (sortBy === "brew_date") {
+                a = new Date(a.date).setHours(0,0,0,0);
+                b = new Date(b.date).setHours(0,0,0,0);
+                if (a > b) return -1;
+                if (a < b) return 1;
+                return 0;
+            }
+            return a - b;
+        },
+        [sortBy]
+    );
 
     // Set Brew as Favorite
     const setFavorite = (value, id) => {
@@ -64,7 +80,7 @@ const DisplayBeans = ({ route, navigation }) => {
                         "SELECT * FROM brews WHERE beans_id = ?;",
                         [beans_id],
                         (_, { rows: { _array } }) => {
-                            if (mounted) setBrews(_array);
+                            if (mounted) setBrews(_array.sort(compare));
                         }
                     );
                 },
