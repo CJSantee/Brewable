@@ -26,6 +26,17 @@ const DisplayBeans = ({ route, navigation }) => {
         return date.toLocaleDateString('en-US', options);
     }
 
+    // Set Brew as Favorite
+    const setFavorite = (value, id) => {
+        db.transaction(
+            (tx) => {
+                tx.executeSql("UPDATE brews SET favorite = ? WHERE id = ?;", [value?1:0, id])
+            }, 
+            (e) => console.log(e), 
+            null
+        );
+    }
+
     // Split flavor_notes into array
     useEffect(() => {
         if (beans.flavor_notes !== undefined)
@@ -94,7 +105,7 @@ const DisplayBeans = ({ route, navigation }) => {
                     data={brews}
                     style={{alignSelf: 'center'}}
                     horizontal={false}
-                    renderItem={(item) => <Brew brew={item.item} navigation={navigation}/>}
+                    renderItem={(item) => <Brew brew={item.item} colors={colors} setFavorite={(value) => setFavorite(value, item.item.id)} navigation={navigation}/>}
                     keyExtractor={item => item.id.toString()}
                 />
             </View>

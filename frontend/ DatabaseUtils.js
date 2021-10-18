@@ -134,7 +134,7 @@ function randomBrewMethod() {
 }
 
 const populateRandomBrews = (db) => {
-  const numBrews = 35;
+  const numBrews = 100;
 
   db.transaction((tx) => {
     for (let i = 0; i < numBrews; i++) {

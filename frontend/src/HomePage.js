@@ -89,6 +89,12 @@ const HomePage = ({ navigation }) => {
         }, [])
     );
 
+    const renderItem = useCallback(
+        (item) => <BrewList beans={item.item} navigation={navigation}/>,
+        []
+    );
+    const keyExtractor = useCallback((item) => item.id.toString(), []);
+
     return (
         <View style={{flex: 1, flexDirection: 'column', backgroundColor: colors.background}}>
             <Header title="Brews" leftText="Settings" rightText="New" leftOnPress={()=>navigation.navigate("ProfilePage")} rightOnPress={()=>setModal(!modal)}/>
@@ -97,9 +103,10 @@ const HomePage = ({ navigation }) => {
             {beans === null || beans.length === 0 ? <View/> : 
             <FlatList 
                 data={searchQuery===""?beans:searchResults}
-                renderItem={(object) => <BrewList beans={object.item} navigation={navigation}/>}
+                renderItem={renderItem}
+                maxToRenderPerBatch={6}
                 initialNumToRender={3}
-                keyExtractor={item => item.id.toString()}
+                keyExtractor={keyExtractor}
             />}
         </View>
     );

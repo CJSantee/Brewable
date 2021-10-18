@@ -7,12 +7,13 @@ import {
     TouchableOpacity
 } from 'react-native';
 import * as SQLite from 'expo-sqlite';
-import { useFocusEffect } from '@react-navigation/native';
+import { useTheme, useFocusEffect } from '@react-navigation/native';
 
 import Brew from './Brew';
 
 const BrewList = ({ beans, navigation }) => {
     const [brews, setBrews] = useState([]);
+    const {colors} = useTheme();
 
     // Set Brew as Favorite
     const setFavorite = (value, id) => {
@@ -40,6 +41,13 @@ const BrewList = ({ beans, navigation }) => {
             return () => mounted = false;
         }, [brews])
     );
+    
+    const setFavoriteCallback = useCallback((value,  id) => setFavorite(value, id), []);
+    const renderItem = useCallback(
+        (item) => <Brew brew={item.item} colors={colors} setFavorite={setFavoriteCallback} navigation={navigation}/>,
+        []
+    );
+    const keyExtractor = useCallback((item) => item.id.toString(), []);
 
     return (
         <View style={styles.beans}>
@@ -52,12 +60,9 @@ const BrewList = ({ beans, navigation }) => {
             <FlatList
                 data={brews}
                 horizontal={true}
-                renderItem={(item) => 
-                    <Brew 
-                        brew={item.item} 
-                        setFavorite={(value) => setFavorite(value, item.item.id)}
-                        navigation={navigation}/>}
-                keyExtractor={item => item.id.toString()}
+                maxToRenderPerBatch={6}
+                renderItem={renderItem}
+                keyExtractor={keyExtractor}
             />
         </View>
     );
