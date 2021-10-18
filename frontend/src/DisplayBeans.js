@@ -71,7 +71,7 @@ const DisplayBeans = ({ route, navigation }) => {
                 (e) => console.log(e), null
             );
             return () => mounted= false;
-        }, [beans, brews])
+        }, [])
     );
 
     return (

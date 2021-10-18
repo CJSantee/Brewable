@@ -4,8 +4,7 @@ import {
     StyleSheet,
     FlatList
 } from 'react-native';
-import { useTheme } from '@react-navigation/native';
-import * as SQLite from 'expo-sqlite';
+import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 // Component Imports 
@@ -103,17 +102,18 @@ const SelectFlavors = ({ route, navigation }) => {
             },
             (e) => console.log(e),
             () => {
-                selected.forEach((value) => {
-                    if (picked.has(value)) // If values being deleted are picked, unpick them
+                selected.forEach((value) => { // BUG: Deleted items are still picked
+                    if (picked.has(value)) // If values being deleted are picked, unpick them -> Still not working
                         togglePicked(value);
                 });
                 toggleEditing(); // On success, stop editing
+                updateFlavors(); // Update the flavors list
             } 
         );
     }
 
-    // Retrieve the array of brew methods from database when component is mounted
-    useEffect(() => {
+    // Load the flavors from the database
+    const updateFlavors = useCallback(() => {
         let mounted = true;
         db.transaction((tx) => {
             tx.executeSql(
@@ -128,7 +128,10 @@ const SelectFlavors = ({ route, navigation }) => {
         (e) => console.log(e),
         null);
         return () => mounted = false;
-    },[flavors]);
+    },[]);
+
+    // Retrieve the array of brew methods from database when component is mounted
+    useFocusEffect(updateFlavors);
 
     // Second useEffect without dependencies so only run once on render
     useEffect(() => {

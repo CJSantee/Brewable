@@ -6,7 +6,6 @@ import {
     StyleSheet,
     TouchableOpacity
 } from 'react-native';
-import * as SQLite from 'expo-sqlite';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 
 import Brew from './Brew';
@@ -22,29 +21,29 @@ const BrewList = ({ beans, navigation }) => {
                 tx.executeSql("UPDATE brews SET favorite = ? WHERE id = ?;", [value?1:0, id])
             }, 
             (e) => console.log(e), 
-            null
+            updateBrews
         );
     }
 
-    // Update brews for given beans_id when component is mounted
-    useFocusEffect(
-        useCallback(()=> {
-            let mounted = true;
-            db.transaction((tx) => {
-                tx.executeSql(
-                    "SELECT * FROM brews WHERE beans_id = ?;",
-                    [beans.id],
-                    (_, { rows: { _array } }) => {
-                        if (mounted) setBrews(_array);
-                });
+    // Load Brews from Database for given beans
+    const updateBrews = useCallback(()=> {
+        let mounted = true;
+        db.transaction((tx) => {
+            tx.executeSql(
+                "SELECT * FROM brews WHERE beans_id = ?;",
+                [beans.id],
+                (_, { rows: { _array } }) => {
+                    if (mounted) setBrews(_array);
             });
-            return () => mounted = false;
-        }, [brews])
-    );
+        });
+        return () => mounted = false;
+    }, []);
+
+    // Update brews for given beans_id when component is mounted
+    useFocusEffect(updateBrews);
     
-    const setFavoriteCallback = useCallback((value,  id) => setFavorite(value, id), []);
     const renderItem = useCallback(
-        (item) => <Brew brew={item.item} colors={colors} setFavorite={setFavoriteCallback} navigation={navigation}/>,
+        (object) => <Brew brew={object.item} colors={colors} setFavorite={(value) => setFavorite(value, object.item.id)} navigation={navigation}/>,
         []
     );
     const keyExtractor = useCallback((item) => item.id.toString(), []);

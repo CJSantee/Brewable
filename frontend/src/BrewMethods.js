@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
     View,
     StyleSheet,
     FlatList
 } from 'react-native';
-import { useTheme } from '@react-navigation/native';
-import * as SQLite from 'expo-sqlite';
+import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -13,9 +12,11 @@ import RowItem from './components/RowItem';
 import Header from './components/Header';
 
 const BrewMethods = ({ route, navigation }) => {
-    const [methods, setMethods] = useState([]); // Array of brew methods
     const { brew_method, parent } = route.params; // Selected brew_method and parent navigation page
     const { colors } = useTheme(); // Color theme
+
+    // State Variables
+    const [methods, setMethods] = useState([]); // Array of brew methods
     const [editing, setEditing]= useState(false); // Selecting methods to delete
     const [selected, setSelected] = useState(new Set()); // Set of currently selected brew_methods
 
@@ -47,12 +48,15 @@ const BrewMethods = ({ route, navigation }) => {
                 );
             },
             (e) => console.log(e),
-            () => toggleEditing() // On success, stop editing
+            () => {
+                toggleEditing(); // On success, stop editing
+                updateBrewMethods();
+            }
         );
     }
 
-    // Retrieve the array of brew methods from database when component is mounted
-    useEffect(() => {
+    // Load brew methods from database
+    const updateBrewMethods = useCallback(() => {
         let mounted = true;
         db.transaction((tx) => {
             tx.executeSql(
@@ -67,7 +71,10 @@ const BrewMethods = ({ route, navigation }) => {
         (e) => console.log(e),
         null);
         return () => mounted = false;
-    },[methods]);
+    },[]);
+
+    // Retrieve the array of brew methods from database when component is mounted
+    useFocusEffect(updateBrewMethods);
 
     return (
         <View style={{height: "100%", width: "100%"}}>  
@@ -82,15 +89,15 @@ const BrewMethods = ({ route, navigation }) => {
             />
             <FlatList 
                 data={methods}
-                renderItem={(item) => 
+                renderItem={(object) => 
                     <RowItem 
-                        title={item.item.method} text=""
+                        title={object.item.method} text=""
                         onPress={
                             (brew_method!=="none")?
-                            () => { navigation.navigate(parent, {brew_method: item.item.method})}:null
+                            () => { navigation.navigate(parent, {brew_method: object.item.method})}:null
                         }
                         showSelect={editing}
-                        selected={selected.has(item.item.method)}
+                        selected={selected.has(object.item.method)}
                         toggleSelect={(value) => toggleSelected(value)}
                     >
                         {brew_method === item.item.method ? <FontAwesomeIcon icon={faCheck} size={20} color={colors.placeholder}/> : <View/>}

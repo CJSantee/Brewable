@@ -24,11 +24,6 @@ const DisplayBrew = ({ route, navigation }) => {
     const { brew_id } = route.params; // Brew_id to retireve brew info
     const {colors} = useTheme(); // Color theme
 
-    // Read brew info from database
-    const readBrew = () => {
-        
-    }
-
     const options = { weekdate: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     function brewDate() {
         if (brew.date === "") return "";
