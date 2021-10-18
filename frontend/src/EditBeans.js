@@ -6,7 +6,6 @@ import {
     Text
 } from 'react-native';
 import { SegmentedControl } from 'react-native-ios-kit';
-import * as SQLite from 'expo-sqlite';
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';

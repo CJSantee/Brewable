@@ -13,6 +13,7 @@ import Brew from './Brew';
 const BrewList = ({ beans, navigation }) => {
     const [brews, setBrews] = useState([]);
     const {colors} = useTheme();
+    const [sortBy, setSortBy] = useState("brew_date");
 
     // Set Brew as Favorite
     const setFavorite = (value, id) => {
@@ -25,6 +26,21 @@ const BrewList = ({ beans, navigation }) => {
         );
     }
 
+    // Compare function for sorting brews
+    const compare = useCallback(
+        (a, b) => {
+            if (sortBy === "brew_date") {
+                a = new Date(a.date).setHours(0,0,0,0);
+                b = new Date(b.date).setHours(0,0,0,0);
+                if (a > b) return -1;
+                if (a < b) return 1;
+                return 0;
+            }
+            return a - b;
+        },
+        [sortBy]
+    );
+
     // Load Brews from Database for given beans
     const updateBrews = useCallback(()=> {
         let mounted = true;
@@ -33,7 +49,7 @@ const BrewList = ({ beans, navigation }) => {
                 "SELECT * FROM brews WHERE beans_id = ?;",
                 [beans.id],
                 (_, { rows: { _array } }) => {
-                    if (mounted) setBrews(_array);
+                    if (mounted) setBrews(_array.sort(compare));
             });
         });
         return () => mounted = false;
