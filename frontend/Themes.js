@@ -20,7 +20,7 @@ const DarkTheme = {
     ...DefaultTheme,
     colors: {
         ...DefaultTheme.colors,
-        primary: 'rgb(0,122,137)',
+        primary: '#894419',
         secondary: '#2C1A11',
         background: '#f0f0f0',
         card: "#f9f9f9",

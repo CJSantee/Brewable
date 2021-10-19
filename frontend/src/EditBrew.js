@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import { faChevronRight, faStopwatch } from '@fortawesome/free-solid-svg-icons';
 import { useTheme } from '@react-navigation/native';
-import * as SQLite from 'expo-sqlite';
 import { useSelector } from 'react-redux';
 
 // Component Imports
@@ -82,7 +81,7 @@ const EditBrew = ({ route, navigation }) => {
 
     return (
         <View style={{width: "100%", height: "100%"}}>
-            <Header title="Edit Brew" leftText="Cancel" rightText="Done" leftOnPress={() => navigation.navigate("DisplayBrew", { brew_id: brew.id })} rightOnPress={() => updateBrew()}/>
+            <Header title="Edit Brew" leftText="Cancel" rightText="Done" leftOnPress={() => navigation.goBack()} rightOnPress={() => updateBrew()}/>
             <ScrollView style={{...styles.container, backgroundColor: colors.background}}>
                 <TableView header="Info">
                     <RowItem

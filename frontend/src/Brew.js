@@ -11,6 +11,7 @@ import { faTint, faFire, faStopwatch, faHeart as faHeartSolid } from '@fortaweso
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import CoffeeBean from '../assets/coffeeBean.svg';
 
+import { HoldItem } from 'react-native-hold-menu';
 import TastingWheel from './components/TastingWheel';
 
 const Brew = ({ brew, setFavorite, navigation }) => {
@@ -27,7 +28,31 @@ const Brew = ({ brew, setFavorite, navigation }) => {
         setFavorite(!brew.favorite); // API call pass by parent
     }
 
+    const MenuItems = [
+        { 
+            text: 'Edit', 
+            icon: 'edit',
+            onPress:  () => navigation.navigate("EditBrew", 
+                {   
+                    // Pass brew information with flavor values amplified for slider
+                    brew: {
+                        ...brew, 
+                        flavor: brew.flavor*20, 
+                        acidity: brew.acidity*20,
+                        aroma: brew.aroma*20,
+                        body: brew.body*20,
+                        sweetness: brew.sweetness*20,
+                        aftertaste: brew.aftertaste*20                                
+                    }
+                }
+            )
+        },
+        { text: 'Share', icon: 'share', onPress: () => {} },
+        { text: 'Delete', icon: 'trash', isDestructive: true, onPress: () => {} },
+    ];
+
     return (
+        <HoldItem items={MenuItems} key={brew.id}>
         <TouchableWithoutFeedback onPress={() => navigation.navigate("DisplayBrew", {brew_id: brew.id})}>
         <View style={{...styles.brew, backgroundColor: colors.card, borderColor: colors.border}}>
             <View style={styles.cardItem}>
@@ -62,6 +87,7 @@ const Brew = ({ brew, setFavorite, navigation }) => {
             <Text style={styles.date}>{date_string}</Text>
         </View>
         </TouchableWithoutFeedback>
+        </HoldItem>
     );
 }
 

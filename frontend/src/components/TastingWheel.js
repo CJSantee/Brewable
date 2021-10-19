@@ -120,9 +120,9 @@ const TastingWheel = ({values, style, displayText, width, height}) => {
                 
                 <Polygon 
                     points={shape(values)}
-                    fill={colors.primary}
+                    fill={"#894419"}
                     fillOpacity="0.5"
-                    stroke={colors.secondary} 
+                    stroke={"#000000"} 
                 />
             </Svg>
         </View>

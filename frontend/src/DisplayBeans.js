@@ -3,7 +3,8 @@ import {
     View,
     Text,
     StyleSheet,
-    FlatList
+    FlatList,
+    ActivityIndicator
 } from 'react-native';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 
@@ -15,6 +16,7 @@ const DisplayBeans = ({ route, navigation }) => {
     const [brews, setBrews] = useState([]); // Array of brews for given beans
     const [flavorNotes, setFlavorNotes] = useState([]);
     const [sortBy, setSortBy] = useState("brew_date");
+    const [loading, setLoading] = useState(true);
 
     const { beans_id } = route.params; // Beans_id for which beans to display
     const {colors} = useTheme(); // Color theme
@@ -84,14 +86,19 @@ const DisplayBeans = ({ route, navigation }) => {
                         }
                     );
                 },
-                (e) => console.log(e), null
+                (e) => console.log(e), () => setLoading(false)
             );
-            return () => mounted= false;
+            return () => mounted = false;
         }, [])
     );
 
     return (
         <View style={{...styles.container, backgroundColor: colors.background}}>
+            {loading ? 
+            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                <ActivityIndicator size="large"/>
+            </View> 
+            : <>
             <Header 
                 title="Beans" 
                 leftText="Back" rightText="Edit" 
@@ -124,7 +131,8 @@ const DisplayBeans = ({ route, navigation }) => {
                     renderItem={(item) => <Brew brew={item.item} colors={colors} setFavorite={(value) => setFavorite(value, item.item.id)} navigation={navigation}/>}
                     keyExtractor={item => item.id.toString()}
                 />
-            </View>
+            </View> 
+            </>}
         </View>
     );
 }

@@ -55,11 +55,18 @@ const ProfilePage = ({ navigation }) => {
                         />
                     </RowItem>
                 </TableView>
-                <TableView header="Methods">
+                <TableView header="My Data">
                     <RowItem
                         title="Brew Methods"
                         text=""
                         onPress={() => navigation.navigate("BrewMethods", {method: "none", parent: "ProfilePage"})}
+                    >   
+                        <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
+                    </RowItem>
+                    <RowItem
+                        title="Flavor Notes"
+                        text=""
+                        onPress={() => navigation.navigate("SelectFlavors", { parent: "ProfilePage", flavor_notes: "" })}
                     >   
                         <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
                     </RowItem>

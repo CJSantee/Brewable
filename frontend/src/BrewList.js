@@ -46,7 +46,10 @@ const BrewList = ({ beans, navigation }) => {
         let mounted = true;
         db.transaction((tx) => {
             tx.executeSql(
-                "SELECT * FROM brews WHERE beans_id = ?;",
+                `SELECT brews.*, beans.roaster, beans.region 
+                    FROM brews 
+                    LEFT JOIN beans ON brews.beans_id = beans.id
+                    WHERE beans.id = ?;`,
                 [beans.id],
                 (_, { rows: { _array } }) => {
                     if (mounted) setBrews(_array.sort(compare));
@@ -75,6 +78,9 @@ const BrewList = ({ beans, navigation }) => {
             <FlatList
                 data={brews}
                 horizontal={true}
+                getItemLayout={(data, index) => (
+                    {length: 300, offset: 300 * index, index}
+                )}
                 maxToRenderPerBatch={6}
                 renderItem={renderItem}
                 keyExtractor={keyExtractor}

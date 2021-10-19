@@ -8,6 +8,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createTables, populateBeans, populateBrewMethods, populateBrews, populateFlavors, populateRandomBrews } from './ DatabaseUtils';
 import { LightTheme, DarkTheme } from './Themes';
 
+import { HoldMenuProvider } from 'react-native-hold-menu';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { preferenceReducer } from './src/redux/PreferenceReducer';
@@ -46,6 +49,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
+    <HoldMenuProvider iconComponent={FontAwesomeIcon} theme="light">
     <NavigationContainer theme={LightTheme}>
         <StatusBar barStyle="dark-content"/>
         <NewStack.Navigator screenOptions={{headerShown: false}}>
@@ -65,6 +69,7 @@ export default function App() {
           <NewStack.Screen name="EditBrew" component={EditBrew}/>
         </NewStack.Navigator>
     </NavigationContainer>
+    </HoldMenuProvider>
     </Provider>
   );
 };

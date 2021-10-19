@@ -4,12 +4,12 @@ import {
     StyleSheet,
     FlatList,
 } from 'react-native';
-import * as SQLite from 'expo-sqlite';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 // Component Imports
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { HoldItem } from 'react-native-hold-menu';
 import BrewList from './BrewList';
 import Header from './components/Header';
 import RowItem from './components/RowItem';
@@ -29,6 +29,11 @@ const Modal = ({ navigation }) => {
         </View>
     );
 }
+
+const MenuItems = [
+    { text: "Actions", isTitle: true },
+    { text: "Edit" }
+];
 
 const HomePage = ({ navigation }) => {
     const {colors} = useTheme(); // Theme colors
@@ -89,10 +94,15 @@ const HomePage = ({ navigation }) => {
         }, [])
     );
 
+    // const renderItem = useCallback(
+    //     (item) => <BrewList beans={item.item} navigation={navigation}/>,
+    //     []
+    // );
     const renderItem = useCallback(
-        (item) => <BrewList beans={item.item} navigation={navigation}/>,
+        (item) => <RowItem text="" title={item.item.roaster +" - "+item.item.region} onPress={() => navigation.navigate("DisplayBeans", {beans_id: item.item.id})}></RowItem>,
         []
     );
+
     const keyExtractor = useCallback((item) => item.id.toString(), []);
 
     return (

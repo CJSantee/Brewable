@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import { faChevronRight, faStopwatch } from '@fortawesome/free-solid-svg-icons';
 import { useTheme } from '@react-navigation/native';
-import * as SQLite from 'expo-sqlite';
 import { useSelector } from 'react-redux'
 
 // Component Imports 
@@ -126,11 +125,13 @@ const NewBrew = ({ route, navigation }) => {
                 </TableView>
                     
                 <TableView header="Recipe">
-                    <TextFieldRow 
-                        title="Grind Setting"
-                        text={brew.grind_setting}
-                        onChange={(value) => setBrew({...brew, grind_setting: value})}
-                    />
+
+                        <TextFieldRow 
+                            title="Grind Setting"
+                            text={brew.grind_setting}
+                            onChange={(value) => setBrew({...brew, grind_setting: value})}
+                        />
+                    
                     <TextFieldRow
                         title="Coffee Amount"
                         text={brew.coffee}
