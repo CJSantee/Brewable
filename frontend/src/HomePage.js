@@ -9,11 +9,11 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 // Component Imports
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { HoldItem } from 'react-native-hold-menu';
 import BrewList from './BrewList';
 import Header from './components/Header';
 import RowItem from './components/RowItem';
 import SearchBar from './components/SearchBar';
+import SwipeableRow from './components/SwipeableRow';
 
 // Modal for listing new beans or brew
 const Modal = ({ navigation }) => {
@@ -99,7 +99,7 @@ const HomePage = ({ navigation }) => {
     //     []
     // );
     const renderItem = useCallback(
-        (item) => <RowItem text="" title={item.item.roaster +" - "+item.item.region} onPress={() => navigation.navigate("DisplayBeans", {beans_id: item.item.id})}></RowItem>,
+        (item) => <SwipeableRow><RowItem text="" title={item.item.roaster +" - "+item.item.region} onPress={() => navigation.navigate("DisplayBeans", {beans_id: item.item.id})}></RowItem></SwipeableRow>,
         []
     );
 
