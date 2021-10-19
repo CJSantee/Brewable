@@ -83,6 +83,15 @@ const ProfilePage = ({ navigation }) => {
                         />
                     </RowItem>
                 </TableView>
+                <TableView header="Developer Tools">
+                    <RowItem
+                        title="Debug Options"
+                        text=""
+                        onPress={() => navigation.navigate("DebugPage", { parent: "ProfilePage" })}
+                    >   
+                        <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
+                    </RowItem>
+                </TableView>
             </ScrollView>
         </View>
     )

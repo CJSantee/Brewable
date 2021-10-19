@@ -122,8 +122,8 @@ const DisplayBeans = ({ route, navigation }) => {
                     </View>
                 )}
             </View>
+            <Text style={{alignSelf: 'center',fontSize: 14, color: colors.placeholder}}>{brews.length === 0?"No Brews":"- Brews -"}</Text>
             <View style={styles.col}>
-                <Text style={{fontSize: 14, color: colors.placeholder}}>{brews.length === 0?"No Brews":"- Brews -"}</Text>
                 <FlatList
                     data={brews}
                     style={{alignSelf: 'center'}}
@@ -151,7 +151,8 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap'
     },
     col: {
-        flexDirection: 'column',
+        flex: 1,
+        flexDirection: 'row',
         marginHorizontal: 10,
         marginVertical: 5,
         justifyContent: 'center',

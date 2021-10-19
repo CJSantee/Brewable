@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
 import { Camera } from 'expo-camera';
+import * as MediaLibrary from 'expo-media-library';
 
 const {width, height} = Dimensions.get('window');
 
@@ -13,8 +14,28 @@ function BeansCamera({ onCancel, setUri }) {
     const _takePhoto = async () => {
         if (camera) {
             const photo = await camera.current.takePictureAsync();
+            _handleSave(photo.uri);
             setUri(photo.uri);
             onCancel();
+        }
+    }
+
+    const _handleSave = async(photo) => {
+        const {status} = await MediaLibrary.requestPermissionsAsync();
+        if(status === "granted"){
+            const asset = await MediaLibrary.createAssetAsync(photo);
+            const album = await MediaLibrary.getAlbumAsync('Coffee Lab');
+            if (album !== null) {
+                console.log("Coffee Lab album exists, adding now");
+                let assets = [];
+                assets.push(asset);
+                MediaLibrary.addAssetsToAlbumAsync(assets, album.id);
+            } else {
+                console.log("Coffee Lab album does not exist, creating");
+                MediaLibrary.createAlbumAsync('Coffee Lab', asset);
+            }
+        } else {
+            console.log("Missing permissions");
         }
     }
 

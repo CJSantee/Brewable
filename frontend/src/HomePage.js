@@ -107,7 +107,7 @@ const HomePage = ({ navigation }) => {
 
     return (
         <View style={{flex: 1, flexDirection: 'column', backgroundColor: colors.background}}>
-            <Header title="Brews" leftText="Settings" rightText="New" leftOnPress={()=>navigation.navigate("ProfilePage")} rightOnPress={()=>setModal(!modal)}/>
+            <Header title="My Collection" leftText="Settings" rightText="New" leftOnPress={()=>navigation.navigate("ProfilePage")} rightOnPress={()=>setModal(!modal)}/>
             {modal ? <Modal navigation={navigation}/> : <View/>}
             {modal ? <View/> : <SearchBar searchQuery={searchQuery} setSearchQuery={handleSearch}/>}
             {beans === null || beans.length === 0 ? <View/> : 

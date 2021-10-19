@@ -37,35 +37,11 @@ const NewBeans = ({ route, navigation }) => {
 
     // Camera state variables
     const [hasPermission, setHasPermission] = useState(null);
-    const [type, setType] = useState(Camera.Constants.Type.back);
-    const [camera, setCamera] = useState(null);
     const [imageUri, setImageUri] = useState(null);
-    const [imageTaken, setImageTaken] = useState(false);
     const [cameraVisible, setCameraVisible] = useState(false);
 
     const {colors} = useTheme(); // Color theme
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
-
-    // Take picture
-    const takePicture = async() => {
-        console.log("CLICK");
-        if (camera) {
-            const data = await camera.takePictureAsync(null);
-            setCameraVisible(false);
-            setImageTaken(true);
-        }
-    }
-    
-    const launchCamera = () =>{
-        if (hasPermission === null) {
-          return <View />;
-        }
-        if (hasPermission === false) {
-          return <Text>No access to camera</Text>;
-        }
-        
-        setCameraVisible(true);  
-    }
 
     // Add beans to database
     const addBeans = () => {
@@ -113,10 +89,13 @@ const NewBeans = ({ route, navigation }) => {
             {cameraVisible 
             ? <BeansCamera onCancel={() => setCameraVisible(false)} setUri={setImageUri}/>
             :<ScrollView>
+                
                 <View style={styles.cameraIcon}>
-                    <TouchableOpacity style={styles.openCameraButton} onPress={() => launchCamera()}>
-                        {imageUri ? <Image style={{width: 60, height: 60, resizeMode: 'contain'}} source={{uri: imageUri}}/> : <FontAwesomeIcon icon={faCamera} size={35} style={{margin: 25}}/>}
-                    </TouchableOpacity>
+                    {imageUri  
+                    ?<Image style={styles.image} source={{uri: imageUri}}/> 
+                    :<TouchableOpacity style={styles.openCameraButton} onPress={() => setCameraVisible(true)}>
+                        <FontAwesomeIcon icon={faCamera} size={35}/>
+                    </TouchableOpacity>}
                 </View>
 
                 <TableView header="Roast">
@@ -204,9 +183,20 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginVertical: 10
     },
+    image: {
+        alignSelf: 'center',
+        width: 100, 
+        height: 100, 
+        borderRadius: 50, 
+        resizeMode: 'cover'
+    },  
     openCameraButton: {
         borderWidth: 1,
-        borderRadius: 50
+        borderRadius: 50,
+        width: 100,
+        height: 100,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     flavors: {
         flexDirection: 'row',

@@ -30,6 +30,7 @@ import EditBeans from './src/EditBeans';
 import SelectFlavors from './src/SelectFlavors';
 import NewFlavor from './src/NewFlavor';
 import BeansCamera from './src/components/Camera';
+import DebugPage from './src/DebugPage';
 
 // Global declaration of SQLite Database
 global.db = SQLite.openDatabase("CoffeeLab.db");
@@ -56,6 +57,7 @@ export default function App() {
         <NewStack.Navigator screenOptions={{headerShown: false}}>
           <NewStack.Screen name="HomePage" component={HomePage} />
           <NewStack.Screen name="ProfilePage" component={ProfilePage}/>
+          <NewStack.Screen name="DebugPage" component={DebugPage}/>
           <NewStack.Screen name="BrewMethods" component={BrewMethods}/>
           <NewStack.Screen name="NewBrewMethod" component={NewBrewMethod}/>
           <NewStack.Screen name="NewBeans" component={NewBeans}/>
