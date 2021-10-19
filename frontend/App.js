@@ -29,6 +29,7 @@ import EditBrew from './src/EditBrew';
 import EditBeans from './src/EditBeans';
 import SelectFlavors from './src/SelectFlavors';
 import NewFlavor from './src/NewFlavor';
+import BeansCamera from './src/components/Camera';
 
 // Global declaration of SQLite Database
 global.db = SQLite.openDatabase("CoffeeLab.db");

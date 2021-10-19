@@ -3,22 +3,25 @@ import {
     ScrollView,
     View,
     StyleSheet,
-    Text
+    Text,
+    TouchableOpacity,
+    Image,
 } from 'react-native';
-import * as SQLite from 'expo-sqlite';
-import { useTheme, useFocusEffect } from '@react-navigation/native';
+import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faCamera, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 // Component Imports
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { SegmentedControl } from 'react-native-ios-kit';
+import { Camera } from 'expo-camera';
 import TableView from './components/TableView';
 import TextFieldRow from './components/TextFieldRow';
 import DatePickerRow from './components/DatePickerRow';
 import RowItem from './components/RowItem';
 import Header from './components/Header';
 import SliderRow from './components/SliderRow';
+import BeansCamera from './components/Camera';
 
 function mapRating(value) {
     if (value <= 10)
@@ -31,8 +34,38 @@ function mapRating(value) {
 
 const NewBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g", flavor_notes: "", rating: 0}); // Beans state
+
+    // Camera state variables
+    const [hasPermission, setHasPermission] = useState(null);
+    const [type, setType] = useState(Camera.Constants.Type.back);
+    const [camera, setCamera] = useState(null);
+    const [imageUri, setImageUri] = useState(null);
+    const [imageTaken, setImageTaken] = useState(false);
+    const [cameraVisible, setCameraVisible] = useState(false);
+
     const {colors} = useTheme(); // Color theme
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
+
+    // Take picture
+    const takePicture = async() => {
+        console.log("CLICK");
+        if (camera) {
+            const data = await camera.takePictureAsync(null);
+            setCameraVisible(false);
+            setImageTaken(true);
+        }
+    }
+    
+    const launchCamera = () =>{
+        if (hasPermission === null) {
+          return <View />;
+        }
+        if (hasPermission === false) {
+          return <Text>No access to camera</Text>;
+        }
+        
+        setCameraVisible(true);  
+    }
 
     // Add beans to database
     const addBeans = () => {
@@ -55,6 +88,13 @@ const NewBeans = ({ route, navigation }) => {
     }
 
     useEffect(() => {
+        (async () => {
+            const { status } = await Camera.requestCameraPermissionsAsync();
+            setHasPermission(status === "granted");
+        })();
+    }, []);
+
+    useEffect(() => {
         if (route.params?.flavor_notes) { // If parent provides flavor_notes, update beans.flavor_notes
             setBeans({ ...beans, flavor_notes: route.params.flavor_notes});
         } else {
@@ -64,13 +104,21 @@ const NewBeans = ({ route, navigation }) => {
 
     return (
         <View style={{width: "100%", height: "100%"}}>
-            <Header 
+            {!cameraVisible&&<Header 
                 title="New Beans" 
                 leftText="Cancel" rightText="Done" 
                 leftOnPress={() => navigation.goBack()} 
                 rightOnPress={() => addBeans()}
-            />
-            <ScrollView>
+            />}
+            {cameraVisible 
+            ? <BeansCamera onCancel={() => setCameraVisible(false)} setUri={setImageUri}/>
+            :<ScrollView>
+                <View style={styles.cameraIcon}>
+                    <TouchableOpacity style={styles.openCameraButton} onPress={() => launchCamera()}>
+                        {imageUri ? <Image style={{width: 60, height: 60, resizeMode: 'contain'}} source={{uri: imageUri}}/> : <FontAwesomeIcon icon={faCamera} size={35} style={{margin: 25}}/>}
+                    </TouchableOpacity>
+                </View>
+
                 <TableView header="Roast">
                     <TextFieldRow 
                         title="Roaster"
@@ -141,7 +189,7 @@ const NewBeans = ({ route, navigation }) => {
                         onPress={() => navigation.navigate("InfoPage",{topic: "Rating"})}
                     />
                 </TableView>
-            </ScrollView>
+            </ScrollView>}
         </View>   
         
     );
@@ -150,6 +198,16 @@ const NewBeans = ({ route, navigation }) => {
 export default NewBeans;
 
 const styles = StyleSheet.create({
+    cameraIcon: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: 10
+    },
+    openCameraButton: {
+        borderWidth: 1,
+        borderRadius: 50
+    },
     flavors: {
         flexDirection: 'row',
         marginVertical: 5,
