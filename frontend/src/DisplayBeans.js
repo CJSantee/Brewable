@@ -24,6 +24,7 @@ let {height, width} = Dimensions.get('window');
 import Header from './components/Header';
 import Brew from './Brew';
 import { USE_NATIVE_DRIVER } from '../config';
+import DraggableDrawer from './components/DraggableDrawer';
 
 const DisplayBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g"}); // Beans state
@@ -71,6 +72,8 @@ const DisplayBeans = ({ route, navigation }) => {
             null
         );
     }
+
+    // Toggle the brews drawer
     const hightlightBrews = () => {
         Animated.spring(heightAnim, 
         {
@@ -149,7 +152,19 @@ const DisplayBeans = ({ route, navigation }) => {
                     </View>
                 )}
             </View>
-            <Animated.View style={{...styles.animated,
+
+            <DraggableDrawer colors={colors}>
+                <FlatList
+                    data={brews}
+                    horizontal={false}
+                    renderItem={(item) => <Brew brew={item.item} colors={colors} setFavorite={(value) => setFavorite(value, item.item.id)} navigation={navigation}/>}
+                    keyExtractor={item => item.id.toString()}
+                />
+            </DraggableDrawer>
+
+            
+            {/* CODE FOR TAPPABLE DRAWER, WORKING ON DRAGGABLE
+                <Animated.View style={{...styles.animated,
                     backgroundColor: colors.background,
                     borderColor: colors.border,
                     height: heightAnim
@@ -157,13 +172,8 @@ const DisplayBeans = ({ route, navigation }) => {
                 <TouchableOpacity onPress={hightlightBrews} style={{height: brewsHighlighted?30:60, marginTop: brewsHighlighted?15:20}}>
                     <Text style={{alignSelf: 'center',fontSize: 14, color: colors.placeholder}}>{brews.length === 0?"No Brews":"- Brews -"}</Text>
                 </TouchableOpacity>
-                <FlatList
-                    data={brews}
-                    horizontal={false}
-                    renderItem={(item) => <Brew brew={item.item} colors={colors} setFavorite={(value) => setFavorite(value, item.item.id)} navigation={navigation}/>}
-                    keyExtractor={item => item.id.toString()}
-                />
-            </Animated.View>
+                
+            </Animated.View> */}
 
             </>}
         </View>
