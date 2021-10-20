@@ -33,11 +33,9 @@ function mapRating(value) {
 }
 
 const NewBeans = ({ route, navigation }) => {
-    const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g", flavor_notes: "", rating: 0}); // Beans state
+    const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g", flavor_notes: "", rating: 0, photo_uri: null}); // Beans state
 
     // Camera state variables
-    const [hasPermission, setHasPermission] = useState(null);
-    const [imageUri, setImageUri] = useState(null);
     const [cameraVisible, setCameraVisible] = useState(false);
 
     const {colors} = useTheme(); // Color theme
@@ -54,21 +52,14 @@ const NewBeans = ({ route, navigation }) => {
             (tx) => {
                 tx.executeSql(`
                     INSERT INTO beans
-                    (region, roaster, origin, roast_level, roast_date, price, weight, weight_unit, flavor_notes, rating)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-                    [beans.region, beans.roaster, beans.origin, beans.roast_level, beans.roast_date.toJSON(), beans.price, beans.weight, beans.weight_unit, beans.flavor_notes, mapRating(beans.rating)]);
+                    (region, roaster, origin, roast_level, roast_date, price, weight, weight_unit, flavor_notes, rating, photo_uri)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+                    [beans.region, beans.roaster, beans.origin, beans.roast_level, beans.roast_date.toJSON(), beans.price, beans.weight, beans.weight_unit, beans.flavor_notes, mapRating(beans.rating), beans.photo_uri]);
             },
             (e) => {console.log(e)},
             () => navigation.goBack()
         );
     }
-
-    useEffect(() => {
-        (async () => {
-            const { status } = await Camera.requestCameraPermissionsAsync();
-            setHasPermission(status === "granted");
-        })();
-    }, []);
 
     useEffect(() => {
         if (route.params?.flavor_notes) { // If parent provides flavor_notes, update beans.flavor_notes
@@ -86,13 +77,13 @@ const NewBeans = ({ route, navigation }) => {
                 leftOnPress={() => navigation.goBack()} 
                 rightOnPress={() => addBeans()}
             />}
-            {cameraVisible 
-            ? <BeansCamera onCancel={() => setCameraVisible(false)} setUri={setImageUri}/>
+            {cameraVisible
+            ? <BeansCamera onCancel={() => setCameraVisible(false)} setUri={(uri) => setBeans({...beans, photo_uri: uri})}/>
             :<ScrollView>
                 
                 <View style={styles.cameraIcon}>
-                    {imageUri  
-                    ?<Image style={styles.image} source={{uri: imageUri}}/> 
+                    {beans.photo_uri  
+                    ?<Image style={styles.image} source={{uri: beans.photo_uri}}/> 
                     :<TouchableOpacity style={styles.openCameraButton} onPress={() => setCameraVisible(true)}>
                         <FontAwesomeIcon icon={faCamera} size={35}/>
                     </TouchableOpacity>}

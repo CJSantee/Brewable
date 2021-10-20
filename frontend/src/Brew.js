@@ -53,40 +53,40 @@ const Brew = ({ brew, setFavorite, navigation }) => {
 
     return (
         <HoldItem items={MenuItems} key={brew.id}>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate("DisplayBrew", {brew_id: brew.id})}>
-        <View style={{...styles.brew, backgroundColor: colors.card, borderColor: colors.border}}>
-            <View style={styles.cardItem}>
-                <Text style={{fontWeight: 'bold', fontSize: 18}}>{brew.brew_method}</Text>
-            </View>
-            <View style={styles.cardItem}>
-                <FontAwesomeIcon size={20} icon={faTint} color="#0069A7"/>
-                <Text style={styles.value}>{brew.water}</Text>
-                <Text>{brew.water_unit}</Text>
-            </View>
-            <View style={styles.cardItem}>
-                <CoffeeBean width={20} height={20} style={{color: "#714B33"}}/>
-                <Text style={styles.value}>{brew.coffee}</Text>
-                <Text>{brew.coffee_unit}</Text>
-            </View>
-            <View style={styles.cardItem}>
-                <FontAwesomeIcon size={20} icon={faFire} color="#EB811E"/>
-                <Text style={styles.value}>{brew.temperature}</Text>
-                <Text>°{brew.temp_unit}</Text>
-            </View>
-            <View style={styles.cardItem}>
-                <FontAwesomeIcon size={20} icon={faStopwatch} color="#4D814B"/>
-                <Text style={styles.value}>{brew.time}</Text>
-            </View>
-            <TouchableWithoutFeedback onPress={toggleFavorite}>
-                <View style={styles.favorite}>
-                    <FontAwesomeIcon icon={brew.favorite?faHeartSolid:faHeart} size={22} color={brew.favorite?"#a00": colors.placeholder}/>
-                    <Text style={{marginLeft: 5, fontWeight: 'bold', fontSize: 16}}>{brew.rating}/5</Text>
+            <TouchableWithoutFeedback onPress={() => navigation.navigate("DisplayBrew", {brew_id: brew.id})}>
+                <View style={{...styles.brew, backgroundColor: colors.card, borderColor: colors.border}}>
+                    <View style={styles.cardItem}>
+                        <Text style={{fontWeight: 'bold', fontSize: 18}}>{brew.brew_method}</Text>
+                    </View>
+                    <View style={styles.cardItem}>
+                        <FontAwesomeIcon size={20} icon={faTint} color="#0069A7"/>
+                        <Text style={styles.value}>{brew.water}</Text>
+                        <Text>{brew.water_unit}</Text>
+                    </View>
+                    <View style={styles.cardItem}>
+                        <CoffeeBean width={20} height={20} style={{color: "#714B33"}}/>
+                        <Text style={styles.value}>{brew.coffee}</Text>
+                        <Text>{brew.coffee_unit}</Text>
+                    </View>
+                    <View style={styles.cardItem}>
+                        <FontAwesomeIcon size={20} icon={faFire} color="#EB811E"/>
+                        <Text style={styles.value}>{brew.temperature}</Text>
+                        <Text>°{brew.temp_unit}</Text>
+                    </View>
+                    <View style={styles.cardItem}>
+                        <FontAwesomeIcon size={20} icon={faStopwatch} color="#4D814B"/>
+                        <Text style={styles.value}>{brew.time}</Text>
+                    </View>
+                    <TouchableWithoutFeedback onPress={toggleFavorite}>
+                        <View style={styles.favorite}>
+                            <FontAwesomeIcon icon={brew.favorite?faHeartSolid:faHeart} size={22} color={brew.favorite?"#a00": colors.placeholder}/>
+                            <Text style={{marginLeft: 5, fontWeight: 'bold', fontSize: 16}}>{brew.rating}/5</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    <TastingWheel style={styles.wheel} displayText={false} width="125" height="125" values={[brew.body*20, brew.aftertaste*20, brew.sweetness*20, brew.aroma*20, brew.flavor*20, brew.acidity*20]}/>
+                    <Text style={styles.date}>{date_string}</Text>
                 </View>
             </TouchableWithoutFeedback>
-            <TastingWheel style={styles.wheel} displayText={false} width="125" height="125" values={[brew.body*20, brew.aftertaste*20, brew.sweetness*20, brew.aroma*20, brew.flavor*20, brew.acidity*20]}/>
-            <Text style={styles.date}>{date_string}</Text>
-        </View>
-        </TouchableWithoutFeedback>
         </HoldItem>
     );
 }

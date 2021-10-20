@@ -100,7 +100,7 @@ const BrewMethods = ({ route, navigation }) => {
                         selected={selected.has(object.item.method)}
                         toggleSelect={(value) => toggleSelected(value)}
                     >
-                        {brew_method === item.item.method ? <FontAwesomeIcon icon={faCheck} size={20} color={colors.placeholder}/> : <View/>}
+                        {brew_method === object.item.method ? <FontAwesomeIcon icon={faCheck} size={20} color={colors.placeholder}/> : <View/>}
                     </RowItem>  
                 }
                 keyExtractor={item => item.id.toString()}

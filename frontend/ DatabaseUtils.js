@@ -23,7 +23,8 @@ const createTables = (db) => {
             weight REAL,
             weight_unit TEXT,
             flavor_notes TEXT,
-            rating INTEGER
+            rating INTEGER,
+            photo_uri TEXT
           );`
         );
 

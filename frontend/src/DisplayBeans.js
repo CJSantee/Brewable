@@ -1,15 +1,29 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
     View,
     Text,
+    Animated,
     StyleSheet,
     FlatList,
-    ActivityIndicator
+    ActivityIndicator,
+    TouchableOpacity,
+    Dimensions
 } from 'react-native';
+
+import {
+    PanGestureHandler,
+    NativeViewGestureHandler,
+    State,
+    TapGestureHandler,
+} from 'react-native-gesture-handler';
+
 import { useTheme, useFocusEffect } from '@react-navigation/native';
+
+let {height, width} = Dimensions.get('window');
 
 import Header from './components/Header';
 import Brew from './Brew';
+import { USE_NATIVE_DRIVER } from '../config';
 
 const DisplayBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g"}); // Beans state
@@ -17,9 +31,12 @@ const DisplayBeans = ({ route, navigation }) => {
     const [flavorNotes, setFlavorNotes] = useState([]);
     const [sortBy, setSortBy] = useState("brew_date");
     const [loading, setLoading] = useState(true);
+    const [brewsHighlighted, setBrewsHighlighted] = useState(false);
 
     const { beans_id } = route.params; // Beans_id for which beans to display
     const {colors} = useTheme(); // Color theme
+
+    const [heightAnim] = useState(new Animated.Value(60));
 
     // Format roast_date
     const options = { weekdate: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -54,6 +71,16 @@ const DisplayBeans = ({ route, navigation }) => {
             null
         );
     }
+    const hightlightBrews = () => {
+        Animated.spring(heightAnim, 
+        {
+            tension: 10,
+            friction: 7,
+            toValue: brewsHighlighted ? 60 : height/1.15,
+            useNativeDriver: false,
+        }).start();
+        setBrewsHighlighted(!brewsHighlighted);
+    };
 
     // Split flavor_notes into array
     useEffect(() => {
@@ -122,16 +149,22 @@ const DisplayBeans = ({ route, navigation }) => {
                     </View>
                 )}
             </View>
-            <Text style={{alignSelf: 'center',fontSize: 14, color: colors.placeholder}}>{brews.length === 0?"No Brews":"- Brews -"}</Text>
-            <View style={styles.col}>
+            <Animated.View style={{...styles.animated,
+                    backgroundColor: colors.background,
+                    borderColor: colors.border,
+                    height: heightAnim
+                }}>
+                <TouchableOpacity onPress={hightlightBrews} style={{height: brewsHighlighted?30:60, marginTop: brewsHighlighted?15:20}}>
+                    <Text style={{alignSelf: 'center',fontSize: 14, color: colors.placeholder}}>{brews.length === 0?"No Brews":"- Brews -"}</Text>
+                </TouchableOpacity>
                 <FlatList
                     data={brews}
-                    style={{alignSelf: 'center'}}
                     horizontal={false}
                     renderItem={(item) => <Brew brew={item.item} colors={colors} setFavorite={(value) => setFavorite(value, item.item.id)} navigation={navigation}/>}
                     keyExtractor={item => item.id.toString()}
                 />
-            </View> 
+            </Animated.View>
+
             </>}
         </View>
     );
@@ -150,13 +183,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexWrap: 'wrap'
     },
-    col: {
-        flex: 1,
-        flexDirection: 'row',
-        marginHorizontal: 10,
-        marginVertical: 5,
-        justifyContent: 'center',
-        alignItems: 'center'
+    animated: {
+        position: 'absolute',
+        bottom: 0,
+        width: width,
+        borderTopStartRadius: 15,
+        borderTopEndRadius: 15,
+        borderWidth: 1,
+        height: height/1.5,
     },
     title: {
         fontWeight: 'bold',

@@ -15,7 +15,6 @@ function BeansCamera({ onCancel, setUri }) {
         if (camera) {
             const photo = await camera.current.takePictureAsync();
             _handleSave(photo.uri);
-            setUri(photo.uri);
             onCancel();
         }
     }
@@ -34,6 +33,7 @@ function BeansCamera({ onCancel, setUri }) {
                 console.log("Coffee Lab album does not exist, creating");
                 MediaLibrary.createAlbumAsync('Coffee Lab', asset);
             }
+            setUri(asset.uri);
         } else {
             console.log("Missing permissions");
         }

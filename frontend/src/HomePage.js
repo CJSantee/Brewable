@@ -3,13 +3,19 @@ import {
     View,
     StyleSheet,
     FlatList,
+    Text,
+    Image,
+    TouchableOpacity
 } from 'react-native';
+
+import { Asset } from 'expo-asset';
+import { useAssets } from 'expo-asset';
+
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 // Component Imports
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import BrewList from './BrewList';
 import Header from './components/Header';
 import RowItem from './components/RowItem';
 import SearchBar from './components/SearchBar';
@@ -18,6 +24,7 @@ import SwipeableRow from './components/SwipeableRow';
 // Modal for listing new beans or brew
 const Modal = ({ navigation }) => {
     const {colors} = useTheme();
+
     return (
         <View style={styles.modal}>
             <RowItem title="Beans" text="" onPress={() => navigation.navigate("NewBeans")}>
@@ -30,10 +37,29 @@ const Modal = ({ navigation }) => {
     );
 }
 
-const MenuItems = [
-    { text: "Actions", isTitle: true },
-    { text: "Edit" }
-];
+const Beans = ({beans, navigation}) => {
+    const {colors} = useTheme();
+    const [assets] = useAssets([require('../assets/BeansBag.png')]);
+
+    return (
+        <SwipeableRow>
+            <TouchableOpacity onPress={() => navigation.navigate("DisplayBeans", {beans_id: beans.id, parent: "HomePage"})}>
+            <View style={{...styles.beansRow, borderColor: colors.border}}> 
+                <Image source={beans.photo_uri?{uri: beans.photo_uri}:require('../assets/BeansBag.png')} style={{
+                    width: 80, 
+                    height: 80, 
+                    borderRadius: beans.photo_uri?50:0, 
+                    resizeMode: 'cover',
+                    borderWidth: beans.photo_uri?1:0,}}/>
+                <View style={{flexDirection: 'column', margin: 15}}>
+                    <Text style={{fontWeight: 'bold', fontSize: 18}}>{beans.roaster}</Text>
+                    <Text style={{fontSize: 16}}>{beans.region}</Text>
+                </View>
+            </View>
+            </TouchableOpacity>
+        </SwipeableRow>
+    );
+}
 
 const HomePage = ({ navigation }) => {
     const {colors} = useTheme(); // Theme colors
@@ -98,8 +124,13 @@ const HomePage = ({ navigation }) => {
     //     (item) => <BrewList beans={item.item} navigation={navigation}/>,
     //     []
     // );
+    // const renderItem = useCallback(
+    //     (item) => <SwipeableRow><RowItem text="" title={item.item.roaster +" - "+item.item.region} onPress={() => navigation.navigate("DisplayBeans", {beans_id: item.item.id})}></RowItem></SwipeableRow>,
+    //     []
+    // );
+
     const renderItem = useCallback(
-        (item) => <SwipeableRow><RowItem text="" title={item.item.roaster +" - "+item.item.region} onPress={() => navigation.navigate("DisplayBeans", {beans_id: item.item.id})}></RowItem></SwipeableRow>,
+        (item) => <Beans beans={item.item} navigation={navigation}/>,
         []
     );
 
@@ -129,6 +160,13 @@ const styles = StyleSheet.create({
         zIndex: 1,
         borderColor: "rgb(201, 210, 217)",
         borderBottomWidth: 1
+    },
+    beansRow: {
+        width: "100%", 
+        borderBottomWidth: 1,
+        padding: 15,
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     text: {
         fontSize: 18,
