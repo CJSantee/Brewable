@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
     StyleSheet,
     ScrollView,
@@ -6,7 +6,7 @@ import {
     Text
 } from 'react-native';
 import { faChevronRight, faStopwatch } from '@fortawesome/free-solid-svg-icons';
-import { useTheme } from '@react-navigation/native';
+import { useFocusEffect, useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 
 // Component Imports
@@ -40,7 +40,22 @@ function mapFlavors(brew) {
 }
 
 const EditBrew = ({ route, navigation }) => {
-    const [brew, setBrew] = useState(route.params.brew); // Brew data from parent
+    const [brew, setBrew] = useState(
+        {
+            brew_method: "", 
+            grind_setting: "", 
+            coffee: 0, coffee_unit: "g", 
+            water: 0, water_unit: "g", 
+            temperature: 0, temp_unit: "f", 
+            flavor: 0, acidity: 0, aroma: 0, body: 0, sweetness: 0, aftertaste: 0, 
+            notes: "", 
+            date: new Date(), 
+            time: "",
+            beans_id: 0, 
+            rating: 0
+        }
+    ); // Brew state
+    const { brew_id } = route.params;
     const {colors} = useTheme(); // Color theme
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
 
@@ -63,7 +78,7 @@ const EditBrew = ({ route, navigation }) => {
                     temp_unit = ?, brew_method = ?, time = ?, date = ?, notes = ?, flavor = ?, acidity = ?, aroma = ?,
                     body = ?, sweetness = ?, aftertaste = ?, beans_id = ?, favorite = ?
                     WHERE id = ?;`,
-                    [brew.grind_setting, newBrew.water, newBrew.water_unit, newBrew.coffee, newBrew.coffee_unit, newBrew.temperature, newBrew.temp_unit, newBrew.brew_method, newBrew.time, new Date(brew.date).toJSON(), newBrew.notes, newBrew.flavor, newBrew.acidity, newBrew.aroma, newBrew.body, newBrew.sweetness, newBrew.aftertaste, newBrew.beans_id, 0, newBrew.id]);
+                    [newBrew.grind_setting, newBrew.water, newBrew.water_unit, newBrew.coffee, newBrew.coffee_unit, newBrew.temperature, newBrew.temp_unit, newBrew.brew_method, newBrew.time, new Date(brew.date).toJSON(), newBrew.notes, newBrew.flavor, newBrew.acidity, newBrew.aroma, newBrew.body, newBrew.sweetness, newBrew.aftertaste, newBrew.beans_id, newBrew.favorite, newBrew.id]);
             },
             (e) => {console.log(e)},
             () => navigation.navigate("DisplayBrew", { brew_id: newBrew.id })
@@ -78,6 +93,28 @@ const EditBrew = ({ route, navigation }) => {
             setBrew({...brew, roaster: route.params.roaster, region: route.params.region, beans_id: route.params.beans_id});
         }
     }, [route.params?.brew_method, route.params?.beans_id]);
+
+    useFocusEffect(
+        useCallback(()=> {
+            let mounted = true;
+            db.transaction(
+                (tx) => {
+                    tx.executeSql(
+                        `SELECT brews.*, beans.roaster, beans.region 
+                        FROM brews 
+                        LEFT JOIN beans ON brews.beans_id = beans.id
+                        WHERE brews.id = ?;`,
+                        [brew_id],
+                        (_, { rows: { _array } }) => {
+                            if (mounted) setBrew(_array[0]);
+                        }
+                    );
+                },
+                (e) => console.log(e), null
+            );
+            return () => mounted = false;
+        }, [])
+    );
 
     return (
         <View style={{width: "100%", height: "100%"}}>

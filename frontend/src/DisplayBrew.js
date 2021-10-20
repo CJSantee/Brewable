@@ -60,20 +60,7 @@ const DisplayBrew = ({ route, navigation }) => {
                 leftText="Back" rightText="Edit" 
                 leftOnPress={() => navigation.goBack()} 
                 rightOnPress={
-                    () => navigation.navigate("EditBrew", 
-                        {   
-                            // Pass brew information with flavor values amplified for slider
-                            brew: {
-                                ...brew, 
-                                flavor: brew.flavor*20, 
-                                acidity: brew.acidity*20,
-                                aroma: brew.aroma*20,
-                                body: brew.body*20,
-                                sweetness: brew.sweetness*20,
-                                aftertaste: brew.aftertaste*20                                
-                            }
-                        }
-                    )
+                    () => navigation.navigate("EditBrew", { brew_id: brew.id })
                 }
             />
             <ScrollView>

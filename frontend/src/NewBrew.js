@@ -63,7 +63,20 @@ const addBrew = (brew, time) => {
 }
 
 const NewBrew = ({ route, navigation }) => {
-    const [brew, setBrew] = useState({beans: "", brew_method: "", grind_setting: "", coffee: 0, coffee_unit: "g", water: 0, water_unit: "g", temperature: 0, temp_unit: "f", flavor: 0, acidity: 0, aroma: 0, body: 0, sweetness: 0, aftertaste: 0, notes: "", date: new Date(), beans_id: 0, rating: 0}); // Brew state
+    const [brew, setBrew] = useState(
+        {
+            brew_method: "", 
+            grind_setting: "", 
+            coffee: 0, coffee_unit: "g", 
+            water: 0, water_unit: "g", 
+            temperature: 0, temp_unit: "f", 
+            flavor: 0, acidity: 0, aroma: 0, body: 0, sweetness: 0, aftertaste: 0, 
+            notes: "", 
+            date: new Date(), 
+            beans_id: 0, 
+            rating: 0
+        }
+    ); // Brew state
     const {colors} = useTheme(); // Color theme
     const [timer, setTimer] = useState(0); // Current timer value in seconds
     const [isActive, setIsActive] = useState(false); // Timer isActive?
