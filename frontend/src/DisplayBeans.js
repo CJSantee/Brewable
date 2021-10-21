@@ -195,12 +195,9 @@ const DisplayBeans = ({ route, navigation }) => {
                 {roastDate()!==""?<Text style={{fontSize: 18}}>{roastDate()}</Text>:<View/>}
                 <Text style={{fontSize: 18}}> - {beans.weight}{beans.weight_unit}</Text>
             </View>
-            <TouchableOpacity onPress={() => setBrews(brews.filter(brew => brew.brew_method !== "Aeropress"))}>
             <View style={styles.row}>
                 <Text>{beans.origin}</Text>
-            </View>
-            </TouchableOpacity>
-            
+            </View>            
             <View style={styles.flavors}>
                 {flavorNotes.map((item) => 
                     <View key={item } style={styles.flavor}>

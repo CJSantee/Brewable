@@ -14,7 +14,7 @@ const RATIO = 2;
 class SwipeableRow extends Component {
     constructor(props) {
         super(props);
-        this.state = { leftColor: "#aaa", rightColor: "#aaa", };
+        this.state = { leftColor: "#c9d2d9", rightColor: "#c9d2d9", };
         this._width = 0;
         this._dragX = new Animated.Value(0);
         this._transX = this._dragX.interpolate({
@@ -51,11 +51,9 @@ class SwipeableRow extends Component {
 
             let toValue = 0;
             if (endOffsetX > this._width / 2) {
-                console.log("Left");
-                // toValue = this._width * RATIO;
+                this.props.onSwipeLeft();
             } else if (endOffsetX < -this._width / 2) {
-                console.log("Right");
-                // toValue = -this._width * RATIO;
+                this.props.onSwipeRight();
             }
 
             Animated.spring(this._dragX, {
@@ -65,7 +63,7 @@ class SwipeableRow extends Component {
                 toValue,
                 useNativeDriver: USE_NATIVE_DRIVER,
             }).start();
-            this.setState({leftColor: "#aaa", rightColor: "#aaa"});
+            this.setState({leftColor: "#c9d2d9", rightColor: "#c9d2d9"});
         }
     };
     _onLayout = event => {

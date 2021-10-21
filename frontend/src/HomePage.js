@@ -5,7 +5,8 @@ import {
     FlatList,
     Text,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from 'react-native';
 
 import { Asset } from 'expo-asset';
@@ -37,12 +38,29 @@ const Modal = ({ navigation }) => {
     );
 }
 
+const deleteConfirmation = () => {
+    Alert.alert(
+        "Delete",
+        "Attempting to delete beans, are you sure?",
+        [
+            {
+                text: "Cancel",
+                onPress: () => console.log("Cancel")
+            },
+            {
+                text: "Yes",
+                onPress: () => console.log("Yes")
+            }
+        ]
+    )
+}
+
 const Beans = ({beans, navigation}) => {
     const {colors} = useTheme();
     const [assets] = useAssets([require('../assets/BeansBag.png')]);
 
     return (
-        <SwipeableRow>
+        <SwipeableRow onSwipeLeft={() => console.log("Swiped left")} onSwipeRight={deleteConfirmation}>
             <TouchableOpacity onPress={() => navigation.navigate("DisplayBeans", {beans_id: beans.id, parent: "HomePage"})}>
             <View style={{...styles.beansRow, borderColor: colors.border}}> 
                 <Image source={beans.photo_uri?{uri: beans.photo_uri}:require('../assets/BeansBag.png')} style={{

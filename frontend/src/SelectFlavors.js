@@ -2,7 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import {
     View,
     StyleSheet,
-    FlatList
+    FlatList,
+    Alert
 } from 'react-native';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -112,6 +113,27 @@ const SelectFlavors = ({ route, navigation }) => {
         );
     }
 
+    // Add flavor to database
+    const addFlavor = (flavor) => {
+        if (flavor === "") {
+            console.log("Missing Value");
+            return false;
+        }
+    
+        db.transaction(
+            (tx) => {
+                tx.executeSql(`
+                    INSERT INTO flavors
+                    (flavor)
+                    VALUES (?);`,
+                    [flavor]
+                );
+            },
+            (e) => {console.log(e)},
+            updateFlavors
+        );
+    }
+
     // Load the flavors from the database
     const updateFlavors = useCallback(() => {
         let mounted = true;
@@ -140,6 +162,23 @@ const SelectFlavors = ({ route, navigation }) => {
         }
     },[])
 
+    const newFlavorPrompt = () => {
+        Alert.prompt(
+            "New Flavor",
+            "Enter new flavor name",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel")
+                },
+                {
+                    text: "Done",
+                    onPress: (value) => addFlavor(value)
+                }
+            ]
+        );
+    }
+
     return (
         <View style={{height: "100%", width: "100%"}}>  
             <Header 
@@ -149,7 +188,7 @@ const SelectFlavors = ({ route, navigation }) => {
                 leftOnPress={editing?deleteSelected:() => navigation.navigate(parent, { flavor_notes: flavorNotes() })} 
                 leftChevron={editing?false:true}  
                 rightOnPress={toggleEditing}
-                plus={true} plusOnPress={() => navigation.navigate("NewFlavor")}
+                plus={true} plusOnPress={newFlavorPrompt}
             />
             <SearchBar searchQuery={searchQuery} setSearchQuery={handleSearch}/> 
             <FlatList 

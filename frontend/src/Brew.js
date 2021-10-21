@@ -35,7 +35,6 @@ const Brew = ({ brew, menuItems, onFavorite, navigation }) => {
     // Add Favorite
     function toggleFavorite(e) {
         e.stopPropagation(); // Prevent card from being clicked
-        console.log("Favorite");
         onFavorite(brew.id); // API call pass by parent
     }
 
