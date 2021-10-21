@@ -84,6 +84,24 @@ const SelectFlavors = ({ route, navigation }) => {
         }
     }
 
+    // Prompt User to Enter New Flavor
+    const newFlavorPrompt = () => {
+        Alert.prompt(
+            "New Flavor",
+            "Enter new flavor name",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel")
+                },
+                {
+                    text: "Done",
+                    onPress: (value) => addFlavor(value)
+                }
+            ]
+        );
+    }
+
     // Convert set of picked flavors to comma-separated values
     function flavorNotes() {
         if (picked.size === 0)
@@ -161,23 +179,6 @@ const SelectFlavors = ({ route, navigation }) => {
             setPicked(new Set(route.params?.flavor_notes.split(',')));
         }
     },[])
-
-    const newFlavorPrompt = () => {
-        Alert.prompt(
-            "New Flavor",
-            "Enter new flavor name",
-            [
-                {
-                    text: "Cancel",
-                    onPress: () => console.log("Cancel")
-                },
-                {
-                    text: "Done",
-                    onPress: (value) => addFlavor(value)
-                }
-            ]
-        );
-    }
 
     return (
         <View style={{height: "100%", width: "100%"}}>  

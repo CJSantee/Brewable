@@ -2,7 +2,8 @@ import React, { useCallback, useState } from 'react';
 import {
     View,
     StyleSheet,
-    FlatList
+    FlatList,
+    Alert
 } from 'react-native';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -39,6 +40,24 @@ const BrewMethods = ({ route, navigation }) => {
         }
     }
 
+    // Prompt user to enter new brew method
+    const newBrewMethodPrompt = () => {
+        Alert.prompt(
+            "New Brew Method",
+            "Enter new brew method name",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel")
+                },
+                {
+                    text: "Done",
+                    onPress: (value) => addBrewMethod(value)
+                }
+            ]
+        );
+    }
+
     // Remove each of the elements in the selected set from the database
     const deleteSelected = () => {
         db.transaction(
@@ -52,6 +71,27 @@ const BrewMethods = ({ route, navigation }) => {
                 toggleEditing(); // On success, stop editing
                 updateBrewMethods();
             }
+        );
+    }
+
+    // Add method to database
+    const addBrewMethod = (method) => {
+        if (method === "") {
+            console.log("Missing Value");
+            return false;
+        }
+    
+        db.transaction(
+            (tx) => {
+                tx.executeSql(`
+                    INSERT INTO brew_methods
+                    (method)
+                    VALUES (?);`,
+                    [method]
+                );
+            },
+            (e) => {console.log(e)},
+            updateBrewMethods
         );
     }
 
@@ -85,7 +125,7 @@ const BrewMethods = ({ route, navigation }) => {
                 leftOnPress={editing?deleteSelected:() => navigation.goBack()} 
                 leftChevron={editing?false:true}  
                 rightOnPress={toggleEditing}
-                plus={true} plusOnPress={() => navigation.navigate("NewBrewMethod")}
+                plus={true} plusOnPress={newBrewMethodPrompt}
             />
             <FlatList 
                 data={methods}
