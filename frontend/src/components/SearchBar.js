@@ -15,7 +15,7 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
     return (
         <View style={{...styles.bar, backgroundColor: colors.card, borderColor: colors.border}}>
             <View style={{...styles.input, backgroundColor: colors.background, borderColor: colors.border}} >
-                <FontAwesomeIcon style={{marginHorizontal: 5}} icon={faSearch}/>
+                <FontAwesomeIcon style={{marginHorizontal: 10}} icon={faSearch} color={colors.placeholder}/>
                 <TextInput   
                     style={{width: "85%"}}
                     value={searchQuery} 
@@ -23,7 +23,7 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
                 />
                 {searchQuery!==""
                     ?<TouchableOpacity style={styles.cancel} onPress={() => setSearchQuery("")}>
-                        <FontAwesomeIcon icon={faTimesCircle} size={18}/>
+                        <FontAwesomeIcon icon={faTimesCircle} size={18} color={colors.placeholder}/>
                     </TouchableOpacity>
                     :<View/>}
             </View>  
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     input: {
         height: 30,
         margin: 10,
-        borderRadius: 5,
+        borderRadius: 10,
         borderWidth: 1,
         alignItems: 'center',
         flexDirection: 'row'

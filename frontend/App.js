@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import * as SQLite from 'expo-sqlite';
 import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { createTables, populateBeans, populateBrewMethods, populateBrews, populateFlavors, populateRandomBrews } from './ DatabaseUtils';
-import { LightTheme, DarkTheme } from './Themes';
+import { createTables, populateBeans, populateBrewMethods, populateFlavors, populateRandomBrews } from './ DatabaseUtils';
+import { LightTheme } from './Themes';
 
 import { HoldMenuProvider } from 'react-native-hold-menu';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';

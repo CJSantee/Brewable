@@ -6,13 +6,14 @@ import {
     Text,
     Image,
     TouchableOpacity,
-    Alert
+    Alert,
+    Modal
 } from 'react-native';
 
 import { useAssets } from 'expo-asset';
 
 import { useTheme, useFocusEffect } from '@react-navigation/native';
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faPencilAlt, faShare, faTrash, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 // Component Imports
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -22,11 +23,11 @@ import SearchBar from '../components/SearchBar';
 import SwipeableRow from '../components/SwipeableRow';
 
 // Modal for listing new beans or brew
-const Modal = ({ navigation }) => {
+const NewModal = ({ navigation }) => {
     const {colors} = useTheme();
 
     return (
-        <View style={styles.modal}>
+        <View style={styles.newModal}>
             <RowItem title="Beans" text="" onPress={() => navigation.navigate("NewBeans")}>
                 <FontAwesomeIcon icon={faChevronRight} size={20} color={colors.interactive}/>
             </RowItem>
@@ -37,7 +38,7 @@ const Modal = ({ navigation }) => {
     );
 }
 
-const Beans = ({beans, onDelete, navigation}) => {
+const Beans = ({beans, onDelete, onLongPress, onSelect, navigation}) => {
     const {colors} = useTheme();
     const [assets] = useAssets([require('../../assets/BeansBag.png')]);
 
@@ -59,28 +60,33 @@ const Beans = ({beans, onDelete, navigation}) => {
     }
 
     return (
-        <SwipeableRow onSwipeLeft={() => console.log("Swiped left")} onSwipeRight={deleteConfirmation}>
-            <TouchableOpacity onPress={() => navigation.navigate("DisplayBeans", {beans_id: beans.id, parent: "HomePage"})}>
-            <View style={{...styles.beansRow, borderColor: colors.border}}> 
-                <Image source={beans.photo_uri?{uri: beans.photo_uri}:require('../../assets/BeansBag.png')} style={{
-                    width: 80, 
-                    height: 80, 
-                    borderRadius: beans.photo_uri?50:0, 
-                    resizeMode: 'cover',
-                    borderWidth: beans.photo_uri?1:0,}}/>
-                <View style={{flexDirection: 'column', margin: 15}}>
-                    <Text style={{fontWeight: 'bold', fontSize: 18}}>{beans.roaster}</Text>
-                    <Text style={{fontSize: 16}}>{beans.region}</Text>
+        // <SwipeableRow onSwipeLeft={() => console.log("Swiped left")} onSwipeRight={deleteConfirmation}>
+            <TouchableOpacity 
+                onPress={() => navigation.navigate("DisplayBeans", {beans_id: beans.id, parent: "HomePage"})}
+                onLongPress={onLongPress}
+            >
+                <View style={{...styles.beansRow, borderColor: colors.border}}> 
+                    <Image source={beans.photo_uri?{uri: beans.photo_uri}:require('../../assets/BeansBag.png')} style={{
+                        width: 80, 
+                        height: 80, 
+                        borderRadius: beans.photo_uri?50:0, 
+                        resizeMode: 'cover',
+                        borderWidth: beans.photo_uri?1:0,}}/>
+                    <View style={{flexDirection: 'column', margin: 15}}>
+                        <Text style={{fontWeight: 'bold', fontSize: 18}}>{beans.roaster}</Text>
+                        <Text style={{fontSize: 16}}>{beans.region}</Text>
+                    </View>
                 </View>
-            </View>
             </TouchableOpacity>
-        </SwipeableRow>
+        // </SwipeableRow>
     );
 }
 
 const HomePage = ({ navigation }) => {
     const {colors} = useTheme(); // Theme colors
-    const [modal, setModal] = useState(false); // Modal state
+    const [newModal, setNewModal] = useState(false); // New Modal state
+    const [btmModal, setBtmModal] = useState(false); // Bottom modal state
+    const [selected, setSelected] = useState(null);
     const [beans, setBeans] = useState([]); // Beans array
     const [refreshing, setRefreshing] = useState(false);
 
@@ -159,7 +165,8 @@ const HomePage = ({ navigation }) => {
     useFocusEffect(
         useCallback(()=> {
             let mounted = true;
-            setModal(false);
+            setNewModal(false);
+            setBtmModal(false);
             db.transaction((tx) => {
                 tx.executeSql("SELECT * FROM beans;",
                 [],
@@ -172,7 +179,7 @@ const HomePage = ({ navigation }) => {
     );
 
     const renderItem = useCallback(
-        (item) => <Beans beans={item.item} onDelete={onDelete} navigation={navigation}/>,
+        (item) => <Beans beans={item.item} onDelete={onDelete} onLongPress={() => setBtmModal(!btmModal)} navigation={navigation}/>,
         []
     );
 
@@ -180,9 +187,9 @@ const HomePage = ({ navigation }) => {
 
     return (
         <View style={{flex: 1, flexDirection: 'column', backgroundColor: colors.background}}>
-            <Header title="My Collection" leftText="Settings" rightText="New" leftOnPress={()=>navigation.navigate("ProfilePage")} rightOnPress={()=>setModal(!modal)}/>
-            {modal ? <Modal navigation={navigation}/> : <View/>}
-            {modal ? <View/> : <SearchBar searchQuery={searchQuery} setSearchQuery={handleSearch}/>}
+            <Header title="My Collection" leftText="Settings" rightText="New" leftOnPress={()=>navigation.navigate("ProfilePage")} rightOnPress={()=>setNewModal(!newModal)}/>
+            {newModal ? <NewModal navigation={navigation}/> : <View/>}
+            {newModal ? <View/> : <SearchBar searchQuery={searchQuery} setSearchQuery={handleSearch}/>}
             {beans === null || beans.length === 0 ? <View/> : 
             <FlatList 
                 data={searchQuery===""?beans:searchResults}
@@ -193,6 +200,37 @@ const HomePage = ({ navigation }) => {
                 refreshing={refreshing}
                 onRefresh={onRefresh}
             />}
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={btmModal}
+            >
+                <View style={{...styles.btmModal, backgroundColor: colors.card, borderColor: colors.border}}>
+                    <View style={{position: 'absolute', right: 5, top: 5}}>
+                        <TouchableOpacity onPress={(e) => {e.stopPropagation(); setBtmModal(!btmModal)}}>
+                            <FontAwesomeIcon icon={faTimesCircle} size={18} />
+                        </TouchableOpacity>
+                    </View>
+                    <TouchableOpacity>
+                        <View style={styles.modalRow}>
+                            <FontAwesomeIcon icon={faPencilAlt} size={18} style={{marginHorizontal: 10}}/>
+                            <Text style={styles.modalText}>Edit</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <View style={{...styles.modalRow, borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.border}}>
+                            <FontAwesomeIcon icon={faShare} size={18} style={{marginHorizontal: 10}}/>
+                            <Text style={styles.modalText}>Share</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <View style={styles.modalRow}>
+                            <FontAwesomeIcon icon={faTrash} size={18} style={{marginHorizontal: 10}}/>
+                            <Text style={styles.modalText}>Delete</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </Modal>
         </View>
     );
 }
@@ -200,7 +238,7 @@ const HomePage = ({ navigation }) => {
 export default HomePage;
 
 const styles = StyleSheet.create({
-    modal: {
+    newModal: {
         zIndex: 1,
         borderColor: "rgb(201, 210, 217)",
         borderBottomWidth: 1
@@ -214,5 +252,24 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 18,
+    },
+    btmModal: {
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+        borderWidth: 1,
+        borderTopStartRadius: 15,
+        borderTopEndRadius: 15, 
+        flexDirection: 'column',
+        justifyContent: 'space-between'
+    },
+    modalRow: {
+        width: '100%',
+        height: 50,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    modalText: {
+        fontSize: 18
     }
 });

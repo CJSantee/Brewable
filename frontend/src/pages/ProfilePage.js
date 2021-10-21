@@ -7,7 +7,7 @@ import {
 import { useTheme } from '@react-navigation/native';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux'
-import { updateWaterUnit, updateCoffeeUnit, updateTempUnit, updateRatio } from './redux/PreferenceActions';
+import { updateWaterUnit, updateCoffeeUnit, updateTempUnit, updateRatio } from '../redux/PreferenceActions';
 
 // Component Imports
 import { SegmentedControl } from 'react-native-ios-kit';
