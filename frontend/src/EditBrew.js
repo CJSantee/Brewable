@@ -19,26 +19,6 @@ import TextFieldRow from './components/TextFieldRow';
 import SliderRow from './components/SliderRow';
 import DatePickerRow from './components/DatePickerRow';
 
-// Map individual flavor value
-function mapFlavor(value) {
-    if (value <= 10)
-        return 0;
-    else if (value >= 90)
-        return 5;
-    else 
-        return Math.floor((value-10)/20)+1;
-}
-// Maps the values of the flavor wheel from 0-100 to 0-5
-function mapFlavors(brew) {
-    brew.flavor = mapFlavor(brew.flavor);
-    brew.acidity = mapFlavor(brew.acidity);``
-    brew.aroma = mapFlavor(brew.aroma);
-    brew.body = mapFlavor(brew.body);
-    brew.sweetness = mapFlavor(brew.sweetness);
-    brew.aftertaste = mapFlavor(brew.aftertaste);
-    return brew;
-}
-
 const EditBrew = ({ route, navigation }) => {
     const [brew, setBrew] = useState(
         {
@@ -61,15 +41,11 @@ const EditBrew = ({ route, navigation }) => {
 
     // Update brew in database
     const updateBrew = () => {
-        let newBrew = {...brew}; // Necessary because 'brew' is read-only
-
         if (brew === null) {
             console.log("error");
             return false;
         }
     
-        newBrew = mapFlavors(brew);
-
         db.transaction(
             (tx) => {
                 tx.executeSql(`
@@ -78,10 +54,10 @@ const EditBrew = ({ route, navigation }) => {
                     temp_unit = ?, brew_method = ?, time = ?, date = ?, notes = ?, flavor = ?, acidity = ?, aroma = ?,
                     body = ?, sweetness = ?, aftertaste = ?, beans_id = ?, favorite = ?
                     WHERE id = ?;`,
-                    [newBrew.grind_setting, newBrew.water, newBrew.water_unit, newBrew.coffee, newBrew.coffee_unit, newBrew.temperature, newBrew.temp_unit, newBrew.brew_method, newBrew.time, new Date(brew.date).toJSON(), newBrew.notes, newBrew.flavor, newBrew.acidity, newBrew.aroma, newBrew.body, newBrew.sweetness, newBrew.aftertaste, newBrew.beans_id, newBrew.favorite, newBrew.id]);
+                    [brew.grind_setting, brew.water, brew.water_unit, brew.coffee, brew.coffee_unit, brew.temperature, brew.temp_unit, brew.brew_method, brew.time, new Date(brew.date).toJSON(), brew.notes, brew.flavor, brew.acidity, brew.aroma, brew.body, brew.sweetness, brew.aftertaste, brew.beans_id, brew.favorite, brew.id]);
             },
             (e) => {console.log(e)},
-            () => navigation.navigate("DisplayBrew", { brew_id: newBrew.id })
+            () => navigation.navigate("DisplayBrew", { brew_id: brew.id })
         );
     }
 

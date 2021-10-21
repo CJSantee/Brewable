@@ -31,6 +31,7 @@ import SelectFlavors from './src/SelectFlavors';
 import NewFlavor from './src/NewFlavor';
 import BeansCamera from './src/components/Camera';
 import DebugPage from './src/DebugPage';
+import FlatListTest from './src/FlatListTest';
 
 // Global declaration of SQLite Database
 global.db = SQLite.openDatabase("CoffeeLab.db");

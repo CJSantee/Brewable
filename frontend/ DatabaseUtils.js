@@ -143,8 +143,8 @@ const populateRandomBrews = (db) => {
         `INSERT INTO brews
         (acidity, aftertaste, aroma, beans_id, body, brew_method, coffee, coffee_unit, time, date, flavor, grind_setting, notes, sweetness, temp_unit, temperature, water, water_unit, favorite, rating)
         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);`,
-        [randomInt(0,5), randomInt(0,5), randomInt(0,5), randomInt(1,beansData.length), randomInt(0,5), randomBrewMethod(), randomInt(15,30), 'g',              randomTime(), randomDate(), randomInt(0,5), randomInt(1,10),    randomText(), randomInt(0,5), 'f',            randomInt(200, 212), randomInt(250,500), 'g',             randomInt(0,1), randomInt(0,5)]
-      //[brew.acidity,   brew.aftertaste,brew.aroma,     brew.beans_id,                 brew.body,      brew.brew_method,   brew.coffee,      brew.coffee_unit, brew.time,    brew.date,    brew.flavor,    brew.grind_setting, brew.notes,   brew.sweetness, brew.temp_unit, brew.temperature,    brew.water,         brew.water_unit, brew.favorite   brew.rating]
+        [randomInt(0,100), randomInt(0,100), randomInt(0,100), randomInt(1,beansData.length), randomInt(0,100), randomBrewMethod(), randomInt(15,30), 'g',              randomTime(), randomDate(), randomInt(0,100), randomInt(1,10),    randomText(), randomInt(0,5), 'f',            randomInt(200, 212), randomInt(250,500), 'g',             randomInt(0,1), randomInt(0,5)]
+      //[brew.acidity,     brew.aftertaste,  brew.aroma,       brew.beans_id,                 brew.body,        brew.brew_method,   brew.coffee,      brew.coffee_unit, brew.time,    brew.date,    brew.flavor,      brew.grind_setting, brew.notes,   brew.sweetness, brew.temp_unit, brew.temperature,    brew.water,         brew.water_unit, brew.favorite   brew.rating]
       );
     }
   },

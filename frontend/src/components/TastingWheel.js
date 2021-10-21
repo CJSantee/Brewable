@@ -9,6 +9,28 @@ import Svg, {
 } from 'react-native-svg';
 import { useTheme } from '@react-navigation/native';
 
+// Map individual flavor
+function mapFlavor(value) {
+    if (value <= 10)
+        return 0;
+    else if (value >= 90)
+        return 5;
+    else 
+        return Math.floor((value-10)/20)+1;
+}
+
+// Maps the values of the flavor wheel from 0-100 to 0-5
+function mapFlavors(brew) {
+    brew.flavor = mapFlavor(brew.flavor);
+    brew.acidity = mapFlavor(brew.acidity);
+    brew.aroma = mapFlavor(brew.aroma);
+    brew.body = mapFlavor(brew.body);
+    brew.sweetness = mapFlavor(brew.sweetness);
+    brew.aftertaste = mapFlavor(brew.aftertaste);
+    brew.rating = mapFlavor(brew.rating);
+    return brew;
+}
+
 function dtoi(degrees){
     var pi = Math.PI;
     return degrees * (pi/180);

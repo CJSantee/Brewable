@@ -89,7 +89,7 @@ class DraggableDrawer extends Component {
                         }
                     ]}
                     onLayout={this._onLayout}>
-                        <Text style={{alignSelf: 'center',fontSize: 14, marginVertical: 10}}>- Brews -</Text>
+                        <Text style={{alignSelf: 'center',fontSize: 14, marginVertical: 10}}>{this.props.title}</Text>
                         {children}
                 </Animated.View>
             </PanGestureHandler>

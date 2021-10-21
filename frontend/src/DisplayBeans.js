@@ -10,13 +10,6 @@ import {
     Dimensions
 } from 'react-native';
 
-import {
-    PanGestureHandler,
-    NativeViewGestureHandler,
-    State,
-    TapGestureHandler,
-} from 'react-native-gesture-handler';
-
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 
 let {height, width} = Dimensions.get('window');
@@ -31,6 +24,7 @@ const DisplayBeans = ({ route, navigation }) => {
     const [flavorNotes, setFlavorNotes] = useState([]);
     const [sortBy, setSortBy] = useState("brew_date");
     const [loading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
 
     const { beans_id } = route.params; // Beans_id for which beans to display
     const { colors } = useTheme(); // Color theme
@@ -59,32 +53,63 @@ const DisplayBeans = ({ route, navigation }) => {
     );
 
     // Set Brew as Favorite
-    const setFavorite = (value, id) => {
+    const onFavorite = (id) => {
+        let val = 0;
+        brews.forEach(brew => {if (brew.id === id) val = brew.favorite});
         // Update brew in database
         db.transaction(
             (tx) => {
-                tx.executeSql("UPDATE brews SET favorite = ? WHERE id = ?;", [value?1:0, id])
+                tx.executeSql("UPDATE brews SET favorite = ? WHERE id = ?;", [val===0?1:0, id])
             }, 
             (e) => console.log(e), 
             null
         );
         // Update brew state within component
-        setBrews(brews.map(brew => (brew.id === id ? {...brew, favorite: !brew.favorite}:brew)));
+        setBrews(brews.map(brew => (brew.id === id ? {...brew, favorite: brew.favorite===0?1:0}:brew)));
     }
 
     // Delete brew
-    const deleteBrew = (id) => {
+    const onDelete = (id) => {
         // Delete from database
         db.transaction(
             (tx) => {
-                tx.executeSql("DELETE FROM brews WHERE id = ?;", [id]);
+                tx.executeSql(
+                `SELECT brew_method
+                FROM brews
+                WHERE id = ?;`,
+                [id],
+                (_, { rows: { _array } }) => {
+                    console.log(_array[0]);
+                });
             },
             (e) => console.log(e),
-            null
+            (e) => {
+                console.log(e);
+                onRefresh();
+            }
         );
-        // Delete from state
-        setBrews(brews.filter(brew => brew.id !== id));
-        console.log(brews);
+        // setBrews(brews.filter(brew => brew.id !== id));// Delete from state
+    }
+
+    const onRefresh = () => {
+        setRefreshing(true);
+        db.transaction(
+            (tx) => {
+                tx.executeSql(
+                    `SELECT brews.*, beans.roaster, beans.region 
+                    FROM brews 
+                    LEFT JOIN beans 
+                    ON brews.beans_id = beans.id 
+                    WHERE beans_id = ?;`,
+                    [beans_id],
+                    (_, { rows: { _array } }) => {
+                        setBrews(_array.sort(compare));
+                    }
+                );
+            },
+            (e) => console.log(e),
+            () => setRefreshing(false)
+        );
     }
 
     // Split flavor_notes into array
@@ -113,8 +138,8 @@ const DisplayBeans = ({ route, navigation }) => {
                     tx.executeSql(
                         `SELECT brews.*, beans.roaster, beans.region 
                         FROM brews 
-                            LEFT JOIN beans 
-                            ON brews.beans_id = beans.id 
+                        LEFT JOIN beans 
+                        ON brews.beans_id = beans.id 
                         WHERE beans_id = ?;`,
                         [beans_id],
                         (_, { rows: { _array } }) => {
@@ -129,39 +154,23 @@ const DisplayBeans = ({ route, navigation }) => {
     );
 
     // RenderItem for brews FlatList
-    const renderItem = useCallback(
-        (object) => 
-            <Brew 
-                brew={object.item} 
-                colors={colors} 
-                menuItems = {[
-                    { 
-                        text: 'Edit', 
-                        icon: 'edit',
-                        onPress:  () => navigation.navigate("EditBrew", 
-                            {   
-                                // Pass brew information with flavor values amplified for slider
-                                brew: {
-                                    ...object.item, 
-                                    flavor: object.item.flavor*20, 
-                                    acidity: object.item.acidity*20,
-                                    aroma: object.item.aroma*20,
-                                    body: object.item.body*20,
-                                    sweetness: object.item.sweetness*20,
-                                    aftertaste: object.item.aftertaste*20                                
-                                }
-                            }
-                        )
-                    },
-                    { text: 'Share', icon: 'share', onPress: () => {} },
-                    { text: 'Delete', icon: 'trash', isDestructive: true, onPress: () => onDelete(brew.id) }
-                ]}
-                setFavorite={
-                    (value) => setFavorite(value, object.item.id)
-                } 
-                navigation={navigation}
-            />, []
+    const renderItem = ({item}) => (
+        <Brew 
+            brew={item} 
+            colors={colors} 
+            menuItems={[
+                { 
+                    text: item.brew_method, 
+                    icon: 'edit',
+                    onPress:  () => {}
+                },
+            ]}
+            onFavorite={onFavorite} 
+            favorite={item.favorite}
+            navigation={navigation}
+        />
     );
+
     const keyExtractor = useCallback(
         (item) => item.id.toString(), []
     );
@@ -186,9 +195,12 @@ const DisplayBeans = ({ route, navigation }) => {
                 {roastDate()!==""?<Text style={{fontSize: 18}}>{roastDate()}</Text>:<View/>}
                 <Text style={{fontSize: 18}}> - {beans.weight}{beans.weight_unit}</Text>
             </View>
+            <TouchableOpacity onPress={() => setBrews(brews.filter(brew => brew.brew_method !== "Aeropress"))}>
             <View style={styles.row}>
                 <Text>{beans.origin}</Text>
             </View>
+            </TouchableOpacity>
+            
             <View style={styles.flavors}>
                 {flavorNotes.map((item) => 
                     <View key={item } style={styles.flavor}>
@@ -197,12 +209,14 @@ const DisplayBeans = ({ route, navigation }) => {
                 )}
             </View>
 
-            <DraggableDrawer colors={colors}>
+            <DraggableDrawer title="- Brews -" colors={colors}>
                 <FlatList
                     data={brews}
                     horizontal={false}
                     renderItem={renderItem}
                     keyExtractor={keyExtractor}
+                    onRefresh={onRefresh}
+                    refreshing={refreshing}
                 />
             </DraggableDrawer>
 

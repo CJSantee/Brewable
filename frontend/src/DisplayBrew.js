@@ -101,7 +101,7 @@ const DisplayBrew = ({ route, navigation }) => {
                 <View style={styles.notes}>
                     <Text style={{fontSize: 15}}>{brew.notes}</Text>
                 </View>
-                <TastingWheel style={styles.wheel} displayText={true} width={width} height={width} values={[brew.body*20, brew.aftertaste*20, brew.sweetness*20, brew.aroma*20, brew.flavor*20, brew.acidity*20]} />
+                <TastingWheel style={styles.wheel} displayText={true} width={width} height={width} values={[brew.body, brew.aftertaste, brew.sweetness, brew.aroma, brew.flavor, brew.acidity]} />
             </ScrollView>
         </View>
     );

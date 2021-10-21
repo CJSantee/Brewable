@@ -14,7 +14,7 @@ import CoffeeBean from '../assets/coffeeBean.svg';
 import { HoldItem } from 'react-native-hold-menu';
 import TastingWheel from './components/TastingWheel';
 
-const Brew = ({ brew, menuItems, setFavorite, navigation }) => {
+const Brew = ({ brew, menuItems, onFavorite, navigation }) => {
     const {colors} = useTheme(); // Color theme
 
     // Generate date format: 'Month D, YYYY'
@@ -22,14 +22,25 @@ const Brew = ({ brew, menuItems, setFavorite, navigation }) => {
     var brew_date = new Date(brew.date);
     let date_string = brew_date.toLocaleDateString('en-US', options);
     
+    // const menuItems = [
+    //     { 
+    //         text: 'Edit', 
+    //         icon: 'edit',
+    //         onPress:  () => navigation.navigate("EditBrew", { brew_id: brew.id })
+    //     },
+    //     { text: 'Share', icon: 'share', onPress: () => {} },
+    //     { text: 'Delete', icon: 'trash', isDestructive: true, onPress: () => onDelete(brew.id) },
+    // ];
+
     // Add Favorite
     function toggleFavorite(e) {
         e.stopPropagation(); // Prevent card from being clicked
-        setFavorite(!brew.favorite); // API call pass by parent
+        console.log("Favorite");
+        onFavorite(brew.id); // API call pass by parent
     }
 
     return (
-        <HoldItem items={menuItems} key={brew.id}>
+        // <HoldItem items={menuItems} key={brew.id}>
             <TouchableWithoutFeedback onPress={() => navigation.navigate("DisplayBrew", { brew_id: brew.id })}>
                 <View style={{...styles.brew, backgroundColor: colors.card, borderColor: colors.border}}>
                     <View style={styles.cardItem}>
@@ -60,11 +71,11 @@ const Brew = ({ brew, menuItems, setFavorite, navigation }) => {
                             <Text style={{marginLeft: 5, fontWeight: 'bold', fontSize: 16}}>{brew.rating}/5</Text>
                         </View>
                     </TouchableWithoutFeedback>
-                    <TastingWheel style={styles.wheel} displayText={false} width="125" height="125" values={[brew.body*20, brew.aftertaste*20, brew.sweetness*20, brew.aroma*20, brew.flavor*20, brew.acidity*20]}/>
+                    <TastingWheel style={styles.wheel} displayText={false} width="125" height="125" values={[brew.body, brew.aftertaste, brew.sweetness, brew.aroma, brew.flavor, brew.acidity]}/>
                     <Text style={styles.date}>{date_string}</Text>
                 </View>
             </TouchableWithoutFeedback>
-        </HoldItem>
+        // </HoldItem>
     );
 }
 
