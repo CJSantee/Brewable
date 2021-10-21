@@ -51,7 +51,7 @@ const createTables = (db) => {
               beans_id INTEGER,
               favorite INTEGER,
               rating INTEGER,
-              FOREIGN KEY (beans_id) REFERENCES beans(id)
+              FOREIGN KEY (beans_id) REFERENCES beans(id) ON DELETE CASCADE
           );`
         );
 

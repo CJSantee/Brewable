@@ -9,8 +9,8 @@ import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import RowItem from './components/RowItem';
-import Header from './components/Header';
+import RowItem from '../components/RowItem';
+import Header from '../components/Header';
 
 const BrewMethods = ({ route, navigation }) => {
     const { brew_method, parent } = route.params; // Selected brew_method and parent navigation page

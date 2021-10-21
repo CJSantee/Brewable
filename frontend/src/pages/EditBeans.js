@@ -12,11 +12,11 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 // Component Imports 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import RowItem from './components/RowItem';
-import TableView from './components/TableView';
-import TextFieldRow from './components/TextFieldRow';
-import DatePickerRow from './components/DatePickerRow';
-import Header from './components/Header';
+import RowItem from '../components/RowItem';
+import TableView from '../components/TableView';
+import TextFieldRow from '../components/TextFieldRow';
+import DatePickerRow from '../components/DatePickerRow';
+import Header from '../components/Header';
 
 const EditBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState(route.params.beans); // Retrieve beans data from parent

@@ -12,12 +12,12 @@ import { useSelector } from 'react-redux'
 // Component Imports 
 import { SegmentedControl } from 'react-native-ios-kit';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import Header from './components/Header';
-import TableView from './components/TableView';
-import RowItem from './components/RowItem';
-import TextFieldRow from './components/TextFieldRow';
-import SliderRow from './components/SliderRow';
-import DatePickerRow from './components/DatePickerRow';
+import Header from '../components/Header';
+import TableView from '../components/TableView';
+import RowItem from '../components/RowItem';
+import TextFieldRow from '../components/TextFieldRow';
+import SliderRow from '../components/SliderRow';
+import DatePickerRow from '../components/DatePickerRow';
 
 // Add brew to database
 const addBrew = (brew, time) => {

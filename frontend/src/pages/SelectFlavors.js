@@ -10,9 +10,9 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 // Component Imports 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import RowItem from './components/RowItem';
-import Header from './components/Header';
-import SearchBar from './components/SearchBar';
+import RowItem from '../components/RowItem';
+import Header from '../components/Header';
+import SearchBar from '../components/SearchBar';
 
 const SelectFlavors = ({ route, navigation }) => {
     const [flavors, setFlavors] = useState([]); // Array of brew methods

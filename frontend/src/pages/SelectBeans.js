@@ -4,13 +4,12 @@ import {
     View,
     FlatList
 } from 'react-native';
-import * as SQLite from 'expo-sqlite';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 // Component Imports
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import Header from './components/Header';
-import RowItem from './components/RowItem';
+import Header from '../components/Header';
+import RowItem from '../components/RowItem';
 
 const SelectBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState([]); // List of beans

@@ -7,7 +7,7 @@ import {
 import { useTheme } from '@react-navigation/native';
 
 // Component Imports
-import Header from './components/Header';
+import Header from '../components/Header';
 
 const InfoPage = ({ route, navigation }) => {
     const { topic } = route.params; // Topic to display info on 

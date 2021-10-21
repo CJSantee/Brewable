@@ -15,23 +15,19 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { preferenceReducer } from './src/redux/PreferenceReducer';
 
-import ProfilePage from './src/ProfilePage';
-import HomePage from './src/HomePage';
-import NewBeans from './src/NewBeans';
-import NewBrew from './src/NewBrew';
-import BrewMethods from './src/BrewMethods';
-import SelectBeans from './src/SelectBeans';
-import InfoPage from './src/InfoPage';
-import DisplayBeans from './src/DisplayBeans';
-import DisplayBrew from './src/DisplayBrew';
-import NewBrewMethod from './src/NewBrewMethod';
-import EditBrew from './src/EditBrew';
-import EditBeans from './src/EditBeans';
-import SelectFlavors from './src/SelectFlavors';
-import NewFlavor from './src/NewFlavor';
-import BeansCamera from './src/components/Camera';
+import ProfilePage from './src/pages/ProfilePage';
+import HomePage from './src/pages/HomePage';
+import NewBeans from './src/pages/NewBeans';
+import NewBrew from './src/pages/NewBrew';
+import BrewMethods from './src/pages/BrewMethods';
+import SelectBeans from './src/pages/SelectBeans';
+import InfoPage from './src/pages/InfoPage';
+import DisplayBeans from './src/pages/DisplayBeans';
+import DisplayBrew from './src/pages/DisplayBrew';
+import EditBrew from './src/pages/EditBrew';
+import EditBeans from './src/pages/EditBeans';
+import SelectFlavors from './src/pages/SelectFlavors';
 import DebugPage from './src/DebugPage';
-import FlatListTest from './src/FlatListTest';
 
 // Global declaration of SQLite Database
 global.db = SQLite.openDatabase("CoffeeLab.db");
@@ -60,10 +56,8 @@ export default function App() {
           <NewStack.Screen name="ProfilePage" component={ProfilePage}/>
           <NewStack.Screen name="DebugPage" component={DebugPage}/>
           <NewStack.Screen name="BrewMethods" component={BrewMethods}/>
-          <NewStack.Screen name="NewBrewMethod" component={NewBrewMethod}/>
           <NewStack.Screen name="NewBeans" component={NewBeans}/>
           <NewStack.Screen name="SelectFlavors" component={SelectFlavors}/>
-          <NewStack.Screen name="NewFlavor" component={NewFlavor}/>
           <NewStack.Screen name="DisplayBeans" component={DisplayBeans} />
           <NewStack.Screen name="EditBeans" component={EditBeans}/>
           <NewStack.Screen name="NewBrew" component={NewBrew}/>

@@ -12,12 +12,12 @@ import { useSelector } from 'react-redux';
 // Component Imports
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { SegmentedControl } from 'react-native-ios-kit';
-import Header from './components/Header';
-import TableView from './components/TableView';
-import RowItem from './components/RowItem';
-import TextFieldRow from './components/TextFieldRow';
-import SliderRow from './components/SliderRow';
-import DatePickerRow from './components/DatePickerRow';
+import Header from '../components/Header';
+import TableView from '../components/TableView';
+import RowItem from '../components/RowItem';
+import TextFieldRow from '../components/TextFieldRow';
+import SliderRow from '../components/SliderRow';
+import DatePickerRow from '../components/DatePickerRow';
 
 const EditBrew = ({ route, navigation }) => {
     const [brew, setBrew] = useState(

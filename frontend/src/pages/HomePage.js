@@ -9,7 +9,6 @@ import {
     Alert
 } from 'react-native';
 
-import { Asset } from 'expo-asset';
 import { useAssets } from 'expo-asset';
 
 import { useTheme, useFocusEffect } from '@react-navigation/native';
@@ -17,10 +16,10 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 // Component Imports
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import Header from './components/Header';
-import RowItem from './components/RowItem';
-import SearchBar from './components/SearchBar';
-import SwipeableRow from './components/SwipeableRow';
+import Header from '../components/Header';
+import RowItem from '../components/RowItem';
+import SearchBar from '../components/SearchBar';
+import SwipeableRow from '../components/SwipeableRow';
 
 // Modal for listing new beans or brew
 const Modal = ({ navigation }) => {
@@ -38,32 +37,32 @@ const Modal = ({ navigation }) => {
     );
 }
 
-const deleteConfirmation = () => {
-    Alert.alert(
-        "Delete",
-        "Attempting to delete beans, are you sure?",
-        [
-            {
-                text: "Cancel",
-                onPress: () => console.log("Cancel")
-            },
-            {
-                text: "Yes",
-                onPress: () => console.log("Yes")
-            }
-        ]
-    )
-}
-
-const Beans = ({beans, navigation}) => {
+const Beans = ({beans, onDelete, navigation}) => {
     const {colors} = useTheme();
-    const [assets] = useAssets([require('../assets/BeansBag.png')]);
+    const [assets] = useAssets([require('../../assets/BeansBag.png')]);
+
+    const deleteConfirmation = () => {
+        Alert.alert(
+            "Confirm Delete",
+            "Are you sure you want to permanently delete these beans? You can’t undo this action.",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel")
+                },
+                {
+                    text: "Yes",
+                    onPress: () => onDelete(beans.id)
+                }
+            ]
+        )
+    }
 
     return (
         <SwipeableRow onSwipeLeft={() => console.log("Swiped left")} onSwipeRight={deleteConfirmation}>
             <TouchableOpacity onPress={() => navigation.navigate("DisplayBeans", {beans_id: beans.id, parent: "HomePage"})}>
             <View style={{...styles.beansRow, borderColor: colors.border}}> 
-                <Image source={beans.photo_uri?{uri: beans.photo_uri}:require('../assets/BeansBag.png')} style={{
+                <Image source={beans.photo_uri?{uri: beans.photo_uri}:require('../../assets/BeansBag.png')} style={{
                     width: 80, 
                     height: 80, 
                     borderRadius: beans.photo_uri?50:0, 
@@ -83,6 +82,7 @@ const HomePage = ({ navigation }) => {
     const {colors} = useTheme(); // Theme colors
     const [modal, setModal] = useState(false); // Modal state
     const [beans, setBeans] = useState([]); // Beans array
+    const [refreshing, setRefreshing] = useState(false);
 
     // Search state variables
     const [searchQuery, setSearchQuery] = useState("");
@@ -122,6 +122,39 @@ const HomePage = ({ navigation }) => {
         [sortBy]
     );
 
+    // Delete Beans
+    const onDelete = (id) => {
+        // Delete from database
+        db.transaction(
+            (tx) => {
+                tx.executeSql(
+                `DELETE
+                FROM beans
+                WHERE id = ?;`,
+                [id])
+            },
+            (e) => console.log(e),
+            onRefresh
+        );
+    }
+
+    const onRefresh = () => {
+        setRefreshing(true);
+        db.transaction(
+            (tx) => {
+                tx.executeSql(
+                    "SELECT * FROM beans;",
+                    [],
+                    (_, { rows: { _array } }) => {
+                        setBeans(_array.sort(compare));
+                    }
+                );
+            },
+            (e) => console.log(e),
+            () => setRefreshing(false)
+        );
+    }
+
     // Retrieve list of beans when component mounts
     useFocusEffect(
         useCallback(()=> {
@@ -138,17 +171,8 @@ const HomePage = ({ navigation }) => {
         }, [])
     );
 
-    // const renderItem = useCallback(
-    //     (item) => <BrewList beans={item.item} navigation={navigation}/>,
-    //     []
-    // );
-    // const renderItem = useCallback(
-    //     (item) => <SwipeableRow><RowItem text="" title={item.item.roaster +" - "+item.item.region} onPress={() => navigation.navigate("DisplayBeans", {beans_id: item.item.id})}></RowItem></SwipeableRow>,
-    //     []
-    // );
-
     const renderItem = useCallback(
-        (item) => <Beans beans={item.item} navigation={navigation}/>,
+        (item) => <Beans beans={item.item} onDelete={onDelete} navigation={navigation}/>,
         []
     );
 
@@ -166,6 +190,8 @@ const HomePage = ({ navigation }) => {
                 maxToRenderPerBatch={6}
                 initialNumToRender={3}
                 keyExtractor={keyExtractor}
+                refreshing={refreshing}
+                onRefresh={onRefresh}
             />}
         </View>
     );

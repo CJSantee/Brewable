@@ -13,9 +13,9 @@ import { updateWaterUnit, updateCoffeeUnit, updateTempUnit, updateRatio } from '
 import { SegmentedControl } from 'react-native-ios-kit';
 import { Stepper } from 'react-native-ios-kit';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import Header from './components/Header';
-import TableView from './components/TableView';
-import RowItem from './components/RowItem';
+import Header from '../components/Header';
+import TableView from '../components/TableView';
+import RowItem from '../components/RowItem';
 
 const ProfilePage = ({ navigation }) => {
     const {colors} = useTheme(); // Color theme

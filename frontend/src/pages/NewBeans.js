@@ -14,14 +14,13 @@ import { faChevronRight, faCamera, faTimes } from '@fortawesome/free-solid-svg-i
 // Component Imports
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { SegmentedControl } from 'react-native-ios-kit';
-import { Camera } from 'expo-camera';
-import TableView from './components/TableView';
-import TextFieldRow from './components/TextFieldRow';
-import DatePickerRow from './components/DatePickerRow';
-import RowItem from './components/RowItem';
-import Header from './components/Header';
-import SliderRow from './components/SliderRow';
-import BeansCamera from './components/Camera';
+import TableView from '../components/TableView';
+import TextFieldRow from '../components/TextFieldRow';
+import DatePickerRow from '../components/DatePickerRow';
+import RowItem from '../components/RowItem';
+import Header from '../components/Header';
+import SliderRow from '../components/SliderRow';
+import BeansCamera from '../components/Camera';
 
 function mapRating(value) {
     if (value <= 10)

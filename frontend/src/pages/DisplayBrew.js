@@ -6,16 +6,15 @@ import {
     StyleSheet,
     Dimensions
 } from 'react-native';
-import * as SQLite from 'expo-sqlite';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { faTint, faFire, faStopwatch, faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
-import CoffeeBean from '../assets/coffeeBean.svg';
+import CoffeeBean from '../../assets/coffeeBean.svg';
 
 // Component Imports
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import TastingWheel from './components/TastingWheel';
-import Header from './components/Header';
+import TastingWheel from '../components/TastingWheel';
+import Header from '../components/Header';
 
 let {height, width} = Dimensions.get('window');
 

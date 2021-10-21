@@ -2,11 +2,9 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
     View,
     Text,
-    Animated,
     StyleSheet,
     FlatList,
     ActivityIndicator,
-    TouchableOpacity,
     Dimensions
 } from 'react-native';
 
@@ -14,17 +12,21 @@ import { useTheme, useFocusEffect } from '@react-navigation/native';
 
 let {height, width} = Dimensions.get('window');
 
-import Header from './components/Header';
-import Brew from './Brew';
-import DraggableDrawer from './components/DraggableDrawer';
+import Header from '../components/Header';
+import Brew from '../Brew';
+import DraggableDrawer from '../components/DraggableDrawer';
 
 const DisplayBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g"}); // Beans state
     const [brews, setBrews] = useState([]); // Array of brews for given beans
-    const [flavorNotes, setFlavorNotes] = useState([]);
+    const [flavorNotes, setFlavorNotes] = useState([]); // Array of flavor notes
+    const [loading, setLoading] = useState(true); // Page initially loading state
+    const [refreshing, setRefreshing] = useState(false); // List refreshing state
+
+    // Search State Variables
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
     const [sortBy, setSortBy] = useState("brew_date");
-    const [loading, setLoading] = useState(true);
-    const [refreshing, setRefreshing] = useState(false);
 
     const { beans_id } = route.params; // Beans_id for which beans to display
     const { colors } = useTheme(); // Color theme
@@ -83,14 +85,12 @@ const DisplayBeans = ({ route, navigation }) => {
                 });
             },
             (e) => console.log(e),
-            (e) => {
-                console.log(e);
-                onRefresh();
-            }
+            onRefresh
         );
         // setBrews(brews.filter(brew => brew.id !== id));// Delete from state
     }
 
+    // Refresh the list of beans
     const onRefresh = () => {
         setRefreshing(true);
         db.transaction(
@@ -135,6 +135,7 @@ const DisplayBeans = ({ route, navigation }) => {
                             if (mounted) setBeans(_array[0]);
                         }
                     );
+                    // Can potentially move load beans to after loading to save loading time since they're rendered out of view
                     tx.executeSql(
                         `SELECT brews.*, beans.roaster, beans.region 
                         FROM brews 
