@@ -61,6 +61,7 @@ const EditBeans = ({ route, navigation }) => {
         );
     }
 
+    // Delete confirmation prompt
     const deleteConfirmation = () => {
         Alert.alert(
             "Confirm Delete",

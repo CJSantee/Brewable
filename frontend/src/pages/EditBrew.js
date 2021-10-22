@@ -3,7 +3,9 @@ import {
     StyleSheet,
     ScrollView,
     View,
-    Text
+    Text,
+    TouchableOpacity,
+    Alert
 } from 'react-native';
 import { faChevronRight, faStopwatch } from '@fortawesome/free-solid-svg-icons';
 import { useFocusEffect, useTheme } from '@react-navigation/native';
@@ -59,6 +61,40 @@ const EditBrew = ({ route, navigation }) => {
             (e) => {console.log(e)},
             () => navigation.navigate("DisplayBrew", { brew_id: brew.id })
         );
+    }
+
+    // Delete Beans
+    const onDelete = (id) => {
+        // Delete from database
+        db.transaction(
+            (tx) => {
+                tx.executeSql(
+                `DELETE
+                FROM brews
+                WHERE id = ?;`,
+                [id])
+            },
+            (e) => console.log(e),
+            () => navigation.navigate("DisplayBeans", { beans_id: brew.beans_id })
+        );
+    }
+
+    // Delete Confirmation prompt
+    const deleteConfirmation = () => {
+        Alert.alert(
+            "Confirm Delete",
+            "Are you sure you want to permanently delete this brew? You can’t undo this action.",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel")
+                },
+                {
+                    text: "Yes",
+                    onPress: () => onDelete(brew.id)
+                }
+            ]
+        )
     }
 
     useEffect(() => {
@@ -215,6 +251,13 @@ const EditBrew = ({ route, navigation }) => {
                 <TableView header="Date">  
                     <DatePickerRow value={brew.date} onChange={(value) => setBrew({...brew, date: value})}/>
                 </TableView>
+                <TableView>
+                    <TouchableOpacity onPress={deleteConfirmation}>
+                        <View style={{...styles.deleteButton, backgroundColor: colors.card, borderColor: colors.border}}>
+                            <Text style={{color: colors.destructive, fontSize: 16}}>Delete Brew</Text>
+                        </View>
+                    </TouchableOpacity>
+                </TableView>
             </ScrollView>
         </View>
     );
@@ -229,5 +272,14 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 17,
         marginRight: 5
+    },
+    deleteButton: {
+        display: 'flex',
+        marginHorizontal: 10,
+        marginVertical: 15,
+        borderWidth: 1,
+        padding: 10,
+        borderRadius: 15,
+        alignItems: 'center'
     }
 });
