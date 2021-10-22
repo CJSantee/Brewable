@@ -36,7 +36,7 @@ export default SearchBar;
 
 const styles = StyleSheet.create({
     bar: {
-        borderBottomWidth: 1,
+        borderBottomWidth: 0,
     }, 
     input: {
         height: 30,

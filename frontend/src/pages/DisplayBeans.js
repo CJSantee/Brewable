@@ -7,13 +7,15 @@ import {
     FlatList,
     ActivityIndicator,
     Dimensions,
-    Image
+    Image,
+    TouchableOpacity
 } from 'react-native';
 import { useAssets } from 'expo-asset';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 
 let {height, width} = Dimensions.get('window');
 
+import { SegmentedControl } from 'react-native-ios-kit';
 import Header from '../components/Header';
 import Brew from '../Brew';
 import DraggableDrawer from '../components/DraggableDrawer';
@@ -51,6 +53,9 @@ const DisplayBeans = ({ route, navigation }) => {
                 if (a > b) return -1;
                 if (a < b) return 1;
                 return 0;
+            }
+            if (sortBy === "rating") {
+                return b.rating - a.rating;
             }
             return a - b;
         },
@@ -220,7 +225,23 @@ const DisplayBeans = ({ route, navigation }) => {
                 <Text>{beans.weight}{beans.weight_unit}</Text>
             </View>
             </ScrollView>
+            {brews.length > 0 ? 
             <DraggableDrawer title="- Brews -" colors={colors}>
+                <View style={{width: '100%'}}>
+                    <SegmentedControl
+                        values={['Brew Date', 'Rating']}
+                        selectedIndex={0}
+                        onValueChange={(value, index) => {
+                            if (index === 0) {
+                                setSortBy("brew_date");
+                            } else {
+                                setSortBy("rating");
+                            }
+                        }}
+                        style={{ marginHorizontal: 10, marginBottom: 10 }}
+                    />
+                </View>
+                
                 <FlatList
                     data={brews}
                     horizontal={false}
@@ -229,7 +250,15 @@ const DisplayBeans = ({ route, navigation }) => {
                     onRefresh={onRefresh}
                     refreshing={refreshing}
                 />
-            </DraggableDrawer>
+            </DraggableDrawer>:
+            <View style={{width: '100%', padding: 10, marginBottom: 5}}>
+                <TouchableOpacity onPress={() => navigation.navigate("NewBrew", { beans_id: beans.id, roaster: beans.roaster, region: beans.region })}>
+                    <View style={{...styles.addBrewsButton, backgroundColor: colors.card, borderColor: colors.border}}>
+                        <Text style={{fontSize: 16, margin: 10}}>Add Brew</Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
+            }
             
             {/* CODE FOR TAPPABLE DRAWER, WORKING ON DRAGGABLE
                 <Animated.View style={{...styles.animated,
@@ -294,5 +323,13 @@ const styles = StyleSheet.create({
     },
     flavorText: {
         fontSize: 16
+    },
+    addBrewsButton: {
+        width: '100%',
+        alignSelf: 'center', 
+        borderWidth: 1, 
+        borderRadius: 15,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });

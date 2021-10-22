@@ -17,6 +17,7 @@ import { faChevronRight, faPencilAlt, faShare, faTrash, faTimesCircle } from '@f
 
 // Component Imports
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { SegmentedControl } from 'react-native-ios-kit';
 import Header from '../components/Header';
 import RowItem from '../components/RowItem';
 import SearchBar from '../components/SearchBar';
@@ -114,13 +115,13 @@ const HomePage = ({ navigation }) => {
     // Compare function for sorting beans
     const compare = useCallback(
         (a, b) => {
-            if (sortBy === "roaster")
-                return a.roaster.localeCompare(b.roaster);
+            if (sortBy === "alphabetical")
+                return a.roaster.localeCompare(b.roaster, 'en');
             if (sortBy === "roast_date") {
                 a = new Date(a.roast_date).setHours(0,0,0,0);
                 b = new Date(b.roast_date).setHours(0,0,0,0);
-                if (a < b) return -1;
-                if (a > b) return 1;
+                if (a < b) return 1;
+                if (a > b) return -1;
                 return 0;
             }
             return a - b;
@@ -164,7 +165,6 @@ const HomePage = ({ navigation }) => {
     // Retrieve list of beans when component mounts
     useFocusEffect(
         useCallback(()=> {
-            console.log("HomePage");
             let mounted = true;
             setNewModal(false);
             setBtmModal(false);
@@ -193,7 +193,22 @@ const HomePage = ({ navigation }) => {
         <View style={{flex: 1, flexDirection: 'column', backgroundColor: colors.background}}>
             <Header title="My Collection" leftText="Settings" rightText="New" leftOnPress={()=>navigation.navigate("ProfilePage")} rightOnPress={()=>setNewModal(!newModal)}/>
             {newModal ? <NewModal navigation={navigation}/> : <View/>}
-            {newModal ? <View/> : <SearchBar searchQuery={searchQuery} setSearchQuery={handleSearch}/>}
+            {newModal ? null : <SearchBar searchQuery={searchQuery} setSearchQuery={handleSearch}/>}
+            {newModal ? null : 
+            <View style={{backgroundColor: colors.card, borderBottomWidth: 1, borderColor: colors.border}}>
+                <SegmentedControl
+                    values={['Roast Date', 'Alphabetical']}
+                    selectedIndex={0}
+                    onValueChange={(value, index) => {
+                        if (index === 0) {
+                            setSortBy("roast_date");
+                        } else {
+                            setSortBy("alphabetical");
+                        }
+                    }}
+                    style={{marginHorizontal: 10, marginBottom: 10}}
+                />
+            </View>}
             {beans === null || beans.length === 0 ? <View/> : 
             <FlatList 
                 data={searchQuery===""?beans:searchResults}
