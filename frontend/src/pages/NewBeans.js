@@ -144,7 +144,7 @@ const NewBeans = ({ route, navigation }) => {
                     </RowItem>
                     <View style={styles.flavors}>
                         {beans.flavor_notes !== "" ? beans.flavor_notes.split(',').map((item) => 
-                            <View key={item} style={styles.flavor}>
+                            <View key={item} style={{...styles.flavor, backgroundColor: colors.card, borderColor: colors.border}}>
                                 <Text style={styles.flavorText}>{item}</Text>
                             </View>
                         ) : <View/>}

@@ -12,7 +12,8 @@ const LightTheme = {
         text: "#000000",
         border: "#c9d2d9",
         interactive: "rgb(0,122,255)",
-        placeholder: "rgb(184,184,187)"
+        placeholder: "rgb(184,184,187)",
+        destructive: "#aa0000"
     }
 } 
 

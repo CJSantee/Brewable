@@ -3,7 +3,9 @@ import {
     ScrollView,
     View,
     StyleSheet,
-    Text
+    Text,
+    TouchableOpacity,
+    Alert
 } from 'react-native';
 import { SegmentedControl } from 'react-native-ios-kit';
 import { useTheme } from '@react-navigation/native';
@@ -41,6 +43,39 @@ const EditBeans = ({ route, navigation }) => {
             (e) => {console.log(e)},
             () => navigation.goBack() // Go back on success
         );
+    }
+
+    // Delete Beans
+    const onDelete = (id) => {
+        // Delete from database
+        db.transaction(
+            (tx) => {
+                tx.executeSql(
+                `DELETE
+                FROM beans
+                WHERE id = ?;`,
+                [id])
+            },
+            (e) => console.log(e),
+            () => navigation.navigate("HomePage")
+        );
+    }
+
+    const deleteConfirmation = () => {
+        Alert.alert(
+            "Confirm Delete",
+            "Are you sure you want to permanently delete these beans? You can’t undo this action.",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel")
+                },
+                {
+                    text: "Yes",
+                    onPress: () => onDelete(beans.id)
+                }
+            ]
+        )
     }
 
     useEffect(() => {
@@ -115,11 +150,18 @@ const EditBeans = ({ route, navigation }) => {
                     </RowItem>
                     <View style={styles.flavors}>
                         {beans.flavor_notes !== "" ? beans.flavor_notes.split(',').map((item) => 
-                            <View key={item} style={styles.flavor}>
+                            <View key={item} style={{...styles.flavor, backgroundColor: colors.card, borderColor: colors.border}}>
                                 <Text style={styles.flavorText}>{item}</Text>
                             </View>
                         ) : <View/>}
                     </View>
+                </TableView>
+                <TableView>
+                    <TouchableOpacity onPress={deleteConfirmation}>
+                        <View style={{...styles.deleteButton, backgroundColor: colors.card, borderColor: colors.border}}>
+                            <Text style={{color: colors.destructive, fontSize: 16}}>Delete Beans</Text>
+                        </View>
+                    </TouchableOpacity>
                 </TableView>
             </ScrollView>
         </View>   
@@ -147,5 +189,14 @@ const styles = StyleSheet.create({
     },
     flavorText: {
         fontSize: 16
+    },
+    deleteButton: {
+        display: 'flex',
+        marginHorizontal: 10,
+        marginBottom: 15,
+        borderWidth: 1,
+        padding: 10,
+        borderRadius: 15,
+        alignItems: 'center'
     }
 });

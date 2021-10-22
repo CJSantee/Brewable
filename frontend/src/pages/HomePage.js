@@ -164,16 +164,20 @@ const HomePage = ({ navigation }) => {
     // Retrieve list of beans when component mounts
     useFocusEffect(
         useCallback(()=> {
+            console.log("HomePage");
             let mounted = true;
             setNewModal(false);
             setBtmModal(false);
+            setRefreshing(true);
             db.transaction((tx) => {
                 tx.executeSql("SELECT * FROM beans;",
                 [],
                 (_, { rows: { _array } }) => {
                     if (mounted) setBeans(_array.sort(compare));
                 });
-            });
+            },
+            (e) => console.log(e),
+            () => setRefreshing(false));
             return () => mounted = false;
         }, [])
     );
@@ -206,13 +210,15 @@ const HomePage = ({ navigation }) => {
                 visible={btmModal}
             >
                 <View style={{...styles.btmModal, backgroundColor: colors.card, borderColor: colors.border}}>
-                    <View style={{position: 'absolute', right: 5, top: 5}}>
-                        <TouchableOpacity onPress={(e) => {e.stopPropagation(); setBtmModal(!btmModal)}}>
-                            <FontAwesomeIcon icon={faTimesCircle} size={18} />
-                        </TouchableOpacity>
-                    </View>
+                    
                     <TouchableOpacity>
+                        
                         <View style={styles.modalRow}>
+                            <View style={{position: 'absolute', right: 0, top: 0, zIndex: 1, height: '100%', padding: 5, paddingLeft: 20}}>
+                                <TouchableOpacity style={{width: '100%', height: '100%'}} onPress={(e) => {e.stopPropagation(); setBtmModal(!btmModal)}}>
+                                    <FontAwesomeIcon icon={faTimesCircle} size={18} />
+                                </TouchableOpacity>
+                            </View>
                             <FontAwesomeIcon icon={faPencilAlt} size={18} style={{marginHorizontal: 10}}/>
                             <Text style={styles.modalText}>Edit</Text>
                         </View>
@@ -225,8 +231,8 @@ const HomePage = ({ navigation }) => {
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <View style={styles.modalRow}>
-                            <FontAwesomeIcon icon={faTrash} size={18} style={{marginHorizontal: 10}}/>
-                            <Text style={styles.modalText}>Delete</Text>
+                            <FontAwesomeIcon icon={faTrash} size={18} style={{marginHorizontal: 10}} color={colors.destructive}/>
+                            <Text style={{...styles.modalText, color: colors.destructive}}>Delete</Text>
                         </View>
                     </TouchableOpacity>
                 </View>

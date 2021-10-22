@@ -1,13 +1,15 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
     View,
+    ScrollView,
     Text,
     StyleSheet,
     FlatList,
     ActivityIndicator,
-    Dimensions
+    Dimensions,
+    Image
 } from 'react-native';
-
+import { useAssets } from 'expo-asset';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 
 let {height, width} = Dimensions.get('window');
@@ -22,6 +24,7 @@ const DisplayBeans = ({ route, navigation }) => {
     const [flavorNotes, setFlavorNotes] = useState([]); // Array of flavor notes
     const [loading, setLoading] = useState(true); // Page initially loading state
     const [refreshing, setRefreshing] = useState(false); // List refreshing state
+    const [assets] = useAssets([require('../../assets/BeansBag.png')]);
 
     // Search State Variables
     const [searchQuery, setSearchQuery] = useState("");
@@ -188,25 +191,35 @@ const DisplayBeans = ({ route, navigation }) => {
                 leftText="Back" rightText="Edit" 
                 leftOnPress={() => navigation.goBack()} 
                 rightOnPress={() => navigation.navigate("EditBeans", {beans: beans, flavor_notes: beans.flavor_notes})}/>
+            <ScrollView style={{flex: 1}}>
             <View style={styles.row}>
                 <Text style={styles.title}>{beans.roaster} </Text>
                 <Text style={styles.subtitle}>{beans.region}</Text>
             </View>
             <View style={styles.row}>
                 {roastDate()!==""?<Text style={{fontSize: 18}}>{roastDate()}</Text>:<View/>}
-                <Text style={{fontSize: 18}}> - {beans.weight}{beans.weight_unit}</Text>
             </View>
             <View style={styles.row}>
                 <Text>{beans.origin}</Text>
             </View>            
             <View style={styles.flavors}>
                 {flavorNotes.map((item) => 
-                    <View key={item } style={styles.flavor}>
+                    <View key={item } style={{...styles.flavor, backgroundColor: colors.card, borderColor: colors.border}}>
                         <Text style={styles.flavorText}>{item}</Text>
                     </View>
                 )}
             </View>
 
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', margin: 10}}>
+                <Image source={beans.photo_uri?{uri: beans.photo_uri}:require('../../assets/BeansBag.png')} style={{
+                        width: (width/3)*2, 
+                        height: (width/3)*2, 
+                        borderRadius: beans.photo_uri?50:0, 
+                        resizeMode: 'cover',
+                        borderWidth: beans.photo_uri?1:0,}}/>
+                <Text>{beans.weight}{beans.weight_unit}</Text>
+            </View>
+            </ScrollView>
             <DraggableDrawer title="- Brews -" colors={colors}>
                 <FlatList
                     data={brews}
@@ -217,7 +230,6 @@ const DisplayBeans = ({ route, navigation }) => {
                     refreshing={refreshing}
                 />
             </DraggableDrawer>
-
             
             {/* CODE FOR TAPPABLE DRAWER, WORKING ON DRAGGABLE
                 <Animated.View style={{...styles.animated,
@@ -231,7 +243,7 @@ const DisplayBeans = ({ route, navigation }) => {
                 
             </Animated.View> */}
 
-            </>}
+           </>}
         </View>
     );
 }

@@ -12,6 +12,8 @@ import { USE_NATIVE_DRIVER } from '../../config';
 let {height, width} = Dimensions.get('window');
 
 const RATIO = 1;
+const tabHeight = 50;
+const topOffset = 200;
 
 class DraggableDrawer extends Component {
     constructor(props) {
@@ -45,7 +47,7 @@ class DraggableDrawer extends Component {
 
             let toValue = 0;
             if (endOffsetY < 0) {
-                toValue = -(height-100);
+                toValue = -(height-topOffset);
             } else if (endOffsetY > 0) {
                 toValue = 0;
             } 
@@ -89,7 +91,9 @@ class DraggableDrawer extends Component {
                         }
                     ]}
                     onLayout={this._onLayout}>
-                        <Text style={{alignSelf: 'center',fontSize: 14, marginVertical: 10}}>{this.props.title}</Text>
+                        <View style={{height: tabHeight, alignItems: 'center', justifyContent: 'center'}}>
+                            <Text style={{fontSize: 16}}>{this.props.title}</Text>
+                        </View>
                         {children}
                 </Animated.View>
             </PanGestureHandler>
@@ -103,9 +107,9 @@ const styles = StyleSheet.create({
     drawer: {
         flex: 1,
         position: 'absolute',
-        top: height-60,
+        top: height-tabHeight,
         width: width,
-        height: height-40,
+        height: height-(topOffset-tabHeight),
         borderTopStartRadius: 15,
         borderTopEndRadius: 15,
         borderTopWidth: 1,
