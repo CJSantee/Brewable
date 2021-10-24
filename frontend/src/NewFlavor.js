@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
    View,
 } from 'react-native';
-import * as SQLite from 'expo-sqlite';
 
 // Component Imports
 import TableView from './components/TableView';

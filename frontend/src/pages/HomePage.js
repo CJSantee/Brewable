@@ -41,7 +41,14 @@ const NewModal = ({ navigation }) => {
 
 const Beans = ({beans, onDelete, onLongPress, onSelect, navigation}) => {
     const {colors} = useTheme();
-    const [assets] = useAssets([require('../../assets/BeansBag.png')]);
+    const [assets] = useAssets([
+        require('../../assets/BeansBag.png'),
+        require('../../assets/BeansIcons/Bag_1.png'),
+        require('../../assets/BeansIcons/Bag_2.png'),
+        require('../../assets/BeansIcons/Bag_3.png'),
+        require('../../assets/BeansIcons/Bag_4.png'),
+        require('../../assets/BeansIcons/Bag_5.png')
+    ]);
 
     const deleteConfirmation = () => {
         Alert.alert(
@@ -50,7 +57,7 @@ const Beans = ({beans, onDelete, onLongPress, onSelect, navigation}) => {
             [
                 {
                     text: "Cancel",
-                    onPress: () => console.log("Cancel")
+                    onPress: () => {}
                 },
                 {
                     text: "Yes",
@@ -67,7 +74,7 @@ const Beans = ({beans, onDelete, onLongPress, onSelect, navigation}) => {
                 onLongPress={onLongPress}
             >
                 <View style={{...styles.beansRow, borderColor: colors.border}}> 
-                    <Image source={beans.photo_uri?{uri: beans.photo_uri}:require('../../assets/BeansBag.png')} style={{
+                    <Image source={beans.photo_uri?{uri: beans.photo_uri}:require('../../assets/BeansIcons/Bag_1.png')} style={{
                         width: 80, 
                         height: 80, 
                         borderRadius: beans.photo_uri?50:0, 

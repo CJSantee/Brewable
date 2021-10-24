@@ -87,7 +87,7 @@ const EditBrew = ({ route, navigation }) => {
             [
                 {
                     text: "Cancel",
-                    onPress: () => console.log("Cancel")
+                    onPress: () => {}
                 },
                 {
                     text: "Yes",

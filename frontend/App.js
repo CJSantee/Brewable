@@ -19,6 +19,7 @@ import HomePage from './src/pages/HomePage';
 import NewBeans from './src/pages/NewBeans';
 import NewBrew from './src/pages/NewBrew';
 import BrewMethods from './src/pages/BrewMethods';
+import SelectIcon from './src/pages/SelectIcon';
 import SelectBeans from './src/pages/SelectBeans';
 import InfoPage from './src/pages/InfoPage';
 import DisplayBeans from './src/pages/DisplayBeans';
@@ -57,6 +58,7 @@ export default function App() {
           <NewStack.Screen name="BrewMethods" component={BrewMethods}/>
           <NewStack.Screen name="NewBeans" component={NewBeans}/>
           <NewStack.Screen name="SelectFlavors" component={SelectFlavors}/>
+          <NewStack.Screen name="SelectIcon" component={SelectIcon}/>
           <NewStack.Screen name="DisplayBeans" component={DisplayBeans} />
           <NewStack.Screen name="EditBeans" component={EditBeans}/>
           <NewStack.Screen name="NewBrew" component={NewBrew}/>

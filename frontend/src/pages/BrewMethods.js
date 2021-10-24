@@ -43,12 +43,12 @@ const BrewMethods = ({ route, navigation }) => {
     // Prompt user to enter new brew method
     const newBrewMethodPrompt = () => {
         Alert.prompt(
-            "New Brew Method",
+            "Add Brew Method",
             "Enter new brew method name",
             [
                 {
                     text: "Cancel",
-                    onPress: () => console.log("Cancel")
+                    onPress: () => {}
                 },
                 {
                     text: "Done",

@@ -87,12 +87,12 @@ const SelectFlavors = ({ route, navigation }) => {
     // Prompt User to Enter New Flavor
     const newFlavorPrompt = () => {
         Alert.prompt(
-            "New Flavor",
-            "Enter new flavor name",
+            "Add Flavor",
+            "Enter new flavor note",
             [
                 {
                     text: "Cancel",
-                    onPress: () => console.log("Cancel")
+                    onPress: () => {}
                 },
                 {
                     text: "Done",

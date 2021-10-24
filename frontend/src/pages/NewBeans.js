@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
+import { useAssets } from 'expo-asset';
 import { faChevronRight, faCamera, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 // Component Imports
@@ -33,7 +34,9 @@ function mapRating(value) {
 
 const NewBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g", flavor_notes: "", rating: 0, photo_uri: null}); // Beans state
-
+    const [assets] = useAssets([
+        require('../../assets/BeansIcons/Bag_Icon.png')
+    ]);
     // Camera state variables
     const [cameraVisible, setCameraVisible] = useState(false);
 
@@ -79,12 +82,17 @@ const NewBeans = ({ route, navigation }) => {
             {cameraVisible
             ? <BeansCamera onCancel={() => setCameraVisible(false)} setUri={(uri) => setBeans({...beans, photo_uri: uri})}/>
             :<ScrollView>
-                
                 <View style={styles.cameraIcon}>
                     {beans.photo_uri  
                     ?<Image style={styles.image} source={{uri: beans.photo_uri}}/> 
-                    :<TouchableOpacity style={styles.openCameraButton} onPress={() => setCameraVisible(true)}>
-                        <FontAwesomeIcon icon={faCamera} size={35}/>
+                    :
+                    <TouchableOpacity onPress={() => navigation.navigate("SelectIcon", { parent: "NewBeans" })}>
+                    <View style={{marginTop: 10, flexDirection: 'column', alignItems: 'center'}}>
+                        <View style={{...styles.openCameraButton, backgroundColor: colors.border}}>
+                            <Image source={require('../../assets/BeansIcons/Bag_Icon.png')} style={styles.image}/>
+                        </View>
+                        <Text style={{color: colors.interactive, fontSize: 15, margin: 5}}>Add Icon</Text>
+                    </View>
                     </TouchableOpacity>}
                 </View>
 
@@ -132,7 +140,6 @@ const NewBeans = ({ route, navigation }) => {
                             theme={{primaryColor: colors.interactive}}
                         />
                     </TextFieldRow>
-                    
                 </TableView>
                 <TableView header="Flavor">
                     <RowItem
@@ -175,16 +182,14 @@ const styles = StyleSheet.create({
     },
     image: {
         alignSelf: 'center',
-        width: 100, 
-        height: 100, 
-        borderRadius: 50, 
-        resizeMode: 'cover'
+        width: 75, 
+        height: 75, 
+        resizeMode: 'contain'
     },  
     openCameraButton: {
-        borderWidth: 1,
-        borderRadius: 50,
-        width: 100,
-        height: 100,
+        borderRadius: 60,
+        width: 120,
+        height: 120,
         justifyContent: 'center',
         alignItems: 'center'
     },

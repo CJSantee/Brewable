@@ -249,6 +249,14 @@ const DisplayBeans = ({ route, navigation }) => {
                     keyExtractor={keyExtractor}
                     onRefresh={onRefresh}
                     refreshing={refreshing}
+                    ListFooterComponent={() => 
+                        <View style={{width: '100%', padding: 10, marginBottom: 5}}>
+                        <TouchableOpacity onPress={() => navigation.navigate("NewBrew", { beans_id: beans.id, roaster: beans.roaster, region: beans.region })}>
+                            <View style={{...styles.addBrewsButton, backgroundColor: colors.card, borderColor: colors.border}}>
+                                <Text style={{fontSize: 16, margin: 10}}>Add Brew</Text>
+                            </View>
+                        </TouchableOpacity>
+                        </View>}
                 />
             </DraggableDrawer>:
             <View style={{width: '100%', padding: 10, marginBottom: 5}}>
