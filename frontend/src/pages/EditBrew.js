@@ -7,7 +7,8 @@ import {
     TouchableOpacity,
     Alert
 } from 'react-native';
-import { faChevronRight, faStopwatch } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faStopwatch, faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { useFocusEffect, useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 
@@ -252,11 +253,19 @@ const EditBrew = ({ route, navigation }) => {
                     <DatePickerRow value={brew.date} onChange={(value) => setBrew({...brew, date: value})}/>
                 </TableView>
                 <TableView>
-                    <TouchableOpacity onPress={deleteConfirmation}>
-                        <View style={{...styles.deleteButton, backgroundColor: colors.card, borderColor: colors.border}}>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+                    <TouchableOpacity onPress={deleteConfirmation} style={{flex: 1}}>
+                        <View style={{...styles.bottomButton, backgroundColor: colors.card, borderColor: colors.border}}>
                             <Text style={{color: colors.destructive, fontSize: 16}}>Delete Brew</Text>
                         </View>
                     </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setBrew({...brew, favorite: brew.favorite===0?1:0})} style={{flex: 1}}>
+                        <View style={{...styles.bottomButton, backgroundColor: colors.card, borderColor: colors.border}}>
+                            <Text style={{color: colors.interactive, fontSize: 16, marginRight: 5}}>Favorite Brew</Text>
+                            <FontAwesomeIcon icon={brew.favorite===1?faHeartSolid:faHeart} color={colors.interactive} style={{marginLeft: 5}}/>
+                        </View>
+                    </TouchableOpacity>
+                    </View>
                 </TableView>
             </ScrollView>
         </View>
@@ -273,13 +282,15 @@ const styles = StyleSheet.create({
         fontSize: 17,
         marginRight: 5
     },
-    deleteButton: {
-        display: 'flex',
+    bottomButton: {
+        flex: 1,
+        flexDirection: 'row',
         marginHorizontal: 10,
         marginVertical: 15,
         borderWidth: 1,
         padding: 10,
         borderRadius: 15,
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 });

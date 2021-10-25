@@ -19,6 +19,7 @@ import { SegmentedControl } from 'react-native-ios-kit';
 import Header from '../components/Header';
 import Brew from '../Brew';
 import DraggableDrawer from '../components/DraggableDrawer';
+import Icon from '../components/Icon';
 
 const DisplayBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g"}); // Beans state
@@ -216,12 +217,7 @@ const DisplayBeans = ({ route, navigation }) => {
             </View>
 
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', margin: 10}}>
-                <Image source={beans.photo_uri?{uri: beans.photo_uri}:require('../../assets/BeansBag.png')} style={{
-                        width: (width/3)*2, 
-                        height: (width/3)*2, 
-                        borderRadius: beans.photo_uri?50:0, 
-                        resizeMode: 'cover',
-                        borderWidth: beans.photo_uri?1:0,}}/>
+                <Icon uri={beans.photo_uri} size={(width/3)*2}/>
                 <Text>{beans.weight}{beans.weight_unit}</Text>
             </View>
             </ScrollView>

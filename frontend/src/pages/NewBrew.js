@@ -3,9 +3,11 @@ import {
     StyleSheet,
     ScrollView,
     View,
-    Text
+    Text,
+    TouchableOpacity
 } from 'react-native';
-import { faChevronRight, faStopwatch } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faStopwatch, faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux'
 
@@ -32,7 +34,7 @@ const addBrew = (brew, time) => {
                 INSERT INTO brews
                 (grind_setting, water, water_unit, coffee, coffee_unit, temperature, temp_unit, brew_method, time, date, notes, flavor, acidity, aroma, body, sweetness, aftertaste, beans_id, favorite, rating)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-                [brew.grind_setting, brew.water, brew.water_unit, brew.coffee, brew.coffee_unit, brew.temperature, brew.temp_unit, brew.brew_method, time, brew.date.toJSON(), brew.notes, brew.flavor, brew.acidity, brew.aroma, brew.body, brew.sweetness, brew.aftertaste, brew.beans_id,0, brew.rating]);
+                [brew.grind_setting, brew.water, brew.water_unit, brew.coffee, brew.coffee_unit, brew.temperature, brew.temp_unit, brew.brew_method, time, brew.date.toJSON(), brew.notes, brew.flavor, brew.acidity, brew.aroma, brew.body, brew.sweetness, brew.aftertaste, brew.beans_id, brew.favorite, brew.rating]);
         },
         (e) => {console.log(e)},
         null
@@ -51,7 +53,8 @@ const NewBrew = ({ route, navigation }) => {
             notes: "", 
             date: new Date(), 
             beans_id: 0, 
-            rating: 0
+            rating: 0,
+            favorite: 0
         }
     ); // Brew state
     const {colors} = useTheme(); // Color theme
@@ -222,6 +225,14 @@ const NewBrew = ({ route, navigation }) => {
                 <TableView header="Date">  
                     <DatePickerRow value={brew.date} onChange={(value) => setBrew({...brew, date: value})}/>
                 </TableView>
+                <TableView>
+                    <TouchableOpacity onPress={() => setBrew({...brew, favorite: brew.favorite===0?1:0})} style={{flex: 1}}>
+                        <View style={{...styles.bottomButton, backgroundColor: colors.card, borderColor: colors.border}}>
+                            <Text style={{color: colors.interactive, fontSize: 16, marginRight: 5}}>Favorite Brew</Text>
+                            <FontAwesomeIcon icon={brew.favorite===1?faHeartSolid:faHeart} color={colors.interactive}/>
+                        </View>
+                    </TouchableOpacity>
+                </TableView>
             </ScrollView>
         </View>
     );
@@ -236,5 +247,16 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 17,
         marginRight: 5
+    },
+    bottomButton: {
+        flex: 1,
+        flexDirection: 'row',
+        marginHorizontal: 10,
+        marginVertical: 15,
+        borderWidth: 1,
+        padding: 10,
+        borderRadius: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 });

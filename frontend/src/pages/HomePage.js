@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import {
     View,
     StyleSheet,
@@ -94,6 +94,8 @@ const HomePage = ({ navigation }) => {
     const [beans, setBeans] = useState([]); // Beans array
     const [refreshing, setRefreshing] = useState(false);
 
+    const ref_flatlist = useRef();
+
     // Search state variables
     const [searchQuery, setSearchQuery] = useState("");
     const [searchResults, setSearchResults] = useState([]);
@@ -186,7 +188,7 @@ const HomePage = ({ navigation }) => {
     );
 
     const renderItem = useCallback(
-        (item) => <Beans beans={item.item} onDelete={onDelete} onLongPress={() => setBtmModal(!btmModal)} navigation={navigation}/>,
+        ({item, index}) => <Beans beans={item} onDelete={onDelete} onLongPress={() => ref_flatlist.current.scrollToIndex({animated: true, index: index, viewPosition: 1})} navigation={navigation}/>,
         []
     );
 
@@ -214,6 +216,7 @@ const HomePage = ({ navigation }) => {
             </View>}
             {beans === null || beans.length === 0 ? <View/> : 
             <FlatList 
+                ref={ref_flatlist}
                 data={searchQuery===""?beans:searchResults}
                 renderItem={renderItem}
                 maxToRenderPerBatch={6}
