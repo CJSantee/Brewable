@@ -1,75 +1,85 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     View,
     StyleSheet,
     TouchableOpacity,
     Image,
-    Dimensions
+    Dimensions,
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { useAssets } from 'expo-asset';
 
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import TableView from '../components/TableView';
 import Header from '../components/Header';
+import BeansCamera from '../components/Camera';
+import Icon from '../components/Icon';
 
 const {width, height} = Dimensions.get('window');
 
 const SelectIcon = ({ route, navigation }) => {
+    const [selectedIcon, setSelectedIcon] = useState(null); // Selected Icon
+    const [assets] = useAssets([
+        require('../../assets/BeansBag.png')
+    ]);
+
+    const [cameraVisible, setCameraVisible] = useState(false);
+    const [uri, setUri] = useState("");
+
     const { parent } = route.params; // Selected parent navigation page
     const { colors } = useTheme(); // Color theme
-    const [assets] = useAssets([
-        require('../../assets/BeansBag.png'),
-        require('../../assets/BeansIcons/Bag_1.png'),
-        require('../../assets/BeansIcons/Bag_2.png'),
-        require('../../assets/BeansIcons/Bag_3.png'),
-        require('../../assets/BeansIcons/Bag_4.png'),
-        require('../../assets/BeansIcons/Bag_5.png')
-    ]);
-    // State Variables
-    const [selectedIcon, setSelectedIcon] = useState(null); // Selected Icon
+
     const imageSize = (width/2)-55;
+
+    useEffect(() => {
+        if (route.params?.selectedIcon) {
+            setSelectedIcon(route.params.selectedIcon);
+        }
+    }, [route.params?.selectedIcon])
 
     return (
         <View style={{height: "100%", width: "100%"}}>  
-            <Header 
+            {!cameraVisible&&<Header 
                 title="Icon" 
                 leftText="Back"
-                leftOnPress={() => navigation.goBack()} 
+                leftOnPress={() => navigation.goBack()}
+                rightText="Done"
+                rightOnPress={() => navigation.navigate("NewBeans", { photo_uri: selectedIcon?selectedIcon:uri })} 
                 leftChevron={true}  
-            />
-            <View style={{marginVertical: 15}}>
+            />}
+            {cameraVisible?<BeansCamera onCancel={() => setCameraVisible(false)} setUri={setUri}/>
+            :<View style={{marginVertical: 15}}>
                 <View style={styles.iconsList}>
-                    <TouchableOpacity onPress={() => setSelectedIcon("Bag_1.png")} style={{marginLeft: 15, padding: 15, borderRadius: 30, borderWidth: 2, borderColor: selectedIcon==="Bag_1.png"?colors.interactive:colors.background}}>
-                        <Image source={require('../../assets/BeansIcons/Bag_1.png')} style={{
-                            width: imageSize, height: imageSize, resizeMode: 'contain'}}/>
+                    <TouchableOpacity onPress={() => setSelectedIcon("1")} style={{marginLeft: 15, padding: 15, borderRadius: 30, borderWidth: 2, borderColor: selectedIcon==="1"?colors.interactive:colors.background}}>
+                        <Icon uri={"1"} size={imageSize}/>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setSelectedIcon("Bag_2.png")} style={{marginRight: 15, padding: 15, borderRadius: 30, borderWidth: 2, borderColor: selectedIcon==="Bag_2.png"?colors.interactive:colors.background}}>
-                        <Image source={require('../../assets/BeansIcons/Bag_2.png')} style={{
-                            width: imageSize, height: imageSize, resizeMode: 'contain'}}/>
+                    <TouchableOpacity onPress={() => setSelectedIcon("2")} style={{marginRight: 15, padding: 15, borderRadius: 30, borderWidth: 2, borderColor: selectedIcon==="2"?colors.interactive:colors.background}}>
+                        <Icon uri={"2"} size={imageSize}/>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.iconsList}>
-                    <TouchableOpacity onPress={() => setSelectedIcon("Bag_3.png")} style={{marginLeft: 15, padding: 15, borderRadius: 30, borderWidth: 2, borderColor: selectedIcon==="Bag_3.png"?colors.interactive:colors.background}}>
-                        <Image source={require('../../assets/BeansIcons/Bag_3.png')} style={{
-                            width: imageSize, height: imageSize, resizeMode: 'contain'}}/>
+                    <TouchableOpacity onPress={() => setSelectedIcon("3")} style={{marginLeft: 15, padding: 15, borderRadius: 30, borderWidth: 2, borderColor: selectedIcon==="3"?colors.interactive:colors.background}}>
+                        <Icon uri={"3"} size={imageSize}/>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setSelectedIcon("Bag_4.png")} style={{marginRight: 15, padding: 15, borderRadius: 30, borderWidth: 2, borderColor: selectedIcon==="Bag_4.png"?colors.interactive:colors.background}}>
-                        <Image source={require('../../assets/BeansIcons/Bag_4.png')} style={{
-                            width: imageSize, height: imageSize, resizeMode: 'contain'}}/>
+                    <TouchableOpacity onPress={() => setSelectedIcon("4")} style={{marginRight: 15, padding: 15, borderRadius: 30, borderWidth: 2, borderColor: selectedIcon==="4"?colors.interactive:colors.background}}>
+                        <Icon uri={"4"} size={imageSize}/>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.iconsList}>
-                    <TouchableOpacity onPress={() => setSelectedIcon("Bag_5.png")} style={{marginLeft: 15, padding: 15, borderRadius: 30, borderWidth: 2, borderColor: selectedIcon==="Bag_5.png"?colors.interactive:colors.background}}>
-                        <Image source={require('../../assets/BeansIcons/Bag_5.png')} style={{
-                            width: imageSize, height: imageSize, resizeMode: 'contain'}}/>
+                    <TouchableOpacity onPress={() => setSelectedIcon("5")} style={{marginLeft: 15, padding: 15, borderRadius: 30, borderWidth: 2, borderColor: selectedIcon==="5"?colors.interactive:colors.background}}>
+                        <Icon uri={"5"} size={imageSize}/>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setSelectedIcon("Bag_4.png")} style={{marginRight: 15, padding: 15, borderRadius: 30, borderWidth: 2, borderColor: selectedIcon==="Bag_6.png"?colors.interactive:colors.background}}>
-                        <Image source={require('../../assets/BeansIcons/Bag_4.png')} style={{
+                    {uri && !selectedIcon
+                    ?<View style={{marginRight: 15, padding: 15, borderRadius: 30, borderWidth: 2, borderColor: colors.interactive}}>
+                        <Image source={{uri: uri}} style={{
                             width: imageSize, height: imageSize, resizeMode: 'contain'}}/>
-                    </TouchableOpacity>
+                    </View>
+                    :<TouchableOpacity style={{marginRight: 15, padding: 15}} onPress={() => {setCameraVisible(true); setSelectedIcon(null)}}>
+                        <View style={{width: imageSize, height: imageSize, backgroundColor: colors.border, borderRadius: imageSize/2, alignItems: 'center', justifyContent: 'center'}}>
+                            <Image source={require('../../assets/BeansIcons/CameraBag.png')} style={{
+                                width: imageSize*0.7, height: imageSize*0.7, resizeMode: 'contain'}}/>
+                        </View>
+                    </TouchableOpacity>}
                 </View>
-            </View>
+            </View>}
         </View>
     );
 }
@@ -82,6 +92,7 @@ const styles = StyleSheet.create({
     },
     iconsList: {
         flexDirection: 'row',
+        alignItems: 'center',
         justifyContent: 'space-between',
         marginBottom: 15,
     }

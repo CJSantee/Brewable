@@ -6,11 +6,13 @@ import {
     Text,
     TouchableOpacity,
     Image,
+    Dimensions
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { useAssets } from 'expo-asset';
 import { faChevronRight, faCamera, faTimes } from '@fortawesome/free-solid-svg-icons';
+
+const {width, height} = Dimensions.get('window');
 
 // Component Imports
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -21,7 +23,7 @@ import DatePickerRow from '../components/DatePickerRow';
 import RowItem from '../components/RowItem';
 import Header from '../components/Header';
 import SliderRow from '../components/SliderRow';
-import BeansCamera from '../components/Camera';
+import Icon from '../components/Icon';
 
 function mapRating(value) {
     if (value <= 10)
@@ -34,11 +36,6 @@ function mapRating(value) {
 
 const NewBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g", flavor_notes: "", rating: 0, photo_uri: null}); // Beans state
-    const [assets] = useAssets([
-        require('../../assets/BeansIcons/Bag_Icon.png')
-    ]);
-    // Camera state variables
-    const [cameraVisible, setCameraVisible] = useState(false);
 
     const {colors} = useTheme(); // Color theme
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
@@ -64,35 +61,44 @@ const NewBeans = ({ route, navigation }) => {
     }
 
     useEffect(() => {
-        if (route.params?.flavor_notes) { // If parent provides flavor_notes, update beans.flavor_notes
+        // If child page provides flavor_notes, update beans.flavor_notes
+        if (route.params?.flavor_notes) {
             setBeans({ ...beans, flavor_notes: route.params.flavor_notes});
         } else {
             setBeans({ ...beans, flavor_notes: "" })
         }
-    }, [route.params?.flavor_notes]);
+
+        // If child page provides photo_uri, update beans.photo_uri
+        if (route.params?.photo_uri) {
+            setBeans({...beans, photo_uri: route.params.photo_uri});
+        }
+
+    }, [route.params?.flavor_notes, route.params?.photo_uri]);
 
     return (
         <View style={{width: "100%", height: "100%"}}>
-            {!cameraVisible&&<Header 
+            <Header 
                 title="New Beans" 
                 leftText="Cancel" rightText="Done" 
                 leftOnPress={() => navigation.goBack()} 
                 rightOnPress={() => addBeans()}
-            />}
-            {cameraVisible
-            ? <BeansCamera onCancel={() => setCameraVisible(false)} setUri={(uri) => setBeans({...beans, photo_uri: uri})}/>
-            :<ScrollView>
-                <View style={styles.cameraIcon}>
+            />
+            <ScrollView>
+                <View style={styles.photoContainer}>
                     {beans.photo_uri  
-                    ?<Image style={styles.image} source={{uri: beans.photo_uri}}/> 
-                    :
-                    <TouchableOpacity onPress={() => navigation.navigate("SelectIcon", { parent: "NewBeans" })}>
-                    <View style={{marginTop: 10, flexDirection: 'column', alignItems: 'center'}}>
-                        <View style={{...styles.openCameraButton, backgroundColor: colors.border}}>
-                            <Image source={require('../../assets/BeansIcons/Bag_Icon.png')} style={styles.image}/>
+                    ?<TouchableOpacity onPress={() => navigation.navigate("SelectIcon", { parent: "NewBeans", selectedIcon: beans.photo_uri })}>
+                        <View style={{marginTop: 10, flexDirection: 'column', alignItems: 'center'}}>
+                            <Icon uri={beans.photo_uri} size={(width/2)-55}/>
+                            <Text style={{color: colors.interactive, fontSize: 15, margin: 5}}>Edit Icon</Text>
                         </View>
-                        <Text style={{color: colors.interactive, fontSize: 15, margin: 5}}>Add Icon</Text>
-                    </View>
+                    </TouchableOpacity>
+                    :<TouchableOpacity onPress={() => navigation.navigate("SelectIcon", { parent: "NewBeans" })}>
+                        <View style={{marginTop: 10, flexDirection: 'column', alignItems: 'center'}}>
+                            <View style={{...styles.openCameraButton, backgroundColor: colors.border}}>
+                                <Image source={require('../../assets/BeansIcons/Bag_Icon.png')} style={styles.image}/>
+                            </View>
+                            <Text style={{color: colors.interactive, fontSize: 15, margin: 5}}>Add Icon</Text>
+                        </View>
                     </TouchableOpacity>}
                 </View>
 
@@ -165,7 +171,7 @@ const NewBeans = ({ route, navigation }) => {
                         onPress={() => navigation.navigate("InfoPage",{topic: "Rating"})}
                     />
                 </TableView>
-            </ScrollView>}
+            </ScrollView>
         </View>   
         
     );
@@ -174,7 +180,7 @@ const NewBeans = ({ route, navigation }) => {
 export default NewBeans;
 
 const styles = StyleSheet.create({
-    cameraIcon: {
+    photoContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
@@ -186,6 +192,11 @@ const styles = StyleSheet.create({
         height: 75, 
         resizeMode: 'contain'
     },  
+    icon: {
+        width: (width/2)-55,
+        height: (width/2)-55,
+        resizeMode: 'contain'
+    },
     openCameraButton: {
         borderRadius: 60,
         width: 120,

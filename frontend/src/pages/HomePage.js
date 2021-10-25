@@ -22,6 +22,7 @@ import Header from '../components/Header';
 import RowItem from '../components/RowItem';
 import SearchBar from '../components/SearchBar';
 import SwipeableRow from '../components/SwipeableRow';
+import Icon from '../components/Icon';
 
 // Modal for listing new beans or brew
 const NewModal = ({ navigation }) => {
@@ -74,12 +75,7 @@ const Beans = ({beans, onDelete, onLongPress, onSelect, navigation}) => {
                 onLongPress={onLongPress}
             >
                 <View style={{...styles.beansRow, borderColor: colors.border}}> 
-                    <Image source={beans.photo_uri?{uri: beans.photo_uri}:require('../../assets/BeansIcons/Bag_1.png')} style={{
-                        width: 80, 
-                        height: 80, 
-                        borderRadius: beans.photo_uri?50:0, 
-                        resizeMode: 'cover',
-                        borderWidth: beans.photo_uri?1:0,}}/>
+                    <Icon uri={beans.photo_uri} size={80}/>
                     <View style={{flexDirection: 'column', margin: 15}}>
                         <Text style={{fontWeight: 'bold', fontSize: 18}}>{beans.roaster}</Text>
                         <Text style={{fontSize: 16}}>{beans.region}</Text>
