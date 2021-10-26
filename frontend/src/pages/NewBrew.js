@@ -5,12 +5,16 @@ import {
     View,
     Text,
     TouchableOpacity,
-    Alert
+    Alert,
+    Dimensions,
+    Modal
 } from 'react-native';
-import { faChevronRight, faStopwatch, faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faStopwatch, faHeart as faHeartSolid, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux'
+
+const {width, height} = Dimensions.get('window');
 
 // Component Imports 
 import { SegmentedControl } from 'react-native-ios-kit';
@@ -21,6 +25,7 @@ import RowItem from '../components/RowItem';
 import TextFieldRow from '../components/TextFieldRow';
 import SliderRow from '../components/SliderRow';
 import DatePickerRow from '../components/DatePickerRow';
+import { acidity, aftertaste, aroma, body, flavor, overall, sweetness } from '../Descriptions';
 
 const NewBrew = ({ route, navigation }) => {
     const [brew, setBrew] = useState(
@@ -41,6 +46,8 @@ const NewBrew = ({ route, navigation }) => {
     const {colors} = useTheme(); // Color theme
     const [timer, setTimer] = useState(0); // Current timer value in seconds
     const [isActive, setIsActive] = useState(false); // Timer isActive?
+    const [showFlavorModal, setShowFlavorModal] = useState(false);
+    const [modalValues, setModalValues] = useState({title: "", text: ""});
     const countRef = useRef(null); // Counter
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
 
@@ -189,37 +196,37 @@ const NewBrew = ({ route, navigation }) => {
                         title="Flavor"
                         value={brew.flavor}
                         onValueChange={value => setBrew({...brew, flavor: value})}
-                        onPress={() => navigation.navigate("InfoPage",{topic: "Flavor"})}
+                        onPress={() => {setModalValues({title: "Flavor", text: flavor}); setShowFlavorModal(true);}}
                     />
                     <SliderRow 
                         title="Acidity"
                         value={brew.acidity}
                         onValueChange={value => setBrew({...brew, acidity: value})}
-                        onPress={() => navigation.navigate("InfoPage",{topic: "Acidity"})}
+                        onPress={() => {setModalValues({title: "Acidty", text: acidity}); setShowFlavorModal(true);}}
                     />
                     <SliderRow 
                         title="Aroma"
                         value={brew.aroma}
                         onValueChange={value => setBrew({...brew, aroma: value})}
-                        onPress={() => navigation.navigate("InfoPage",{topic: "Aroma"})}
+                        onPress={() => {setModalValues({title: "Aroma", text: aroma}); setShowFlavorModal(true);}}
                     />
                     <SliderRow 
                         title="Body"
                         value={brew.body}
                         onValueChange={value => setBrew({...brew, body: value})}
-                        onPress={() => navigation.navigate("InfoPage",{topic: "Body"})}
+                        onPress={() => {setModalValues({title: "Body", text: body}); setShowFlavorModal(true);}}
                     />
                     <SliderRow 
                         title="Sweetness"
                         value={brew.sweetness}
                         onValueChange={value => setBrew({...brew, sweetness: value})}
-                        onPress={() => navigation.navigate("InfoPage",{topic: "Sweetness"})}
+                        onPress={() => {setModalValues({title: "Sweetness", text: sweetness}); setShowFlavorModal(true);}}
                     />
                     <SliderRow 
                         title="Aftertaste"
                         value={brew.aftertaste}
                         onValueChange={value => setBrew({...brew, aftertaste: value})}
-                        onPress={() => navigation.navigate("InfoPage",{topic: "Aftertaste"})}
+                        onPress={() => {setModalValues({title: "Aftertaste", text: aftertaste}); setShowFlavorModal(true);}}
                     />
                 </TableView>
                 <TableView header="Review">
@@ -227,7 +234,7 @@ const NewBrew = ({ route, navigation }) => {
                         title="Rating"
                         value={brew.rating}
                         onValueChange={value => setBrew({...brew, rating: value})}
-                        onPress={() => navigation.navigate("InfoPage",{topic: "Rating"})}
+                        onPress={() => {setModalValues({title: "Rating", text: overall}); setShowFlavorModal(true);}}
                     />
                 </TableView>
                 <TableView header="More Info">
@@ -245,6 +252,24 @@ const NewBrew = ({ route, navigation }) => {
                     </TouchableOpacity>
                 </TableView>
             </ScrollView>
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={showFlavorModal}
+            >
+                <View style={styles.modalContainer}>
+                <View style={{...styles.flavorModal, backgroundColor: colors.card}}>
+                    <View style={{...styles.modalHeader, borderColor: colors.border}}>
+                        <Text style={styles.modalTitle}>{modalValues.title}</Text>
+                        <TouchableOpacity onPress={() => setShowFlavorModal(!showFlavorModal)} style={styles.closeModalIcon}>
+                            <FontAwesomeIcon icon={faTimesCircle} size={20} color={colors.placeholder}/>
+                        </TouchableOpacity>
+                    </View> 
+                    <Text style={styles.modalText}>{modalValues.text}</Text>
+                </View>
+                </View>
+            </Modal>
+
         </View>
     );
 }
@@ -269,5 +294,40 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    modalContainer: {
+        flex: 1,
+        backgroundColor:'rgba(0,0,0,0.3)', 
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    flavorModal: {
+        width: width-30,
+        margin: 15,
+        borderWidth: 1,
+        borderRadius: 15,
+    },
+    modalHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 10,
+        marginHorizontal: 15,
+        borderBottomWidth: 1,
+        paddingBottom: 5,
+    }, 
+    modalTitle: {
+        fontWeight: 'bold',
+        fontSize: 20,
+    },
+    closeModalIcon: {
+        position: 'absolute',
+        right: 0,
+        top: 2,
+    },
+    modalText: {
+        marginVertical: 10,
+        marginHorizontal: 15,
+        fontSize: 16
     }
 });

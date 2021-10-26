@@ -227,7 +227,6 @@ const HomePage = ({ navigation }) => {
             />}
             <Modal
                 animationType="slide"
-                transparent={true}
                 visible={btmModal}
             >
                 <View style={{...styles.btmModal, backgroundColor: colors.card, borderColor: colors.border}}>

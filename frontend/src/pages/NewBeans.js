@@ -7,11 +7,12 @@ import {
     TouchableOpacity,
     Image,
     Dimensions,
-    Alert
+    Alert,
+    Modal
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { faChevronRight, faCamera, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 const {width, height} = Dimensions.get('window');
 
@@ -25,6 +26,7 @@ import RowItem from '../components/RowItem';
 import Header from '../components/Header';
 import SliderRow from '../components/SliderRow';
 import Icon from '../components/Icon';
+import { overall } from '../Descriptions';
 
 function mapRating(value) {
     if (value <= 10)
@@ -37,6 +39,7 @@ function mapRating(value) {
 
 const NewBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g", flavor_notes: "", rating: 0, photo_uri: null}); // Beans state
+    const [showFlavorModal, setShowFlavorModal] = useState(false);
 
     const {colors} = useTheme(); // Color theme
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
@@ -87,14 +90,14 @@ const NewBeans = ({ route, navigation }) => {
     }, [route.params?.flavor_notes, route.params?.photo_uri]);
 
     return (
-        <View style={{width: "100%", height: "100%"}}>
+        <View style={{flex: 1}}>
             <Header 
                 title="New Beans" 
                 leftText="Cancel" rightText="Done" 
                 leftOnPress={() => navigation.goBack()} 
                 rightOnPress={() => addBeans()}
             />
-            <ScrollView>
+            <ScrollView style={{marginBottom: 20}}>
                 <View style={styles.photoContainer}>
                     {beans.photo_uri  
                     ?<TouchableOpacity onPress={() => navigation.navigate("SelectIcon", { parent: "NewBeans", selectedIcon: beans.photo_uri })}>
@@ -179,10 +182,27 @@ const NewBeans = ({ route, navigation }) => {
                         title="Rating"
                         value={beans.rating}
                         onValueChange={value => setBeans({...beans, rating: value})}
-                        onPress={() => navigation.navigate("InfoPage",{topic: "Rating"})}
+                        onPress={() => setShowFlavorModal(!showFlavorModal)}
                     />
                 </TableView>
             </ScrollView>
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={showFlavorModal}
+            >
+                <View style={styles.modalContainer}>
+                <View style={{...styles.flavorModal, backgroundColor: colors.card}}>
+                    <View style={{...styles.modalHeader, borderColor: colors.border}}>
+                        <Text style={styles.modalTitle}>Rating</Text>
+                        <TouchableOpacity onPress={() => setShowFlavorModal(!showFlavorModal)} style={styles.closeModalIcon}>
+                            <FontAwesomeIcon icon={faTimesCircle} size={20} color={colors.placeholder}/>
+                        </TouchableOpacity>
+                    </View> 
+                    <Text style={styles.modalText}>{overall}</Text>
+                </View>
+                </View>
+            </Modal>
         </View>   
         
     );
@@ -231,6 +251,41 @@ const styles = StyleSheet.create({
         borderRadius: 15
     },
     flavorText: {
+        fontSize: 16
+    },
+    modalContainer: {
+        flex: 1,
+        backgroundColor:'rgba(0,0,0,0.3)', 
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    flavorModal: {
+        width: width-30,
+        margin: 15,
+        borderWidth: 1,
+        borderRadius: 15,
+    },
+    modalHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 10,
+        marginHorizontal: 15,
+        borderBottomWidth: 1,
+        paddingBottom: 5,
+    }, 
+    modalTitle: {
+        fontWeight: 'bold',
+        fontSize: 20,
+    },
+    closeModalIcon: {
+        position: 'absolute',
+        right: 0,
+        top: 2,
+    },
+    modalText: {
+        marginVertical: 10,
+        marginHorizontal: 15,
         fontSize: 16
     }
 });

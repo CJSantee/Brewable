@@ -55,5 +55,15 @@ module.exports = {
     aftertaste: "Aftertaste is defined as the length of positive flavor "+
     "(taste and aroma) qualities emanating from the back of the palate "+
     "and remaining after the coffee is expectorated or swallowed. If the "+
-    "aftertaste were short or unpleasant, a lower score would be given."
+    "aftertaste were short or unpleasant, a lower score would be given.",
+    overall: "The “overall” scoring aspect is meant to reflect the "+
+    "holistically integrated rating of the sample as perceived by the "+
+    "individual panelist. A sample with many highly pleasant aspects, "+
+    "but not quite “measuring up” would receive a lower rating. A "+
+    "coffee that met expectations as to its character and reflected "+
+    "particular origin flavor qualities would receive a high score. An "+
+    "exemplary example of preferred characteristics not fully reflected "+
+    "in the individual score of the individual attributes might receive an "+
+    "even higher score. This is the step where the panelists make their "+
+    "personal appraisal."
 };
