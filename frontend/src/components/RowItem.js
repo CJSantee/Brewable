@@ -51,7 +51,7 @@ const RowItem = ({title, text, onPress, children, style, showSelect, selected, t
   if (onPress) {
     return (
       <TouchableHighlight
-        onPress={onPress}
+        onPress={showSelect?() => toggleSelect(title):onPress}
       >
         <Row title={title} text={text} children={children} style={style} showSelect={showSelect} selected={selected} toggleSelect={toggleSelect}/>
       </TouchableHighlight>
