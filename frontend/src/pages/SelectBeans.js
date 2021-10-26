@@ -52,7 +52,7 @@ const SelectBeans = ({ navigation, route }) => {
                     <RowItem 
                         title={item.roaster + " - " + item.region} 
                         text=""
-                        onPress={() => updateBrew(item.id)}>
+                        onPress={parent==="EditBrew"?() => updateBrew(item.id):() => navigation.navigate(parent, { beans_id: item.id, roaster: item.roaster, region: item.region })}>
                         {beans_id === item.id ? <FontAwesomeIcon icon={faCheck} size={20} color={colors.placeholder}/> : <View/>}
                     </RowItem>}
                 keyExtractor={item => item.id.toString()}

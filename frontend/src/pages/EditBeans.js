@@ -25,10 +25,20 @@ const EditBeans = ({ route, navigation }) => {
     const {colors} = useTheme(); // Color theme
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
 
+    const missingInfoAlert = () => {
+        Alert.alert(
+            "Missing Fields",
+            "Please enter a Roaster",
+            [
+                {text: "OK"}
+            ]
+        )
+    }
+
     // Update Beans Database call
     const updateBeans = () => {
-        if (beans === null ||  beans.region === "") {
-            console.log("Missing Name");
+        if (beans.roaster === "") {
+            missingInfoAlert();
             return false;
         }
     

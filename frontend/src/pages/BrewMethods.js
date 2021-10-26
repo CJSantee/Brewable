@@ -143,8 +143,8 @@ const BrewMethods = ({ route, navigation }) => {
                     <RowItem 
                         title={item.method} text=""
                         onPress={
-                            (brew_method!=="none")?
-                            () => updateBrew(item.method) :null
+                            parent==="EditBrew"?
+                            () => updateBrew(item.method):() => navigation.navigate(parent, {brew_method: item.method})
                         }
                         showSelect={editing}
                         selected={selected.has(item.method)}

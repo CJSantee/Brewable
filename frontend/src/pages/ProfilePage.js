@@ -59,7 +59,7 @@ const ProfilePage = ({ navigation }) => {
                     <RowItem
                         title="Brew Methods"
                         text=""
-                        onPress={() => navigation.navigate("BrewMethods", {method: "none", parent: "ProfilePage"})}
+                        onPress={() => navigation.navigate("BrewMethods", {parent: "ProfilePage"})}
                     >   
                         <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
                     </RowItem>

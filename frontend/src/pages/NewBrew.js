@@ -4,7 +4,8 @@ import {
     ScrollView,
     View,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from 'react-native';
 import { faChevronRight, faStopwatch, faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
@@ -20,26 +21,6 @@ import RowItem from '../components/RowItem';
 import TextFieldRow from '../components/TextFieldRow';
 import SliderRow from '../components/SliderRow';
 import DatePickerRow from '../components/DatePickerRow';
-
-// Add brew to database
-const addBrew = (brew, time) => {
-    if (brew === null) {
-        console.log("error");
-        return false;
-    }
-
-    db.transaction(
-        (tx) => {
-            tx.executeSql(`
-                INSERT INTO brews
-                (grind_setting, water, water_unit, coffee, coffee_unit, temperature, temp_unit, brew_method, time, date, notes, flavor, acidity, aroma, body, sweetness, aftertaste, beans_id, favorite, rating)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-                [brew.grind_setting, brew.water, brew.water_unit, brew.coffee, brew.coffee_unit, brew.temperature, brew.temp_unit, brew.brew_method, time, brew.date.toJSON(), brew.notes, brew.flavor, brew.acidity, brew.aroma, brew.body, brew.sweetness, brew.aftertaste, brew.beans_id, brew.favorite, brew.rating]);
-        },
-        (e) => {console.log(e)},
-        null
-    );
-}
 
 const NewBrew = ({ route, navigation }) => {
     const [brew, setBrew] = useState(
@@ -62,6 +43,36 @@ const NewBrew = ({ route, navigation }) => {
     const [isActive, setIsActive] = useState(false); // Timer isActive?
     const countRef = useRef(null); // Counter
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
+
+    const missingInfoAlert = () => {
+        Alert.alert(
+            "Missing Fields",
+            "Please select Beans and Brew Method",
+            [
+                {text: "OK"}
+            ]
+        )
+    }
+    
+    // Add brew to database
+    const addBrew = () => {
+        if (brew.beans_id === "" || brew.brew_method === "") {
+            missingInfoAlert();
+            return false;
+        }
+    
+        db.transaction(
+            (tx) => {
+                tx.executeSql(`
+                    INSERT INTO brews
+                    (grind_setting, water, water_unit, coffee, coffee_unit, temperature, temp_unit, brew_method, time, date, notes, flavor, acidity, aroma, body, sweetness, aftertaste, beans_id, favorite, rating)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+                    [brew.grind_setting, brew.water, brew.water_unit, brew.coffee, brew.coffee_unit, brew.temperature, brew.temp_unit, brew.brew_method, formatTime(), brew.date.toJSON(), brew.notes, brew.flavor, brew.acidity, brew.aroma, brew.body, brew.sweetness, brew.aftertaste, brew.beans_id, brew.favorite, brew.rating]);
+            },
+            (e) => {console.log(e)},
+            () => navigation.goBack()
+        );
+    }
 
     // Start / Stop Timer
     const toggleTimer = () => {
@@ -96,7 +107,7 @@ const NewBrew = ({ route, navigation }) => {
 
     return (
         <View style={{width: "100%", height: "100%"}}>
-            <Header title="New Brew" leftText="Cancel" rightText="Done" leftOnPress={() => navigation.goBack()} rightOnPress={() => { addBrew(brew, formatTime()); navigation.goBack();}}/>
+            <Header title="New Brew" leftText="Cancel" rightText="Done" leftOnPress={() => navigation.goBack()} rightOnPress={() => addBrew()}/>
             <ScrollView style={{...styles.container, backgroundColor: colors.background}}>
                 <TableView header="Info">
                     <RowItem

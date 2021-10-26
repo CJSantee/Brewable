@@ -6,7 +6,8 @@ import {
     Text,
     TouchableOpacity,
     Image,
-    Dimensions
+    Dimensions,
+    Alert
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
@@ -40,10 +41,20 @@ const NewBeans = ({ route, navigation }) => {
     const {colors} = useTheme(); // Color theme
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
 
+    const missingInfoAlert = () => {
+        Alert.alert(
+            "Missing Fields",
+            "Please enter a Roaster",
+            [
+                {text: "OK"}
+            ]
+        )
+    }
+
     // Add beans to database
     const addBeans = () => {
-        if (beans === null ||  beans.region === "") {
-            console.log("Missing Name");
+        if (beans.region === "") {
+            missingInfoAlert();
             return false;
         }
     
