@@ -10,7 +10,8 @@ import {
 import { SegmentedControl } from 'react-native-ios-kit';
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-regular-svg-icons';
 
 // Component Imports 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -46,9 +47,9 @@ const EditBeans = ({ route, navigation }) => {
             (tx) => {
                 tx.executeSql(`
                     UPDATE beans
-                    SET region = ?, roaster = ?, origin = ?, roast_level = ?, roast_date = ?, price = ?, weight = ?, weight_unit = ?, flavor_notes = ?
+                    SET region = ?, roaster = ?, origin = ?, roast_level = ?, roast_date = ?, price = ?, weight = ?, weight_unit = ?, flavor_notes = ?, favorite = ?
                     WHERE id = ?;`,
-                    [beans.region, beans.roaster, beans.origin, beans.roast_level, new Date(beans.roast_date).toJSON(), beans.price, beans.weight, beans.weight_unit, beans.flavor_notes, beans.id]);
+                    [beans.region, beans.roaster, beans.origin, beans.roast_level, new Date(beans.roast_date).toJSON(), beans.price, beans.weight, beans.weight_unit, beans.flavor_notes, beans.favorite, beans.id]);
             },
             (e) => {console.log(e)},
             () => navigation.goBack() // Go back on success
@@ -168,11 +169,19 @@ const EditBeans = ({ route, navigation }) => {
                     </View>
                 </TableView>
                 <TableView>
-                    <TouchableOpacity onPress={deleteConfirmation}>
-                        <View style={{...styles.deleteButton, backgroundColor: colors.card, borderColor: colors.border}}>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+                    <TouchableOpacity onPress={deleteConfirmation} style={{flex: 1}}>
+                        <View style={{...styles.bottomButton, backgroundColor: colors.card, borderColor: colors.border}}>
                             <Text style={{color: colors.destructive, fontSize: 16}}>Delete Beans</Text>
                         </View>
                     </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setBeans({...beans, favorite: beans.favorite===0?1:0})} style={{flex: 1}}>
+                        <View style={{...styles.bottomButton, backgroundColor: colors.card, borderColor: colors.border}}>
+                            <Text style={{color: colors.interactive, fontSize: 16, marginRight: 5}}>Favorite Beans</Text>
+                            <FontAwesomeIcon icon={beans.favorite===1?faHeartSolid:faHeart} color={colors.interactive} style={{marginLeft: 5}}/>
+                        </View>
+                    </TouchableOpacity>
+                    </View>
                 </TableView>
             </ScrollView>
         </View>   
@@ -201,13 +210,15 @@ const styles = StyleSheet.create({
     flavorText: {
         fontSize: 16
     },
-    deleteButton: {
-        display: 'flex',
+    bottomButton: {
+        flex: 1,
+        flexDirection: 'row',
         marginHorizontal: 10,
-        marginBottom: 15,
+        marginVertical: 15,
         borderWidth: 1,
         padding: 10,
         borderRadius: 15,
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 });

@@ -12,9 +12,13 @@ import {
 } from 'react-native';
 import { useAssets } from 'expo-asset';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
+import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-regular-svg-icons';
 
 let {height, width} = Dimensions.get('window');
 
+// Component Imports
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { SegmentedControl } from 'react-native-ios-kit';
 import Header from '../components/Header';
 import Brew from '../Brew';
@@ -25,13 +29,13 @@ const DisplayBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g"}); // Beans state
     const [brews, setBrews] = useState([]); // Array of brews for given beans
     const [flavorNotes, setFlavorNotes] = useState([]); // Array of flavor notes
-    const [loading, setLoading] = useState(true); // Page initially loading state
+    const [loadingBeans, setLoadingBeans] = useState(true); // Page initially loading state
+    const [loadingBrews, setLoadingBrews] = useState(true);
     const [refreshing, setRefreshing] = useState(false); // List refreshing state
-    const [assets] = useAssets([require('../../assets/BeansBag.png')]);
 
     // Search State Variables
-    const [searchQuery, setSearchQuery] = useState("");
-    const [searchResults, setSearchResults] = useState([]);
+    const [searchQuery, setSearchQuery] = useState(""); // UNUSED
+    const [searchResults, setSearchResults] = useState([]); // UNUSED
     const [sortBy, setSortBy] = useState("brew_date");
 
     const { beans_id } = route.params; // Beans_id for which beans to display
@@ -145,6 +149,13 @@ const DisplayBeans = ({ route, navigation }) => {
                         }
                     );
                     // Can potentially move load beans to after loading to save loading time since they're rendered out of view
+                    
+                },
+                (e) => console.log(e), () => setLoadingBeans(false)
+            );
+
+            db.transaction(
+                (tx) => {
                     tx.executeSql(
                         `SELECT brews.*, beans.roaster, beans.region 
                         FROM brews 
@@ -157,8 +168,9 @@ const DisplayBeans = ({ route, navigation }) => {
                         }
                     );
                 },
-                (e) => console.log(e), () => setLoading(false)
-            );
+                (e) => console.log(e),
+                () => setLoadingBrews(false)
+            )
             return () => mounted = false;
         }, [])
     );
@@ -187,7 +199,7 @@ const DisplayBeans = ({ route, navigation }) => {
 
     return (
         <View style={{...styles.container, backgroundColor: colors.background}}>
-            {loading ? 
+            {loadingBeans ? 
             <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                 <ActivityIndicator size="large"/>
             </View> 
@@ -201,6 +213,9 @@ const DisplayBeans = ({ route, navigation }) => {
             <View style={styles.row}>
                 <Text style={styles.title}>{beans.roaster} </Text>
                 <Text style={styles.subtitle}>{beans.region}</Text>
+            </View>
+            <View style={styles.favorite}>
+                <FontAwesomeIcon icon={beans.favorite?faHeartSolid:faHeart} size={25} color={beans.favorite?"#a00": colors.placeholder}/>
             </View>
             <View style={styles.row}>
                 {roastDate()!==""?<Text style={{fontSize: 18}}>{roastDate()}</Text>:<View/>}
@@ -255,14 +270,16 @@ const DisplayBeans = ({ route, navigation }) => {
                         </View>}
                 />
             </DraggableDrawer>:
+            loadingBrews?
+                <ActivityIndicator size="large"/>
+            :
             <View style={{width: '100%', padding: 10, marginBottom: 5}}>
                 <TouchableOpacity onPress={() => navigation.navigate("NewBrew", { beans_id: beans.id, roaster: beans.roaster, region: beans.region })}>
                     <View style={{...styles.addBrewsButton, backgroundColor: colors.card, borderColor: colors.border}}>
                         <Text style={{fontSize: 16, margin: 10}}>Add Brew</Text>
                     </View>
                 </TouchableOpacity>
-            </View>
-            }
+            </View>}
             
             {/* CODE FOR TAPPABLE DRAWER, WORKING ON DRAGGABLE
                 <Animated.View style={{...styles.animated,
@@ -293,6 +310,11 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         alignItems: 'center',
         flexWrap: 'wrap'
+    },
+    favorite: {
+        position: 'absolute',
+        right: 10,
+        top: 5
     },
     animated: {
         position: 'absolute',

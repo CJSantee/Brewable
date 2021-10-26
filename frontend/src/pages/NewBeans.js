@@ -12,7 +12,8 @@ import {
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { faChevronRight, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faTimesCircle, faHeart as faHeartSolid, } from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-regular-svg-icons';
 
 const {width, height} = Dimensions.get('window');
 
@@ -65,9 +66,9 @@ const NewBeans = ({ route, navigation }) => {
             (tx) => {
                 tx.executeSql(`
                     INSERT INTO beans
-                    (region, roaster, origin, roast_level, roast_date, price, weight, weight_unit, flavor_notes, rating, photo_uri)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-                    [beans.region, beans.roaster, beans.origin, beans.roast_level, beans.roast_date.toJSON(), beans.price, beans.weight, beans.weight_unit, beans.flavor_notes, mapRating(beans.rating), beans.photo_uri]);
+                    (region, roaster, origin, roast_level, roast_date, price, weight, weight_unit, flavor_notes, rating, photo_uri, favorite)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+                    [beans.region, beans.roaster, beans.origin, beans.roast_level, beans.roast_date.toJSON(), beans.price, beans.weight, beans.weight_unit, beans.flavor_notes, mapRating(beans.rating), beans.photo_uri, beans.favorite]);
             },
             (e) => {console.log(e)},
             () => navigation.goBack()
@@ -97,7 +98,7 @@ const NewBeans = ({ route, navigation }) => {
                 leftOnPress={() => navigation.goBack()} 
                 rightOnPress={() => addBeans()}
             />
-            <ScrollView style={{marginBottom: 20}}>
+            <ScrollView>
                 <View style={styles.photoContainer}>
                     {beans.photo_uri  
                     ?<TouchableOpacity onPress={() => navigation.navigate("SelectIcon", { parent: "NewBeans", selectedIcon: beans.photo_uri })}>
@@ -185,6 +186,14 @@ const NewBeans = ({ route, navigation }) => {
                         onPress={() => setShowFlavorModal(!showFlavorModal)}
                     />
                 </TableView>
+                <TableView>
+                    <TouchableOpacity onPress={() => setBeans({...beans, favorite: beans.favorite===0?1:0})} style={{flex: 1}}>
+                        <View style={{...styles.bottomButton, backgroundColor: colors.card, borderColor: colors.border}}>
+                            <Text style={{color: colors.interactive, fontSize: 16, marginRight: 5}}>Favorite Beans</Text>
+                            <FontAwesomeIcon icon={beans.favorite===1?faHeartSolid:faHeart} color={colors.interactive}/>
+                        </View>
+                    </TouchableOpacity>
+                </TableView>
             </ScrollView>
             <Modal
                 animationType="fade"
@@ -252,6 +261,17 @@ const styles = StyleSheet.create({
     },
     flavorText: {
         fontSize: 16
+    },
+    bottomButton: {
+        flex: 1,
+        flexDirection: 'row',
+        marginHorizontal: 10,
+        marginVertical: 15,
+        borderWidth: 1,
+        padding: 10,
+        borderRadius: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     modalContainer: {
         flex: 1,

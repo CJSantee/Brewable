@@ -24,7 +24,8 @@ const createTables = (db) => {
             weight_unit TEXT,
             flavor_notes TEXT,
             rating INTEGER,
-            photo_uri TEXT
+            photo_uri TEXT,
+            favorite INTEGER
           );`
         );
 
@@ -80,9 +81,9 @@ const populateBeans = (db) => {
       beans.roast_date = new Date(beans.roast_date).toJSON();
       tx.executeSql(
         `INSERT INTO beans
-        (region, roaster, origin, roast_date, price, roast_level, weight, weight_unit, flavor_notes, rating, photo_uri)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-        [beans.region, beans.roaster, beans.origin, beans.roast_date, beans.price, beans.roast_level, beans.weight, beans.weight_unit, beans.flavor_notes, randomInt(0,5), randomInt(1,5).toString()]
+        (region, roaster, origin, roast_date, price, roast_level, weight, weight_unit, flavor_notes, rating, photo_uri, favorite)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+        [beans.region, beans.roaster, beans.origin, beans.roast_date, beans.price, beans.roast_level, beans.weight, beans.weight_unit, beans.flavor_notes, randomInt(0,5), randomInt(1,5).toString(), randomInt(0,1)]
       );
     }
   },
