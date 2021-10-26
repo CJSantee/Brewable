@@ -17,21 +17,32 @@ const topOffset = 200;
 class DraggableDrawer extends Component {
     constructor(props) {
         super(props);
-        this.state = { drawerColor: "#aaa", };
-        this._height = 0;
+
+        this._lastScrollYValue = 0;
+        this._lastScrollY = new Animated.Value(0);
+        this._onRegisterLastScroll = Animated.event(
+            [{ nativeEvent: { contentOffset: { y: this._lastScrollY } } }],
+            { useNativeDriver: USE_NATIVE_DRIVER }
+        );
+        this._lastScrollY.addListener(({ value }) => {
+            this._lastScrollYValue = value;
+        });
+
         this._dragY = new Animated.Value(0);
-        this._transY = this._dragY.interpolate({
-            inputRange: [0, RATIO],
-            outputRange: [0, 1],
-        });
-        this._showDrawer = this._dragY.interpolate({
-            inputRange: [-1, 0, 1],
-            outputRange: [0, 0, 1],
-        });
-        this._actionListener = (event) => {
-            const endOffsetY =
-            event.nativeEvent.translationY + 0.05 * event.nativeEvent.velocityY;
-        }
+
+        this._reverseLastScrollY = Animated.multiply(
+            new Animated.Value(-1),
+            this._lastScrollY
+          );
+
+        this._translateYOffset = new Animated.Value(1);
+        this._transY = Animated.add(
+            this._translateYOffset,
+            Animated.add(this._dragY, this._reverseLastScrollY)
+            ).interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, 1],
+            });
         this._onGestureEvent = Animated.event(
             [{ nativeEvent: { translationY: this._dragY } }],
             { listener: this._actionListener, useNativeDriver: USE_NATIVE_DRIVER }
@@ -40,6 +51,8 @@ class DraggableDrawer extends Component {
 
     _onHandlerStateChange = event => {
         if (event.nativeEvent.oldState === State.ACTIVE) {
+            let { translationY } = event.nativeEvent;
+            translationY -= this._lastScrollYValue;
             const dragToss = 0.05;
             const endOffsetY =
             event.nativeEvent.translationY + dragToss * event.nativeEvent.velocityY;
@@ -51,28 +64,21 @@ class DraggableDrawer extends Component {
                 toValue = 0;
             } 
 
-            Animated.spring(this._dragY, {
+            this._translateYOffset.extractOffset();
+            this._translateYOffset.setValue(translationY);
+            this._translateYOffset.flattenOffset();
+            this._dragY.setValue(0);
+
+            Animated.spring(this._translateYOffset, {
                 velocity: event.nativeEvent.velocityY,
                 tension: 15,
                 friction: 5,
                 toValue,
                 useNativeDriver: USE_NATIVE_DRIVER,
             }).start();
-            this.setState({drawerColor: "#aaa"});
         }
     };
-    _onLayout = event => {
-        this._height = event.nativeEvent.layout.height;
-    };
-    _reset = () => {
-        Animated.spring(this._dragY, {
-        toValue: 0,
-        useNativeDriver: USE_NATIVE_DRIVER,
-        tension: 15,
-        friction: 5,
-        }).start();
-    };
-
+   
     render() {
         const { children, colors } = this.props;
         return (
