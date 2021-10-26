@@ -11,14 +11,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Header from '../components/Header';
 import RowItem from '../components/RowItem';
 
-const SelectBeans = ({ route, navigation }) => {
+const SelectBeans = ({ navigation, route }) => {
     const [beans, setBeans] = useState([]); // List of beans
-    const { beans_id, parent } = route.params; // Beans_id and parent page
+    const { beans_id, brew_id, parent } = route.params; // Beans_id and parent page
     const { colors } = useTheme(); // Color theme
+
+    const updateBrew = (_beans_id) => {
+        db.transaction(
+            (tx) => {
+                tx.executeSql("UPDATE brews SET beans_id = ? WHERE id = ?;", [_beans_id, brew_id]);
+            },
+            (e) => console.log(e),
+            () => navigation.navigate(parent, { brew_id: brew_id })
+        );
+    }
 
     // Retrieve list of beans when component is mounted
     useFocusEffect(
-        useCallback(()=> {
+        useCallback(() => {
             let mounted = true;
             db.transaction(
                 (tx) => {
@@ -38,12 +48,12 @@ const SelectBeans = ({ route, navigation }) => {
             <Header title="Select Beans" leftText="Back" leftOnPress={() => navigation.goBack()} leftChevron={true}/>
             <FlatList 
                 data={beans}
-                renderItem={(item) => 
+                renderItem={({item}) => 
                     <RowItem 
-                        title={item.item.roaster + " - " + item.item.region} 
+                        title={item.roaster + " - " + item.region} 
                         text=""
-                        onPress={() => { navigation.navigate(parent, {roaster: item.item.roaster, region: item.item.region, beans_id: item.item.id}); }}>
-                        {beans_id === item.item.id ? <FontAwesomeIcon icon={faCheck} size={20} color={colors.placeholder}/> : <View/>}
+                        onPress={() => updateBrew(item.id)}>
+                        {beans_id === item.id ? <FontAwesomeIcon icon={faCheck} size={20} color={colors.placeholder}/> : <View/>}
                     </RowItem>}
                 keyExtractor={item => item.id.toString()}
             />

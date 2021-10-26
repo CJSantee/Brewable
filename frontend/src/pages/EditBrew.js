@@ -35,7 +35,8 @@ const EditBrew = ({ route, navigation }) => {
             date: new Date(), 
             time: "",
             beans_id: 0, 
-            rating: 0
+            rating: 0,
+            roaster: "", region: ""
         }
     ); // Brew state
     const { brew_id } = route.params;
@@ -98,15 +99,6 @@ const EditBrew = ({ route, navigation }) => {
         )
     }
 
-    useEffect(() => {
-        if (route.params?.brew_method) { // If parent provides brew_method, update brew.brew_method
-            setBrew({...brew, brew_method: route.params.brew_method});
-        }
-        if (route.params?.beans_id) { // If parent provides beans information, update brew
-            setBrew({...brew, roaster: route.params.roaster, region: route.params.region, beans_id: route.params.beans_id});
-        }
-    }, [route.params?.brew_method, route.params?.beans_id]);
-
     useFocusEffect(
         useCallback(()=> {
             let mounted = true;
@@ -123,7 +115,8 @@ const EditBrew = ({ route, navigation }) => {
                         }
                     );
                 },
-                (e) => console.log(e), null
+                (e) => console.log(e), 
+                null
             );
             return () => mounted = false;
         }, [])
@@ -131,13 +124,13 @@ const EditBrew = ({ route, navigation }) => {
 
     return (
         <View style={{width: "100%", height: "100%"}}>
-            <Header title="Edit Brew" leftText="Cancel" rightText="Done" leftOnPress={() => navigation.goBack()} rightOnPress={() => updateBrew()}/>
+            <Header title="Edit Brew" leftText="Cancel" rightText="Done" leftOnPress={() => navigation.navigate("DisplayBrew", { brew_id: brew_id })} rightOnPress={() => updateBrew()}/>
             <ScrollView style={{...styles.container, backgroundColor: colors.background}}>
                 <TableView header="Info">
                     <RowItem
                         title="Beans"
                         text=""
-                        onPress={() => navigation.navigate("SelectBeans", {beans_id: brew.beans_id, parent: "EditBrew"})}
+                        onPress={() => navigation.navigate("SelectBeans", {beans_id: brew.beans_id, brew_id: brew_id, parent: "EditBrew"})}
                     >   
                         <Text style={{...styles.text, color: colors.placeholder}}>{brew.roaster} - {brew.region}</Text>
                         <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
@@ -145,7 +138,7 @@ const EditBrew = ({ route, navigation }) => {
                     <RowItem
                         title="Brew Method"
                         text=""
-                        onPress={() => navigation.navigate("BrewMethods", {brew_method: brew.brew_method, parent: "EditBrew"})}
+                        onPress={() => navigation.navigate("BrewMethods", {brew_method: brew.brew_method, brew_id: brew_id, parent: "EditBrew"})}
                     >   
                         <Text style={{...styles.text, color: colors.placeholder}}>{brew.brew_method}</Text>
                         <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>

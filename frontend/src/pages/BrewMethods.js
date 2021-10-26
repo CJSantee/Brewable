@@ -13,7 +13,7 @@ import RowItem from '../components/RowItem';
 import Header from '../components/Header';
 
 const BrewMethods = ({ route, navigation }) => {
-    const { brew_method, parent } = route.params; // Selected brew_method and parent navigation page
+    const { brew_method, brew_id, parent } = route.params; // Selected brew_method and parent navigation page
     const { colors } = useTheme(); // Color theme
 
     // State Variables
@@ -74,6 +74,16 @@ const BrewMethods = ({ route, navigation }) => {
         );
     }
 
+    const updateBrew = (_brew_method) => {
+        db.transaction(
+            (tx) => {
+                tx.executeSql("UPDATE brews SET brew_method = ? WHERE id = ?;", [_brew_method, brew_id]);
+            },
+            (e) => console.log(e),
+            () => navigation.navigate(parent, { brew_id: brew_id })
+        );
+    }
+
     // Add method to database
     const addBrewMethod = (method) => {
         if (method === "") {
@@ -129,18 +139,18 @@ const BrewMethods = ({ route, navigation }) => {
             />
             <FlatList 
                 data={methods}
-                renderItem={(object) => 
+                renderItem={({item}) => 
                     <RowItem 
-                        title={object.item.method} text=""
+                        title={item.method} text=""
                         onPress={
                             (brew_method!=="none")?
-                            () => { navigation.navigate(parent, {brew_method: object.item.method})}:null
+                            () => updateBrew(item.method) :null
                         }
                         showSelect={editing}
-                        selected={selected.has(object.item.method)}
+                        selected={selected.has(item.method)}
                         toggleSelect={(value) => toggleSelected(value)}
                     >
-                        {brew_method === object.item.method ? <FontAwesomeIcon icon={faCheck} size={20} color={colors.placeholder}/> : <View/>}
+                        {brew_method === item.method ? <FontAwesomeIcon icon={faCheck} size={20} color={colors.placeholder}/> : <View/>}
                     </RowItem>  
                 }
                 keyExtractor={item => item.id.toString()}
