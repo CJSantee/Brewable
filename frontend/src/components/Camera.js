@@ -62,25 +62,10 @@ function BeansCamera({ onCancel, setUri }) {
                     <Text style={styles.text}> Cancel </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.pictureButtonOutline} onPress={_takePhoto}>
-                    <View style={styles.pictureButton}>
-
-                    </View>
+                    <View style={styles.pictureButton}/>
                 </TouchableOpacity>
-                {/* <TouchableOpacity
-                    style={styles.flipButton}
-                    onPress={() => {
-                    setType(
-                        type === Camera.Constants.Type.back
-                        ? Camera.Constants.Type.front
-                        : Camera.Constants.Type.back
-                    );
-                    }}>
-                    <Text style={styles.text}> Flip </Text>
-                </TouchableOpacity> */}
             </View>
-            <View style={styles.beansOutline}>
-
-            </View>
+            {/* <View style={styles.beansOutline}/> */}
         </Camera>
         </View>
     );

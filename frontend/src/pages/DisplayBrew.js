@@ -9,7 +9,7 @@ import {
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { faTint, faFire, faStopwatch, faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
-import CoffeeBean from '../../assets/coffeeBean.svg';
+import CoffeeBean from '../../assets/icons/coffeeBean.svg';
 
 // Component Imports
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';

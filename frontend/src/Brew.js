@@ -9,11 +9,11 @@ import { useTheme } from '@react-navigation/native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTint, faFire, faStopwatch, faHeart as faHeartSolid, faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
 import { faHeart, faStar } from '@fortawesome/free-regular-svg-icons';
-import CoffeeBean from '../assets/coffeeBean.svg';
+import CoffeeBean from '../assets/icons/coffeeBean.svg';
 
 import TastingWheel from './components/TastingWheel';
 
-const Brew = ({ brew, menuItems, onFavorite, navigation }) => {
+const Brew = ({ brew, onFavorite, navigation }) => {
     const {colors} = useTheme(); // Color theme
 
     // Generate date format: 'Month D, YYYY'
@@ -61,10 +61,10 @@ const Brew = ({ brew, menuItems, onFavorite, navigation }) => {
                     
                     <View style={styles.rating}>
                         {Array(brew.rating).fill().map((_, idx)=>idx).map((value) => (
-                            <FontAwesomeIcon icon={faStarSolid} size={18} color={'rgb(255,149,67)'}/>
+                            <FontAwesomeIcon key={value} icon={faStarSolid} size={18} color={'rgb(255,149,67)'}/>
                         ))}
                         {Array(5-brew.rating).fill().map((_, idx)=>idx).map((value) => (
-                            <FontAwesomeIcon icon={faStar} size={18} color={'rgb(255,149,67)'}/>
+                            <FontAwesomeIcon key={value} icon={faStar} size={18} color={'rgb(255,149,67)'}/>
                         ))}
                     </View>
                 </View>

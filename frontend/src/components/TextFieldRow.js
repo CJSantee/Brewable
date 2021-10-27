@@ -1,15 +1,12 @@
 import { useTheme } from '@react-navigation/native';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import {
     View,
     Text,
     StyleSheet,
     TextInput,
-    TouchableWithoutFeedback,
-    Dimensions
+    TouchableWithoutFeedback
 } from 'react-native';
-
-let {height, width} = Dimensions.get('window');
 
 const TextFieldRow = ({title, text, onChange, keyboardType, children, style}) => {
     const {colors} = useTheme();

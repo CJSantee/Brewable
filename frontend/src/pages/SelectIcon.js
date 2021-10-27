@@ -7,7 +7,6 @@ import {
     Dimensions,
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import { useAssets } from 'expo-asset';
 
 import Header from '../components/Header';
 import BeansCamera from '../components/Camera';
@@ -17,9 +16,6 @@ const {width, height} = Dimensions.get('window');
 
 const SelectIcon = ({ route, navigation }) => {
     const [selectedIcon, setSelectedIcon] = useState(null); // Selected Icon
-    const [assets] = useAssets([
-        require('../../assets/BeansBag.png')
-    ]);
 
     const [cameraVisible, setCameraVisible] = useState(false);
     const [uri, setUri] = useState("");
@@ -84,7 +80,7 @@ const SelectIcon = ({ route, navigation }) => {
                     </View>
                     :<TouchableOpacity style={{marginRight: 15, padding: 15}} onPress={() => {setCameraVisible(true); setSelectedIcon(null)}}>
                         <View style={{width: imageSize, height: imageSize, backgroundColor: colors.border, borderRadius: imageSize/2, alignItems: 'center', justifyContent: 'center'}}>
-                            <Image source={require('../../assets/BeansIcons/CameraBag.png')} style={{
+                            <Image source={require('../../assets/images/CameraBag.png')} style={{
                                 width: imageSize*0.7, height: imageSize*0.7, resizeMode: 'contain'}}/>
                         </View>
                     </TouchableOpacity>}

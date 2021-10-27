@@ -4,6 +4,9 @@ import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import { Asset } from 'expo-asset';
+import AppLoading from 'expo-app-loading';
+
 import { createTables, populateBeans, populateBrewMethods, populateFlavors, populateRandomBrews } from './ DatabaseUtils';
 import { LightTheme } from './Themes';
 
@@ -37,6 +40,26 @@ const NewStack = createNativeStackNavigator();
 const store = createStore(preferenceReducer);
 
 export default function App() {
+  const [isReady, setIsReady] = useState(false);
+
+  const  _cacheResourcesAsync = async () => {
+    const images = [
+      require('./assets/images/Bag_1.png'),
+      require('./assets/images/Bag_2.png'),
+      require('./assets/images/Bag_3.png'),
+      require('./assets/images/Bag_4.png'),
+      require('./assets/images/Bag_5.png'),
+      require('./assets/images/Bag_Icon.png'),
+      require('./assets/images/BeansBag.png'),
+      require('./assets/images/CameraBag.png'),
+    ]
+
+    const cacheImages = images.map(image => {
+      return Asset.fromModule(image).downloadAsync();
+    }); 
+
+    return Promise.all(cacheImages);
+  }
 
   useEffect(() => {
     createTables(db);
@@ -47,7 +70,13 @@ export default function App() {
   }, []);
 
   return (
-    <Provider store={store}>
+    isReady === false ? 
+    (<AppLoading
+      startAsync={_cacheResourcesAsync}
+      onFinish={() => setIsReady(true)}
+      onError={console.warn}
+    />):
+    (<Provider store={store}>
     <HoldMenuProvider iconComponent={FontAwesomeIcon} theme="light">
     <NavigationContainer theme={LightTheme}>
         <StatusBar barStyle="dark-content"/>
@@ -69,6 +98,6 @@ export default function App() {
         </NewStack.Navigator>
     </NavigationContainer>
     </HoldMenuProvider>
-    </Provider>
+    </Provider>)
   );
 };

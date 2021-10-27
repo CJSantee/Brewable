@@ -110,7 +110,7 @@ const NewBeans = ({ route, navigation }) => {
                     :<TouchableOpacity onPress={() => navigation.navigate("SelectIcon", { parent: "NewBeans" })}>
                         <View style={{marginTop: 10, flexDirection: 'column', alignItems: 'center'}}>
                             <View style={{...styles.openCameraButton, backgroundColor: colors.border}}>
-                                <Image source={require('../../assets/BeansIcons/Bag_Icon.png')} style={styles.image}/>
+                                <Image source={require('../../assets/images/Bag_Icon.png')} style={styles.image}/>
                             </View>
                             <Text style={{color: colors.interactive, fontSize: 15, margin: 5}}>Add Icon</Text>
                         </View>

@@ -27,7 +27,6 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
                     </TouchableOpacity>
                     :<View/>}
             </View>  
-            
         </View>
     );
 }

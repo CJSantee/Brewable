@@ -4,13 +4,10 @@ import {
     StyleSheet,
     FlatList,
     Text,
-    Image,
     TouchableOpacity,
     Alert,
     Modal
 } from 'react-native';
-
-import { useAssets } from 'expo-asset';
 
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { faChevronRight, faPencilAlt, faShare, faTrash, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
@@ -42,14 +39,6 @@ const NewModal = ({ navigation }) => {
 
 const Beans = ({beans, onDelete, onLongPress, onSelect, navigation}) => {
     const {colors} = useTheme();
-    const [assets] = useAssets([
-        require('../../assets/BeansBag.png'),
-        require('../../assets/BeansIcons/Bag_1.png'),
-        require('../../assets/BeansIcons/Bag_2.png'),
-        require('../../assets/BeansIcons/Bag_3.png'),
-        require('../../assets/BeansIcons/Bag_4.png'),
-        require('../../assets/BeansIcons/Bag_5.png')
-    ]);
 
     const deleteConfirmation = () => {
         Alert.alert(

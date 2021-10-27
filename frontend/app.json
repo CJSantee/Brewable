@@ -1,8 +1,11 @@
 {
   "expo": {
-    "name": "frontend",
-    "slug": "frontend",
+    "name": "Coffee Lab",
+    "slug": "coffeeLab",
+    "privacy": "public",
     "version": "1.0.0",
+    "platforms": ["ios"],
+    "githubUrl": "https://github.com/CJSantee/Coffee-Lab",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -14,16 +17,12 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
-      "**/*"
+      "asset/*"
     ],
     "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+      "supportsTablet": false,
+      "bundleIdentifier": "com.cjsantee.coffeeLab",
+      "buildNumber": "1.0.0"
     },
     "web": {
       "favicon": "./assets/favicon.png"

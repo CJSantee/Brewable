@@ -1,5 +1,5 @@
 import { useTheme } from '@react-navigation/native';
-import React, { Children } from 'react';
+import React from 'react';
 import {
     View,
     StyleSheet,

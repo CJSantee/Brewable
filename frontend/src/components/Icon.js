@@ -3,35 +3,28 @@ import {
     View,
     Image
 } from 'react-native';
-import { Asset, useAssets } from 'expo-asset';
+import { Asset } from 'expo-asset';
 
 
 function Icon({uri, size}) {
-    const [assets] = useAssets([
-        require('../../assets/BeansIcons/Bag_1.png'),
-        require('../../assets/BeansIcons/Bag_2.png'),
-        require('../../assets/BeansIcons/Bag_3.png'),
-        require('../../assets/BeansIcons/Bag_4.png'),
-        require('../../assets/BeansIcons/Bag_5.png')
-    ]);
     const [iconURI, setIconURI] = useState("/");
 
     useEffect(() => {
         switch (uri) {
             case "1":
-                setIconURI(Asset.fromModule(require('../../assets/BeansIcons/Bag_1.png')).uri);
+                setIconURI(Asset.fromModule(require('../../assets/images/Bag_1.png')).uri);
                 break;
             case "2":
-                setIconURI(Asset.fromModule(require('../../assets/BeansIcons/Bag_2.png')).uri);
+                setIconURI(Asset.fromModule(require('../../assets/images/Bag_2.png')).uri);
                 break;
             case "3":
-                setIconURI(Asset.fromModule(require('../../assets/BeansIcons/Bag_3.png')).uri);
+                setIconURI(Asset.fromModule(require('../../assets/images/Bag_3.png')).uri);
                 break;
             case "4":
-                setIconURI(Asset.fromModule(require('../../assets/BeansIcons/Bag_4.png')).uri);
+                setIconURI(Asset.fromModule(require('../../assets/images/Bag_4.png')).uri);
                 break
             case "5":
-                setIconURI(Asset.fromModule(require('../../assets/BeansIcons/Bag_5.png')).uri);
+                setIconURI(Asset.fromModule(require('../../assets/images/Bag_5.png')).uri);
                 break;
             default:
                 setIconURI(uri);
