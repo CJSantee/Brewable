@@ -5,13 +5,16 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
-    Alert
+    Alert,
+    Dimensions
 } from 'react-native';
 import { SegmentedControl } from 'react-native-ios-kit';
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { faChevronRight, faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
+
+const {width, height} = Dimensions.get('window');
 
 // Component Imports 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -20,6 +23,7 @@ import TableView from '../components/TableView';
 import TextFieldRow from '../components/TextFieldRow';
 import DatePickerRow from '../components/DatePickerRow';
 import Header from '../components/Header';
+import Icon from '../components/Icon';
 
 const EditBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState(route.params.beans); // Retrieve beans data from parent
@@ -47,9 +51,9 @@ const EditBeans = ({ route, navigation }) => {
             (tx) => {
                 tx.executeSql(`
                     UPDATE beans
-                    SET region = ?, roaster = ?, origin = ?, roast_level = ?, roast_date = ?, price = ?, weight = ?, weight_unit = ?, flavor_notes = ?, favorite = ?
+                    SET region = ?, roaster = ?, origin = ?, roast_level = ?, roast_date = ?, price = ?, weight = ?, weight_unit = ?, flavor_notes = ?, favorite = ?, photo_uri = ?
                     WHERE id = ?;`,
-                    [beans.region, beans.roaster, beans.origin, beans.roast_level, new Date(beans.roast_date).toJSON(), beans.price, beans.weight, beans.weight_unit, beans.flavor_notes, beans.favorite, beans.id]);
+                    [beans.region, beans.roaster, beans.origin, beans.roast_level, new Date(beans.roast_date).toJSON(), beans.price, beans.weight, beans.weight_unit, beans.flavor_notes, beans.favorite, beans.photo_uri, beans.id]);
             },
             (e) => {console.log(e)},
             () => navigation.goBack() // Go back on success
@@ -96,7 +100,10 @@ const EditBeans = ({ route, navigation }) => {
         } else {
             setBeans({ ...beans, flavor_notes: "" })
         }
-    }, [route.params?.flavor_notes]);
+        if (route.params?.photo_uri) {
+            setBeans({...beans, photo_uri: route.params.photo_uri});
+        }
+    }, [route.params?.flavor_notes, route.params?.photo_uri]);
 
     return (
         <View style={{width: "100%", height: "100%"}}>
@@ -107,6 +114,12 @@ const EditBeans = ({ route, navigation }) => {
                 rightOnPress={() => updateBeans()}
             />
             <ScrollView>
+                <TouchableOpacity onPress={() => navigation.navigate("SelectIcon", { parent: "EditBeans", beans_id: beans.id, selectedIcon: beans.photo_uri })}>
+                    <View style={{marginTop: 10, flexDirection: 'column', alignItems: 'center'}}>
+                        <Icon uri={beans.photo_uri} size={(width/2)-55}/>
+                        <Text style={{color: colors.interactive, fontSize: 15, margin: 5}}>Edit Icon</Text>
+                    </View>
+                </TouchableOpacity>
                 <TableView header="Roast">
                     <TextFieldRow 
                         title="Roaster"

@@ -12,9 +12,10 @@ import {
 import { faChevronRight, faStopwatch, faHeart as faHeartSolid, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { useTheme } from '@react-navigation/native';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
 
 const {width, height} = Dimensions.get('window');
+import { acidity, aftertaste, aroma, body, flavor, overall, sweetness } from '../Descriptions';
 
 // Component Imports 
 import { SegmentedControl } from 'react-native-ios-kit';
@@ -25,7 +26,6 @@ import RowItem from '../components/RowItem';
 import TextFieldRow from '../components/TextFieldRow';
 import SliderRow from '../components/SliderRow';
 import DatePickerRow from '../components/DatePickerRow';
-import { acidity, aftertaste, aroma, body, flavor, overall, sweetness } from '../Descriptions';
 
 const NewBrew = ({ route, navigation }) => {
     const [brew, setBrew] = useState(
@@ -136,13 +136,11 @@ const NewBrew = ({ route, navigation }) => {
                 </TableView>
                     
                 <TableView header="Recipe">
-
-                        <TextFieldRow 
-                            title="Grind Setting"
-                            text={brew.grind_setting}
-                            onChange={(value) => setBrew({...brew, grind_setting: value})}
-                        />
-                    
+                    <TextFieldRow 
+                        title="Grind Setting"
+                        text={brew.grind_setting}
+                        onChange={(value) => setBrew({...brew, grind_setting: value})}
+                    />
                     <TextFieldRow
                         title="Coffee Amount"
                         text={brew.coffee}

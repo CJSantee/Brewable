@@ -48,7 +48,7 @@ const NewBeans = ({ route, navigation }) => {
     const missingInfoAlert = () => {
         Alert.alert(
             "Missing Fields",
-            "Please enter a Roaster",
+            "Please enter a Roaster and add an icon.",
             [
                 {text: "OK"}
             ]
@@ -57,7 +57,7 @@ const NewBeans = ({ route, navigation }) => {
 
     // Add beans to database
     const addBeans = () => {
-        if (beans.region === "") {
+        if (!beans.region || !beans.photo_uri) {
             missingInfoAlert();
             return false;
         }

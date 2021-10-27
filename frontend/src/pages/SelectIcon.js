@@ -24,10 +24,20 @@ const SelectIcon = ({ route, navigation }) => {
     const [cameraVisible, setCameraVisible] = useState(false);
     const [uri, setUri] = useState("");
 
-    const { parent } = route.params; // Selected parent navigation page
+    const { parent, beans_id } = route.params; // Selected parent navigation page
     const { colors } = useTheme(); // Color theme
 
     const imageSize = (width/2)-55;
+
+    const updateBeans = () => {
+        db.transaction(
+            (tx) => {
+                tx.executeSql("UPDATE beans SET photo_uri = ? WHERE id = ?;", [uri, beans_id]);
+            },
+            (e) => console.log(e),
+            () => navigation.navigate(parent, { beans_id: beans_id })
+        );
+    }
 
     useEffect(() => {
         if (route.params?.selectedIcon) {
@@ -42,7 +52,7 @@ const SelectIcon = ({ route, navigation }) => {
                 leftText="Back"
                 leftOnPress={() => navigation.goBack()}
                 rightText="Done"
-                rightOnPress={() => navigation.navigate("NewBeans", { photo_uri: selectedIcon?selectedIcon:uri })} 
+                rightOnPress={() => navigation.navigate(parent, { photo_uri: selectedIcon?selectedIcon:uri })} 
                 leftChevron={true}  
             />}
             {cameraVisible?<BeansCamera onCancel={() => setCameraVisible(false)} setUri={setUri}/>
