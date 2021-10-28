@@ -5,17 +5,14 @@ import {
     View,
     Text,
     TouchableOpacity,
-    Alert,
-    Dimensions,
-    Modal
+    Alert
 } from 'react-native';
-import { faChevronRight, faStopwatch, faHeart as faHeartSolid, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faStopwatch, faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 
-const {width, height} = Dimensions.get('window');
-import { acidity, aftertaste, aroma, body, flavor, overall, sweetness } from '../Descriptions';
+import { acidity, aftertaste, aroma, body, flavor, overall, sweetness } from '../utils/Descriptions';
 
 // Component Imports 
 import { SegmentedControl } from 'react-native-ios-kit';
@@ -26,6 +23,8 @@ import RowItem from '../components/RowItem';
 import TextFieldRow from '../components/TextFieldRow';
 import SliderRow from '../components/SliderRow';
 import DatePickerRow from '../components/DatePickerRow';
+import ProfileModal from './ProfileModal';
+import RatingRow from '../components/RatingRow';
 
 const NewBrew = ({ route, navigation }) => {
     const [brew, setBrew] = useState(
@@ -228,10 +227,10 @@ const NewBrew = ({ route, navigation }) => {
                     />
                 </TableView>
                 <TableView header="Review">
-                    <SliderRow 
+                    <RatingRow 
                         title="Rating"
                         value={brew.rating}
-                        onValueChange={value => setBrew({...brew, rating: value})}
+                        onValueChange={(value) => setBrew({...brew, rating: value})}
                         onPress={() => {setModalValues({title: "Rating", text: overall}); setShowFlavorModal(true);}}
                     />
                 </TableView>
@@ -250,24 +249,7 @@ const NewBrew = ({ route, navigation }) => {
                     </TouchableOpacity>
                 </TableView>
             </ScrollView>
-            <Modal
-                animationType="fade"
-                transparent={true}
-                visible={showFlavorModal}
-            >
-                <View style={styles.modalContainer}>
-                <View style={{...styles.flavorModal, backgroundColor: colors.card}}>
-                    <View style={{...styles.modalHeader, borderColor: colors.border}}>
-                        <Text style={styles.modalTitle}>{modalValues.title}</Text>
-                        <TouchableOpacity onPress={() => setShowFlavorModal(!showFlavorModal)} style={styles.closeModalIcon}>
-                            <FontAwesomeIcon icon={faTimesCircle} size={20} color={colors.placeholder}/>
-                        </TouchableOpacity>
-                    </View> 
-                    <Text style={styles.modalText}>{modalValues.text}</Text>
-                </View>
-                </View>
-            </Modal>
-
+            <ProfileModal showModal={showFlavorModal} setShowModal={setShowFlavorModal} title={modalValues.title} text={modalValues.text}/>
         </View>
     );
 }
@@ -292,40 +274,5 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    modalContainer: {
-        flex: 1,
-        backgroundColor:'rgba(0,0,0,0.3)', 
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    flavorModal: {
-        width: width-30,
-        margin: 15,
-        borderWidth: 1,
-        borderRadius: 15,
-    },
-    modalHeader: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 10,
-        marginHorizontal: 15,
-        borderBottomWidth: 1,
-        paddingBottom: 5,
-    }, 
-    modalTitle: {
-        fontWeight: 'bold',
-        fontSize: 20,
-    },
-    closeModalIcon: {
-        position: 'absolute',
-        right: 0,
-        top: 2,
-    },
-    modalText: {
-        marginVertical: 10,
-        marginHorizontal: 15,
-        fontSize: 16
     }
 });

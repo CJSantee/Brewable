@@ -9,9 +9,9 @@ import { useTheme } from '@react-navigation/native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTint, faFire, faStopwatch, faHeart as faHeartSolid, faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
 import { faHeart, faStar } from '@fortawesome/free-regular-svg-icons';
-import CoffeeBean from '../assets/icons/coffeeBean.svg';
+import CoffeeBean from '../../assets/icons/coffeeBean.svg';
 
-import TastingWheel from './components/TastingWheel';
+import TastingWheel from './TastingWheel';
 
 const Brew = ({ brew, onFavorite, navigation }) => {
     const {colors} = useTheme(); // Color theme

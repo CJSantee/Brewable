@@ -21,6 +21,7 @@ import RowItem from '../components/RowItem';
 import TextFieldRow from '../components/TextFieldRow';
 import SliderRow from '../components/SliderRow';
 import DatePickerRow from '../components/DatePickerRow';
+import RatingRow from '../components/RatingRow';
 
 const EditBrew = ({ route, navigation }) => {
     const [brew, setBrew] = useState(
@@ -56,9 +57,9 @@ const EditBrew = ({ route, navigation }) => {
                     UPDATE brews
                     SET grind_setting = ?, water = ?, water_unit = ?, coffee = ?, coffee_unit = ?, temperature = ?,
                     temp_unit = ?, brew_method = ?, time = ?, date = ?, notes = ?, flavor = ?, acidity = ?, aroma = ?,
-                    body = ?, sweetness = ?, aftertaste = ?, beans_id = ?, favorite = ?
+                    body = ?, sweetness = ?, aftertaste = ?, beans_id = ?, favorite = ?, rating = ?
                     WHERE id = ?;`,
-                    [brew.grind_setting, brew.water, brew.water_unit, brew.coffee, brew.coffee_unit, brew.temperature, brew.temp_unit, brew.brew_method, brew.time, new Date(brew.date).toJSON(), brew.notes, brew.flavor, brew.acidity, brew.aroma, brew.body, brew.sweetness, brew.aftertaste, brew.beans_id, brew.favorite, brew.id]);
+                    [brew.grind_setting, brew.water, brew.water_unit, brew.coffee, brew.coffee_unit, brew.temperature, brew.temp_unit, brew.brew_method, brew.time, new Date(brew.date).toJSON(), brew.notes, brew.flavor, brew.acidity, brew.aroma, brew.body, brew.sweetness, brew.aftertaste, brew.beans_id, brew.favorite, brew.rating, brew.id]);
             },
             (e) => {console.log(e)},
             () => navigation.navigate("DisplayBrew", { brew_id: brew.id })
@@ -241,6 +242,14 @@ const EditBrew = ({ route, navigation }) => {
                 </TableView>
                 <TableView header="More Info">
                     <TextFieldRow title="Notes" text={brew.notes} onChange={(value) => setBrew({...brew, notes: value})} style={{minHeight: 129, alignItems: 'baseline'}}/>
+                </TableView>
+                <TableView header="Review">
+                    <RatingRow 
+                        title="Rating"
+                        value={brew.rating}
+                        onValueChange={(value) => setBrew({...brew, rating: value})}
+                        onPress={() => {setModalValues({title: "Rating", text: overall}); setShowFlavorModal(true);}}
+                    />
                 </TableView>
                 <TableView header="Date">  
                     <DatePickerRow value={brew.date} onChange={(value) => setBrew({...brew, date: value})}/>

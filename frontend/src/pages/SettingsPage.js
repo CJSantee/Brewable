@@ -17,7 +17,7 @@ import Header from '../components/Header';
 import TableView from '../components/TableView';
 import RowItem from '../components/RowItem';
 
-const ProfilePage = ({ navigation }) => {
+const SettingsPage = ({ navigation }) => {
     const {colors} = useTheme(); // Color theme
     const dispatch = useDispatch(); // Redux dispatch
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
@@ -83,15 +83,6 @@ const ProfilePage = ({ navigation }) => {
                         />
                     </RowItem>
                 </TableView>
-                <TableView header="Developer Tools">
-                    <RowItem
-                        title="Debug Options"
-                        text=""
-                        onPress={() => navigation.navigate("DebugPage", { parent: "ProfilePage" })}
-                    >   
-                        <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
-                    </RowItem>
-                </TableView>
             </ScrollView>
         </View>
     )
@@ -103,4 +94,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default ProfilePage;
+export default SettingsPage;

@@ -10,7 +10,6 @@ import {
     Image,
     TouchableOpacity
 } from 'react-native';
-import { useAssets } from 'expo-asset';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
@@ -21,7 +20,7 @@ let {height, width} = Dimensions.get('window');
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { SegmentedControl } from 'react-native-ios-kit';
 import Header from '../components/Header';
-import Brew from '../Brew';
+import Brew from '../components/Brew';
 import DraggableDrawer from '../components/DraggableDrawer';
 import Icon from '../components/Icon';
 

@@ -22,7 +22,12 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.cjsantee.coffeeLab",
-      "buildNumber": "1.0.0"
+      "buildNumber": "1.0.0",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Allow Coffee Lab to use your camera",
+        "NSPhotoLibraryAddUsageDescription": "Give Coffee Lab permission to save photos",
+        "NSPhotoLibraryUsageDescription": "Give Expo experiences permission to access your photos"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

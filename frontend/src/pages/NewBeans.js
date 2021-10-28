@@ -27,7 +27,7 @@ import RowItem from '../components/RowItem';
 import Header from '../components/Header';
 import SliderRow from '../components/SliderRow';
 import Icon from '../components/Icon';
-import { overall } from '../Descriptions';
+import { overall } from '../utils/Descriptions';
 
 function mapRating(value) {
     if (value <= 10)
@@ -178,14 +178,6 @@ const NewBeans = ({ route, navigation }) => {
                         ) : <View/>}
                     </View>
                 </TableView>
-                <TableView header="Review">
-                    <SliderRow 
-                        title="Rating"
-                        value={beans.rating}
-                        onValueChange={value => setBeans({...beans, rating: value})}
-                        onPress={() => setShowFlavorModal(!showFlavorModal)}
-                    />
-                </TableView>
                 <TableView>
                     <TouchableOpacity onPress={() => setBeans({...beans, favorite: beans.favorite===0?1:0})} style={{flex: 1}}>
                         <View style={{...styles.bottomButton, backgroundColor: colors.card, borderColor: colors.border}}>
@@ -195,25 +187,7 @@ const NewBeans = ({ route, navigation }) => {
                     </TouchableOpacity>
                 </TableView>
             </ScrollView>
-            <Modal
-                animationType="fade"
-                transparent={true}
-                visible={showFlavorModal}
-            >
-                <View style={styles.modalContainer}>
-                <View style={{...styles.flavorModal, backgroundColor: colors.card}}>
-                    <View style={{...styles.modalHeader, borderColor: colors.border}}>
-                        <Text style={styles.modalTitle}>Rating</Text>
-                        <TouchableOpacity onPress={() => setShowFlavorModal(!showFlavorModal)} style={styles.closeModalIcon}>
-                            <FontAwesomeIcon icon={faTimesCircle} size={20} color={colors.placeholder}/>
-                        </TouchableOpacity>
-                    </View> 
-                    <Text style={styles.modalText}>{overall}</Text>
-                </View>
-                </View>
-            </Modal>
-        </View>   
-        
+        </View>        
     );
 }
 

@@ -17,20 +17,18 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { preferenceReducer } from './src/redux/PreferenceReducer';
 
-import ProfilePage from './src/pages/ProfilePage';
+import SettingsPage from './src/pages/SettingsPage';
 import HomePage from './src/pages/HomePage';
 import NewBeans from './src/pages/NewBeans';
 import NewBrew from './src/pages/NewBrew';
 import BrewMethods from './src/pages/BrewMethods';
 import SelectIcon from './src/pages/SelectIcon';
 import SelectBeans from './src/pages/SelectBeans';
-import InfoPage from './src/pages/InfoPage';
 import DisplayBeans from './src/pages/DisplayBeans';
 import DisplayBrew from './src/pages/DisplayBrew';
 import EditBrew from './src/pages/EditBrew';
 import EditBeans from './src/pages/EditBeans';
 import SelectFlavors from './src/pages/SelectFlavors';
-import DebugPage from './src/DebugPage';
 
 // Global declaration of SQLite Database
 global.db = SQLite.openDatabase("CoffeeLab.db");
@@ -82,8 +80,7 @@ export default function App() {
         <StatusBar barStyle="dark-content"/>
         <NewStack.Navigator screenOptions={{headerShown: false}}>
           <NewStack.Screen name="HomePage" component={HomePage} />
-          <NewStack.Screen name="ProfilePage" component={ProfilePage}/>
-          <NewStack.Screen name="DebugPage" component={DebugPage}/>
+          <NewStack.Screen name="SettingsPage" component={SettingsPage}/>
           <NewStack.Screen name="BrewMethods" component={BrewMethods}/>
           <NewStack.Screen name="NewBeans" component={NewBeans}/>
           <NewStack.Screen name="SelectFlavors" component={SelectFlavors}/>
@@ -92,7 +89,6 @@ export default function App() {
           <NewStack.Screen name="EditBeans" component={EditBeans}/>
           <NewStack.Screen name="NewBrew" component={NewBrew}/>
           <NewStack.Screen name="SelectBeans" component={SelectBeans}/>
-          <NewStack.Screen name="InfoPage" component={InfoPage}/>
           <NewStack.Screen name="DisplayBrew" component={DisplayBrew}/>
           <NewStack.Screen name="EditBrew" component={EditBrew}/>
         </NewStack.Navigator>
