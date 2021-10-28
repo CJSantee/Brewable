@@ -7,8 +7,8 @@ import {
     Dimensions
 } from 'react-native';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
-import { faTint, faFire, faStopwatch, faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import { faTint, faFire, faStopwatch, faHeart as faHeartSolid, faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faStar } from '@fortawesome/free-regular-svg-icons';
 import CoffeeBean from '../../assets/icons/coffeeBean.svg';
 
 // Component Imports
@@ -19,7 +19,7 @@ import Header from '../components/Header';
 let {height, width} = Dimensions.get('window');
 
 const DisplayBrew = ({ route, navigation }) => {
-    const [brew, setBrew] = useState({body: 0, aftertaste: 0, sweetness: 0, aroma: 0, flavor: 0, acidity: 0}); // Initial values for flavor wheel
+    const [brew, setBrew] = useState({body: 0, aftertaste: 0, sweetness: 0, aroma: 0, flavor: 0, acidity: 0, rating: 0}); // Initial values for flavor wheel
     const { brew_id } = route.params; // Brew_id to retireve brew info
     const {colors} = useTheme(); // Color theme
 
@@ -96,11 +96,22 @@ const DisplayBrew = ({ route, navigation }) => {
                         <Text style={styles.value}>{brew.time}</Text>
                     </View>
                 </View>
-                
+
                 <View style={styles.notes}>
                     <Text style={{fontSize: 15}}>{brew.notes}</Text>
                 </View>
+
+                <View style={styles.rating}>
+                    {Array(brew.rating).fill().map((_, idx)=>idx).map((value) => (
+                        <FontAwesomeIcon key={value} icon={faStarSolid} size={30} color={'rgb(255,149,67)'}/>
+                    ))}
+                    {Array(5-brew.rating).fill().map((_, idx)=>idx).map((value) => (
+                        <FontAwesomeIcon key={value} icon={faStar} size={30} color={'rgb(255,149,67)'}/>
+                    ))}
+                </View>
+
                 <TastingWheel style={styles.wheel} displayText={true} width={width} height={width} values={[brew.body, brew.aftertaste, brew.sweetness, brew.aroma, brew.flavor, brew.acidity]} />
+                
             </ScrollView>
         </View>
     );
@@ -116,7 +127,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginHorizontal: 10,
         marginVertical: 5,
-        alignItems: 'center'
+        alignItems: 'center',
+        flexWrap: 'wrap'
     },
     favorite: {
         position: 'absolute',
@@ -140,4 +152,9 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
     },
+    rating: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        marginVertical: 15
+    }
 });
