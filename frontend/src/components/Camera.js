@@ -25,12 +25,10 @@ function BeansCamera({ onCancel, setUri }) {
             const asset = await MediaLibrary.createAssetAsync(photo);
             const album = await MediaLibrary.getAlbumAsync('Coffee Lab');
             if (album !== null) {
-                console.log("Coffee Lab album exists, adding now");
                 let assets = [];
                 assets.push(asset);
                 MediaLibrary.addAssetsToAlbumAsync(assets, album.id);
             } else {
-                console.log("Coffee Lab album does not exist, creating");
                 MediaLibrary.createAlbumAsync('Coffee Lab', asset);
             }
             setUri(asset.uri);
@@ -59,7 +57,7 @@ function BeansCamera({ onCancel, setUri }) {
                 <TouchableOpacity
                     style={styles.cancelButton}
                     onPress={onCancel}>
-                    <Text style={styles.text}> Cancel </Text>
+                    <Text style={styles.text}>Cancel</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.pictureButtonOutline} onPress={_takePhoto}>
                     <View style={styles.pictureButton}/>

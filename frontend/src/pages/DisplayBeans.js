@@ -197,6 +197,18 @@ const DisplayBeans = ({ route, navigation }) => {
         (item) => item.id.toString(), []
     );
 
+    const AddBrewButton = () => {
+        return (
+            <View style={{width: '100%', padding: 10, marginBottom: 5}}>
+                <TouchableOpacity onPress={() => navigation.navigate("NewBrew", { beans_id: beans.id, roaster: beans.roaster, region: beans.region })}>
+                    <View style={{...styles.addBrewsButton, backgroundColor: colors.card, borderColor: colors.border}}>
+                        <Text style={{fontSize: 16, margin: 10}}>Add Brew</Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
+        );  
+    }
+
     return (
         <View style={{...styles.container, backgroundColor: colors.background}}>
             {loadingBeans ? 
@@ -236,7 +248,7 @@ const DisplayBeans = ({ route, navigation }) => {
                 <Text>{beans.weight}{beans.weight_unit}</Text>
             </View>
             </ScrollView>
-            {brews.length > 0 ? 
+            {brews.length > 0 ?
             <DraggableDrawer title="- Brews -" colors={colors}>
                 <View style={{width: '100%'}}>
                     <SegmentedControl
@@ -260,39 +272,12 @@ const DisplayBeans = ({ route, navigation }) => {
                     keyExtractor={keyExtractor}
                     onRefresh={onRefresh}
                     refreshing={refreshing}
-                    ListFooterComponent={() => 
-                        <View style={{width: '100%', padding: 10, marginBottom: 5}}>
-                        <TouchableOpacity onPress={() => navigation.navigate("NewBrew", { beans_id: beans.id, roaster: beans.roaster, region: beans.region })}>
-                            <View style={{...styles.addBrewsButton, backgroundColor: colors.card, borderColor: colors.border}}>
-                                <Text style={{fontSize: 16, margin: 10}}>Add Brew</Text>
-                            </View>
-                        </TouchableOpacity>
-                        </View>}
+                    ListFooterComponent={() => <AddBrewButton/>}
                 />
-            </DraggableDrawer>:
-            loadingBrews?
+            </DraggableDrawer>
+            :loadingBrews ?
                 <ActivityIndicator size="large"/>
-            :
-            <View style={{width: '100%', padding: 10, marginBottom: 5}}>
-                <TouchableOpacity onPress={() => navigation.navigate("NewBrew", { beans_id: beans.id, roaster: beans.roaster, region: beans.region })}>
-                    <View style={{...styles.addBrewsButton, backgroundColor: colors.card, borderColor: colors.border}}>
-                        <Text style={{fontSize: 16, margin: 10}}>Add Brew</Text>
-                    </View>
-                </TouchableOpacity>
-            </View>}
-            
-            {/* CODE FOR TAPPABLE DRAWER, WORKING ON DRAGGABLE
-                <Animated.View style={{...styles.animated,
-                    backgroundColor: colors.background,
-                    borderColor: colors.border,
-                    height: heightAnim
-                }}>
-                <TouchableOpacity onPress={hightlightBrews} style={{height: brewsHighlighted?30:60, marginTop: brewsHighlighted?15:20}}>
-                    <Text style={{alignSelf: 'center',fontSize: 14, color: colors.placeholder}}>{brews.length === 0?"No Brews":"- Brews -"}</Text>
-                </TouchableOpacity>
-                
-            </Animated.View> */}
-
+                :<AddBrewButton/>}
            </>}
         </View>
     );
