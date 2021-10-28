@@ -16,14 +16,12 @@ const Row = ({title, text, style, showSelect, selected, toggleSelect, children }
   const {colors} = useTheme();
 
   return (
-    <View
-      style={[
-      styles.row,
+    <View style={[styles.row,
       {
-          backgroundColor: colors.card, 
-          borderTopWidth: StyleSheet.hairlineWidth,
-          borderBottomWidth: StyleSheet.hairlineWidth,
-          borderColor: colors.border,
+        backgroundColor: colors.card, 
+        borderTopWidth: StyleSheet.hairlineWidth,
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderColor: colors.border,
       },
       style
   ]}>

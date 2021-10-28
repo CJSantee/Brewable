@@ -7,12 +7,11 @@ import {
     TouchableOpacity,
     Image,
     Dimensions,
-    Alert,
-    Modal
+    Alert
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { faChevronRight, faTimesCircle, faHeart as faHeartSolid, } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faHeart as faHeartSolid, } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 
 const {width, height} = Dimensions.get('window');
@@ -25,9 +24,7 @@ import TextFieldRow from '../components/TextFieldRow';
 import DatePickerRow from '../components/DatePickerRow';
 import RowItem from '../components/RowItem';
 import Header from '../components/Header';
-import SliderRow from '../components/SliderRow';
 import Icon from '../components/Icon';
-import { overall } from '../utils/Descriptions';
 
 function mapRating(value) {
     if (value <= 10)
@@ -40,9 +37,8 @@ function mapRating(value) {
 
 const NewBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g", flavor_notes: "", rating: 0, photo_uri: null}); // Beans state
-    const [showFlavorModal, setShowFlavorModal] = useState(false);
 
-    const {colors} = useTheme(); // Color theme
+    const { colors } = useTheme(); // Color theme
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
 
     const missingInfoAlert = () => {

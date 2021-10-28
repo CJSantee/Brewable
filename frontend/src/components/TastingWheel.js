@@ -63,13 +63,6 @@ const TastingWheel = ({values, style, displayText, width, height}) => {
     return (
         <View style={style}> 
             <Svg width={width} height={height} rotation="50" viewBox="-140 -140 280 280">
-                {/* <Rect 
-                    x="-150"
-                    y="-150"
-                    width="300"
-                    height="300"
-                    fill="blue"
-                /> */}
 
                 {Array(5).fill().map((_, idx)=>idx).map((value) => (
                     <Polygon
@@ -90,7 +83,6 @@ const TastingWheel = ({values, style, displayText, width, height}) => {
                         strokeWidth="1"
                     />
                 ))}
-
                 
                 {displayText ? // Body
                 <Text

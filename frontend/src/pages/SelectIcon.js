@@ -25,6 +25,7 @@ const SelectIcon = ({ route, navigation }) => {
 
     const imageSize = (width/2)-55;
 
+    // Unused?
     const updateBeans = () => {
         db.transaction(
             (tx) => {

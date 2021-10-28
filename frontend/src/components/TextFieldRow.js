@@ -1,4 +1,3 @@
-import { useTheme } from '@react-navigation/native';
 import React, { useRef } from 'react';
 import {
     View,
@@ -7,17 +6,16 @@ import {
     TextInput,
     TouchableWithoutFeedback
 } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 
 const TextFieldRow = ({title, text, onChange, keyboardType, children, style}) => {
-    const {colors} = useTheme();
+    const { colors } = useTheme();
     
     const ref_textBox = useRef();
 
     return (
         <TouchableWithoutFeedback onPress={() => ref_textBox.current.focus()}>
-            <View
-                style={[
-                styles.row,
+            <View style={[styles.row,
                 {
                     backgroundColor: colors.card, 
                     borderTopWidth: StyleSheet.hairlineWidth,

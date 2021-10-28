@@ -6,11 +6,12 @@ import * as MediaLibrary from 'expo-media-library';
 const {width, height} = Dimensions.get('window');
 
 function BeansCamera({ onCancel, setUri }) {
-    const [hasPermission, setHasPermission] = useState(null);
-    const [type, setType] = useState(Camera.Constants.Type.back);
+    const [hasPermission, setHasPermission] = useState(null); // Permission state
+    const [type, setType] = useState(Camera.Constants.Type.back); // Front or back camera
 
-    const camera = useRef(null);
+    const camera = useRef(null); // Camera Ref
 
+    // Async Function for taking and saving photo
     const _takePhoto = async () => {
         if (camera) {
             const photo = await camera.current.takePictureAsync();
@@ -19,6 +20,7 @@ function BeansCamera({ onCancel, setUri }) {
         }
     }
 
+    // Async Function for saving photo to Coffee Lab album
     const _handleSave = async(photo) => {
         const {status} = await MediaLibrary.requestPermissionsAsync();
         if(status === "granted"){
@@ -37,6 +39,7 @@ function BeansCamera({ onCancel, setUri }) {
         }
     }
 
+    // Request access to Camera
     useEffect(() => {
         (async () => {
         const { status } = await Camera.requestPermissionsAsync();
@@ -44,27 +47,23 @@ function BeansCamera({ onCancel, setUri }) {
         })();
     }, []);
 
-    if (hasPermission === null) {
-        return <View />;
-    }
-    if (hasPermission === false) {
-        return <Text>No access to camera</Text>;
-    }
     return (
         <View style={styles.container}>
-        <Camera style={styles.camera} type={type} ref={camera}>
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                    style={styles.cancelButton}
-                    onPress={onCancel}>
-                    <Text style={styles.text}>Cancel</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.pictureButtonOutline} onPress={_takePhoto}>
-                    <View style={styles.pictureButton}/>
-                </TouchableOpacity>
-            </View>
-            {/* <View style={styles.beansOutline}/> */}
-        </Camera>
+            {hasPermission?
+            <Camera style={styles.camera} type={type} ref={camera}>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity
+                        style={styles.cancelButton}
+                        onPress={onCancel}>
+                        <Text style={styles.text}>Cancel</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.pictureButtonOutline} onPress={_takePhoto}>
+                        <View style={styles.pictureButton}/>
+                    </TouchableOpacity>
+                </View>
+                {/* <View style={styles.beansOutline}/> */}
+            </Camera>
+            :<Text>Grant access to camera</Text>}
         </View>
     );
 }

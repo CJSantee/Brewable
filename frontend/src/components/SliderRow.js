@@ -1,4 +1,3 @@
-import { useTheme } from '@react-navigation/native';
 import React from 'react';
 import {
     View,
@@ -6,41 +5,42 @@ import {
     Text,
     TouchableOpacity
 } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { useTheme } from '@react-navigation/native';
+
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+
+// Component Imports
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { Slider } from 'react-native-ios-kit';
 
 const SliderRow = ({title, value, onValueChange, onPress}) => {
-    const {colors} = useTheme();
+    const { colors } = useTheme();
 
     return (
         <TouchableOpacity onPress={onPress}>
-          <View
-              style={[
-                  styles.row,
-                  {
-                      backgroundColor: colors.card, 
-                      borderTopWidth: StyleSheet.hairlineWidth,
-                      borderBottomWidth: StyleSheet.hairlineWidth,
-                      borderColor: colors.border,
-                  }
-              ]}
-          >
-              <View style={{flexDirection: 'column', width: '100%', alignItems: 'center'}}>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <Text style={{color: colors.text}}>{title}</Text>
-                    <FontAwesomeIcon icon={faChevronRight} size={10} color={colors.interactive}/>
-                  </View>
-                  <Slider 
-                      value={value}
-                      onSlidingComplete={onValueChange}
-                      theme={{primaryColor: colors.interactive}}
-                  />
-              </View>
+          <View style={[styles.row,
+            {
+                backgroundColor: colors.card, 
+                borderTopWidth: StyleSheet.hairlineWidth,
+                borderBottomWidth: StyleSheet.hairlineWidth,
+                borderColor: colors.border,
+            }
+        ]}>
+            <View style={{flexDirection: 'column', width: '100%', alignItems: 'center'}}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Text style={{color: colors.text}}>{title}</Text>
+                <FontAwesomeIcon icon={faChevronRight} size={10} color={colors.interactive}/>
+                </View>
+                <Slider 
+                    value={value}
+                    onSlidingComplete={onValueChange}
+                    theme={{primaryColor: colors.interactive}}
+                />
+            </View>
           </View>  
         </TouchableOpacity>
     );
-};
+}
 
 export default SliderRow;
 

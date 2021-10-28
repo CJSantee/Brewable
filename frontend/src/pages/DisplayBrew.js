@@ -30,6 +30,7 @@ const DisplayBrew = ({ route, navigation }) => {
         return date.toLocaleDateString('en-US', options);
     }
 
+    // Load brew by brew.id when component renders
     useFocusEffect(
         useCallback(()=> {
             let mounted = true;
@@ -74,7 +75,6 @@ const DisplayBrew = ({ route, navigation }) => {
                     <Text style={{fontSize: 18}}>{brewDate()} - </Text>
                     <Text style={{fontSize: 18}}>{brew.brew_method}</Text>
                 </View>
-
                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: 10}}>
                     <View style={styles.row}>
                         <FontAwesomeIcon size={25} icon={faTint} color="#0069A7"/>
@@ -96,11 +96,9 @@ const DisplayBrew = ({ route, navigation }) => {
                         <Text style={styles.value}>{brew.time}</Text>
                     </View>
                 </View>
-
                 <View style={styles.notes}>
                     <Text style={{fontSize: 15}}>{brew.notes}</Text>
                 </View>
-
                 <View style={styles.rating}>
                     {Array(brew.rating).fill().map((_, idx)=>idx).map((value) => (
                         <FontAwesomeIcon key={value} icon={faStarSolid} size={30} color={'rgb(255,149,67)'}/>
@@ -109,9 +107,7 @@ const DisplayBrew = ({ route, navigation }) => {
                         <FontAwesomeIcon key={value} icon={faStar} size={30} color={'rgb(255,149,67)'}/>
                     ))}
                 </View>
-
                 <TastingWheel style={styles.wheel} displayText={true} width={width} height={width} values={[brew.body, brew.aftertaste, brew.sweetness, brew.aroma, brew.flavor, brew.acidity]} />
-                
             </ScrollView>
         </View>
     );

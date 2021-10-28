@@ -42,7 +42,7 @@ const NewBrew = ({ route, navigation }) => {
             favorite: 0
         }
     ); // Brew state
-    const {colors} = useTheme(); // Color theme
+    const { colors } = useTheme(); // Color theme
     const [timer, setTimer] = useState(0); // Current timer value in seconds
     const [isActive, setIsActive] = useState(false); // Timer isActive?
     const [showFlavorModal, setShowFlavorModal] = useState(false);

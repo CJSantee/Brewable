@@ -8,6 +8,7 @@ import {
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
+// Component Imports
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import RowItem from '../components/RowItem';
 import Header from '../components/Header';

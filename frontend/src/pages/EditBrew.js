@@ -100,6 +100,7 @@ const EditBrew = ({ route, navigation }) => {
         )
     }
 
+    // Load brew by brew.id when component renders
     useFocusEffect(
         useCallback(()=> {
             let mounted = true;

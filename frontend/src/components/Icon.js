@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {
-    View,
     Image
 } from 'react-native';
 import { Asset } from 'expo-asset';
-
 
 function Icon({uri, size}) {
     const [iconURI, setIconURI] = useState("/");

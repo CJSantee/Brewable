@@ -18,7 +18,7 @@ import TableView from '../components/TableView';
 import RowItem from '../components/RowItem';
 
 const SettingsPage = ({ navigation }) => {
-    const {colors} = useTheme(); // Color theme
+    const { colors } = useTheme(); // Color theme
     const dispatch = useDispatch(); // Redux dispatch
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
 
@@ -85,7 +85,7 @@ const SettingsPage = ({ navigation }) => {
                 </TableView>
             </ScrollView>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({

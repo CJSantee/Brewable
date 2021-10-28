@@ -6,11 +6,14 @@ import {
     TouchableWithoutFeedback
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+
+// Assets
 import { faTint, faFire, faStopwatch, faHeart as faHeartSolid, faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
 import { faHeart, faStar } from '@fortawesome/free-regular-svg-icons';
 import CoffeeBean from '../../assets/icons/coffeeBean.svg';
 
+// Component Imports
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import TastingWheel from './TastingWheel';
 
 const Brew = ({ brew, onFavorite, navigation }) => {
@@ -58,7 +61,6 @@ const Brew = ({ brew, onFavorite, navigation }) => {
                         <FontAwesomeIcon size={22} icon={faStopwatch} color="#4D814B"/>
                         <Text style={styles.value}>{brew.time}</Text>
                     </View>
-                    
                     <View style={styles.rating}>
                         {Array(brew.rating).fill().map((_, idx)=>idx).map((value) => (
                             <FontAwesomeIcon key={value} icon={faStarSolid} size={18} color={'rgb(255,149,67)'}/>
@@ -73,7 +75,6 @@ const Brew = ({ brew, onFavorite, navigation }) => {
                         <FontAwesomeIcon icon={brew.favorite?faHeartSolid:faHeart} size={18} color={brew.favorite?"#a00": colors.placeholder}/>
                     </View>
                 </TouchableWithoutFeedback>
-                
                 <Text style={styles.date}>{date_string}</Text>
             </View>
         </TouchableWithoutFeedback>
@@ -81,7 +82,6 @@ const Brew = ({ brew, onFavorite, navigation }) => {
 }
 
 export default Brew;
-
 
 const styles = StyleSheet.create({
     beans: {

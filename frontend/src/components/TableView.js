@@ -1,18 +1,19 @@
-import { useTheme } from '@react-navigation/native';
 import React from 'react';
 import {
     View,
     StyleSheet,
     Text
 } from 'react-native'
+import { useTheme } from '@react-navigation/native';
 
 const TableViewHeader = ({header, style}) => {
-    const {colors} = useTheme();
+    const { colors } = useTheme();
 
     return (
-        <View style={[
-            styles.header,
-            { backgroundColor: colors.background },
+        <View style={[styles.header,
+            { 
+                backgroundColor: colors.background 
+            },
             style
         ]}>
             <Text style={{color: colors.placeholder}}>{header.toUpperCase()}</Text>
@@ -27,7 +28,7 @@ const TableView = ({ header, headerStyle, children }) => {
             {children}
         </View>
     );
-};
+}
 
 export default TableView;
 

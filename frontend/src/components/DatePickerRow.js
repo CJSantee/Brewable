@@ -1,17 +1,18 @@
-import { useTheme } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React from 'react';
 import {
     View,
     StyleSheet,
     Text,
     Dimensions
 } from 'react-native';
+import { useTheme } from '@react-navigation/native';
+
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 let {height, width} = Dimensions.get('window');
 
 const DatePickerRow = ({title, value, onChange}) => {
-    const {colors} = useTheme();
+    const { colors } = useTheme(); // Color theme
 
     const setDate = (event, selectedDate) => {
       const currentDate = selectedDate || value;
@@ -19,28 +20,25 @@ const DatePickerRow = ({title, value, onChange}) => {
     };
 
     return (
-        <View
-            style={[
-                styles.row,
-                {
-                    backgroundColor: colors.card, 
-                    borderTopWidth: StyleSheet.hairlineWidth,
-                    borderBottomWidth: StyleSheet.hairlineWidth,
-                    borderColor: colors.border,
-                }
-            ]}
-        >
-            <Text style={styles.text}>{title}</Text>
-            <View style={title ? styles.rightPicker : styles.centerPicker}>
-                <DateTimePicker
-                    mode="date"
-                    value={new Date(value)}
-                    display="default"          
-                    onChange={setDate}
-                    style={{width: 320}}
-                />
-            </View>  
+      <View style={[styles.row,
+        {
+            backgroundColor: colors.card, 
+            borderTopWidth: StyleSheet.hairlineWidth,
+            borderBottomWidth: StyleSheet.hairlineWidth,
+            borderColor: colors.border,
+        }
+      ]}>
+        <Text style={styles.text}>{title}</Text>
+        <View style={title ? styles.rightPicker : styles.centerPicker}>
+            <DateTimePicker
+                mode="date"
+                value={new Date(value)}
+                display="default"          
+                onChange={setDate}
+                style={{width: 320}}
+            />
         </View>  
+      </View>  
     );
 };
 

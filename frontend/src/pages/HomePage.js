@@ -18,7 +18,6 @@ import { SegmentedControl } from 'react-native-ios-kit';
 import Header from '../components/Header';
 import RowItem from '../components/RowItem';
 import SearchBar from '../components/SearchBar';
-import SwipeableRow from '../components/SwipeableRow';
 import Icon from '../components/Icon';
 
 // Modal for listing new beans or brew
@@ -58,28 +57,25 @@ const Beans = ({beans, onDelete, onLongPress, onSelect, navigation}) => {
     }
 
     return (
-        // <SwipeableRow onSwipeLeft={() => console.log("Swiped left")} onSwipeRight={deleteConfirmation}>
-            <TouchableOpacity 
-                onPress={() => navigation.navigate("DisplayBeans", {beans_id: beans.id, parent: "HomePage"})}
-                onLongPress={onLongPress}
-            >
-                <View style={{...styles.beansRow, borderColor: colors.border}}> 
-                    <Icon uri={beans.photo_uri} size={80}/>
-                    <View style={{flexDirection: 'column', margin: 15}}>
-                        <Text style={{fontWeight: 'bold', fontSize: 18}}>{beans.roaster}</Text>
-                        <Text style={{fontSize: 16}}>{beans.region}</Text>
-                    </View>
+        <TouchableOpacity 
+            onPress={() => navigation.navigate("DisplayBeans", {beans_id: beans.id, parent: "HomePage"})}
+            onLongPress={onLongPress}
+        >
+            <View style={{...styles.beansRow, borderColor: colors.border}}> 
+                <Icon uri={beans.photo_uri} size={80}/>
+                <View style={{flexDirection: 'column', margin: 15}}>
+                    <Text style={{fontWeight: 'bold', fontSize: 18}}>{beans.roaster}</Text>
+                    <Text style={{fontSize: 16}}>{beans.region}</Text>
                 </View>
-            </TouchableOpacity>
-        // </SwipeableRow>
+            </View>
+        </TouchableOpacity>
     );
 }
 
 const HomePage = ({ navigation }) => {
-    const {colors} = useTheme(); // Theme colors
+    const { colors } = useTheme(); // Theme colors
     const [newModal, setNewModal] = useState(false); // New Modal state
     const [btmModal, setBtmModal] = useState(false); // Bottom modal state
-    const [selected, setSelected] = useState(null);
     const [beans, setBeans] = useState([]); // Beans array
     const [refreshing, setRefreshing] = useState(false);
 

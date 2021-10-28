@@ -6,8 +6,9 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 const SearchBar = ({ searchQuery, setSearchQuery }) => {
     const { colors } = useTheme();
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     input: {
         height: 30,
         margin: 10,
-        borderRadius: 10,
+        borderRadius: 15,
         borderWidth: 1,
         alignItems: 'center',
         flexDirection: 'row'

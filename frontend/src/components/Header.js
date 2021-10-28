@@ -5,13 +5,14 @@ import {
     Text,
     TouchableOpacity
 } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronRight, faChevronLeft, faPlus } from '@fortawesome/free-solid-svg-icons';
 import Constants from "expo-constants";
 import { useTheme } from '@react-navigation/native';
 
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+
 const Header = ({title, leftText, rightText, leftOnPress, rightOnPress, leftChevron, rightChevrom, plus, plusOnPress}) => {
-    const {colors} = useTheme();
+    const { colors } = useTheme();
 
     return (
         <View style={{...styles.header, backgroundColor: colors.card, borderColor: colors.border}}>  
@@ -31,7 +32,6 @@ const Header = ({title, leftText, rightText, leftOnPress, rightOnPress, leftChev
                     {rightChevrom ? <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.interactive}/> : <View/>}
                 </TouchableOpacity>
             </View>
-            
         </View>
     );
 };
