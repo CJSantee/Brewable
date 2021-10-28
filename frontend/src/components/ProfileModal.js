@@ -32,6 +32,7 @@ function ProfileModal({showModal, setShowModal, title, text}) {
                         </TouchableOpacity>
                     </View> 
                     <Text style={styles.modalText}>{text}</Text>
+                    <Text style={{...styles.modalText, fontStyle: 'italic'}}>SCAA Protocols | Cupping Specialty Coffee</Text>
                 </View>
             </View>
         </Modal>

@@ -11,6 +11,7 @@ import { faChevronRight, faStopwatch, faHeart as faHeartSolid } from '@fortaweso
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { useFocusEffect, useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
+import { acidity, aftertaste, aroma, body, flavor, overall, sweetness } from '../utils/Descriptions';
 
 // Component Imports
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -22,6 +23,7 @@ import TextFieldRow from '../components/TextFieldRow';
 import SliderRow from '../components/SliderRow';
 import DatePickerRow from '../components/DatePickerRow';
 import RatingRow from '../components/RatingRow';
+import ProfileModal from '../components/ProfileModal';
 
 const EditBrew = ({ route, navigation }) => {
     const [brew, setBrew] = useState(
@@ -40,6 +42,8 @@ const EditBrew = ({ route, navigation }) => {
             roaster: "", region: ""
         }
     ); // Brew state
+    const [showFlavorModal, setShowFlavorModal] = useState(false);
+    const [modalValues, setModalValues] = useState({title: "", text: ""});
     const { brew_id } = route.params;
     const {colors} = useTheme(); // Color theme
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
@@ -208,37 +212,37 @@ const EditBrew = ({ route, navigation }) => {
                         title="Flavor"
                         value={brew.flavor}
                         onValueChange={value => setBrew({...brew, flavor: value})}
-                        onPress={() => navigation.navigate("InfoPage",{topic: "Flavor"})}
+                        onPress={() => {setModalValues({title: "Flavor", text: flavor}); setShowFlavorModal(true);}}
                     />
                     <SliderRow 
                         title="Acidity"
                         value={brew.acidity}
                         onValueChange={value => setBrew({...brew, acidity: value})}
-                        onPress={() => navigation.navigate("InfoPage",{topic: "Acidity"})}
+                        onPress={() => {setModalValues({title: "Acidity", text: acidity}); setShowFlavorModal(true);}}
                     />
                     <SliderRow 
                         title="Aroma"
                         value={brew.aroma}
                         onValueChange={value => setBrew({...brew, aroma: value})}
-                        onPress={() => navigation.navigate("InfoPage",{topic: "Aroma"})}
+                        onPress={() => {setModalValues({title: "Aroma", text: aroma}); setShowFlavorModal(true);}}
                     />
                     <SliderRow 
                         title="Body"
                         value={brew.body}
                         onValueChange={value => setBrew({...brew, body: value})}
-                        onPress={() => navigation.navigate("InfoPage",{topic: "Body"})}
+                        onPress={() => {setModalValues({title: "Body", text: body}); setShowFlavorModal(true);}}
                     />
                     <SliderRow 
                         title="Sweetness"
                         value={brew.sweetness}
                         onValueChange={value => setBrew({...brew, sweetness: value})}
-                        onPress={() => navigation.navigate("InfoPage",{topic: "Sweetness"})}
+                        onPress={() => {setModalValues({title: "Sweetness", text: sweetness}); setShowFlavorModal(true);}}
                     />
                     <SliderRow 
                         title="Aftertaste"
                         value={brew.aftertaste}
                         onValueChange={value => setBrew({...brew, aftertaste: value})}
-                        onPress={() => navigation.navigate("InfoPage",{topic: "Aftertaste"})}
+                        onPress={() => {setModalValues({title: "Aftertaste", text: aftertaste}); setShowFlavorModal(true);}}
                     />
                 </TableView>
                 <TableView header="More Info">
@@ -271,6 +275,7 @@ const EditBrew = ({ route, navigation }) => {
                     </View>
                 </TableView>
             </ScrollView>
+            <ProfileModal showModal={showFlavorModal} setShowModal={setShowFlavorModal} title={modalValues.title} text={modalValues.text}/>
         </View>
     );
 }

@@ -23,7 +23,7 @@ import RowItem from '../components/RowItem';
 import TextFieldRow from '../components/TextFieldRow';
 import SliderRow from '../components/SliderRow';
 import DatePickerRow from '../components/DatePickerRow';
-import ProfileModal from './ProfileModal';
+import ProfileModal from '../components/ProfileModal';
 import RatingRow from '../components/RatingRow';
 
 const NewBrew = ({ route, navigation }) => {
