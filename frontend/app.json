@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Coffee Lab",
-    "slug": "coffeeLab",
+    "name": "Craft Coffee",
+    "slug": "craftCoffee",
     "privacy": "public",
     "version": "1.0.0",
     "platforms": ["ios"],
-    "githubUrl": "https://github.com/CJSantee/Coffee-Lab",
+    "githubUrl": "https://github.com/CJSantee/Craft-Coffee",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -21,12 +21,12 @@
     ],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.cjsantee.coffeeLab",
+      "bundleIdentifier": "com.cjsantee.craftCoffee",
       "buildNumber": "1.0.0",
       "infoPlist": {
-        "NSCameraUsageDescription": "Allow Coffee Lab to use your camera",
-        "NSPhotoLibraryAddUsageDescription": "Give Coffee Lab permission to save photos",
-        "NSPhotoLibraryUsageDescription": "Give Expo experiences permission to access your photos"
+        "NSCameraUsageDescription": "Allow Craft Coffee to use your camera",
+        "NSPhotoLibraryAddUsageDescription": "Give Craft Coffee permission to save photos",
+        "NSPhotoLibraryUsageDescription": "Give Craft Coffee permission to access your photos"
       }
     },
     "web": {
