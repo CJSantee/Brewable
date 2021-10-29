@@ -158,7 +158,7 @@ const EditBeans = ({ route, navigation }) => {
                     >
                         <SegmentedControl
                             values={['g', 'oz']}
-                            selectedIndex={['g', 'oz'].indexOf(user_preferences.coffe_unit)}
+                            selectedIndex={['g', 'oz'].indexOf(beans.weight_unit)}
                             onValueChange={(value) => setBeans({...beans, weight_unit: value})}
                             style={{width: 100}}
                             theme={{primaryColor: colors.interactive}}

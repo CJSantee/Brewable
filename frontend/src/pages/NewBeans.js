@@ -36,7 +36,7 @@ function mapRating(value) {
 }
 
 const NewBeans = ({ route, navigation }) => {
-    const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: "g", flavor_notes: "", rating: 0, photo_uri: null}); // Beans state
+    const [beans, setBeans] = useState({region: "", roaster: "", origin: "", roast_level: "", roast_date: new Date(), price: 0, weight: 0, weight_unit: 'g', flavor_notes: "", rating: 0, photo_uri: null}); // Beans state
 
     const { colors } = useTheme(); // Color theme
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)

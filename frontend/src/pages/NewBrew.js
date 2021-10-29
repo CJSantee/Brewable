@@ -148,7 +148,7 @@ const NewBrew = ({ route, navigation }) => {
                     >
                         <SegmentedControl
                             values={['g', 'oz']}
-                            selectedIndex={user_preferences.coffee_unit==='g'?0:1}
+                            selectedIndex={['g', 'oz'].indexOf(user_preferences.coffee_unit)}
                             onValueChange={(value) => setBrew({...brew, coffee_unit: value})}
                             style={{width: 100}}
                             theme={{primaryColor: colors.interactive}}
@@ -176,7 +176,7 @@ const NewBrew = ({ route, navigation }) => {
                     >
                         <SegmentedControl
                             values={['f', 'c']}
-                            selectedIndex={user_preferences.temp_unit==="f"?0:1}
+                            selectedIndex={['f','c'].indexOf(user_preferences.temp_unit)}
                             onValueChange={(value) => setBrew({...brew, temp_unit: value})}
                             style={{width: 100}}
                             theme={{primaryColor: colors.interactive}}

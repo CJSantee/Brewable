@@ -59,14 +59,14 @@ const SettingsPage = ({ navigation }) => {
                     <RowItem
                         title="Brew Methods"
                         text=""
-                        onPress={() => navigation.navigate("BrewMethods", {parent: "ProfilePage"})}
+                        onPress={() => navigation.navigate("BrewMethods", {parent: "SettingsPage"})}
                     >   
                         <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
                     </RowItem>
                     <RowItem
                         title="Flavor Notes"
                         text=""
-                        onPress={() => navigation.navigate("SelectFlavors", { parent: "ProfilePage", flavor_notes: "" })}
+                        onPress={() => navigation.navigate("SelectFlavors", { parent: "SettingsPage", flavor_notes: "" })}
                     >   
                         <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
                     </RowItem>
