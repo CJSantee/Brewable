@@ -7,12 +7,12 @@ import {
     FlatList,
     ActivityIndicator,
     Dimensions,
-    Image,
     TouchableOpacity
 } from 'react-native';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import * as Device from 'expo-device';
 
 let {height, width} = Dimensions.get('window');
 
@@ -228,9 +228,10 @@ const DisplayBeans = ({ route, navigation }) => {
             <View style={styles.favorite}>
                 <FontAwesomeIcon icon={beans.favorite?faHeartSolid:faHeart} size={25} color={beans.favorite?"#a00": colors.placeholder}/>
             </View>
+            {Device.osVersion >= 13 && 
             <View style={styles.row}>
                 {roastDate()!==""?<Text style={{fontSize: 18}}>{roastDate()}</Text>:<View/>}
-            </View>
+            </View>}
             <View style={styles.row}>
                 <Text>{beans.origin}</Text>
             </View>            

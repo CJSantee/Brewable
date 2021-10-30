@@ -6,6 +6,7 @@ import {
     TouchableWithoutFeedback
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
+import * as Device from 'expo-device';
 
 // Assets
 import { faTint, faFire, faStopwatch, faHeart as faHeartSolid, faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
@@ -75,7 +76,7 @@ const Brew = ({ brew, onFavorite, navigation }) => {
                         <FontAwesomeIcon icon={brew.favorite?faHeartSolid:faHeart} size={18} color={brew.favorite?"#a00": colors.placeholder}/>
                     </View>
                 </TouchableWithoutFeedback>
-                <Text style={styles.date}>{date_string}</Text>
+                {Device.osVersion >= 13 && <Text style={styles.date}>{date_string}</Text>}
             </View>
         </TouchableWithoutFeedback>
     );

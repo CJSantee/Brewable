@@ -53,7 +53,7 @@ const NewBeans = ({ route, navigation }) => {
 
     // Add beans to database
     const addBeans = () => {
-        if (!beans.region || !beans.photo_uri) {
+        if (!beans.roaster || !beans.photo_uri) {
             missingInfoAlert();
             return false;
         }

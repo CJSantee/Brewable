@@ -199,7 +199,10 @@ const HomePage = ({ navigation }) => {
                     style={{marginHorizontal: 10, marginBottom: 10}}
                 />
             </View>}
-            {beans === null || beans.length === 0 ? <View/> : 
+            {beans.length === 0 ? 
+            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                <Text style={{color: colors.placeholder, fontSize: 18}}>No Beans</Text>
+            </View> : 
             <FlatList 
                 ref={ref_flatlist}
                 data={searchQuery===""?beans:searchResults}
@@ -215,9 +218,7 @@ const HomePage = ({ navigation }) => {
                 visible={btmModal}
             >
                 <View style={{...styles.btmModal, backgroundColor: colors.card, borderColor: colors.border}}>
-                    
                     <TouchableOpacity>
-                        
                         <View style={styles.modalRow}>
                             <View style={{position: 'absolute', right: 0, top: 0, zIndex: 1, height: '100%', padding: 5, paddingLeft: 20}}>
                                 <TouchableOpacity style={{width: '100%', height: '100%'}} onPress={(e) => {e.stopPropagation(); setBtmModal(!btmModal)}}>

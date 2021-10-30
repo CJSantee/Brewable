@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { Asset } from 'expo-asset';
 import AppLoading from 'expo-app-loading';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 import { createTables, populateBeans, populateBrewMethods, populateFlavors, populateRandomBrews } from './ DatabaseUtils';
 import { LightTheme } from './Themes';
@@ -59,10 +60,15 @@ export default function App() {
     return Promise.all(cacheImages);
   }
 
+  const _lockScreenOrientation = async ()  => {
+    await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+  }
+
   useEffect(() => {
+    _lockScreenOrientation();
     createTables(db);
-    populateBeans(db);
-    populateRandomBrews(db);
+    // populateBeans(db);
+    // populateRandomBrews(db);
     populateBrewMethods(db);
     populateFlavors(db);
   }, []);

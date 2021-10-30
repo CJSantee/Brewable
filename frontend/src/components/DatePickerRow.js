@@ -6,6 +6,7 @@ import {
     Dimensions
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
+import * as Device from 'expo-device';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -29,6 +30,7 @@ const DatePickerRow = ({title, value, onChange}) => {
         }
       ]}>
         <Text style={styles.text}>{title}</Text>
+        {Device.osVersion >= 13 ?
         <View style={title ? styles.rightPicker : styles.centerPicker}>
             <DateTimePicker
                 mode="date"
@@ -37,7 +39,8 @@ const DatePickerRow = ({title, value, onChange}) => {
                 onChange={setDate}
                 style={{width: 320}}
             />
-        </View>  
+        </View> : 
+        <Text style={{flex: 1, textAlign: title ? 'right' : 'center', fontSize: 11, color: colors.placeholder}}>update iOS for date</Text>} 
       </View>  
     );
 };
