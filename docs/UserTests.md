@@ -1,6 +1,5 @@
 # User Tests
 ## Settings
----
 **Action:** 
 Change Coffee_Unit preferences from 'g' to 'oz'
 

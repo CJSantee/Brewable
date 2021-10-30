@@ -12,44 +12,37 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Craft Coffee</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
 
         <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
+          <div className={styles.info}>
+            <div className={styles.image}>
+              <Image src="/icon-round.png" alt="App Icon" width={256} height={256}/>
+            </div>
 
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
+            <h1 className={styles.title}>
+              Craft Coffee
+            </h1>
 
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
+            <p className={styles.description}>
+              Craft Coffee is an App for Coffee Lovers. This is additional text to test the size
             </p>
-          </a>
+
+            <div className={styles.image}>
+              <a href="">
+                <Image src="/Download_on_the_App_Store_Badge_blk.svg" alt="Download on the App Store" width={119.66407*1.5} height={40*1.5}/>
+              </a>
+            </div>
+            
+          </div>
+
+          <div className={styles.screenshots}>
+            <Image src="/iPhone13-HomePage.png" alt="Home Page Screenshot" width={1400*0.20} height={2700*0.20}/>
+            <Image src="/iPhone13-DisplayBeans.png" alt="Home Page Screenshot" width={1400*0.20} height={2700*0.20}/>
+          </div>
+
         </div>
+
       </main>
 
       <footer className={styles.footer}>
@@ -59,7 +52,7 @@ export default function Home() {
           rel="noopener noreferrer"
         >
           Developed by{' '}
-          <span className={styles.logo}>
+          <span className={styles.github}>
             <Image src="/GitHub.png" alt="GitHub Logo" width={16} height={16} />
           </span>Colin Santee
         </a>
