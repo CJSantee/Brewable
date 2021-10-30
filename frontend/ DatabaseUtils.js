@@ -6,10 +6,10 @@ const flavorData = require('./assets/data/Flavors.json');
 // CoffeeLab.db
 const createTables = (db) => {
     db.transaction((tx) => {
-        tx.executeSql("DROP TABLE IF EXISTS beans;");
-        tx.executeSql("DROP TABLE IF EXISTS brews;");
-        tx.executeSql("DROP TABLE IF EXISTS brew_methods;");
-        tx.executeSql("DROP TABLE IF EXISTS flavors;");
+        // tx.executeSql("DROP TABLE IF EXISTS beans;");
+        // tx.executeSql("DROP TABLE IF EXISTS brews;");
+        // tx.executeSql("DROP TABLE IF EXISTS brew_methods;");
+        // tx.executeSql("DROP TABLE IF EXISTS flavors;");
 
         tx.executeSql(
           `CREATE TABLE IF NOT EXISTS beans (
@@ -167,6 +167,23 @@ const populateBrewMethods = (db) => {
   null);
 }
 
+const populateBrewMethodsIfEmpty = (db) => {
+  let dbExists = false;
+  db.transaction((tx) => {
+    tx.executeSql(
+      "SELECT COUNT(*) as count FROM brew_methods;",
+      [],
+      (_, { rows: { _array } }) => {
+        if (_array[0].count > 0) {
+          dbExists = true;
+        }
+      }
+    );
+  },
+  (e) => console.log(e),
+  () => {if (!dbExists) populateBrewMethods(db);});
+}
+
 const populateFlavors = (db) => {
   db.transaction((tx) => {
     for (let flavor of flavorData) {
@@ -181,4 +198,21 @@ const populateFlavors = (db) => {
   null);
 }
 
-export { createTables, populateBeans, populateBrews, populateRandomBrews, populateBrewMethods, populateFlavors };
+const populateFlavorsIfEmpty = (db) => {
+  let dbExists = false;
+  db.transaction((tx) => {
+    tx.executeSql(
+      "SELECT COUNT(*) as count FROM flavors;",
+      [],
+      (_, { rows: { _array } }) => {
+        if (_array[0].count > 0) {
+          dbExists=true;
+        }
+      }
+    );
+  },
+  (e) => console.log(e),
+  () => {if (!dbExists) populateFlavors(db);});
+}
+
+export { createTables, populateBeans, populateBrews, populateRandomBrews, populateBrewMethodsIfEmpty, populateFlavorsIfEmpty };

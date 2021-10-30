@@ -8,7 +8,7 @@ import { Asset } from 'expo-asset';
 import AppLoading from 'expo-app-loading';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
-import { createTables, populateBeans, populateBrewMethods, populateFlavors, populateRandomBrews } from './ DatabaseUtils';
+import { createTables, populateBeans, populateBrewMethodsIfEmpty, populateFlavorsIfEmpty, populateRandomBrews } from './ DatabaseUtils';
 import { LightTheme } from './Themes';
 
 import { HoldMenuProvider } from 'react-native-hold-menu';
@@ -69,8 +69,8 @@ export default function App() {
     createTables(db);
     // populateBeans(db);
     // populateRandomBrews(db);
-    populateBrewMethods(db);
-    populateFlavors(db);
+    populateBrewMethodsIfEmpty(db);
+    populateFlavorsIfEmpty(db);
   }, []);
 
   return (
