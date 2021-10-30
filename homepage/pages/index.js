@@ -25,11 +25,11 @@ export default function Home() {
             </h1>
 
             <p className={styles.description}>
-              Craft Coffee is an App for Coffee Lovers. This is additional text to test the size
+              Craft Coffee is an app for coffee lovers; made to help you keep track of the beans you buy and the brews you produce with them.
             </p>
 
             <div className={styles.image}>
-              <a href="">
+              <a href="#">
                 <Image src="/Download_on_the_App_Store_Badge_blk.svg" alt="Download on the App Store" width={119.66407*1.5} height={40*1.5}/>
               </a>
             </div>
