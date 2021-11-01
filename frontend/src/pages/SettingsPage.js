@@ -7,11 +7,10 @@ import {
 import { useTheme } from '@react-navigation/native';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux'
-import { updateWaterUnit, updateCoffeeUnit, updateTempUnit, updateRatio } from '../redux/PreferenceActions';
+import { updateWaterUnit, updateCoffeeUnit, updateTempUnit, updateRatio, updateTheme } from '../redux/PreferenceActions';
 
 // Component Imports
-import { SegmentedControl } from 'react-native-ios-kit';
-import { Stepper } from 'react-native-ios-kit';
+import { SegmentedControl, Stepper } from 'react-native-ios-kit';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Header from '../components/Header';
 import TableView from '../components/TableView';
@@ -33,7 +32,6 @@ const SettingsPage = ({ navigation }) => {
                             selectedIndex={['g','oz'].indexOf(user_preferences.coffee_unit)}
                             onValueChange={(value) => dispatch(updateCoffeeUnit(value))}
                             style={{width: 100}}
-                            theme={{primaryColor: colors.interactive}}
                         />
                     </RowItem>
                     <RowItem title="Water" text="">
@@ -42,7 +40,6 @@ const SettingsPage = ({ navigation }) => {
                             selectedIndex={['g', 'oz', 'ml'].indexOf(user_preferences.water_unit)}
                             onValueChange={(value) => dispatch(updateWaterUnit(value))}
                             style={{width: 100}}
-                            theme={{primaryColor: colors.interactive}}
                         />
                     </RowItem>
                     <RowItem title="Temperature" text="">
@@ -51,7 +48,6 @@ const SettingsPage = ({ navigation }) => {
                             selectedIndex={['f', 'c'].indexOf(user_preferences.temp_unit)}
                             onValueChange={(value) => dispatch(updateTempUnit(value))}
                             style={{width: 100}}
-                            theme={{primaryColor: colors.interactive}}
                         />
                     </RowItem>
                 </TableView>
@@ -80,6 +76,18 @@ const SettingsPage = ({ navigation }) => {
                             onValueChange={(value) => dispatch(updateRatio(value))}
                             minValue={1}
                             maxValue={100}
+                        />
+                    </RowItem>
+                </TableView>
+                <TableView header="App">
+                    <RowItem
+                        title="Theme" text=""
+                    >
+                        <SegmentedControl
+                            values={['Light', 'Dark']}
+                            selectedIndex={['Light', 'Dark'].indexOf(user_preferences.theme)}
+                            onValueChange={(value) => dispatch(updateTheme(value))}
+                            style={{width: 150}}
                         />
                     </RowItem>
                 </TableView>

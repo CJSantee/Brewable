@@ -4,6 +4,7 @@ const initialState = {
         coffee_unit: "g",
         temp_unit: "f",
         ratio: 16,
+        theme: "Light"
     }
 }
 
@@ -35,6 +36,13 @@ const preferenceReducer = (state = initialState, action) => {
                 user_preferences: {
                     ...state.user_preferences,
                     ratio: action.payload
+                }
+            }
+        case 'update/theme':
+            return {
+                user_preferences: {
+                    ...state.user_preferences,
+                    theme: action.payload
                 }
             }
         default:

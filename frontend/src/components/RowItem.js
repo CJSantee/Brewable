@@ -33,8 +33,8 @@ const Row = ({title, text, style, showSelect, selected, toggleSelect, children }
     </TouchableOpacity>
     :<View/>}
       <View style={{justifyContent: 'center'}}>
-          {text !== "" && text !== "00:00" && text !== 0 ? <Text style={styles.title}>{title}</Text> : <View/>}
-          <Text style={styles.text}>
+          {text !== "" && text !== "00:00" && text !== 0 ? <Text style={{...styles.title, color: colors.text}}>{title}</Text> : <View/>}
+          <Text style={{...styles.text, color: colors.text}}>
             {text === 0 || text === "00:00" || text === "" ? title : text.toString()} 
           </Text>
       </View>

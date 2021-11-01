@@ -25,11 +25,12 @@ const TextFieldRow = ({title, text, onChange, keyboardType, children, style}) =>
                 style
             ]}>
                 <View style={{flexDirection: 'column'}}>
-                    {text !== "" && text !== 0 ? <Text style={styles.title}>{title}</Text> : <View/>}
+                    {text !== "" && text !== 0 ? <Text style={{...styles.title, color: colors.text}}>{title}</Text> : <View/>}
                     <TextInput 
-                        style={styles.text} 
+                        style={{...styles.text, color: colors.text}} 
                         value={text === 0 ? "" : text.toString()} 
                         placeholder={title}
+                        placeholderTextColor={colors.placeholder}
                         onChangeText={onChange}
                         keyboardType={keyboardType}
                         ref={ref_textBox}

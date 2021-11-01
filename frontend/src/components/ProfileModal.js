@@ -24,15 +24,15 @@ function ProfileModal({showModal, setShowModal, title, text}) {
             visible={showModal}
         >
             <View style={styles.modalContainer}>
-                <View style={{...styles.flavorModal, backgroundColor: colors.card}}>
+                <View style={{...styles.flavorModal, backgroundColor: colors.card, borderColor: colors.placeholder}}>
                     <View style={{...styles.modalHeader, borderColor: colors.border}}>
-                        <Text style={styles.modalTitle}>{title}</Text>
+                        <Text style={{...styles.modalTitle, color: colors.text}}>{title}</Text>
                         <TouchableOpacity onPress={() => setShowModal(!showModal)} style={styles.closeModalIcon}>
                             <FontAwesomeIcon icon={faTimesCircle} size={20} color={colors.placeholder}/>
                         </TouchableOpacity>
                     </View> 
-                    <Text style={styles.modalText}>{text}</Text>
-                    <Text style={{...styles.modalText, fontStyle: 'italic'}}>SCAA Protocols | Cupping Specialty Coffee</Text>
+                    <Text style={{...styles.modalText, color: colors.text}}>{text}</Text>
+                    <Text style={{...styles.modalText, fontStyle: 'italic', color: colors.text}}>SCAA Protocols | Cupping Specialty Coffee</Text>
                 </View>
             </View>
         </Modal>
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     flavorModal: {
         width: width-30,
         margin: 15,
-        borderWidth: 1,
+        borderWidth: 0.5,
         borderRadius: 15,
     },
     modalHeader: {

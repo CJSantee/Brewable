@@ -25,7 +25,7 @@ const NewModal = ({ navigation }) => {
     const {colors} = useTheme();
 
     return (
-        <View style={styles.newModal}>
+        <View style={{...styles.newModal, borderColor: colors.border}}>
             <RowItem title="Beans" text="" onPress={() => navigation.navigate("NewBeans")}>
                 <FontAwesomeIcon icon={faChevronRight} size={20} color={colors.interactive}/>
             </RowItem>
@@ -64,8 +64,8 @@ const Beans = ({beans, onDelete, onLongPress, onSelect, navigation}) => {
             <View style={{...styles.beansRow, borderColor: colors.border}}> 
                 <Icon uri={beans.photo_uri} size={80}/>
                 <View style={{flexDirection: 'column', margin: 15}}>
-                    <Text style={{fontWeight: 'bold', fontSize: 18}}>{beans.roaster}</Text>
-                    <Text style={{fontSize: 16}}>{beans.region}</Text>
+                    <Text style={{fontWeight: 'bold', fontSize: 18, color: colors.text}}>{beans.roaster}</Text>
+                    <Text style={{fontSize: 16, color: colors.text}}>{beans.region}</Text>
                 </View>
             </View>
         </TouchableOpacity>
@@ -252,7 +252,6 @@ export default HomePage;
 const styles = StyleSheet.create({
     newModal: {
         zIndex: 1,
-        borderColor: "rgb(201, 210, 217)",
         borderBottomWidth: 1
     },
     beansRow: {

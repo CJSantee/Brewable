@@ -18,7 +18,7 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
             <View style={{...styles.input, backgroundColor: colors.background, borderColor: colors.border}} >
                 <FontAwesomeIcon style={{marginHorizontal: 10}} icon={faSearch} color={colors.placeholder}/>
                 <TextInput   
-                    style={{width: "85%"}}
+                    style={{width: "85%", color: colors.text}}
                     value={searchQuery} 
                     onChangeText={setSearchQuery}
                 />

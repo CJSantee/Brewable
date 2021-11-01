@@ -26,3 +26,10 @@ export const updateRatio = value => (
     }
 );
 
+export const updateTheme = value => (
+    {
+        type: 'update/theme',
+        payload: value
+    }
+);
+

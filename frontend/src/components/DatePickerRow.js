@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import * as Device from 'expo-device';
+import { useSelector } from 'react-redux'
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -14,6 +15,7 @@ let {height, width} = Dimensions.get('window');
 
 const DatePickerRow = ({title, value, onChange}) => {
     const { colors } = useTheme(); // Color theme
+    const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
 
     const setDate = (event, selectedDate) => {
       const currentDate = selectedDate || value;
@@ -29,7 +31,7 @@ const DatePickerRow = ({title, value, onChange}) => {
             borderColor: colors.border,
         }
       ]}>
-        <Text style={styles.text}>{title}</Text>
+        <Text style={{...styles.text, color: colors.placeholder}}>{title}</Text>
         {Device.osVersion >= 13 ?
         <View style={title ? styles.rightPicker : styles.centerPicker}>
             <DateTimePicker
@@ -38,6 +40,7 @@ const DatePickerRow = ({title, value, onChange}) => {
                 display="default"          
                 onChange={setDate}
                 style={{width: 320}}
+                themeVariant={user_preferences.theme.toLowerCase()}
             />
         </View> : 
         <Text style={{flex: 1, textAlign: title ? 'right' : 'center', fontSize: 11, color: colors.placeholder}}>update iOS for date</Text>} 
