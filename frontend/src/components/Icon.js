@@ -5,32 +5,26 @@ import {
 import { Asset } from 'expo-asset';
 
 function Icon({uri, size}) {
-    const [iconURI, setIconURI] = useState("/");
 
-    useEffect(() => {
+    const getUri = (uri) => {
         switch (uri) {
             case "1":
-                setIconURI(Asset.fromModule(require('../../assets/images/Bag_1.png')).uri);
-                break;
+                return Asset.fromModule(require('../../assets/images/Bag_1.png')).uri;
             case "2":
-                setIconURI(Asset.fromModule(require('../../assets/images/Bag_2.png')).uri);
-                break;
+                return Asset.fromModule(require('../../assets/images/Bag_2.png')).uri;
             case "3":
-                setIconURI(Asset.fromModule(require('../../assets/images/Bag_3.png')).uri);
-                break;
+                return Asset.fromModule(require('../../assets/images/Bag_3.png')).uri;
             case "4":
-                setIconURI(Asset.fromModule(require('../../assets/images/Bag_4.png')).uri);
-                break
+                return Asset.fromModule(require('../../assets/images/Bag_4.png')).uri;
             case "5":
-                setIconURI(Asset.fromModule(require('../../assets/images/Bag_5.png')).uri);
-                break;
+                return Asset.fromModule(require('../../assets/images/Bag_5.png')).uri;
             default:
-                setIconURI(uri);
+                return uri;
         }
-    },[uri]);
+    }
 
     return (
-        <Image source={{uri: iconURI}} style={{width: size, height: size, resizeMode: 'contain'}}/>
+        <Image source={{uri: getUri(uri)}} style={{width: size, height: size, resizeMode: 'contain'}}/>
     );
 }
 
