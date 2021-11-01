@@ -15,6 +15,7 @@ import CoffeeBean from '../../assets/icons/coffeeBean.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import TastingWheel from '../components/TastingWheel';
 import Header from '../components/Header';
+import { color } from 'react-native-reanimated';
 
 let {height, width} = Dimensions.get('window');
 
@@ -65,39 +66,39 @@ const DisplayBrew = ({ route, navigation }) => {
             />
             <ScrollView>
                 <View style={styles.row}>
-                    <Text style={styles.title}>{brew.roaster} </Text>
-                    <Text style={styles.subtitle}>{brew.region}</Text>
-                </View>
-                <View style={styles.favorite}>
-                    <FontAwesomeIcon icon={brew.favorite?faHeartSolid:faHeart} size={25} color={brew.favorite?"#a00": colors.placeholder}/>
+                    <Text style={{...styles.title, color: colors.text}}>{brew.roaster} </Text>
+                    <Text style={{...styles.subtitle, color: colors.text}}>{brew.region}</Text>
+                    <View style={styles.favorite}>
+                        <FontAwesomeIcon icon={brew.favorite?faHeartSolid:faHeart} size={25} color={brew.favorite?"#a00": colors.placeholder}/>
+                    </View>
                 </View>
                 <View style={styles.row}>
-                    <Text style={{fontSize: 18}}>{brewDate()} - </Text>
-                    <Text style={{fontSize: 18}}>{brew.brew_method}</Text>
+                    <Text style={{fontSize: 18, color: colors.text}}>{brewDate()} - </Text>
+                    <Text style={{fontSize: 18, color: colors.text}}>{brew.brew_method}</Text>
                 </View>
                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: 10}}>
-                    <View style={styles.row}>
+                    <View style={styles.item}>
                         <FontAwesomeIcon size={25} icon={faTint} color="#0069A7"/>
-                        <Text style={styles.value}>{brew.water}</Text>
-                        <Text>{brew.water_unit}</Text>
+                        <Text style={{...styles.value, color: colors.text}}>{brew.water}</Text>
+                        <Text style={{color: colors.text}}>{brew.water_unit}</Text>
                     </View>
-                    <View style={styles.row}>
+                    <View style={styles.item}>
                         <CoffeeBean width={25} height={25} style={{color: "#714B33"}}/>
-                        <Text style={styles.value}>{brew.coffee}</Text>
-                        <Text>{brew.coffee_unit}</Text>
+                        <Text style={{...styles.value, color: colors.text}}>{brew.coffee}</Text>
+                        <Text style={{color: colors.text}}>{brew.coffee_unit}</Text>
                     </View>
-                    <View style={styles.row}>
+                    <View style={styles.item}>
                         <FontAwesomeIcon size={25} icon={faFire} color="#EB811E"/>
-                        <Text style={styles.value}>{brew.temperature}°</Text>
-                        <Text>{brew.temp_unit}</Text>
+                        <Text style={{...styles.value, color: colors.text}}>{brew.temperature}°</Text>
+                        <Text style={{color: color.text}}>{brew.temp_unit}</Text>
                     </View>
-                    <View style={styles.row}>
+                    <View style={styles.item}>
                         <FontAwesomeIcon size={25} icon={faStopwatch} color="#4D814B"/>
-                        <Text style={styles.value}>{brew.time}</Text>
+                        <Text style={{...styles.value, color: colors.text}}>{brew.time}</Text>
                     </View>
                 </View>
                 <View style={styles.notes}>
-                    <Text style={{fontSize: 15}}>{brew.notes}</Text>
+                    <Text style={{fontSize: 15, color: colors.text}}>{brew.notes}</Text>
                 </View>
                 <View style={styles.rating}>
                     {Array(brew.rating).fill().map((_, idx)=>idx).map((value) => (
@@ -128,8 +129,13 @@ const styles = StyleSheet.create({
     },
     favorite: {
         position: 'absolute',
-        right: 10,
-        top: 5
+        right: 0
+    },
+    item: {
+        flexDirection: 'row',
+        marginHorizontal: 10,
+        marginVertical: 5,
+        alignItems: 'center'
     },
     title: {
         fontWeight: 'bold',

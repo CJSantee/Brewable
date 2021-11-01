@@ -36,31 +36,31 @@ const Brew = ({ brew, onFavorite, navigation }) => {
             <View style={{...styles.brew, backgroundColor: colors.card, borderColor: colors.border}}>
                 <View style={styles.wheel}>
                     <TastingWheel displayText={false} width="150" height="150" values={[brew.body, brew.aftertaste, brew.sweetness, brew.aroma, brew.flavor, brew.acidity]}/>
-                    {false&&<Text style={{top: -10, fontWeight: 'bold'}}>{brew.roaster}</Text>}
-                    {false&&<Text style={{top: -5}}>{brew.region}</Text>}
+                    {false&&<Text style={{top: -10, fontWeight: 'bold', color: colors.text}}>{brew.roaster}</Text>}
+                    {false&&<Text style={{top: -5, color: colors.text}}>{brew.region}</Text>}
                 </View>
                 <View style={styles.leftItems}>
                     <View style={styles.cardItem}>
-                        <Text style={styles.title}>{brew.brew_method}</Text>
+                        <Text style={{...styles.title, color: colors.text}}>{brew.brew_method}</Text>
                     </View>
                     <View style={styles.cardItem}>
                         <FontAwesomeIcon size={22} icon={faTint} color="#0069A7"/>
-                        <Text style={styles.value}>{brew.water}</Text>
-                        <Text>{brew.water_unit}</Text>
+                        <Text style={{...styles.value, color: colors.text}}>{brew.water}</Text>
+                        <Text style={{color: colors.text}}>{brew.water_unit}</Text>
                     </View>
                     <View style={styles.cardItem}>
                         <CoffeeBean width={22} height={22} style={{color: "#714B33"}}/>
-                        <Text style={styles.value}>{brew.coffee}</Text>
-                        <Text>{brew.coffee_unit}</Text>
+                        <Text style={{...styles.value, color: colors.text}}>{brew.coffee}</Text>
+                        <Text style={{color: colors.text}}>{brew.coffee_unit}</Text>
                     </View>
                     <View style={styles.cardItem}>
                         <FontAwesomeIcon size={22} icon={faFire} color="#EB811E"/>
-                        <Text style={styles.value}>{brew.temperature}</Text>
-                        <Text>°{brew.temp_unit}</Text>
+                        <Text style={{...styles.value, color: colors.text}}>{brew.temperature}</Text>
+                        <Text style={{color: colors.text}}>°{brew.temp_unit}</Text>
                     </View>
                     <View style={styles.cardItem}>
                         <FontAwesomeIcon size={22} icon={faStopwatch} color="#4D814B"/>
-                        <Text style={styles.value}>{brew.time}</Text>
+                        <Text style={{...styles.value, color: colors.text}}>{brew.time}</Text>
                     </View>
                     <View style={styles.rating}>
                         {Array(brew.rating).fill().map((_, idx)=>idx).map((value) => (
@@ -76,7 +76,7 @@ const Brew = ({ brew, onFavorite, navigation }) => {
                         <FontAwesomeIcon icon={brew.favorite?faHeartSolid:faHeart} size={18} color={brew.favorite?"#a00": colors.placeholder}/>
                     </View>
                 </TouchableWithoutFeedback>
-                {Device.osVersion >= 13 && <Text style={styles.date}>{date_string}</Text>}
+                {Device.osVersion >= 13 && <Text style={{...styles.date, color: colors.text}}>{date_string}</Text>}
             </View>
         </TouchableWithoutFeedback>
     );

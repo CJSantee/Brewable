@@ -45,7 +45,39 @@ const SettingsPage = ({ navigation }) => {
                     }
                 }
             ]
-        )
+        );
+    }
+
+    const deleteAll = () => {
+        // Delete from database
+        db.transaction(
+            (tx) => {
+                tx.executeSql(
+                `DELETE
+                FROM beans;`);
+            },
+            (e) => console.log(e),
+            null
+        );
+    }
+
+    const _confirmDelete = () => {
+        Alert.alert(
+            "Confirm Delete",
+            "Are you sure you want to delete all beans? This will permanently delete all beans and brews in your collection.",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => {}
+                },
+                {
+                    text: "Yes",
+                    onPress: () => {
+                        deleteAll();
+                    }
+                }
+            ]
+        );
     }
 
     return (
@@ -121,8 +153,11 @@ const SettingsPage = ({ navigation }) => {
                         {loading?
                         <ActivityIndicator size="small"/> 
                         :sample_data?
-                            <FontAwesomeIcon icon={faCheck} size={20}/>
-                            :<FontAwesomeIcon icon={faFileDownload} size={20}/>}
+                            <FontAwesomeIcon icon={faCheck} size={20} color={colors.placeholder}/>
+                            :<FontAwesomeIcon icon={faFileDownload} size={20} color={colors.placeholder}/>}
+                    </RowItem>
+                    <RowItem title="Delete All Beans" text="" onPress={_confirmDelete}>
+                        
                     </RowItem>
                 </TableView>
             </ScrollView>

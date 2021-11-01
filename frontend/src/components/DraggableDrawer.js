@@ -92,12 +92,13 @@ class DraggableDrawer extends Component {
                         styles.drawer,
                         {
                             backgroundColor: colors.background,
+                            borderColor: colors.border,
                             transform: [{ translateY: this._transY }],
                         }
                     ]}
                     onLayout={this._onLayout}>
                         <View style={{height: tabHeight, alignItems: 'center', justifyContent: 'center'}}>
-                            <Text style={{fontSize: 16}}>{this.props.title}</Text>
+                            <Text style={{fontSize: 16, color: colors.text}}>{this.props.title}</Text>
                         </View>
                         {children}
                 </Animated.View>

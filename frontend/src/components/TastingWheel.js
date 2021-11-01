@@ -136,7 +136,7 @@ const TastingWheel = ({values, style, displayText, width, height}) => {
                     points={shape(values)}
                     fill={"#894419"}
                     fillOpacity="0.5"
-                    stroke={"#000000"} 
+                    stroke={colors.placeholder} 
                 />
             </Svg>
         </View>

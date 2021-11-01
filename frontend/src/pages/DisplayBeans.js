@@ -201,7 +201,7 @@ const DisplayBeans = ({ route, navigation }) => {
             <View style={{width: '100%', padding: 10, marginBottom: 5}}>
                 <TouchableOpacity onPress={() => navigation.navigate("NewBrew", { beans_id: beans.id, roaster: beans.roaster, region: beans.region })}>
                     <View style={{...styles.addBrewsButton, backgroundColor: colors.card, borderColor: colors.border}}>
-                        <Text style={{fontSize: 16, margin: 10}}>Add Brew</Text>
+                        <Text style={{fontSize: 16, margin: 10, color: colors.text}}>Add Brew</Text>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -223,8 +223,8 @@ const DisplayBeans = ({ route, navigation }) => {
             <ScrollView style={{flex: 1}}>
             <View style={styles.row}>
                 <View style={{flexDirection: 'row', width: width-45, flexWrap: 'wrap'}}>
-                    <Text style={styles.title}>{beans.roaster} </Text>
-                    <Text style={styles.subtitle}>{beans.region}</Text>
+                    <Text style={{...styles.title, color: colors.text}}>{beans.roaster} </Text>
+                    <Text style={{...styles.subtitle, color: colors.text}}>{beans.region}</Text>
                 </View>
                 <View style={styles.favorite}>
                     <FontAwesomeIcon icon={beans.favorite?faHeartSolid:faHeart} size={25} color={beans.favorite?"#a00": colors.placeholder}/>
@@ -233,22 +233,22 @@ const DisplayBeans = ({ route, navigation }) => {
             
             {Device.osVersion >= 13 && 
             <View style={styles.row}>
-                {roastDate()!==""?<Text style={{fontSize: 18}}>{roastDate()}</Text>:<View/>}
+                {roastDate()!==""?<Text style={{fontSize: 18, color: colors.text}}>{roastDate()}</Text>:<View/>}
             </View>}
             <View style={styles.row}>
-                <Text>{beans.origin}</Text>
+                <Text style={{color: colors.text}}>{beans.origin}</Text>
             </View>            
             <View style={styles.flavors}>
                 {flavorNotes.map((item) => 
                     <View key={item } style={{...styles.flavor, backgroundColor: colors.card, borderColor: colors.border}}>
-                        <Text style={styles.flavorText}>{item}</Text>
+                        <Text style={{...styles.flavorText, color: colors.text}}>{item}</Text>
                     </View>
                 )}
             </View>
 
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', margin: 10}}>
                 <Icon uri={beans.photo_uri} size={(width/3)*2}/>
-                <Text>{beans.weight}{beans.weight_unit}</Text>
+                <Text style={{color: colors.text}}>{beans.weight}{beans.weight_unit}</Text>
             </View>
             </ScrollView>
             {brews.length > 0 ?
