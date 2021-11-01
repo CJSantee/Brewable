@@ -33,3 +33,8 @@ export const updateTheme = value => (
     }
 );
 
+export const toggleSampleData = () => (
+    {
+        type: 'toggle/sample_data'
+    }
+);

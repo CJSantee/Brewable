@@ -135,7 +135,7 @@ function randomBrewMethod() {
   return brewMethods[randomInt(0,brewMethods.length-1)];
 }
 
-const populateRandomBrews = (db) => {
+const populateRandomBrews = (db, callback) => {
   const numBrews = 100;
 
   db.transaction((tx) => {
@@ -150,7 +150,7 @@ const populateRandomBrews = (db) => {
     }
   },
   (e) => console.log(e),
-  null);
+  callback(false)); // setLoading(false);
 }
 
 const populateBrewMethods = (db) => {

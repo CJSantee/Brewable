@@ -5,7 +5,7 @@ import { Asset } from 'expo-asset';
 import AppLoading from 'expo-app-loading';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
-import { createTables, populateBeans, populateBrewMethodsIfEmpty, populateFlavorsIfEmpty, populateRandomBrews } from './ DatabaseUtils';
+import { createTables, populateBrewMethodsIfEmpty, populateFlavorsIfEmpty } from './ DatabaseUtils';
 
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
@@ -47,8 +47,6 @@ export default function App() {
   useEffect(() => {
     _lockScreenOrientation();
     createTables(db);
-    // populateBeans(db);
-    // populateRandomBrews(db);
     populateBrewMethodsIfEmpty(db);
     populateFlavorsIfEmpty(db);
   }, []);

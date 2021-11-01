@@ -222,12 +222,15 @@ const DisplayBeans = ({ route, navigation }) => {
                 rightOnPress={() => navigation.navigate("EditBeans", {beans: beans, flavor_notes: beans.flavor_notes})}/>
             <ScrollView style={{flex: 1}}>
             <View style={styles.row}>
-                <Text style={styles.title}>{beans.roaster} </Text>
-                <Text style={styles.subtitle}>{beans.region}</Text>
+                <View style={{flexDirection: 'row', width: width-45, flexWrap: 'wrap'}}>
+                    <Text style={styles.title}>{beans.roaster} </Text>
+                    <Text style={styles.subtitle}>{beans.region}</Text>
+                </View>
+                <View style={styles.favorite}>
+                    <FontAwesomeIcon icon={beans.favorite?faHeartSolid:faHeart} size={25} color={beans.favorite?"#a00": colors.placeholder}/>
+                </View>
             </View>
-            <View style={styles.favorite}>
-                <FontAwesomeIcon icon={beans.favorite?faHeartSolid:faHeart} size={25} color={beans.favorite?"#a00": colors.placeholder}/>
-            </View>
+            
             {Device.osVersion >= 13 && 
             <View style={styles.row}>
                 {roastDate()!==""?<Text style={{fontSize: 18}}>{roastDate()}</Text>:<View/>}
@@ -298,8 +301,7 @@ const styles = StyleSheet.create({
     },
     favorite: {
         position: 'absolute',
-        right: 10,
-        top: 5
+        right: 0
     },
     animated: {
         position: 'absolute',

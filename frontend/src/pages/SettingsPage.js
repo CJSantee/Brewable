@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     View,
     StyleSheet,
-    ScrollView
+    ScrollView,
+    ActivityIndicator,
+    Alert
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faFileDownload, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux'
-import { updateWaterUnit, updateCoffeeUnit, updateTempUnit, updateRatio, updateTheme } from '../redux/PreferenceActions';
+import { updateWaterUnit, updateCoffeeUnit, updateTempUnit, updateRatio, updateTheme, toggleSampleData } from '../redux/PreferenceActions';
 
 // Component Imports
 import { SegmentedControl, Stepper } from 'react-native-ios-kit';
@@ -15,11 +17,36 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Header from '../components/Header';
 import TableView from '../components/TableView';
 import RowItem from '../components/RowItem';
+import { populateBeans, populateRandomBrews } from '../../ DatabaseUtils';
 
 const SettingsPage = ({ navigation }) => {
+    const [loading, setLoading] = useState(false);
     const { colors } = useTheme(); // Color theme
     const dispatch = useDispatch(); // Redux dispatch
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
+    const sample_data = useSelector(state => state.sample_data);
+
+    const _downloadData = () => {
+        if (sample_data) return;
+        Alert.alert(
+            "Confirm Download",
+            "Are you sure you want to download sample data? This will populate your collection with new beans and random brews.",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => {setLoading(false)}
+                },
+                {
+                    text: "Yes",
+                    onPress: () => {
+                        setLoading(true);
+                        populateBeans(db);
+                        populateRandomBrews(db, (value) => {setLoading(value); dispatch(toggleSampleData())});
+                    }
+                }
+            ]
+        )
+    }
 
     return (
         <View style={{width: "100%", height: "100%"}}>
@@ -90,6 +117,13 @@ const SettingsPage = ({ navigation }) => {
                             style={{width: 150}}
                         />
                     </RowItem>
+                    <RowItem title="Download Sample Data" text="" onPress={_downloadData}>
+                        {loading?
+                        <ActivityIndicator size="small"/> 
+                        :sample_data?
+                            <FontAwesomeIcon icon={faCheck} size={20}/>
+                            :<FontAwesomeIcon icon={faFileDownload} size={20}/>}
+                    </RowItem>
                 </TableView>
             </ScrollView>
         </View>
@@ -100,6 +134,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1, 
     }
-})
+});
 
 export default SettingsPage;
