@@ -176,7 +176,7 @@ const EditBeans = ({ route, navigation }) => {
                     <View style={styles.flavors}>
                         {beans.flavor_notes !== "" ? beans.flavor_notes.split(',').map((item) => 
                             <View key={item} style={{...styles.flavor, backgroundColor: colors.card, borderColor: colors.border}}>
-                                <Text style={styles.flavorText}>{item}</Text>
+                                <Text style={{...styles.flavorText, color: colors.text}}>{item}</Text>
                             </View>
                         ) : <View/>}
                     </View>
@@ -185,7 +185,7 @@ const EditBeans = ({ route, navigation }) => {
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                     <TouchableOpacity onPress={deleteConfirmation} style={{flex: 1}}>
                         <View style={{...styles.bottomButton, backgroundColor: colors.card, borderColor: colors.border}}>
-                            <Text style={{color: colors.destructive, fontSize: 16}}>Delete Beans</Text>
+                            <Text style={{color: colors.destructive, fontSize: 16, color: colors.destructive}}>Delete Beans</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => setBeans({...beans, favorite: beans.favorite===0?1:0})} style={{flex: 1}}>

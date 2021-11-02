@@ -66,8 +66,10 @@ const DisplayBrew = ({ route, navigation }) => {
             />
             <ScrollView>
                 <View style={styles.row}>
-                    <Text style={{...styles.title, color: colors.text}}>{brew.roaster} </Text>
-                    <Text style={{...styles.subtitle, color: colors.text}}>{brew.region}</Text>
+                    <View style={{flexDirection: 'row', width: width-45, flexWrap: 'wrap'}}>
+                        <Text style={{...styles.title, color: colors.text}}>{brew.roaster} </Text>
+                        <Text style={{...styles.subtitle, color: colors.text}}>{brew.region}</Text>
+                    </View>
                     <View style={styles.favorite}>
                         <FontAwesomeIcon icon={brew.favorite?faHeartSolid:faHeart} size={25} color={brew.favorite?"#a00": colors.placeholder}/>
                     </View>

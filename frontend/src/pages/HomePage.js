@@ -5,12 +5,16 @@ import {
     FlatList,
     Text,
     TouchableOpacity,
-    Alert,
-    Modal
+    Alert
 } from 'react-native';
 
 import { useTheme, useFocusEffect } from '@react-navigation/native';
-import { faChevronRight, faPencilAlt, faShare, faTrash, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faShareSquare, faTrashAlt, faFire, faChevronRight, faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
+import { faCopy, faHeart } from '@fortawesome/free-regular-svg-icons';
+
+import * as Clipboard from 'expo-clipboard';
+
+import { toBeansString } from '../utils/Converter';
 
 // Component Imports
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -19,6 +23,7 @@ import Header from '../components/Header';
 import RowItem from '../components/RowItem';
 import SearchBar from '../components/SearchBar';
 import Icon from '../components/Icon';
+import FullScreenModal from '../components/FullScreenModal';
 
 // Modal for listing new beans or brew
 const NewModal = ({ navigation }) => {
@@ -36,25 +41,8 @@ const NewModal = ({ navigation }) => {
     );
 }
 
-const Beans = ({beans, onDelete, onLongPress, onSelect, navigation}) => {
-    const {colors} = useTheme();
-
-    const deleteConfirmation = () => {
-        Alert.alert(
-            "Confirm Delete",
-            "Are you sure you want to permanently delete these beans? You can’t undo this action.",
-            [
-                {
-                    text: "Cancel",
-                    onPress: () => {}
-                },
-                {
-                    text: "Yes",
-                    onPress: () => onDelete(beans.id)
-                }
-            ]
-        )
-    }
+const Beans = ({beans, onLongPress, navigation}) => {
+    const { colors } = useTheme();
 
     return (
         <TouchableOpacity 
@@ -76,6 +64,7 @@ const HomePage = ({ navigation }) => {
     const { colors } = useTheme(); // Theme colors
     const [newModal, setNewModal] = useState(false); // New Modal state
     const [btmModal, setBtmModal] = useState(false); // Bottom modal state
+    const [selected, setSelected] = useState({});
     const [beans, setBeans] = useState([]); // Beans array
     const [refreshing, setRefreshing] = useState(false);
 
@@ -119,6 +108,23 @@ const HomePage = ({ navigation }) => {
         [sortBy]
     );
 
+    // Set Brew as Favorite
+    const onFavorite = (id) => {
+        let val = 0;
+        beans.forEach(beans => {if (beans.id === id) val = beans.favorite});
+        // Update brew in database
+        db.transaction(
+            (tx) => {
+                tx.executeSql("UPDATE beans SET favorite = ? WHERE id = ?;", [val===0?1:0, id])
+            }, 
+            (e) => console.log(e), 
+            null
+        );
+        // Update brew state within component
+        setBeans(beans.map(beans => (beans.id === id ? {...beans, favorite: val===0?1:0}:beans)));
+        setSelected({...selected, favorite: val===0?1:0})
+    }
+
     // Delete Beans
     const onDelete = (id) => {
         // Delete from database
@@ -131,7 +137,28 @@ const HomePage = ({ navigation }) => {
                 [id])
             },
             (e) => console.log(e),
-            onRefresh
+            () => {
+                onRefresh();
+                setBtmModal(false);
+                setSelected({});
+            }
+        );
+    }
+
+    const deleteConfirmation = () => {
+        Alert.alert(
+            "Confirm Delete",
+            "Are you sure you want to permanently delete these beans? You can’t undo this action.",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => {}
+                },
+                {
+                    text: "Yes",
+                    onPress: () => onDelete(selected.id)
+                }
+            ]
         );
     }
 
@@ -173,7 +200,7 @@ const HomePage = ({ navigation }) => {
     );
 
     const renderItem = useCallback(
-        ({item, index}) => <Beans beans={item} onDelete={onDelete} onLongPress={() => ref_flatlist.current.scrollToIndex({animated: true, index: index, viewPosition: 1})} navigation={navigation}/>,
+        ({item, index}) => <Beans beans={item} onDelete={onDelete} onLongPress={() => {setSelected(item); setBtmModal(!btmModal);}} navigation={navigation}/>,
         []
     );
 
@@ -213,36 +240,43 @@ const HomePage = ({ navigation }) => {
                 refreshing={refreshing}
                 onRefresh={onRefresh}
             />}
-            <Modal
-                animationType="slide"
-                visible={btmModal}
-            >
-                <View style={{...styles.btmModal, backgroundColor: colors.card, borderColor: colors.border}}>
-                    <TouchableOpacity>
-                        <View style={styles.modalRow}>
-                            <View style={{position: 'absolute', right: 0, top: 0, zIndex: 1, height: '100%', padding: 5, paddingLeft: 20}}>
-                                <TouchableOpacity style={{width: '100%', height: '100%'}} onPress={(e) => {e.stopPropagation(); setBtmModal(!btmModal)}}>
-                                    <FontAwesomeIcon icon={faTimesCircle} size={18} />
-                                </TouchableOpacity>
-                            </View>
-                            <FontAwesomeIcon icon={faPencilAlt} size={18} style={{marginHorizontal: 10}}/>
-                            <Text style={styles.modalText}>Edit</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <View style={{...styles.modalRow, borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.border}}>
-                            <FontAwesomeIcon icon={faShare} size={18} style={{marginHorizontal: 10}}/>
-                            <Text style={styles.modalText}>Share</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <View style={styles.modalRow}>
-                            <FontAwesomeIcon icon={faTrash} size={18} style={{marginHorizontal: 10}} color={colors.destructive}/>
-                            <Text style={{...styles.modalText, color: colors.destructive}}>Delete</Text>
-                        </View>
-                    </TouchableOpacity>
+            {btmModal && 
+            <FullScreenModal colors={colors} close={() => setBtmModal(false)}>
+                <TouchableOpacity onPress={() => navigation.navigate("EditBeans", {beans: selected, flavor_notes: selected.flavor_notes})}>
+                    <View style={styles.menuItem}>
+                        <FontAwesomeIcon icon={faEdit} size={22} color={colors.text}/>
+                        <Text style={{...styles.menuText, color: colors.text}}>Edit</Text>
+                    </View>
+                </TouchableOpacity>
+                <View style={styles.menuItem}>
+                    <FontAwesomeIcon icon={faShareSquare} size={22} color={colors.text}/>
+                    <Text style={{...styles.menuText, color: colors.text}}>Share</Text>
                 </View>
-            </Modal>
+                <TouchableOpacity onPress={() => deleteConfirmation()}>
+                    <View style={{...styles.menuItem, borderBottomWidth: 1.5, borderColor: colors.border}}>
+                        <FontAwesomeIcon icon={faTrashAlt} size={22} color={colors.destructive}/>
+                        <Text style={{...styles.menuText, color: colors.destructive}}>Delete</Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate("NewBrew", { beans_id: selected.id, roaster: selected.roaster, region: selected.region })}>
+                    <View style={styles.menuItem}>
+                        <FontAwesomeIcon icon={faFire} size={22} color={colors.text}/>
+                        <Text style={{...styles.menuText, color: colors.text}}>New Brew</Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {Clipboard.setString(toBeansString(selected)); Alert.alert("Copied", `"${selected.roaster} - ${selected.region}" copied to clipboard`, [{text: "OK", onPress: () =>  setBtmModal(false)}])}}>
+                    <View style={styles.menuItem}>
+                        <FontAwesomeIcon icon={faCopy} size={22} color={colors.text}/>
+                        <Text style={{...styles.menuText, color: colors.text}}>Copy Beans to Clipboard</Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => onFavorite(selected.id)}>
+                    <View style={styles.menuItem}>
+                        <FontAwesomeIcon icon={selected.favorite === 0?faHeart:faHeartSolid} size={22} color={colors.text}/>
+                        <Text style={{...styles.menuText, color: colors.text}}>{selected.favorite===0?"Favorite":"Unfavorite"}</Text>
+                    </View>
+                </TouchableOpacity>      
+            </FullScreenModal>}
         </View>
     );
 }
@@ -282,5 +316,15 @@ const styles = StyleSheet.create({
     },
     modalText: {
         fontSize: 18
+    },
+    menuItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        paddingVertical: 15
+    },
+    menuText: {
+        fontSize: 18,
+        marginLeft: 10,
     }
 });

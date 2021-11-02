@@ -11,10 +11,10 @@ import { USE_NATIVE_DRIVER } from '../../config';
 let {height, width} = Dimensions.get('window');
 
 const RATIO = 1;
-const tabHeight = 50;
-const topOffset = 150;
+const tabHeight = height/2;
+const topOffset = 100;
 
-class DraggableDrawer extends Component {
+class FullScreenModal extends Component {
     constructor(props) {
         super(props);
 
@@ -49,9 +49,20 @@ class DraggableDrawer extends Component {
         );
     }
 
+    componentDidMount() {
+        Animated.spring(this._translateYOffset, {
+            velocity: 0.5,
+            tension: 10,
+            friction: 5,
+            toValue: -tabHeight,
+            useNativeDriver: USE_NATIVE_DRIVER,
+        }).start();
+    }
+
     _onHandlerStateChange = event => {
         if (event.nativeEvent.oldState === State.ACTIVE) {
             let { translationY } = event.nativeEvent;
+            let close = false;
             translationY -= this._lastScrollYValue;
             const dragToss = 0.05;
             const endOffsetY =
@@ -59,9 +70,10 @@ class DraggableDrawer extends Component {
 
             let toValue = 0;
             if (endOffsetY < 0) {
-                toValue = -(height-tabHeight-topOffset);
+                toValue = -(height-topOffset);
             } else if (endOffsetY > 0) {
                 toValue = 0;
+                close = true;
             } 
 
             this._translateYOffset.extractOffset();
@@ -75,7 +87,7 @@ class DraggableDrawer extends Component {
                 friction: 5,
                 toValue,
                 useNativeDriver: USE_NATIVE_DRIVER,
-            }).start();
+            }).start(() => {if(close)this.props.close()});
         }
     };
    
@@ -89,37 +101,52 @@ class DraggableDrawer extends Component {
                 onHandlerStateChange={this._onHandlerStateChange}>
                 <Animated.View
                     style={[
-                        styles.drawer,
+                        styles.animated,
                         {
-                            backgroundColor: colors.background,
-                            borderColor: colors.border,
                             transform: [{ translateY: this._transY }],
                         }
                     ]}
                     onLayout={this._onLayout}>
-                        <View style={{height: tabHeight, alignItems: 'center', justifyContent: 'center'}}>
-                            <Text style={{fontSize: 16, color: colors.text}}>{this.props.title}</Text>
+                        <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: width}}>
+                            <View style={{...styles.bar, backgroundColor: colors.placeholder}}/>
                         </View>
-                        {children}
+                        <View style={{...styles.menu, backgroundColor: colors.background, borderColor: colors.border}}>
+                            {children}
+                        </View>
                 </Animated.View>
             </PanGestureHandler>
         );
     }
 }
 
-export default DraggableDrawer;
+export default FullScreenModal;
 
 const styles = StyleSheet.create({
-    drawer: {
+    background: {
+        height: height,
+        width: width,
+        position: 'absolute',
+        top: 0,
+        backgroundColor: 'rgba(0,0,0,0.4)',
+    },
+    animated: {
         flex: 1,
         position: 'absolute',
-        top: height-tabHeight,
+        top: height,
         width: width,
+    },
+    menu: {
         height: height-(topOffset-tabHeight),
-        borderTopStartRadius: 15,
-        borderTopEndRadius: 15,
+        borderTopStartRadius: 5,
+        borderTopEndRadius: 5,
         borderTopWidth: 1,
         borderLeftWidth: 1,
         borderRightWidth: 1,
+    },
+    bar: {
+        width: 50,
+        height: 6,
+        borderRadius: 4,
+        margin: 5
     }
 });

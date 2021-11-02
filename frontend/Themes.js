@@ -13,7 +13,7 @@ const LightTheme = {
         border: "#c9d2d9",
         interactive: "rgb(0,122,255)",
         placeholder: "rgb(184,184,187)",
-        destructive: "#aa0000"
+        destructive: "rgb(255,59,48)"
     },
     iosKit: {
         ...iOSDefault,
@@ -31,7 +31,8 @@ const DarkTheme = {
         border: "rgb(50,49,52)",
         interactive: "rgb(0,132,255)",
         placeholder: "rgb(152,151,158)",
-        header: "rgb(18,18,18)"
+        header: "rgb(18,18,18)",
+        destructive: "rgb(255,69,58)"
     },
     iosKit: {
         ...iOSDefault,
