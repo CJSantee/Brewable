@@ -6,10 +6,9 @@ import {
     Alert
 } from 'react-native';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { Feather } from '@expo/vector-icons';
 
 // Component Imports 
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import RowItem from '../components/RowItem';
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
@@ -202,7 +201,7 @@ const SelectFlavors = ({ route, navigation }) => {
                         selected={selected.has(item.item.flavor)}
                         toggleSelect={(value) => toggleSelected(value)}
                     >
-                        {picked.has(item.item.flavor)?<FontAwesomeIcon icon={faCheck} size={20} color={colors.placeholder}/> : <View/>}
+                        {picked.has(item.item.flavor)?<Feather name="check" size={20} color={colors.placeholder}/> : <View/>}
                     </RowItem>  
                 }
                 keyExtractor={item => item.id.toString()}

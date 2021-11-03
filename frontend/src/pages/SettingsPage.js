@@ -7,13 +7,12 @@ import {
     Alert
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import { faChevronRight, faFileDownload, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { Feather } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux'
 import { updateWaterUnit, updateCoffeeUnit, updateTempUnit, updateRatio, updateTheme, toggleSampleData } from '../redux/PreferenceActions';
 
 // Component Imports
 import { SegmentedControl, Stepper } from 'react-native-ios-kit';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Header from '../components/Header';
 import TableView from '../components/TableView';
 import RowItem from '../components/RowItem';
@@ -116,14 +115,14 @@ const SettingsPage = ({ navigation }) => {
                         text=""
                         onPress={() => navigation.navigate("BrewMethods", {parent: "SettingsPage"})}
                     >   
-                        <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
+                        <Feather name="chevron-right" size={16} color={colors.placeholder}/>
                     </RowItem>
                     <RowItem
                         title="Flavor Notes"
                         text=""
                         onPress={() => navigation.navigate("SelectFlavors", { parent: "SettingsPage", flavor_notes: "" })}
                     >   
-                        <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
+                        <Feather name="chevron-right" size={16} color={colors.placeholder}/>
                     </RowItem>
                 </TableView>
                 <TableView header="Ratio">
@@ -153,8 +152,8 @@ const SettingsPage = ({ navigation }) => {
                         {loading?
                         <ActivityIndicator size="small"/> 
                         :sample_data?
-                            <FontAwesomeIcon icon={faCheck} size={20} color={colors.placeholder}/>
-                            :<FontAwesomeIcon icon={faFileDownload} size={20} color={colors.placeholder}/>}
+                            <Feather name="check" size={20} color={colors.placeholder}/>
+                            :<Feather name="download" size={20} color={colors.placeholder}/>}
                     </RowItem>
                     <RowItem title="Delete All Beans" text="" onPress={_confirmDelete}>
                         

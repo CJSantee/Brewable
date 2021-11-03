@@ -11,13 +11,12 @@ import {
 import { SegmentedControl } from 'react-native-ios-kit';
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { faChevronRight, faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
+
+import { Feather, FontAwesome } from '@expo/vector-icons';
 
 const {width, height} = Dimensions.get('window');
 
 // Component Imports 
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import RowItem from '../components/RowItem';
 import TableView from '../components/TableView';
 import TextFieldRow from '../components/TextFieldRow';
@@ -171,7 +170,7 @@ const EditBeans = ({ route, navigation }) => {
                         text=""
                         onPress={() => navigation.navigate("SelectFlavors", { parent: "EditBeans", flavor_notes: beans.flavor_notes })}
                     >   
-                        <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
+                        <Feather name="chevron-right" size={16} color={colors.placeholder}/>
                     </RowItem>
                     <View style={styles.flavors}>
                         {beans.flavor_notes !== "" ? beans.flavor_notes.split(',').map((item) => 
@@ -191,7 +190,7 @@ const EditBeans = ({ route, navigation }) => {
                     <TouchableOpacity onPress={() => setBeans({...beans, favorite: beans.favorite===0?1:0})} style={{flex: 1}}>
                         <View style={{...styles.bottomButton, backgroundColor: colors.card, borderColor: colors.border}}>
                             <Text style={{color: colors.interactive, fontSize: 16, marginRight: 5}}>Favorite Beans</Text>
-                            <FontAwesomeIcon icon={beans.favorite===1?faHeartSolid:faHeart} color={colors.interactive} style={{marginLeft: 5}}/>
+                            <FontAwesome name={beans.favorite===1?"heart":"heart-o"} color={colors.interactive} style={{marginLeft: 5}}/>
                         </View>
                     </TouchableOpacity>
                     </View>

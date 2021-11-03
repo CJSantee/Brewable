@@ -11,13 +11,11 @@ import {
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { faChevronRight, faHeart as faHeartSolid, } from '@fortawesome/free-solid-svg-icons';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import { Feather, FontAwesome } from '@expo/vector-icons';
 
 const {width, height} = Dimensions.get('window');
 
 // Component Imports
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { SegmentedControl } from 'react-native-ios-kit';
 import TableView from '../components/TableView';
 import TextFieldRow from '../components/TextFieldRow';
@@ -176,7 +174,7 @@ const NewBeans = ({ route, navigation }) => {
                         text=""
                         onPress={() => navigation.navigate("SelectFlavors", { parent: "NewBeans", flavor_notes: beans.flavor_notes })}
                     >   
-                        <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
+                        <Feather name="chevron-right" size={16} color={colors.placeholder}/>
                     </RowItem>
                     <View style={styles.flavors}>
                         {beans.flavor_notes !== "" ? beans.flavor_notes.split(',').map((item) => 
@@ -190,7 +188,7 @@ const NewBeans = ({ route, navigation }) => {
                     <TouchableOpacity onPress={() => setBeans({...beans, favorite: beans.favorite===0?1:0})} style={{flex: 1}}>
                         <View style={{...styles.bottomButton, backgroundColor: colors.card, borderColor: colors.border}}>
                             <Text style={{color: colors.interactive, fontSize: 16, marginRight: 5}}>Favorite Beans</Text>
-                            <FontAwesomeIcon icon={beans.favorite===1?faHeartSolid:faHeart} color={colors.interactive}/>
+                            <FontAwesome name={beans.favorite===1?"heart":"heart-o"} color={colors.interactive}/>
                         </View>
                     </TouchableOpacity>
                 </TableView>

@@ -7,22 +7,19 @@ import {
     Dimensions
 } from 'react-native';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
-import { faTint, faFire, faStopwatch, faHeart as faHeartSolid, faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
-import { faHeart, faStar } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesome, Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import CoffeeBean from '../../assets/icons/coffeeBean.svg';
 
 // Component Imports
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import TastingWheel from '../components/TastingWheel';
 import Header from '../components/Header';
-import { color } from 'react-native-reanimated';
 
 let {height, width} = Dimensions.get('window');
 
 const DisplayBrew = ({ route, navigation }) => {
     const [brew, setBrew] = useState({body: 0, aftertaste: 0, sweetness: 0, aroma: 0, flavor: 0, acidity: 0, rating: 0}); // Initial values for flavor wheel
     const { brew_id } = route.params; // Brew_id to retireve brew info
-    const {colors} = useTheme(); // Color theme
+    const { colors } = useTheme(); // Color theme
 
     const options = { weekdate: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     function brewDate() {
@@ -71,7 +68,7 @@ const DisplayBrew = ({ route, navigation }) => {
                         <Text style={{...styles.subtitle, color: colors.text}}>{brew.region}</Text>
                     </View>
                     <View style={styles.favorite}>
-                        <FontAwesomeIcon icon={brew.favorite?faHeartSolid:faHeart} size={25} color={brew.favorite?"#a00": colors.placeholder}/>
+                        <FontAwesome name={brew.favorite?"heart":"heart-o"} size={25} color={brew.favorite?"#a00":colors.placeholder}/>
                     </View>
                 </View>
                 <View style={styles.row}>
@@ -80,7 +77,7 @@ const DisplayBrew = ({ route, navigation }) => {
                 </View>
                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: 10}}>
                     <View style={styles.item}>
-                        <FontAwesomeIcon size={25} icon={faTint} color="#0069A7"/>
+                        <Ionicons name="ios-water" size={25} color="#0069A7"/>
                         <Text style={{...styles.value, color: colors.text}}>{brew.water}</Text>
                         <Text style={{color: colors.text}}>{brew.water_unit}</Text>
                     </View>
@@ -90,12 +87,12 @@ const DisplayBrew = ({ route, navigation }) => {
                         <Text style={{color: colors.text}}>{brew.coffee_unit}</Text>
                     </View>
                     <View style={styles.item}>
-                        <FontAwesomeIcon size={25} icon={faFire} color="#EB811E"/>
+                        <FontAwesome5 size={25} name="fire" color="#EB811E"/>
                         <Text style={{...styles.value, color: colors.text}}>{brew.temperature}°</Text>
-                        <Text style={{color: color.text}}>{brew.temp_unit}</Text>
+                        <Text style={{color: colors.text}}>{brew.temp_unit}</Text>
                     </View>
                     <View style={styles.item}>
-                        <FontAwesomeIcon size={25} icon={faStopwatch} color="#4D814B"/>
+                        <Ionicons name="ios-timer-sharp" size={25} color="#4D814B"/>
                         <Text style={{...styles.value, color: colors.text}}>{brew.time}</Text>
                     </View>
                 </View>
@@ -104,10 +101,10 @@ const DisplayBrew = ({ route, navigation }) => {
                 </View>
                 <View style={styles.rating}>
                     {Array(brew.rating).fill().map((_, idx)=>idx).map((value) => (
-                        <FontAwesomeIcon key={value} icon={faStarSolid} size={30} color={'rgb(255,149,67)'}/>
+                        <FontAwesome key={value} name="star" size={30} color={'rgb(255,149,67)'}/>
                     ))}
                     {Array(5-brew.rating).fill().map((_, idx)=>idx).map((value) => (
-                        <FontAwesomeIcon key={value} icon={faStar} size={30} color={'rgb(255,149,67)'}/>
+                        <FontAwesome key={value} name="star-o" size={30} color={'rgb(255,149,67)'}/>
                     ))}
                 </View>
                 <TastingWheel style={styles.wheel} displayText={true} width={width} height={width} values={[brew.body, brew.aftertaste, brew.sweetness, brew.aroma, brew.flavor, brew.acidity]} />

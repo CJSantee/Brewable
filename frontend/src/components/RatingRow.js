@@ -4,15 +4,9 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
-    TouchableWithoutFeedback
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import {  } from '@fortawesome/free-solid-svg-icons';
-import { faChevronRight, faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
-import { faStar } from '@fortawesome/free-regular-svg-icons';
-
-
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { Feather, FontAwesome } from '@expo/vector-icons';
 
 const RatingRow = ({title, value, onValueChange, onPress}) => {
     const {colors} = useTheme();
@@ -30,19 +24,19 @@ const RatingRow = ({title, value, onValueChange, onPress}) => {
                 <View style={{flexDirection: 'column', width: '100%', alignItems: 'center'}}>
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <Text style={{color: colors.text}}>{title}</Text>
-                        <FontAwesomeIcon icon={faChevronRight} size={10} color={colors.interactive}/>
+                        <Feather name="chevron-right" size={10} color={colors.interactive}/>
                     </View>
                     <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-evenly'}}>
                         {Array(value).fill().map((_, idx)=>idx).map((mapVal) => (
                             <TouchableOpacity key={mapVal} onPress={() => onValueChange(mapVal+1)}
                                 style={{width: 45, height: 45, alignItems: 'center', justifyContent: 'center'}}>   
-                                <FontAwesomeIcon icon={faStarSolid} size={25} color={colors.interactive}/>
+                                <FontAwesome name="star" size={25} color={colors.interactive}/>
                             </TouchableOpacity>
                         ))}
                         {Array(5-value).fill().map((_, idx)=>idx).map((mapVal) => (
                             <TouchableOpacity key={mapVal} onPress={() => onValueChange(mapVal+value+1)}
                                 style={{width: 45, height: 45, alignItems: 'center', justifyContent: 'center'}}>
-                                <FontAwesomeIcon icon={faStar} size={25} color={colors.placeholder}/>
+                                <FontAwesome name="star-o" size={25} color={colors.placeholder}/>
                             </TouchableOpacity>
                         ))}
                     </View>

@@ -13,8 +13,8 @@ import {
     Alert
 } from 'react-native';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
-import { faHeart as faHeartSolid, faEdit, faShareSquare, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { faHeart, faCopy } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesome, Feather } from '@expo/vector-icons';
+
 import * as Device from 'expo-device';
 import { captureRef } from 'react-native-view-shot';
 
@@ -23,7 +23,6 @@ import * as Clipboard from 'expo-clipboard';
 let {height, width} = Dimensions.get('window');
 
 // Component Imports
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { SegmentedControl } from 'react-native-ios-kit';
 import Header from '../components/Header';
 import Brew from '../components/Brew';
@@ -313,7 +312,7 @@ const DisplayBeans = ({ route, navigation }) => {
                     <Text style={{...styles.subtitle, color: colors.text}}>{beans.region}</Text>
                 </View>
                 <View style={styles.favorite}>
-                    <FontAwesomeIcon icon={beans.favorite?faHeartSolid:faHeart} size={25} color={beans.favorite?"#a00": colors.placeholder}/>
+                    <FontAwesome name={beans.favorite?"heart":"heart-o"} size={25} color={beans.favorite?"#a00": colors.placeholder}/>
                 </View>
             </View>
             
@@ -378,31 +377,31 @@ const DisplayBeans = ({ route, navigation }) => {
             {showModal && <FullScreenModal colors={colors} close={() => setShowModal(false)}>
                 <TouchableOpacity onPress={() => navigation.navigate("EditBrew", { parent: "DisplayBeans", brew_id: selected.id })}>
                     <View style={styles.menuItem}>
-                        <FontAwesomeIcon icon={faEdit} size={22} color={colors.text}/>
+                        <Feather name="edit" size={22} color={colors.text}/>
                         <Text style={{...styles.menuText, color: colors.text}}>Edit</Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => captureBrew()}>
                     <View style={styles.menuItem}>
-                        <FontAwesomeIcon icon={faShareSquare} size={22} color={colors.text}/>
+                        <Feather name="share" size={22} color={colors.text}/>
                         <Text style={{...styles.menuText, color: colors.text}}>Share</Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => deleteConfirmation()}>
                     <View style={{...styles.menuItem, borderBottomWidth: 1.5, borderColor: colors.border}}>
-                        <FontAwesomeIcon icon={faTrashAlt} size={22} color={colors.destructive}/>
+                        <Feather name="trash-2" size={22} color={colors.destructive}/>
                         <Text style={{...styles.menuText, color: colors.destructive}}>Delete</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => {Clipboard.setString(toBrewString(selected)); Alert.alert("Copied", "Copied brew recipe to clipboard.", [{text: "OK", onPress: () =>  setBtmModal(false)}])}}>
+                <TouchableOpacity onPress={() => {Clipboard.setString(toBrewString(selected)); Alert.alert("Copied", "Copied brew recipe to clipboard.", [{text: "OK", onPress: () =>  setShowModal(false)}])}}>
                     <View style={styles.menuItem}>
-                        <FontAwesomeIcon icon={faCopy} size={22} color={colors.text}/>
+                        <Feather name="copy" size={22} color={colors.text}/>
                         <Text style={{...styles.menuText, color: colors.text}}>Copy Beans to Clipboard</Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => onFavorite(selected.id)}>
                     <View style={styles.menuItem}>
-                        <FontAwesomeIcon icon={selected.favorite === 0?faHeart:faHeartSolid} size={22} color={colors.text}/>
+                        <FontAwesome name={selected.favorite === 0?"heart-o":"heart"} size={22} color={colors.text}/>
                         <Text style={{...styles.menuText, color: colors.text}}>{selected.favorite===0?"Favorite":"Unfavorite"}</Text>
                     </View>
                 </TouchableOpacity>

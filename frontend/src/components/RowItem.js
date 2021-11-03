@@ -7,9 +7,7 @@ import {
     TouchableHighlight,
     TouchableOpacity
 } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCircle as solidCircle } from '@fortawesome/free-solid-svg-icons';
-import { faCircle as hollowCircle } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesome } from '@expo/vector-icons';
 
 // TODO: Add gesture controls to rows
 const Row = ({title, text, style, showSelect, selected, toggleSelect, children }) => {
@@ -28,7 +26,7 @@ const Row = ({title, text, style, showSelect, selected, toggleSelect, children }
     {showSelect
     ?<TouchableOpacity onPress={() => toggleSelect(title)}>  
       <View>
-        <FontAwesomeIcon icon={selected?solidCircle:hollowCircle} size={20} color={colors.placeholder} style={{marginRight: 5}}/>
+        <FontAwesome name={selected?"circle":"circle-o"} size={20} color={colors.placeholder} style={{marginRight: 5}}/>
       </View>
     </TouchableOpacity>
     :<View/>}

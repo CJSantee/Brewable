@@ -8,11 +8,9 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesome } from '@expo/vector-icons';
 
 const {width, height} = Dimensions.get('window');
-
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 function ProfileModal({showModal, setShowModal, title, text}) {
     const { colors } = useTheme(); // Color theme
@@ -28,7 +26,7 @@ function ProfileModal({showModal, setShowModal, title, text}) {
                     <View style={{...styles.modalHeader, borderColor: colors.border}}>
                         <Text style={{...styles.modalTitle, color: colors.text}}>{title}</Text>
                         <TouchableOpacity onPress={() => setShowModal(!showModal)} style={styles.closeModalIcon}>
-                            <FontAwesomeIcon icon={faTimesCircle} size={20} color={colors.placeholder}/>
+                            <FontAwesome name="times-circle" size={20} color={colors.placeholder}/>
                         </TouchableOpacity>
                     </View> 
                     <Text style={{...styles.modalText, color: colors.text}}>{text}</Text>

@@ -6,9 +6,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import { faSearch, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { Feather, FontAwesome } from '@expo/vector-icons';
 
 const SearchBar = ({ searchQuery, setSearchQuery }) => {
     const { colors } = useTheme();
@@ -16,7 +14,7 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
     return (
         <View style={{...styles.bar, backgroundColor: colors.card, borderColor: colors.border}}>
             <View style={{...styles.input, backgroundColor: colors.background, borderColor: colors.border}} >
-                <FontAwesomeIcon style={{marginHorizontal: 10}} icon={faSearch} color={colors.placeholder}/>
+                <Feather style={{marginHorizontal: 10}} name="search" size={18} color={colors.placeholder}/>
                 <TextInput   
                     style={{width: "85%", color: colors.text}}
                     value={searchQuery} 
@@ -24,7 +22,7 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
                 />
                 {searchQuery!==""
                     ?<TouchableOpacity style={styles.cancel} onPress={() => setSearchQuery("")}>
-                        <FontAwesomeIcon icon={faTimesCircle} size={18} color={colors.placeholder}/>
+                        <FontAwesome name="times-circle" size={18} color={colors.placeholder}/>
                     </TouchableOpacity>
                     :<View/>}
             </View>  

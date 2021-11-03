@@ -4,10 +4,9 @@ import {
     View,
     FlatList
 } from 'react-native';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { Feather } from '@expo/vector-icons';
 
 // Component Imports
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Header from '../components/Header';
 import RowItem from '../components/RowItem';
 
@@ -53,7 +52,7 @@ const SelectBeans = ({ navigation, route }) => {
                         title={item.roaster + " - " + item.region} 
                         text=""
                         onPress={parent==="EditBrew"?() => updateBrew(item.id):() => navigation.navigate(parent, { beans_id: item.id, roaster: item.roaster, region: item.region })}>
-                        {beans_id === item.id ? <FontAwesomeIcon icon={faCheck} size={20} color={colors.placeholder}/> : <View/>}
+                        {beans_id === item.id ? <Feather name="check" size={20} color={colors.placeholder}/> : <View/>}
                     </RowItem>}
                 keyExtractor={item => item.id.toString()}
             />

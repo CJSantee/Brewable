@@ -8,10 +8,6 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.36",
-    "@fortawesome/free-regular-svg-icons": "^5.15.4",
-    "@fortawesome/free-solid-svg-icons": "^5.15.4",
-    "@fortawesome/react-native-fontawesome": "^0.2.7",
     "@react-native-community/datetimepicker": "^3.5.2",
     "@react-navigation/bottom-tabs": "^6.0.5",
     "@react-navigation/native-stack": "^6.1.0",
@@ -19,6 +15,7 @@
     "expo-app-loading": "1.1.2",
     "expo-asset": "~8.3.3",
     "expo-camera": "~11.2.2",
+    "expo-clipboard": "~1.1.0",
     "expo-dev-client": "^0.5.1",
     "expo-device": "~3.3.0",
     "expo-media-library": "~12.1.2",
@@ -39,11 +36,10 @@
     "react-native-screens": "~3.4.0",
     "react-native-unimodules": "^0.14.8",
     "react-native-vector-icons": "^8.1.0",
+    "react-native-view-shot": "3.1.2",
     "react-native-web": "~0.13.12",
     "react-redux": "^7.2.5",
-    "redux": "^4.1.1",
-    "expo-clipboard": "~1.1.0",
-    "react-native-view-shot": "3.1.2"
+    "redux": "^4.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

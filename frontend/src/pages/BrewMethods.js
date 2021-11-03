@@ -6,10 +6,9 @@ import {
     Alert
 } from 'react-native';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { Feather } from '@expo/vector-icons';
 
 // Component Imports
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import RowItem from '../components/RowItem';
 import Header from '../components/Header';
 
@@ -151,7 +150,7 @@ const BrewMethods = ({ route, navigation }) => {
                         selected={selected.has(item.method)}
                         toggleSelect={(value) => toggleSelected(value)}
                     >
-                        {brew_method === item.method ? <FontAwesomeIcon icon={faCheck} size={20} color={colors.placeholder}/> : <View/>}
+                        {brew_method === item.method ? <Feather name="check" size={20} color={colors.placeholder}/> : <View/>}
                     </RowItem>  
                 }
                 keyExtractor={item => item.id.toString()}

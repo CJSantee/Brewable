@@ -7,14 +7,13 @@ import {
     TouchableOpacity,
     Alert
 } from 'react-native';
-import { faChevronRight, faStopwatch, faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import { Feather, Ionicons, FontAwesome } from '@expo/vector-icons';
+
 import { useFocusEffect, useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { acidity, aftertaste, aroma, body, flavor, overall, sweetness } from '../utils/Descriptions';
 
 // Component Imports
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { SegmentedControl } from 'react-native-ios-kit';
 import Header from '../components/Header';
 import TableView from '../components/TableView';
@@ -139,7 +138,7 @@ const EditBrew = ({ route, navigation }) => {
                         onPress={() => navigation.navigate("SelectBeans", {beans_id: brew.beans_id, brew_id: brew_id, parent: "EditBrew"})}
                     >   
                         <Text style={{...styles.text, color: colors.placeholder}}>{brew.roaster} - {brew.region}</Text>
-                        <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
+                        <Feather name="chevron-right" size={16} color={colors.placeholder}/>
                     </RowItem>
                     <RowItem
                         title="Brew Method"
@@ -147,7 +146,7 @@ const EditBrew = ({ route, navigation }) => {
                         onPress={() => navigation.navigate("BrewMethods", {brew_method: brew.brew_method, brew_id: brew_id, parent: "EditBrew"})}
                     >   
                         <Text style={{...styles.text, color: colors.placeholder}}>{brew.brew_method}</Text>
-                        <FontAwesomeIcon icon={faChevronRight} size={16} color={colors.placeholder}/>
+                        <Feather name="chevron-right" size={16} color={colors.placeholder}/>
                     </RowItem>
                 </TableView>
                     
@@ -204,7 +203,7 @@ const EditBrew = ({ route, navigation }) => {
                     <TextFieldRow
                         title="Brew Time" text={brew.time} onChange={(value) => setBrew({...brew, time: value})}
                     >
-                        <FontAwesomeIcon icon={faStopwatch} size={25} color={colors.interactive}/>
+                        <Ionicons name="ios-timer-sharp" size={25} color={colors.interactive}/>
                     </TextFieldRow>
                 </TableView>
                 <TableView header="Profile">
@@ -269,7 +268,7 @@ const EditBrew = ({ route, navigation }) => {
                     <TouchableOpacity onPress={() => setBrew({...brew, favorite: brew.favorite===0?1:0})} style={{flex: 1}}>
                         <View style={{...styles.bottomButton, backgroundColor: colors.card, borderColor: colors.border}}>
                             <Text style={{color: colors.interactive, fontSize: 16, marginRight: 5}}>Favorite Brew</Text>
-                            <FontAwesomeIcon icon={brew.favorite===1?faHeartSolid:faHeart} color={colors.interactive} style={{marginLeft: 5}}/>
+                            <FontAwesome icon={brew.favorite===1?"heart":"heart-o"} color={colors.interactive} style={{marginLeft: 5}}/>
                         </View>
                     </TouchableOpacity>
                     </View>
