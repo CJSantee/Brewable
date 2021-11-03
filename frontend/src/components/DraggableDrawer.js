@@ -59,7 +59,7 @@ class DraggableDrawer extends Component {
 
             let toValue = 0;
             if (endOffsetY < 0) {
-                toValue = -(height-tabHeight-topOffset);
+                toValue = -(height-topOffset);
             } else if (endOffsetY > 0) {
                 toValue = 0;
             } 

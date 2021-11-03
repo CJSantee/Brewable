@@ -116,7 +116,7 @@ const SettingsPage = ({ navigation }) => {
                     </RowItem>
                 </TableView>
                 <TableView header="info">
-                    <RowItem title="About Us" text="">
+                    <RowItem title="About" text="" onPress={() => navigation.navigate("AboutPage")}>
                         <Feather name="chevron-right" size={16} color={colors.placeholder}/>
                     </RowItem>
                     <RowItem title="For Partners" text="" onPress={() => loginPartners()}>

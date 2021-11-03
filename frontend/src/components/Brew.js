@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     brew: {
         flex: 1,
         flexDirection: 'column',
-        marginTop: 5,
+        marginTop: 10,
         marginHorizontal: 10,
         borderWidth: 0.8,
         height: 250,

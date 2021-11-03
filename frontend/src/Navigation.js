@@ -23,6 +23,7 @@ import EditBeans from './pages/EditBeans';
 import SelectFlavors from './pages/SelectFlavors';
 import DeveloperPage from './pages/DeveloperPage';
 import { ThemeProvider } from 'react-native-ios-kit';
+import AboutPage from './pages/AboutPage';
 
 const NavStack = createNativeStackNavigator();
 
@@ -37,6 +38,7 @@ const Navigation = () => {
                 <NavStack.Screen name="HomePage" component={HomePage} />
                 <NavStack.Screen name="SettingsPage" component={SettingsPage}/>
                 <NavStack.Screen name="DeveloperPage" component={DeveloperPage}/>
+                <NavStack.Screen name="AboutPage" component={AboutPage}/>
                 <NavStack.Screen name="BrewMethods" component={BrewMethods}/>
                 <NavStack.Screen name="NewBeans" component={NewBeans}/>
                 <NavStack.Screen name="SelectFlavors" component={SelectFlavors}/>
