@@ -32,6 +32,7 @@ const NewBrew = ({ route, navigation }) => {
             coffee: 0, coffee_unit: "g", 
             water: 0, water_unit: "g", 
             temperature: 0, temp_unit: "f", 
+            time: "",
             flavor: 0, acidity: 0, aroma: 0, body: 0, sweetness: 0, aftertaste: 0, 
             notes: "", 
             date: new Date(), 
@@ -42,6 +43,7 @@ const NewBrew = ({ route, navigation }) => {
     ); // Brew state
     const { colors } = useTheme(); // Color theme
     const [timer, setTimer] = useState(0); // Current timer value in seconds
+    const [usingTimer, setUsingTimer] = useState(false);
     const [isActive, setIsActive] = useState(false); // Timer isActive?
     const [showFlavorModal, setShowFlavorModal] = useState(false);
     const [modalValues, setModalValues] = useState({title: "", text: ""});
@@ -80,11 +82,12 @@ const NewBrew = ({ route, navigation }) => {
 
     // Start / Stop Timer
     const toggleTimer = () => {
+        setUsingTimer(true);
         if (!isActive) {
             setIsActive(true);
             countRef.current = setInterval(() => {
                 setTimer((timer) => timer + 1);
-            }, 1000);        
+            }, 1000);
         } else {
             clearInterval(countRef.current);
             setIsActive(false);
@@ -112,7 +115,8 @@ const NewBrew = ({ route, navigation }) => {
     return (
         <View style={{width: "100%", height: "100%"}}>
             <Header title="New Brew" leftText="Cancel" rightText="Done" leftOnPress={() => navigation.goBack()} rightOnPress={() => addBrew()}/>
-            <ScrollView style={{...styles.container, backgroundColor: colors.background}}>
+
+            <ScrollView style={{...styles.container, backgroundColor: colors.background}} keyboardDismissMode="on-drag">
                 <TableView header="Info">
                     <RowItem
                         title="Beans"
@@ -182,9 +186,9 @@ const NewBrew = ({ route, navigation }) => {
                     </TextFieldRow>
                 </TableView>
                 <TableView header="Time">
-                    <RowItem title="Brew Timer" text={formatTime()}>
+                    <TextFieldRow title="Brew Time" text={usingTimer?formatTime():brew.time} onChange={(value) => {setUsingTimer(false); setBrew({...brew, time: value})}}>
                         <Ionicons name="ios-timer-sharp" size={25} color={isActive ? "#a00" : colors.interactive} onPress={toggleTimer}/>
-                    </RowItem>
+                    </TextFieldRow>
                 </TableView>
                 <TableView header="Profile">
                     <SliderRow 
@@ -224,6 +228,9 @@ const NewBrew = ({ route, navigation }) => {
                         onPress={() => {setModalValues({title: "Aftertaste", text: aftertaste}); setShowFlavorModal(true);}}
                     />
                 </TableView>
+                <TableView header="More Info">
+                    <TextFieldRow title="Notes" text={brew.notes} onChange={(value) => setBrew({...brew, notes: value})} style={{minHeight: 129, alignItems: 'baseline', flexWrap: 'wrap'}}/>
+                </TableView>
                 <TableView header="Review">
                     <RatingRow 
                         title="Rating"
@@ -231,9 +238,6 @@ const NewBrew = ({ route, navigation }) => {
                         onValueChange={(value) => setBrew({...brew, rating: value})}
                         onPress={() => {setModalValues({title: "Rating", text: overall}); setShowFlavorModal(true);}}
                     />
-                </TableView>
-                <TableView header="More Info">
-                    <TextFieldRow title="Notes" text={brew.notes} onChange={(value) => setBrew({...brew, notes: value})} style={{minHeight: 129, alignItems: 'baseline', flexWrap: 'wrap'}}/>
                 </TableView>
                 <TableView header="Date">  
                     <DatePickerRow value={brew.date} onChange={(value) => setBrew({...brew, date: value})}/>
@@ -247,6 +251,7 @@ const NewBrew = ({ route, navigation }) => {
                     </TouchableOpacity>
                 </TableView>
             </ScrollView>
+
             <ProfileModal showModal={showFlavorModal} setShowModal={setShowFlavorModal} title={modalValues.title} text={modalValues.text}/>
         </View>
     );

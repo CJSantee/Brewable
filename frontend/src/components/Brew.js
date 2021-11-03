@@ -34,7 +34,7 @@ const Brew = ({ brew, onFavorite, navigation, onLongPress, share }) => {
         <TouchableOpacity onPress={() => navigation.navigate("DisplayBrew", { brew_id: brew.id })} onLongPress={onLongPress}>
             <View style={{...styles.brew, backgroundColor: colors.card, borderColor: colors.border}}>
                 <View style={styles.wheel}>
-                    <TastingWheel displayText={false} width="150" height="150" values={[brew.body, brew.aftertaste, brew.sweetness, brew.aroma, brew.flavor, brew.acidity]}/>
+                    <TastingWheel displayText={true} abbreviated={true} width="150" height="150" values={[brew.body, brew.aftertaste, brew.sweetness, brew.aroma, brew.flavor, brew.acidity]}/>
                     {share&&<Text style={{top: -10, fontWeight: 'bold', color: colors.text}}>{brew.roaster}</Text>}
                     {share&&<Text style={{top: -5, color: colors.text}}>{brew.region}</Text>}
                 </View>

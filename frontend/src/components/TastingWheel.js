@@ -56,8 +56,9 @@ export function shape(points) {
     return ret;
 }
 
-const TastingWheel = ({values, style, displayText, width, height}) => {
+const TastingWheel = ({values, style, displayText, abbreviated, width, height}) => {
     const descriptors = ["Body", "Aftertaste", "Sweetness", "Aroma", "Flavor", "Acidity"];
+    const abbreviations = ["By.", "At.", "Sn.", "Arm.", "Fv.", "Act."];
     const {colors} = useTheme();
 
     return (
@@ -90,15 +91,17 @@ const TastingWheel = ({values, style, displayText, width, height}) => {
                     x={circleX(0, 350, 95)}
                     y={circleY(0, 350, 95)}
                     textAnchor="start"
-                >{descriptors[0]}</Text> : <View/> }
+                    fontSize={abbreviated?22:12}
+                >{abbreviated?abbreviations[0]:descriptors[0]}</Text> : <View/> }
 
                 {displayText ? // Aftertaste
                 <Text
                     fill={colors.text}
-                    x={circleX(0, 55, 100)}
+                    x={circleX(3, 55, 100)}
                     y={circleY(0, 55, 105)}
                     textAnchor="start"
-                >{descriptors[1]}</Text> : <View/> }
+                    fontSize={abbreviated?22:12}
+                >{abbreviated?abbreviations[1]:descriptors[1]}</Text> : <View/> }
 
                 {displayText ? // Sweetness
                 <Text
@@ -106,7 +109,8 @@ const TastingWheel = ({values, style, displayText, width, height}) => {
                     x={circleX(0, 120, 115)}
                     y={circleY(0, 120, 100)}
                     textAnchor="end"
-                >{descriptors[2]}</Text> : <View/> }
+                    fontSize={abbreviated?22:12}
+                >{abbreviated?abbreviations[2]:descriptors[2]}</Text> : <View/> }
 
                 {displayText ? // Aroma
                 <Text
@@ -114,7 +118,8 @@ const TastingWheel = ({values, style, displayText, width, height}) => {
                     x={circleX(0, 190, 95)}
                     y={circleY(0, 190, 105)}
                     textAnchor="end"
-                >{descriptors[3]}</Text> : <View/> }
+                    fontSize={abbreviated?22:12}
+                >{abbreviated?abbreviations[3]:descriptors[3]}</Text> : <View/> }
 
                 {displayText ? // Flavor
                 <Text
@@ -122,15 +127,17 @@ const TastingWheel = ({values, style, displayText, width, height}) => {
                     x={circleX(0, 240, 95)}
                     y={circleY(0, 240, 105)}
                     textAnchor="end"
-                >{descriptors[4]}</Text> : <View/> }
+                    fontSize={abbreviated?22:12}
+                >{abbreviated?abbreviations[4]:descriptors[4]}</Text> : <View/> }
 
                 {displayText ? // Acidity
                 <Text
                     fill={colors.text}
-                    x={circleX(0, 300, 95)}
+                    x={circleX(3, 300, 95)}
                     y={circleY(0, 300, 105)}
                     textAnchor="start" 
-                >{descriptors[5]}</Text> : <View/> }
+                    fontSize={abbreviated?22:12}
+                >{abbreviated?abbreviations[5]:descriptors[5]}</Text> : <View/> }
                 
                 <Polygon 
                     points={shape(values)}

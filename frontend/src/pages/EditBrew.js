@@ -130,7 +130,7 @@ const EditBrew = ({ route, navigation }) => {
     return (
         <View style={{width: "100%", height: "100%"}}>
             <Header title="Edit Brew" leftText="Cancel" rightText="Done" leftOnPress={() => navigation.navigate(parent, { brew_id: brew_id })} rightOnPress={() => updateBrew()}/>
-            <ScrollView style={{...styles.container, backgroundColor: colors.background}}>
+            <ScrollView style={{...styles.container, backgroundColor: colors.background}} keyboardDismissMode="on-drag">
                 <TableView header="Info">
                     <RowItem
                         title="Beans"

@@ -11,7 +11,7 @@ import { USE_NATIVE_DRIVER } from '../../config';
 let {height, width} = Dimensions.get('window');
 
 const RATIO = 1;
-const tabHeight = 50;
+const tabHeight = 75;
 const topOffset = 150;
 
 class DraggableDrawer extends Component {
