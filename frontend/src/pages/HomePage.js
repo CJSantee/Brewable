@@ -200,7 +200,7 @@ const HomePage = ({ navigation }) => {
     );
 
     const renderItem = useCallback(
-        ({item, index}) => <Beans beans={item} onDelete={onDelete} onLongPress={() => {setSelected(item); setBtmModal(!btmModal);}} navigation={navigation}/>,
+        ({item, index}) => <Beans beans={item} onDelete={onDelete} onLongPress={() => {setSelected(item); setBtmModal(true);}} navigation={navigation}/>,
         []
     );
 
@@ -248,10 +248,12 @@ const HomePage = ({ navigation }) => {
                         <Text style={{...styles.menuText, color: colors.text}}>Edit</Text>
                     </View>
                 </TouchableOpacity>
-                <View style={styles.menuItem}>
-                    <FontAwesomeIcon icon={faShareSquare} size={22} color={colors.text}/>
-                    <Text style={{...styles.menuText, color: colors.text}}>Share</Text>
-                </View>
+                <TouchableOpacity onPress={() => navigation.navigate("DisplayBeans", {beans_id: selected.id, parent: "HomePage", share: true})}>
+                    <View style={styles.menuItem}>
+                        <FontAwesomeIcon icon={faShareSquare} size={22} color={colors.text}/>
+                        <Text style={{...styles.menuText, color: colors.text}}>Share</Text>
+                    </View>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={() => deleteConfirmation()}>
                     <View style={{...styles.menuItem, borderBottomWidth: 1.5, borderColor: colors.border}}>
                         <FontAwesomeIcon icon={faTrashAlt} size={22} color={colors.destructive}/>

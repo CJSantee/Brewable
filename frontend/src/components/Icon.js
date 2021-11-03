@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import { Asset } from 'expo-asset';
 
-function Icon({uri, size}) {
+function Icon({uri, size, onRender}) {
 
     const getUri = (uri) => {
         switch (uri) {
@@ -24,7 +24,7 @@ function Icon({uri, size}) {
     }
 
     return (
-        <Image source={{uri: getUri(uri)}} style={{width: size, height: size, resizeMode: 'contain'}}/>
+        <Image source={{uri: getUri(uri)}} style={{width: size, height: size, resizeMode: 'contain'}} onLoad={onRender?onRender:null}/>
     );
 }
 
