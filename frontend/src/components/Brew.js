@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import * as Device from 'expo-device';
-import { Ionicons, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
+import { Entypo, MaterialCommunityIcons, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 
 // Assets
 import CoffeeBean from '../../assets/icons/coffeeBean.svg';
@@ -43,22 +43,30 @@ const Brew = ({ brew, onFavorite, navigation, onLongPress, share }) => {
                         <Text style={{...styles.title, color: colors.text}}>{brew.brew_method}</Text>
                     </View>
                     <View style={styles.cardItem}>
-                        <Ionicons name="ios-water" size={22} color="#0069A7" style={{width: 22}}/>
+                        <View style={styles.iconContainer}>
+                            <Entypo name="water" size={22} color="#0069A7"/>
+                        </View>
                         <Text style={{...styles.value, color: colors.text}}>{brew.water}</Text>
                         <Text style={{color: colors.text}}>{brew.water_unit}</Text>
                     </View>
                     <View style={styles.cardItem}>
-                        <CoffeeBean width={22} height={22} style={{color: "#714B33"}}/>
+                        <View style={styles.iconContainer}>
+                            <CoffeeBean width={22} height={22} style={{color: "#714B33"}}/>
+                        </View>
                         <Text style={{...styles.value, color: colors.text}}>{brew.coffee}</Text>
                         <Text style={{color: colors.text}}>{brew.coffee_unit}</Text>
                     </View>
                     <View style={styles.cardItem}>
-                        <FontAwesome5 name="fire" size={23} color="#EB811E" style={{width: 22}}/>
+                        <View style={styles.iconContainer}>
+                            <FontAwesome5 name="fire" size={22} color="#EB811E"/>
+                        </View>
                         <Text style={{...styles.value, color: colors.text}}>{brew.temperature}</Text>
                         <Text style={{color: colors.text}}>°{brew.temp_unit}</Text>
                     </View>
                     <View style={styles.cardItem}>
-                        <Ionicons name="ios-timer-sharp" size={23} color="#4D814B" style={{width: 22}}/>
+                        <View style={styles.iconContainer}>
+                            <MaterialCommunityIcons name="timer" size={22} color="#4D814B"/>
+                        </View>
                         <Text style={{...styles.value, color: colors.text}}>{brew.time}</Text>
                     </View>
                     <View style={styles.rating}>
@@ -93,6 +101,12 @@ const styles = StyleSheet.create({
     },
     subtitle: {
         fontSize: 18,
+    },
+    iconContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 24
     },
     brew: {
         flex: 1,

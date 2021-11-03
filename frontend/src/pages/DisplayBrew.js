@@ -7,7 +7,7 @@ import {
     Dimensions
 } from 'react-native';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
-import { FontAwesome, Ionicons, FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome, Entypo, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import CoffeeBean from '../../assets/icons/coffeeBean.svg';
 
 // Component Imports
@@ -77,7 +77,7 @@ const DisplayBrew = ({ route, navigation }) => {
                 </View>
                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: 10}}>
                     <View style={styles.item}>
-                        <Ionicons name="ios-water" size={25} color="#0069A7"/>
+                        <Entypo name="water" size={25} color="#0069A7"/>
                         <Text style={{...styles.value, color: colors.text}}>{brew.water}</Text>
                         <Text style={{color: colors.text}}>{brew.water_unit}</Text>
                     </View>
@@ -92,7 +92,7 @@ const DisplayBrew = ({ route, navigation }) => {
                         <Text style={{color: colors.text}}>{brew.temp_unit}</Text>
                     </View>
                     <View style={styles.item}>
-                        <Ionicons name="ios-timer-sharp" size={25} color="#4D814B"/>
+                        <MaterialCommunityIcons name="timer" size={25} color="#4D814B"/>
                         <Text style={{...styles.value, color: colors.text}}>{brew.time}</Text>
                     </View>
                 </View>
@@ -144,7 +144,8 @@ const styles = StyleSheet.create({
         fontSize: 22,
     },
     value: {
-        fontSize: 18
+        fontSize: 18,
+        marginLeft: 5
     },
     notes: {
         marginHorizontal: 10
