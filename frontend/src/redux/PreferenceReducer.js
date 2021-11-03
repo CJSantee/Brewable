@@ -51,12 +51,12 @@ const preferenceReducer = (state = initialState, action) => {
                 },
                 sample_data: state.sample_data
             }
-        case 'toggle/sample_data':
+        case 'update/sample_data':
             return {
                 user_preferences: {
                     ...state.user_preferences
                 },
-                sample_data: !state.sample_data
+                sample_data: action.payload
             }
         default:
             return state;

@@ -3,8 +3,8 @@ import {
     View,
     StyleSheet,
     ScrollView,
-    ActivityIndicator,
-    Alert
+    Alert,
+    Text
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
@@ -16,67 +16,33 @@ import { SegmentedControl, Stepper } from 'react-native-ios-kit';
 import Header from '../components/Header';
 import TableView from '../components/TableView';
 import RowItem from '../components/RowItem';
-import { populateBeans, populateRandomBrews } from '../../ DatabaseUtils';
 
 const SettingsPage = ({ navigation }) => {
-    const [loading, setLoading] = useState(false);
     const { colors } = useTheme(); // Color theme
     const dispatch = useDispatch(); // Redux dispatch
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
-    const sample_data = useSelector(state => state.sample_data);
 
-    const _downloadData = () => {
-        if (sample_data) return;
-        Alert.alert(
-            "Confirm Download",
-            "Are you sure you want to download sample data? This will populate your collection with new beans and random brews.",
-            [
-                {
-                    text: "Cancel",
-                    onPress: () => {setLoading(false)}
-                },
-                {
-                    text: "Yes",
-                    onPress: () => {
-                        setLoading(true);
-                        populateBeans(db);
-                        populateRandomBrews(db, (value) => {setLoading(value); dispatch(toggleSampleData())});
-                    }
-                }
-            ]
-        );
-    }
-
-    const deleteAll = () => {
-        // Delete from database
-        db.transaction(
-            (tx) => {
-                tx.executeSql(
-                `DELETE
-                FROM beans;`);
-            },
-            (e) => console.log(e),
-            null
-        );
-    }
-
-    const _confirmDelete = () => {
-        Alert.alert(
-            "Confirm Delete",
-            "Are you sure you want to delete all beans? This will permanently delete all beans and brews in your collection.",
+    const loginPartners = () => {
+        Alert.prompt(
+            "Enter Password",
+            "",
             [
                 {
                     text: "Cancel",
                     onPress: () => {}
                 },
                 {
-                    text: "Yes",
-                    onPress: () => {
-                        deleteAll();
+                    text: "Confirm",
+                    onPress: (value) => {
+                        if (value === "iLoveCoffee") {
+                            navigation.navigate("DeveloperPage");
+                        } else {
+                            Alert.alert("Incorrect Password");
+                        }
                     }
                 }
             ]
-        );
+        )
     }
 
     return (
@@ -148,15 +114,16 @@ const SettingsPage = ({ navigation }) => {
                             style={{width: 150}}
                         />
                     </RowItem>
-                    <RowItem title="Download Sample Data" text="" onPress={_downloadData}>
-                        {loading?
-                        <ActivityIndicator size="small"/> 
-                        :sample_data?
-                            <Feather name="check" size={20} color={colors.placeholder}/>
-                            :<Feather name="download" size={20} color={colors.placeholder}/>}
+                </TableView>
+                <TableView header="info">
+                    <RowItem title="About Us" text="">
+                        <Feather name="chevron-right" size={16} color={colors.placeholder}/>
                     </RowItem>
-                    <RowItem title="Delete All Beans" text="" onPress={_confirmDelete}>
-                        
+                    <RowItem title="For Partners" text="" onPress={() => loginPartners()}>
+                        <Feather name="chevron-right" size={16} color={colors.placeholder}/>
+                    </RowItem>
+                    <RowItem title="Version" text="">
+                        <Text style={{color: colors.text}}>1.1.0</Text>
                     </RowItem>
                 </TableView>
             </ScrollView>
@@ -167,6 +134,7 @@ const SettingsPage = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1, 
+        marginBottom: 25
     }
 });
 

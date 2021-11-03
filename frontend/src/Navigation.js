@@ -21,6 +21,7 @@ import DisplayBrew from './pages/DisplayBrew';
 import EditBrew from './pages/EditBrew';
 import EditBeans from './pages/EditBeans';
 import SelectFlavors from './pages/SelectFlavors';
+import DeveloperPage from './pages/DeveloperPage';
 import { ThemeProvider } from 'react-native-ios-kit';
 
 const NavStack = createNativeStackNavigator();
@@ -35,6 +36,7 @@ const Navigation = () => {
             <NavStack.Navigator screenOptions={{headerShown: false}}>
                 <NavStack.Screen name="HomePage" component={HomePage} />
                 <NavStack.Screen name="SettingsPage" component={SettingsPage}/>
+                <NavStack.Screen name="DeveloperPage" component={DeveloperPage}/>
                 <NavStack.Screen name="BrewMethods" component={BrewMethods}/>
                 <NavStack.Screen name="NewBeans" component={NewBeans}/>
                 <NavStack.Screen name="SelectFlavors" component={SelectFlavors}/>
