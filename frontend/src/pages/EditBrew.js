@@ -44,7 +44,7 @@ const EditBrew = ({ route, navigation }) => {
     ); // Brew state
     const [showFlavorModal, setShowFlavorModal] = useState(false);
     const [modalValues, setModalValues] = useState({title: "", text: ""});
-    const { brew_id } = route.params;
+    const { parent, brew_id } = route.params;
     const {colors} = useTheme(); // Color theme
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
 
@@ -130,7 +130,7 @@ const EditBrew = ({ route, navigation }) => {
 
     return (
         <View style={{width: "100%", height: "100%"}}>
-            <Header title="Edit Brew" leftText="Cancel" rightText="Done" leftOnPress={() => navigation.navigate("DisplayBrew", { brew_id: brew_id })} rightOnPress={() => updateBrew()}/>
+            <Header title="Edit Brew" leftText="Cancel" rightText="Done" leftOnPress={() => navigation.navigate(parent, { brew_id: brew_id })} rightOnPress={() => updateBrew()}/>
             <ScrollView style={{...styles.container, backgroundColor: colors.background}}>
                 <TableView header="Info">
                     <RowItem

@@ -61,7 +61,7 @@ const DisplayBrew = ({ route, navigation }) => {
                 leftText="Back" rightText="Edit" 
                 leftOnPress={() => navigation.goBack()} 
                 rightOnPress={
-                    () => navigation.navigate("EditBrew", { brew_id: brew.id })
+                    () => navigation.navigate("EditBrew", { parent: "DisplayBrew", brew_id: brew.id })
                 }
             />
             <ScrollView>

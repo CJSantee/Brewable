@@ -16,8 +16,9 @@ import CoffeeBean from '../../assets/icons/coffeeBean.svg';
 // Component Imports
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import TastingWheel from './TastingWheel';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const Brew = ({ brew, onFavorite, navigation }) => {
+const Brew = ({ brew, onFavorite, navigation, onLongPress, share }) => {
     const {colors} = useTheme(); // Color theme
 
     // Generate date format: 'Month D, YYYY'
@@ -32,12 +33,12 @@ const Brew = ({ brew, onFavorite, navigation }) => {
     }
 
     return (
-        <TouchableWithoutFeedback onPress={() => navigation.navigate("DisplayBrew", { brew_id: brew.id })}>
+        <TouchableOpacity onPress={() => navigation.navigate("DisplayBrew", { brew_id: brew.id })} onLongPress={onLongPress}>
             <View style={{...styles.brew, backgroundColor: colors.card, borderColor: colors.border}}>
                 <View style={styles.wheel}>
                     <TastingWheel displayText={false} width="150" height="150" values={[brew.body, brew.aftertaste, brew.sweetness, brew.aroma, brew.flavor, brew.acidity]}/>
-                    {false&&<Text style={{top: -10, fontWeight: 'bold', color: colors.text}}>{brew.roaster}</Text>}
-                    {false&&<Text style={{top: -5, color: colors.text}}>{brew.region}</Text>}
+                    {share&&<Text style={{top: -10, fontWeight: 'bold', color: colors.text}}>{brew.roaster}</Text>}
+                    {share&&<Text style={{top: -5, color: colors.text}}>{brew.region}</Text>}
                 </View>
                 <View style={styles.leftItems}>
                     <View style={styles.cardItem}>
@@ -78,7 +79,7 @@ const Brew = ({ brew, onFavorite, navigation }) => {
                 </TouchableWithoutFeedback>
                 {Device.osVersion >= 13 && <Text style={{...styles.date, color: colors.text}}>{date_string}</Text>}
             </View>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
     );
 }
 

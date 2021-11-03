@@ -9,13 +9,16 @@ import {
     Dimensions,
     TouchableOpacity,
     Share,
-    PixelRatio
+    PixelRatio,
+    Alert
 } from 'react-native';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
-import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import { faHeart as faHeartSolid, faEdit, faShareSquare, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faCopy } from '@fortawesome/free-regular-svg-icons';
 import * as Device from 'expo-device';
 import { captureRef } from 'react-native-view-shot';
+
+import * as Clipboard from 'expo-clipboard';
 
 let {height, width} = Dimensions.get('window');
 
@@ -26,6 +29,8 @@ import Header from '../components/Header';
 import Brew from '../components/Brew';
 import DraggableDrawer from '../components/DraggableDrawer';
 import Icon from '../components/Icon';
+import FullScreenModal from '../components/FullScreenModal';
+import { toBrewString } from '../utils/Converter';
 
 const DisplayBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState({
@@ -43,8 +48,11 @@ const DisplayBeans = ({ route, navigation }) => {
     const [loadingBeans, setLoadingBeans] = useState(true); // Page initially loading state
     const [loadingBrews, setLoadingBrews] = useState(true);
     const [refreshing, setRefreshing] = useState(false); // List refreshing state
-
+    const [showModal, setShowModal] = useState(false);
     const [iconRendered, setIconRendered] = useState(false); // Icon rendered state to waiting to share the screen
+    const [selected, setSelected] = useState({});
+
+    const brewRef = useRef();
 
     // Search State Variables
     const [searchQuery, setSearchQuery] = useState(""); // UNUSED
@@ -96,6 +104,7 @@ const DisplayBeans = ({ route, navigation }) => {
         );
         // Update brew state within component
         setBrews(brews.map(brew => (brew.id === id ? {...brew, favorite: brew.favorite===0?1:0}:brew)));
+        setSelected({...selected, favorite: val===0?1:0})
     }
 
     // Delete brew
@@ -104,21 +113,38 @@ const DisplayBeans = ({ route, navigation }) => {
         db.transaction(
             (tx) => {
                 tx.executeSql(
-                `SELECT brew_method
+                `DELETE
                 FROM brews
                 WHERE id = ?;`,
-                [id],
-                (_, { rows: { _array } }) => {
-                    console.log(_array[0]);
-                });
+                [id])
             },
             (e) => console.log(e),
-            onRefresh
+            () => {
+                onRefresh();
+                setShowModal(false);
+                setSelected({});
+            }
         );
-        // setBrews(brews.filter(brew => brew.id !== id));// Delete from state
     }
 
-    // Refresh the list of beans
+    const deleteConfirmation = () => {
+        Alert.alert(
+            "Confirm Delete",
+            "Are you sure you want to permanently delete this brew? You can’t undo this action.",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => {}
+                },
+                {
+                    text: "Yes",
+                    onPress: () => onDelete(selected.id)
+                }
+            ]
+        );
+    }
+
+    // Refresh the list of brews
     const onRefresh = () => {
         setRefreshing(true);
         db.transaction(
@@ -160,7 +186,7 @@ const DisplayBeans = ({ route, navigation }) => {
     };
 
     // Capture Image of Beans
-    async function captureImage() {
+    async function captureBeans() {
         const targetPixelCount = 1080;
         const pixelRatio = PixelRatio.get();
         const pixels = targetPixelCount / pixelRatio;
@@ -173,13 +199,29 @@ const DisplayBeans = ({ route, navigation }) => {
             format: 'png',
         });
         onShare(image);
-    }  
+    } 
+    
+    // Capture Image of Brew
+    async function captureBrew() {
+        const targetPixelCount = 1080;
+        const pixelRatio = PixelRatio.get();
+        const pixels = targetPixelCount / pixelRatio;
+
+        const image = await captureRef(brewRef, {
+            result: 'tmpfile',
+            width: width,
+            height: 250,
+            quality: 1,
+            format: 'png',
+        });
+        onShare(image);
+    }
 
     // If share option in route, capture scroll view
     useFocusEffect(
         useCallback(() => {
             if (route.params?.share && !loadingBeans && iconRendered) {
-                captureImage();
+                captureBeans();
             }
         }, [route.params?.share, loadingBeans, iconRendered])
     )
@@ -229,16 +271,9 @@ const DisplayBeans = ({ route, navigation }) => {
         <Brew 
             brew={item} 
             colors={colors} 
-            menuItems={[
-                { 
-                    text: item.brew_method, 
-                    icon: 'edit',
-                    onPress:  () => {}
-                },
-            ]}
-            onFavorite={onFavorite} 
             favorite={item.favorite}
             navigation={navigation}
+            onLongPress={() => {setSelected(item); setShowModal(true);}}
         />
     );
 
@@ -330,7 +365,48 @@ const DisplayBeans = ({ route, navigation }) => {
             :loadingBrews ?
                 <ActivityIndicator size="large"/>
                 :<AddBrewButton/>}
-           </>}
+            </>}
+            <View ref={brewRef} style={{position: 'absolute', width: width, left: width}}>
+                {selected.id&&<Brew
+                    brew={selected} 
+                    colors={colors}
+                    favorite={selected.favorite}
+                    navigation={navigation}
+                    share={true}
+                />}
+            </View>
+            {showModal && <FullScreenModal colors={colors} close={() => setShowModal(false)}>
+                <TouchableOpacity onPress={() => navigation.navigate("EditBrew", { parent: "DisplayBeans", brew_id: selected.id })}>
+                    <View style={styles.menuItem}>
+                        <FontAwesomeIcon icon={faEdit} size={22} color={colors.text}/>
+                        <Text style={{...styles.menuText, color: colors.text}}>Edit</Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => captureBrew()}>
+                    <View style={styles.menuItem}>
+                        <FontAwesomeIcon icon={faShareSquare} size={22} color={colors.text}/>
+                        <Text style={{...styles.menuText, color: colors.text}}>Share</Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => deleteConfirmation()}>
+                    <View style={{...styles.menuItem, borderBottomWidth: 1.5, borderColor: colors.border}}>
+                        <FontAwesomeIcon icon={faTrashAlt} size={22} color={colors.destructive}/>
+                        <Text style={{...styles.menuText, color: colors.destructive}}>Delete</Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {Clipboard.setString(toBrewString(selected)); Alert.alert("Copied", "Copied brew recipe to clipboard.", [{text: "OK", onPress: () =>  setBtmModal(false)}])}}>
+                    <View style={styles.menuItem}>
+                        <FontAwesomeIcon icon={faCopy} size={22} color={colors.text}/>
+                        <Text style={{...styles.menuText, color: colors.text}}>Copy Beans to Clipboard</Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => onFavorite(selected.id)}>
+                    <View style={styles.menuItem}>
+                        <FontAwesomeIcon icon={selected.favorite === 0?faHeart:faHeartSolid} size={22} color={colors.text}/>
+                        <Text style={{...styles.menuText, color: colors.text}}>{selected.favorite===0?"Favorite":"Unfavorite"}</Text>
+                    </View>
+                </TouchableOpacity>
+            </FullScreenModal>}
         </View>
     );
 }
@@ -392,5 +468,15 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    menuItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        paddingVertical: 15
+    },
+    menuText: {
+        fontSize: 18,
+        marginLeft: 10,
     }
 });
