@@ -17,6 +17,10 @@ import Header from '../components/Header';
 import TableView from '../components/TableView';
 import RowItem from '../components/RowItem';
 
+/*
+    TODO: Add Name of Grinder to Settings Page, then use that in the recipe copy to clipboard.
+*/
+
 const SettingsPage = ({ navigation }) => {
     const { colors } = useTheme(); // Color theme
     const dispatch = useDispatch(); // Redux dispatch
@@ -90,7 +94,7 @@ const SettingsPage = ({ navigation }) => {
                     >   
                         <Feather name="chevron-right" size={16} color={colors.placeholder}/>
                     </RowItem>
-                </TableView>
+                </TableView>      
                 <TableView header="Ratio">
                     <RowItem 
                         title={"1 : "+user_preferences.ratio} text=""

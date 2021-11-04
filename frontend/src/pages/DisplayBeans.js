@@ -31,6 +31,10 @@ import Icon from '../components/Icon';
 import FullScreenModal from '../components/FullScreenModal';
 import { toBrewString } from '../utils/Converter';
 
+/*
+    TODO: Add "Roasted On:" and "Origin:"
+*/
+
 const DisplayBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState({
         region: "", 
@@ -223,7 +227,7 @@ const DisplayBeans = ({ route, navigation }) => {
                 captureBeans();
             }
         }, [route.params?.share, loadingBeans, iconRendered])
-    )
+    );
 
     // Retrieve beans and associated brews from database on mounted
     useFocusEffect(
@@ -389,7 +393,7 @@ const DisplayBeans = ({ route, navigation }) => {
                         <Text style={{...styles.menuText, color: colors.text}}>Share</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate("ReviewRecipe", { brew: selected })}>
                     <View style={{...styles.menuItem, borderBottomWidth: 1.5, borderColor: colors.border}}>
                         <Feather name="file-text" size={22} color={colors.text}/>
                         <Text style={{...styles.menuText, color: colors.text}}>Suggest New Recipe</Text>

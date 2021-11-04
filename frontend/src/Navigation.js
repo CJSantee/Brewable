@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { LightTheme, DarkTheme } from '../Themes';
-
+import { ThemeProvider } from 'react-native-ios-kit';
 import { useSelector } from 'react-redux';
 
 // Import Pages
@@ -22,8 +22,9 @@ import EditBrew from './pages/EditBrew';
 import EditBeans from './pages/EditBeans';
 import SelectFlavors from './pages/SelectFlavors';
 import DeveloperPage from './pages/DeveloperPage';
-import { ThemeProvider } from 'react-native-ios-kit';
 import AboutPage from './pages/AboutPage';
+import SuggestRecipe from './pages/SuggestRecipe';
+import ReviewRecipe from './pages/ReviewRecipe';
 
 const NavStack = createNativeStackNavigator();
 
@@ -48,6 +49,8 @@ const Navigation = () => {
                 <NavStack.Screen name="NewBrew" component={NewBrew}/>
                 <NavStack.Screen name="SelectBeans" component={SelectBeans}/>
                 <NavStack.Screen name="DisplayBrew" component={DisplayBrew}/>
+                <NavStack.Screen name="ReviewRecipe" component={ReviewRecipe}/>
+                <NavStack.Screen name="SuggestRecipe" component={SuggestRecipe}/>
                 <NavStack.Screen name="EditBrew" component={EditBrew}/>
             </NavStack.Navigator>
         </NavigationContainer>

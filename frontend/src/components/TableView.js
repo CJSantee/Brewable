@@ -21,9 +21,9 @@ const TableViewHeader = ({header, style}) => {
     );
 };
 
-const TableView = ({ header, headerStyle, children }) => {
+const TableView = ({ header, headerStyle, style, children }) => {
     return (
-        <View>
+        <View style={style}>
             {header ? <TableViewHeader header={header} style={headerStyle}/> : <View/>}
             {children}
         </View>

@@ -16,6 +16,10 @@ import * as Clipboard from 'expo-clipboard';
 
 import { toBeansString } from '../utils/Converter';
 
+/*
+    TODO: Add Confirmation for Copy to Clipboard
+*/
+
 // Component Imports
 import { SegmentedControl } from 'react-native-ios-kit';
 import Header from '../components/Header';
