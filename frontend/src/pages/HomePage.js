@@ -8,7 +8,7 @@ import {
     Alert
 } from 'react-native';
 
-import { Feather, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
+import { Feather, FontAwesome } from '@expo/vector-icons';
 
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 
@@ -253,15 +253,9 @@ const HomePage = ({ navigation }) => {
                         <Text style={{...styles.menuText, color: colors.text}}>Share</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => deleteConfirmation()}>
-                    <View style={{...styles.menuItem, borderBottomWidth: 1.5, borderColor: colors.border}}>
-                        <Feather name="trash-2" size={22} color={colors.destructive}/>
-                        <Text style={{...styles.menuText, color: colors.destructive}}>Delete</Text>
-                    </View>
-                </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate("NewBrew", { beans_id: selected.id, roaster: selected.roaster, region: selected.region })}>
-                    <View style={styles.menuItem}>
-                        <FontAwesome5 name="fire" size={22} color={colors.text}/>
+                    <View style={{...styles.menuItem, borderBottomWidth: 1.5, borderColor: colors.border}}>
+                        <Feather name="coffee" size={22} color={colors.text}/>
                         <Text style={{...styles.menuText, color: colors.text}}>New Brew</Text>
                     </View>
                 </TouchableOpacity>
@@ -276,7 +270,13 @@ const HomePage = ({ navigation }) => {
                         <FontAwesome name={selected.favorite === 0?"heart-o":"heart"} size={22} color={colors.text}/>
                         <Text style={{...styles.menuText, color: colors.text}}>{selected.favorite===0?"Favorite":"Unfavorite"}</Text>
                     </View>
-                </TouchableOpacity>      
+                </TouchableOpacity>     
+                <TouchableOpacity onPress={() => deleteConfirmation()}>
+                    <View style={styles.menuItem}>
+                        <Feather name="trash-2" size={22} color={colors.destructive}/>
+                        <Text style={{...styles.menuText, color: colors.destructive}}>Delete</Text>
+                    </View>
+                </TouchableOpacity> 
             </FullScreenModal>}
         </View>
     );

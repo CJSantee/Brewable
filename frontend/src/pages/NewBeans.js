@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginVertical: 5,
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         flexWrap: 'wrap'
     },  
     flavor: {

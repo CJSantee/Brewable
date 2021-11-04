@@ -13,7 +13,7 @@ import {
     Alert
 } from 'react-native';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
-import { FontAwesome, Feather } from '@expo/vector-icons';
+import { FontAwesome, Feather, Octicons } from '@expo/vector-icons';
 
 import * as Device from 'expo-device';
 import { captureRef } from 'react-native-view-shot';
@@ -270,7 +270,6 @@ const DisplayBeans = ({ route, navigation }) => {
         <Brew 
             brew={item} 
             colors={colors} 
-            favorite={item.favorite}
             navigation={navigation}
             onLongPress={() => {setSelected(item); setShowModal(true);}}
         />
@@ -358,6 +357,9 @@ const DisplayBeans = ({ route, navigation }) => {
                     keyExtractor={keyExtractor}
                     onRefresh={onRefresh}
                     refreshing={refreshing}
+                    initialNumToRender={3}
+                    maxToRenderPerBatch={3}
+                    windowSize={7}
                     ListFooterComponent={() => <AddBrewButton/>}
                 />
             </DraggableDrawer>
@@ -387,10 +389,10 @@ const DisplayBeans = ({ route, navigation }) => {
                         <Text style={{...styles.menuText, color: colors.text}}>Share</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => deleteConfirmation()}>
+                <TouchableOpacity>
                     <View style={{...styles.menuItem, borderBottomWidth: 1.5, borderColor: colors.border}}>
-                        <Feather name="trash-2" size={22} color={colors.destructive}/>
-                        <Text style={{...styles.menuText, color: colors.destructive}}>Delete</Text>
+                        <Feather name="file-text" size={22} color={colors.text}/>
+                        <Text style={{...styles.menuText, color: colors.text}}>Suggest New Recipe</Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {Clipboard.setString(toBrewString(selected)); Alert.alert("Copied", "Copied brew recipe to clipboard.", [{text: "OK", onPress: () =>  setShowModal(false)}])}}>
@@ -403,6 +405,12 @@ const DisplayBeans = ({ route, navigation }) => {
                     <View style={styles.menuItem}>
                         <FontAwesome name={selected.favorite === 0?"heart-o":"heart"} size={22} color={colors.text}/>
                         <Text style={{...styles.menuText, color: colors.text}}>{selected.favorite===0?"Favorite":"Unfavorite"}</Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => deleteConfirmation()}>
+                    <View style={styles.menuItem}>
+                        <Feather name="trash-2" size={22} color={colors.destructive}/>
+                        <Text style={{...styles.menuText, color: colors.destructive}}>Delete</Text>
                     </View>
                 </TouchableOpacity>
             </FullScreenModal>}

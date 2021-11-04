@@ -58,7 +58,7 @@ export function shape(points) {
 
 const TastingWheel = ({values, style, displayText, abbreviated, width, height}) => {
     const descriptors = ["Body", "Aftertaste", "Sweetness", "Aroma", "Flavor", "Acidity"];
-    const abbreviations = ["By.", "At.", "Sn.", "Arm.", "Fv.", "Act."];
+    const abbreviations = ["Bdy.", "Aft.", "Swt.", "Aro.", "Fvr.", "Acd."];
     const {colors} = useTheme();
 
     return (

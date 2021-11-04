@@ -1,43 +1,36 @@
-import React from 'react';
+import React, { memo } from 'react';
 import {
     View,
     Text,
     StyleSheet,
-    TouchableWithoutFeedback
+    TouchableOpacity
 } from 'react-native';
-import { useTheme } from '@react-navigation/native';
 import * as Device from 'expo-device';
 import { Entypo, MaterialCommunityIcons, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
+import { toDateString } from '../utils/Converter';
 
 // Assets
 import CoffeeBean from '../../assets/icons/coffeeBean.svg';
 
 // Component Imports
 import TastingWheel from './TastingWheel';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const Brew = ({ brew, onFavorite, navigation, onLongPress, share }) => {
-    const {colors} = useTheme(); // Color theme
+const Brew = ({ brew, colors, navigation, onLongPress, share }) => {
 
-    // Generate date format: 'Month D, YYYY'
-    const options = { weekdate: 'long', year: 'numeric', month: 'long', day: 'numeric' }; // Options for date string
-    var brew_date = new Date(brew.date);
-    let date_string = brew_date.toLocaleDateString('en-US', options);
-
-    // Add Favorite
-    function toggleFavorite(e) {
-        e.stopPropagation(); // Prevent card from being clicked
-        onFavorite(brew.id); // API call pass by parent
+    function profileValues() {
+        if (brew.body > 0 || brew.aftertaste > 0 || brew.sweetness > 0 || brew.aroma > 0 || brew.flavor > 0 || brew.acidity > 0)
+            return true;
+        return false;
     }
 
     return (
         <TouchableOpacity onPress={() => navigation.navigate("DisplayBrew", { brew_id: brew.id })} onLongPress={onLongPress}>
             <View style={{...styles.brew, backgroundColor: colors.card, borderColor: colors.border}}>
-                <View style={styles.wheel}>
-                    <TastingWheel displayText={true} abbreviated={true} width="150" height="150" values={[brew.body, brew.aftertaste, brew.sweetness, brew.aroma, brew.flavor, brew.acidity]}/>
+                {profileValues()&&<View style={styles.wheel}>
+                    <TastingWheel displayText={true} abbreviated={false} width="150" height="150" values={[brew.body, brew.aftertaste, brew.sweetness, brew.aroma, brew.flavor, brew.acidity]}/>
                     {share&&<Text style={{top: -10, fontWeight: 'bold', color: colors.text}}>{brew.roaster}</Text>}
                     {share&&<Text style={{top: -5, color: colors.text}}>{brew.region}</Text>}
-                </View>
+                </View>}
                 <View style={styles.leftItems}>
                     <View style={styles.cardItem}>
                         <Text style={{...styles.title, color: colors.text}}>{brew.brew_method}</Text>
@@ -78,18 +71,48 @@ const Brew = ({ brew, onFavorite, navigation, onLongPress, share }) => {
                         ))}
                     </View>
                 </View>
-                <TouchableWithoutFeedback onPress={toggleFavorite}>
-                    <View style={styles.favorite}>
-                        <FontAwesome icon={brew.favorite?"heart":"heart-o"} size={18} color={brew.favorite?"#a00": colors.placeholder}/>
-                    </View>
-                </TouchableWithoutFeedback>
-                {Device.osVersion >= 13 && <Text style={{...styles.date, color: colors.text}}>{date_string}</Text>}
+                <View style={styles.favorite}>
+                    <FontAwesome icon={brew.favorite?"heart":"heart-o"} size={18} color={brew.favorite?"#a00": colors.placeholder}/>
+                </View>
+                {Device.osVersion >= 13 && <Text style={{...styles.date, color: colors.text}}>{toDateString(brew.date)}</Text>}
             </View>
         </TouchableOpacity>
     );
 }
 
-export default Brew;
+function arePropsEqual(prevProps, nextProps) {
+    const prevBrew = prevProps.brew;
+    const nextBrew = nextProps.brew;
+    if (prevBrew.brew_method !== nextBrew.brew_method)
+        return false;
+    if (prevBrew.water !== nextBrew.water || prevBrew.water_unit !== nextBrew.water_unit)
+        return false;
+    if (prevBrew.coffee !== nextBrew.coffee || prevBrew.coffee_unit !== nextBrew.coffee_unit)
+        return false;
+    if (prevBrew.temperature !== nextBrew.temperature || prevBrew.temp_unit !== nextBrew.temp_unit)
+        return false;
+    if (prevBrew.time !== nextBrew.time)
+        return false;
+    if (prevBrew.rating !== nextBrew.rating)
+        return false;
+    if (prevBrew.date !== nextBrew.date)
+        return false;
+    if (prevBrew.flavor !== nextBrew.flavor)
+        return false;
+    if (prevBrew.acidity !== nextBrew.acidity)
+        return false;
+    if (prevBrew.aroma !== nextBrew.aroma)
+        return false;
+    if (prevBrew.body !== nextBrew.body)
+        return false;
+    if (prevBrew.sweetness !== nextBrew.sweetness)
+        return false;
+    if (prevBrew.aftertaste !== nextBrew.aftertaste)
+        return false;
+    return true;
+}
+
+export default memo(Brew, arePropsEqual);
 
 const styles = StyleSheet.create({
     beans: {
