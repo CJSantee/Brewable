@@ -6,6 +6,9 @@ import Svg, {
     Line,
     Polygon,
     Text,
+    Defs,
+    Mask,
+    Rect
 } from 'react-native-svg';
 import { useTheme } from '@react-navigation/native';
 
@@ -18,6 +21,8 @@ function mapFlavor(value) {
     else 
         return Math.floor((value-10)/20)+1;
 }
+
+// TODO: Fix mask not covering 3/4 of tasting wheeel
 
 // Maps the values of the flavor wheel from 0-100 to 0-5
 function mapFlavors(brew) {
@@ -56,15 +61,44 @@ export function shape(points) {
     return ret;
 }
 
-const TastingWheel = ({values, style, displayText, abbreviated, width, height}) => {
+const TastingWheel = ({values, style, displayText, abbreviated, width, height, altValues}) => {
     const descriptors = ["Body", "Aftertaste", "Sweetness", "Aroma", "Flavor", "Acidity"];
     const abbreviations = ["Bdy.", "Aft.", "Swt.", "Aro.", "Fvr.", "Acd."];
     const {colors} = useTheme();
 
     return (
         <View style={style}> 
-            <Svg width={width} height={height} rotation="50" viewBox="-140 -140 280 280">
-
+            <Svg width={width} height={height} viewBox="-140 -140 280 280">
+                <Defs>
+                    <Mask
+                        id="mask"
+                    >
+                        <Rect
+                            x="-140"
+                            y="-140"
+                            width="280"
+                            height="280"
+                            fill="white"
+                        />
+                        <Polygon 
+                            id="shapeDef"
+                            points={shape(values)}
+                            fill="black"
+                        />
+                    </Mask>
+                </Defs>
+                <Rect
+                    x="-140"
+                    y="-140"
+                    width="280"
+                    height="280"
+                    fill="white"
+                />
+                <Polygon 
+                    id="shapeDef"
+                    points={shape(values)}
+                    fill="black"
+                />
                 {Array(5).fill().map((_, idx)=>idx).map((value) => (
                     <Polygon
                         key={value} 
@@ -139,12 +173,21 @@ const TastingWheel = ({values, style, displayText, abbreviated, width, height}) 
                     fontSize={abbreviated?22:12}
                 >{abbreviated?abbreviations[5]:descriptors[5]}</Text> : <View/> }
                 
+                {altValues&&<Polygon 
+                    points={shape(altValues)}
+                    fill={"#0d0"}
+                    fillOpacity={0.5}
+                    stroke={colors.placeholder} 
+                    mask={"url(#mask)"}
+                />}
+
                 <Polygon 
                     points={shape(values)}
                     fill={"#894419"}
-                    fillOpacity="0.5"
+                    fillOpacity={0.8}
                     stroke={colors.placeholder} 
                 />
+
             </Svg>
         </View>
 

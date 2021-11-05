@@ -9,6 +9,7 @@ import { useTheme } from '@react-navigation/native';
 import * as Device from 'expo-device';
 import { useSelector } from 'react-redux'
 
+// IDEA: react-native-date-picker
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 let {height, width} = Dimensions.get('window');

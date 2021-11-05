@@ -41,7 +41,7 @@ function ReviewRecipe({ route, navigation }) {
 
     const renderItem = useCallback(
         ({item, index}) => item.subtitle==="header"?<TableView header={item.title}/>:
-        (<RowItem title={item.title+" "+item.subtitle} text="" onPress={() => navigation.navigate("SuggestRecipe", { brew: brew, uid: item.uid })}>
+        (<RowItem title={item.title+" "+item.subtitle} text="" onPress={() => navigation.navigate("SuggestRecipe", { brew: brew, issueUid: item.uid })}>
             <Feather name="chevron-right" size={16} color={colors.placeholder}/>
         </RowItem>), []
     );
