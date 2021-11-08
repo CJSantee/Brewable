@@ -87,7 +87,7 @@ function SuggestRecipe({ route, navigation }) {
             </TableView>
             <View style={{width: '100%', alignItems: 'center'}}>
                 <View style={{width: width/1.5, height: width/1.5}}>
-                    <TastingWheel style={styles.wheel} displayText={true} width={width/1.5} height={width/1.5} values={values} altValues={[newBrew.body+20, newBrew.aftertaste+20, newBrew.sweetness+20, newBrew.aroma+20, newBrew.flavor+20, newBrew.acidity+20]} />
+                    <TastingWheel style={styles.wheel} displayText={true} width={width/1.5} height={width/1.5} values={values} altValues={[newBrew.body, newBrew.aftertaste, newBrew.sweetness, newBrew.aroma, newBrew.flavor, newBrew.acidity]} />
                 </View>
             </View>
         </View> 

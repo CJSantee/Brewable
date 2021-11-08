@@ -7,16 +7,15 @@ import * as ScreenOrientation from 'expo-screen-orientation';
 
 import { createTables, populateBrewMethodsIfEmpty, populateFlavorsIfEmpty } from './ DatabaseUtils';
 
+import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import { preferenceReducer } from './src/redux/PreferenceReducer';
+
+import { store, persistor } from './src/redux/store';
 
 import Navigation from './src/Navigation';
 
 // Global declaration of SQLite Database
 global.db = SQLite.openDatabase("CoffeeLab.db");
-
-const store = createStore(preferenceReducer);
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
@@ -53,12 +52,16 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      {isReady === false ? 
-      <AppLoading
-        startAsync={_cacheResourcesAsync}
-        onFinish={() => setIsReady(true)}
-        onError={console.warn}
-      />:<Navigation />}
+      <PersistGate loading={null} persistor={persistor}>
+        
+        {isReady === false ? 
+        <AppLoading
+          startAsync={_cacheResourcesAsync}
+          onFinish={() => setIsReady(true)}
+          onError={console.warn}
+        />:<Navigation />}  
+
+      </PersistGate>
     </Provider>
   );
 };

@@ -1,3 +1,12 @@
+import { 
+    UPDATE_WATER_UNIT, 
+    UPDATE_COFFEE_UNIT, 
+    UPDATE_TEMP_UNIT, 
+    UPDATE_RATIO, 
+    UPDATE_THEME, 
+    UPDATE_SAMPLE_DATA 
+} from "./actions";
+
 const initialState = {
     user_preferences: {
         water_unit: "oz",
@@ -9,9 +18,9 @@ const initialState = {
     sample_data: false,
 }
 
-const preferenceReducer = (state = initialState, action) => {
+const rootReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'update/water_unit':
+        case UPDATE_WATER_UNIT:
             return {
                 user_preferences: {
                     ...state.user_preferences,
@@ -19,7 +28,7 @@ const preferenceReducer = (state = initialState, action) => {
                 },
                 sample_data: state.sample_data
             };
-        case 'update/coffee_unit':
+        case UPDATE_COFFEE_UNIT:
             return {
                 user_preferences: {
                     ...state.user_preferences,
@@ -27,7 +36,7 @@ const preferenceReducer = (state = initialState, action) => {
                 },
                 sample_data: state.sample_data
             };
-        case 'update/temp_unit':
+        case UPDATE_TEMP_UNIT:
             return {
                 user_preferences: {
                     ...state.user_preferences,
@@ -35,7 +44,7 @@ const preferenceReducer = (state = initialState, action) => {
                 },
                 sample_data: state.sample_data
             };
-        case 'update/ratio':
+        case UPDATE_RATIO:
             return {
                 user_preferences: {
                     ...state.user_preferences,
@@ -43,7 +52,7 @@ const preferenceReducer = (state = initialState, action) => {
                 },
                 sample_data: state.sample_data
             }
-        case 'update/theme':
+        case UPDATE_THEME:
             return {
                 user_preferences: {
                     ...state.user_preferences,
@@ -51,7 +60,7 @@ const preferenceReducer = (state = initialState, action) => {
                 },
                 sample_data: state.sample_data
             }
-        case 'update/sample_data':
+        case UPDATE_SAMPLE_DATA:
             return {
                 user_preferences: {
                     ...state.user_preferences
@@ -63,4 +72,4 @@ const preferenceReducer = (state = initialState, action) => {
     }
 }
 
-export { preferenceReducer };
+export default rootReducer;

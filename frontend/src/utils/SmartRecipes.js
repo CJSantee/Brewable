@@ -4,7 +4,7 @@ const issues = [
         title: "Too Weak",
         subtitle: "(Thin/Watery)",
         fix: (brew) => {
-            return {...brew, coffee: brew.coffee+1};
+            return {...brew, coffee: brew.coffee+1, body: brew.body+10};
         }
     }, 
     {

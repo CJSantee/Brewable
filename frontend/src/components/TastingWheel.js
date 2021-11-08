@@ -8,7 +8,8 @@ import Svg, {
     Text,
     Defs,
     Mask,
-    Rect
+    Rect,
+    ClipPath
 } from 'react-native-svg';
 import { useTheme } from '@react-navigation/native';
 
@@ -70,35 +71,18 @@ const TastingWheel = ({values, style, displayText, abbreviated, width, height, a
         <View style={style}> 
             <Svg width={width} height={height} viewBox="-140 -140 280 280">
                 <Defs>
-                    <Mask
-                        id="mask"
+                    <ClipPath
+                        id="clip"
                     >
-                        <Rect
-                            x="-140"
-                            y="-140"
-                            width="280"
-                            height="280"
-                            fill="white"
-                        />
                         <Polygon 
-                            id="shapeDef"
                             points={shape(values)}
-                            fill="black"
+                            fill={"#894419"}
+                            fillOpacity={0.8}
+                            stroke={colors.placeholder} 
                         />
-                    </Mask>
+                    </ClipPath>
                 </Defs>
-                <Rect
-                    x="-140"
-                    y="-140"
-                    width="280"
-                    height="280"
-                    fill="white"
-                />
-                <Polygon 
-                    id="shapeDef"
-                    points={shape(values)}
-                    fill="black"
-                />
+
                 {Array(5).fill().map((_, idx)=>idx).map((value) => (
                     <Polygon
                         key={value} 
@@ -172,20 +156,20 @@ const TastingWheel = ({values, style, displayText, abbreviated, width, height, a
                     textAnchor="start" 
                     fontSize={abbreviated?22:12}
                 >{abbreviated?abbreviations[5]:descriptors[5]}</Text> : <View/> }
-                
+
                 {altValues&&<Polygon 
                     points={shape(altValues)}
                     fill={"#0d0"}
                     fillOpacity={0.5}
-                    stroke={colors.placeholder} 
-                    mask={"url(#mask)"}
+                    stroke={colors.text} 
+                    clipPath={"url(#mask)"}
                 />}
 
                 <Polygon 
                     points={shape(values)}
                     fill={"#894419"}
                     fillOpacity={0.8}
-                    stroke={colors.placeholder} 
+                    stroke={altValues?"none":colors.text} 
                 />
 
             </Svg>

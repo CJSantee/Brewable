@@ -9,7 +9,7 @@ import {
 import { useTheme } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux'
-import { updateWaterUnit, updateCoffeeUnit, updateTempUnit, updateRatio, updateTheme, toggleSampleData } from '../redux/PreferenceActions';
+import { updateWaterUnit, updateCoffeeUnit, updateTempUnit, updateRatio, updateTheme } from '../redux/actions';
 
 // Component Imports
 import { SegmentedControl, Stepper } from 'react-native-ios-kit';
@@ -47,6 +47,13 @@ const SettingsPage = ({ navigation }) => {
                 }
             ]
         )
+    }
+
+    function parseRatio(value) {
+        let str = value.substring(4, value.length);
+        if (str.charAt(str.length-1) === '.')
+            return (parseFloat(str) / 10)*10;
+        return parseFloat(str);
     }
 
     return (

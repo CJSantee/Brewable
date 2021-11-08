@@ -10,7 +10,7 @@ import {
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux'
-import { updateSampleData } from '../redux/PreferenceActions';
+import { updateSampleData } from '../redux/actions';
 
 // Component Imports
 import Header from '../components/Header';
