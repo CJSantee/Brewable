@@ -24,7 +24,7 @@ function AboutPage({ navigation }) {
                 </View>
                 <View style={styles.block}>
                     <Text style={{...styles.title, color: colors.text}}>Beta Testers</Text>
-                    <Text style={{fontSize: 14, color: colors.text}}>Christopher Schneider, Johnathan Sottek</Text>
+                    <Text style={{fontSize: 14, color: colors.text}}>Thomas Clawson, Christopher Schneider, Johnathan Sottek</Text>
                 </View>
             </View>
         </View> 

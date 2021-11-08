@@ -64,7 +64,7 @@ function SuggestRecipe({ route, navigation }) {
                         <TastingWheel style={styles.wheel} displayText={true} width={width/1.5} height={width/1.5} values={values} />
                     </View>
                 </View>
-                <TableView header="New">
+                <TableView header="New" leftText="ADD BREW" leftOnPress={() => navigation.navigate("NewBrew", { parent: "SuggestRecipe" })}>
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: 10}}>
                         <View style={styles.item}>
                             <Entypo name="water" size={25} color="#0069A7"/>

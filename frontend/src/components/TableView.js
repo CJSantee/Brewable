@@ -2,11 +2,12 @@ import React from 'react';
 import {
     View,
     StyleSheet,
-    Text
+    Text,
+    TouchableOpacity
 } from 'react-native'
 import { useTheme } from '@react-navigation/native';
 
-const TableViewHeader = ({header, style}) => {
+const TableViewHeader = ({header, style, leftText, leftOnPress}) => {
     const { colors } = useTheme();
 
     return (
@@ -17,14 +18,17 @@ const TableViewHeader = ({header, style}) => {
             style
         ]}>
             <Text style={{color: colors.placeholder}}>{header.toUpperCase()}</Text>
+            {leftText && <TouchableOpacity onPress={leftOnPress}>
+                <Text style={{ fontSize: 12, color: colors.interactive }}>{leftText}</Text>
+            </TouchableOpacity>}
         </View>
     );
 };
 
-const TableView = ({ header, headerStyle, style, children }) => {
+const TableView = ({ header, headerStyle, style, children, leftText, leftOnPress }) => {
     return (
         <View style={style}>
-            {header ? <TableViewHeader header={header} style={headerStyle}/> : <View/>}
+            {header ? <TableViewHeader header={header} style={headerStyle} leftText={leftText} leftOnPress={leftOnPress}/> : <View/>}
             {children}
         </View>
     );
@@ -37,6 +41,9 @@ const styles = StyleSheet.create({
         paddingTop: 15,
         paddingHorizontal: 15,
         paddingBottom: 7,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
     },
 });
   
