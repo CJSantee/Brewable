@@ -31,10 +31,6 @@ import Icon from '../components/Icon';
 import FullScreenModal from '../components/FullScreenModal';
 import { toBrewString } from '../utils/Converter';
 
-/*
-    TODO: Add "Roasted On:" and "Origin:"
-*/
-
 const DisplayBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState({
         region: "", 

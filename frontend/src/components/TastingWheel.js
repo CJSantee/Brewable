@@ -23,8 +23,6 @@ function mapFlavor(value) {
         return Math.floor((value-10)/20)+1;
 }
 
-// TODO: Fix mask not covering 3/4 of tasting wheeel
-
 // Maps the values of the flavor wheel from 0-100 to 0-5
 function mapFlavors(brew) {
     brew.flavor = mapFlavor(brew.flavor);

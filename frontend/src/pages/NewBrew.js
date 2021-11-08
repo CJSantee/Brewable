@@ -185,7 +185,14 @@ const NewBrew = ({ route, navigation }) => {
                         />
                     </TextFieldRow>
                 </TableView>
-                <TableView header="Time">
+                <TableView 
+                    header="Time"
+                    rightChildren={
+                        <TouchableOpacity>
+                            <Feather name="chevron-down" size={16} color={colors.placeholder}/>     
+                        </TouchableOpacity>
+                    }
+                >
                     <TextFieldRow title="Brew Time" text={usingTimer?formatTime():brew.time} onChange={(value) => {setUsingTimer(false); setBrew({...brew, time: value})}}>
                         <Ionicons name="ios-timer-sharp" size={25} color={isActive ? "#a00" : colors.interactive} onPress={toggleTimer}/>
                     </TextFieldRow>

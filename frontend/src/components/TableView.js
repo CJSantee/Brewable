@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import { useTheme } from '@react-navigation/native';
 
-const TableViewHeader = ({header, style, leftText, leftOnPress}) => {
+const TableViewHeader = ({header, style, rightChildren}) => {
     const { colors } = useTheme();
 
     return (
@@ -18,17 +18,15 @@ const TableViewHeader = ({header, style, leftText, leftOnPress}) => {
             style
         ]}>
             <Text style={{color: colors.placeholder}}>{header.toUpperCase()}</Text>
-            {leftText && <TouchableOpacity onPress={leftOnPress}>
-                <Text style={{ fontSize: 12, color: colors.interactive }}>{leftText}</Text>
-            </TouchableOpacity>}
+            {rightChildren}
         </View>
     );
 };
 
-const TableView = ({ header, headerStyle, style, children, leftText, leftOnPress }) => {
+const TableView = ({ header, headerStyle, style, children, rightChildren }) => {
     return (
         <View style={style}>
-            {header ? <TableViewHeader header={header} style={headerStyle} leftText={leftText} leftOnPress={leftOnPress}/> : <View/>}
+            {header ? <TableViewHeader header={header} style={headerStyle} rightChildren={rightChildren} /> : <View/>}
             {children}
         </View>
     );

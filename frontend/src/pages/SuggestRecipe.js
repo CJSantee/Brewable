@@ -64,7 +64,14 @@ function SuggestRecipe({ route, navigation }) {
                         <TastingWheel style={styles.wheel} displayText={true} width={width/1.5} height={width/1.5} values={values} />
                     </View>
                 </View>
-                <TableView header="New" leftText="ADD BREW" leftOnPress={() => navigation.navigate("NewBrew", { parent: "SuggestRecipe" })}>
+                <TableView 
+                    header="New" 
+                    leftOnPress={() => navigation.navigate("NewBrew", { parent: "SuggestRecipe" })}
+                    rightChildren={
+                        <TouchableOpacity onPress={() => navigation.navigate("NewBrew", { parent: "SuggestRecipe" })}>
+                            <Text style={{ fontSize: 12, color: colors.interactive }}>{leftText}</Text>
+                        </TouchableOpacity>}
+                >
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: 10}}>
                         <View style={styles.item}>
                             <Entypo name="water" size={25} color="#0069A7"/>
