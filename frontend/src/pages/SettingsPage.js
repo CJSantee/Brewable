@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
     View,
     StyleSheet,
@@ -6,16 +6,17 @@ import {
     Alert,
     Text
 } from 'react-native';
-import { useTheme } from '@react-navigation/native';
+import { useFocusEffect, useTheme } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux'
-import { updateWaterUnit, updateCoffeeUnit, updateTempUnit, updateRatio, updateTheme } from '../redux/actions';
+import { updateWaterUnit, updateCoffeeUnit, updateTempUnit, updateRatio, updateTheme, updateAutofillRatio } from '../redux/actions';
 
 // Component Imports
-import { SegmentedControl, Stepper } from 'react-native-ios-kit';
+import { SegmentedControl, Stepper, Switch } from 'react-native-ios-kit';
 import Header from '../components/Header';
 import TableView from '../components/TableView';
 import RowItem from '../components/RowItem';
+import TextFieldRow from '../components/TextFieldRow';
 
 /*
     TODO: Add Name of Grinder to Settings Page, then use that in the recipe copy to clipboard.
@@ -23,6 +24,7 @@ import RowItem from '../components/RowItem';
 
 const SettingsPage = ({ navigation }) => {
     const { colors } = useTheme(); // Color theme
+    const [ratio, setRatio] = useState("");
     const dispatch = useDispatch(); // Redux dispatch
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
 
@@ -51,10 +53,18 @@ const SettingsPage = ({ navigation }) => {
 
     function parseRatio(value) {
         let str = value.substring(4, value.length);
-        if (str.charAt(str.length-1) === '.')
-            return (parseFloat(str) / 10)*10;
-        return parseFloat(str);
+        return str;
     }
+    function submitRatio() {
+        let val = parseFloat(ratio);
+        if (isNaN(val) || val <= 0)
+            val = 1.0;
+        dispatch(updateRatio(val));
+    }
+
+    useFocusEffect(useCallback(() => {
+        setRatio(user_preferences.ratio);
+    }, []));
 
     return (
         <View style={{width: "100%", height: "100%"}}>
@@ -102,17 +112,19 @@ const SettingsPage = ({ navigation }) => {
                         <Feather name="chevron-right" size={16} color={colors.placeholder}/>
                     </RowItem>
                 </TableView>      
-                <TableView header="Ratio">
-                    <RowItem 
-                        title={"1 : "+user_preferences.ratio} text=""
+                <TableView header="Autofill Ratio">
+                    <TextFieldRow 
+                        text={"1 : "+ratio} title="" titleOnly
+                        keyboardType="numeric"
+                        activeTextColor={user_preferences.autofill_ratio?colors.text:colors.placeholder}
+                        onChange={(value) => setRatio(parseRatio(value))}
+                        onEndEditing={submitRatio}
                     >
-                        <Stepper
-                            value={user_preferences.ratio}
-                            onValueChange={(value) => dispatch(updateRatio(value))}
-                            minValue={1}
-                            maxValue={100}
+                        <Switch 
+                            value={user_preferences.autofill_ratio}
+                            onValueChange={(value) => dispatch(updateAutofillRatio(value))}
                         />
-                    </RowItem>
+                    </TextFieldRow>
                 </TableView>
                 <TableView header="App">
                     <RowItem

@@ -2,6 +2,7 @@
 export const UPDATE_WATER_UNIT = 'update/water_unit';
 export const UPDATE_COFFEE_UNIT = 'update/coffee_unit';
 export const UPDATE_TEMP_UNIT = 'update/temp_unit';
+export const UPDATE_AUTOFILL_RATIO = 'update/autofill_ratio';
 export const UPDATE_RATIO = 'update/ratio';
 export const UPDATE_THEME = 'update/theme';
 export const UPDATE_SAMPLE_DATA = 'update/sample_data';
@@ -24,6 +25,13 @@ export const updateTempUnit = unit => (
     {
         type: UPDATE_TEMP_UNIT,
         payload: unit
+    }
+);
+
+export const updateAutofillRatio = bool => (
+    {
+        type: UPDATE_AUTOFILL_RATIO,
+        payload: bool
     }
 );
 

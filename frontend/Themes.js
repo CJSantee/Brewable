@@ -18,6 +18,7 @@ const LightTheme = {
     iosKit: {
         ...iOSDefault,
         primaryColor: "rgb(0,122,255)",
+        positiveColor: "rgb(0,122,255)"
     }
 } 
 
@@ -37,7 +38,8 @@ const DarkTheme = {
     iosKit: {
         ...iOSDefault,
         primaryColor: "rgb(0,132,255)",
-        dividerColor: "rgb(61,61,64)"
+        dividerColor: "rgb(61,61,64)",
+        positiveColor: "rgb(0,132,255)"
     }
 }
 

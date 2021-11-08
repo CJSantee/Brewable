@@ -71,16 +71,20 @@ const TastingWheel = ({values, style, displayText, abbreviated, width, height, a
         <View style={style}> 
             <Svg width={width} height={height} viewBox="-140 -140 280 280">
                 <Defs>
-                    <ClipPath
+                    <Mask
                         id="clip"
                     >
-                        <Polygon 
+                        {/* <Polygon 
                             points={shape(values)}
-                            fill={"#894419"}
-                            fillOpacity={0.8}
-                            stroke={colors.placeholder} 
+                        /> */}
+                        <Rect 
+                            x="-20"
+                            y="-20"
+                            width="40"
+                            height="40"
+                            fill="white"
                         />
-                    </ClipPath>
+                    </Mask>
                 </Defs>
 
                 {Array(5).fill().map((_, idx)=>idx).map((value) => (
@@ -157,7 +161,16 @@ const TastingWheel = ({values, style, displayText, abbreviated, width, height, a
                     fontSize={abbreviated?22:12}
                 >{abbreviated?abbreviations[5]:descriptors[5]}</Text> : <View/> }
 
-                {altValues&&<Polygon 
+                <Rect
+                    x="-40"
+                    y="-40"
+                    width="80"
+                    height="80"
+                    fill="white"
+                    mask={"url(#clip)"}
+                />
+
+                {/* {altValues&&<Polygon 
                     points={shape(altValues)}
                     fill={"#0d0"}
                     fillOpacity={0.5}
@@ -170,7 +183,7 @@ const TastingWheel = ({values, style, displayText, abbreviated, width, height, a
                     fill={"#894419"}
                     fillOpacity={0.8}
                     stroke={altValues?"none":colors.text} 
-                />
+                /> */}
 
             </Svg>
         </View>

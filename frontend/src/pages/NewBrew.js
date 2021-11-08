@@ -145,7 +145,7 @@ const NewBrew = ({ route, navigation }) => {
                     <TextFieldRow
                         title="Coffee Amount"
                         text={brew.coffee}
-                        onChange={(value) => setBrew({...brew, coffee: value, water: value*user_preferences.ratio})}
+                        onChange={(value) => setBrew({...brew, coffee: value, water: user_preferences.autofill_ratio?value*user_preferences.ratio:brew.water})}
                         keyboardType="decimal-pad"
                     >
                         <SegmentedControl

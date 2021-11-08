@@ -318,14 +318,13 @@ const DisplayBeans = ({ route, navigation }) => {
                     <FontAwesome name={beans.favorite?"heart":"heart-o"} size={25} color={beans.favorite?"#a00": colors.placeholder}/>
                 </View>
             </View>
-            
+            <View style={styles.row}>
+                <Text style={{fontSize: 18, color: colors.text}}>Origin: {beans.origin}</Text>
+            </View> 
             {Device.osVersion >= 13 && 
             <View style={styles.row}>
-                {roastDate()!==""?<Text style={{fontSize: 18, color: colors.text}}>{roastDate()}</Text>:<View/>}
+                {roastDate()!==""&&<Text style={{fontSize: 16, color: colors.text}}>Roasted: {roastDate()}</Text>}
             </View>}
-            <View style={styles.row}>
-                <Text style={{color: colors.text}}>{beans.origin}</Text>
-            </View>            
             <View style={styles.flavors}>
                 {flavorNotes.map((item) => 
                     <View key={item } style={{...styles.flavor, backgroundColor: colors.card, borderColor: colors.border}}>
