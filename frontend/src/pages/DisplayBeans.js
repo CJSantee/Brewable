@@ -316,7 +316,7 @@ const DisplayBeans = ({ route, navigation }) => {
             </View>
             <View style={styles.row}>
                 <Text style={{fontSize: 18, color: colors.text}}>Origin: {beans.origin}</Text>
-            </View> 
+            </View>
             {Device.osVersion >= 13 && 
             <View style={styles.row}>
                 {roastDate()!==""&&<Text style={{fontSize: 16, color: colors.text}}>Roasted: {roastDate()}</Text>}
@@ -397,7 +397,7 @@ const DisplayBeans = ({ route, navigation }) => {
                 <TouchableOpacity onPress={() => {Clipboard.setString(toBrewString(selected)); Alert.alert("Copied", "Copied brew recipe to clipboard.", [{text: "OK", onPress: () =>  setShowModal(false)}])}}>
                     <View style={styles.menuItem}>
                         <Feather name="copy" size={22} color={colors.text}/>
-                        <Text style={{...styles.menuText, color: colors.text}}>Copy Beans to Clipboard</Text>
+                        <Text style={{...styles.menuText, color: colors.text}}>Copy Brew to Clipboard</Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => onFavorite(selected.id)}>

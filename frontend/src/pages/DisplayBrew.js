@@ -9,6 +9,7 @@ import {
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { FontAwesome, Entypo, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import CoffeeBean from '../../assets/icons/coffeeBean.svg';
+import CoffeeGrounds from '../../assets/icons/coffeeGrounds.svg';
 
 // Component Imports
 import TastingWheel from '../components/TastingWheel';
@@ -77,22 +78,26 @@ const DisplayBrew = ({ route, navigation }) => {
                 </View>
                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: 10}}>
                     <View style={styles.item}>
-                        <Entypo name="water" size={25} color="#0069A7"/>
+                        <Entypo name="water" size={23} color="#0069A7"/>
                         <Text style={{...styles.value, color: colors.text}}>{brew.water}</Text>
                         <Text style={{color: colors.text}}>{brew.water_unit}</Text>
                     </View>
                     <View style={styles.item}>
-                        <CoffeeBean width={25} height={25} style={{color: "#714B33"}}/>
+                        <CoffeeBean width={23} height={23} style={{color: "#714B33"}}/>
                         <Text style={{...styles.value, color: colors.text}}>{brew.coffee}</Text>
                         <Text style={{color: colors.text}}>{brew.coffee_unit}</Text>
                     </View>
                     <View style={styles.item}>
-                        <FontAwesome5 size={25} name="fire" color="#EB811E"/>
+                        <CoffeeGrounds width={23} height={23} style={{color: "#714B33"}}/>
+                        <Text style={{...styles.value, color: colors.text}}>{brew.grind_setting}</Text>
+                    </View>
+                    <View style={styles.item}>
+                        <FontAwesome5 size={23} name="fire" color="#EB811E"/>
                         <Text style={{...styles.value, color: colors.text}}>{brew.temperature}°</Text>
                         <Text style={{color: colors.text}}>{brew.temp_unit}</Text>
                     </View>
                     <View style={styles.item}>
-                        <MaterialCommunityIcons name="timer" size={25} color="#4D814B"/>
+                        <MaterialCommunityIcons name="timer" size={23} color="#4D814B"/>
                         <Text style={{...styles.value, color: colors.text}}>{brew.time}</Text>
                     </View>
                 </View>
@@ -144,7 +149,7 @@ const styles = StyleSheet.create({
         fontSize: 22,
     },
     value: {
-        fontSize: 18,
+        fontSize: 16,
         marginLeft: 5
     },
     notes: {

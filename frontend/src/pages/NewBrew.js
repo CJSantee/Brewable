@@ -33,6 +33,7 @@ const NewBrew = ({ route, navigation }) => {
             water: 0, water_unit: "g", 
             temperature: 0, temp_unit: "f", 
             time: "",
+            bloom: "",
             flavor: 0, acidity: 0, aroma: 0, body: 0, sweetness: 0, aftertaste: 0, 
             notes: "", 
             date: new Date(), 
@@ -42,12 +43,25 @@ const NewBrew = ({ route, navigation }) => {
         }
     ); // Brew state
     const { colors } = useTheme(); // Color theme
-    const [timer, setTimer] = useState(0); // Current timer value in seconds
-    const [usingTimer, setUsingTimer] = useState(false);
-    const [isActive, setIsActive] = useState(false); // Timer isActive?
+    
+    // Brew Timer Sate
+    const [brewTimer, setBrewTimer] = useState(0); // Current timer value in seconds
+    const [usingBrewTimer, setUsingBrewTimer] = useState(false);
+    const [brewTimerIsActive, setBrewTimerIsActive] = useState(false); // Timer isActive?
+    const brewCountRef = useRef(null); // Counter
+
+    // Bloom Timer State
+    const [bloomTimer, setBloomTimer] = useState(0);
+    const [usingBloomTimer, setUsingBloomTimer] = useState(false);
+    const [bloomTimerIsActive, setBloomTimerIsActive] = useState(false);
+    const bloomCountRef = useRef(null); // Counter
+
+    const [showBloom, setShowBloom] = useState(false);
+
+    // Flavor Modal 
     const [showFlavorModal, setShowFlavorModal] = useState(false);
     const [modalValues, setModalValues] = useState({title: "", text: ""});
-    const countRef = useRef(null); // Counter
+
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
 
     const missingInfoAlert = () => {
@@ -80,26 +94,40 @@ const NewBrew = ({ route, navigation }) => {
         );
     }
 
-    // Start / Stop Timer
-    const toggleTimer = () => {
-        setUsingTimer(true);
-        if (!isActive) {
-            setIsActive(true);
-            countRef.current = setInterval(() => {
-                setTimer((timer) => timer + 1);
+    // Start / Stop Brew Timer
+    const toggleBrewTimer = () => {
+        setUsingBrewTimer(true);
+        if (!brewTimerIsActive) {
+            setBrewTimerIsActive(true);
+            brewCountRef.current = setInterval(() => {
+                setBrewTimer((timer) => timer + 1);
             }, 1000);
         } else {
-            clearInterval(countRef.current);
-            setIsActive(false);
+            clearInterval(brewCountRef.current);
+            setBrewTimerIsActive(false);
         }
     }
 
-    // Map values to minutes and seconds
-    const getSeconds = `0${(timer % 60)}`.slice(-2);
-    const minutes = `${Math.floor(timer / 60)}`;
-    const getMinutes = `0${minutes % 60}`.slice(-2);   
+    // Start / Stop Bloom Timer
+    const toggleBloomTimer = () => {
+        setUsingBloomTimer(true);
+        if (!bloomTimerIsActive) {
+            setBloomTimerIsActive(true);
+            bloomCountRef.current = setInterval(() => {
+                setBloomTimer((timer) => timer + 1);
+            }, 1000);
+        } else {
+            clearInterval(bloomCountRef.current);
+            setBloomTimerIsActive(false);
+        }
+    }
+
     // Return formatted time
-    const formatTime = () => {
+    const formatTime = (timer) => {
+        // Map values to minutes and seconds
+        const getSeconds = `0${(timer % 60)}`.slice(-2);
+        const minutes = `${Math.floor(timer / 60)}`;
+        const getMinutes = `0${minutes % 60}`.slice(-2);   
         return `${getMinutes}:${getSeconds}`;
     }
 
@@ -188,14 +216,19 @@ const NewBrew = ({ route, navigation }) => {
                 <TableView 
                     header="Time"
                     rightChildren={
-                        <TouchableOpacity>
-                            <Feather name="chevron-down" size={16} color={colors.placeholder}/>     
+                        <TouchableOpacity onPress={() => setShowBloom(!showBloom)}>
+                            <Feather name={showBloom?"chevron-up":"chevron-down"} size={16} color={colors.placeholder}/>     
                         </TouchableOpacity>
                     }
                 >
-                    <TextFieldRow title="Brew Time" text={usingTimer?formatTime():brew.time} onChange={(value) => {setUsingTimer(false); setBrew({...brew, time: value})}}>
-                        <Ionicons name="ios-timer-sharp" size={25} color={isActive ? "#a00" : colors.interactive} onPress={toggleTimer}/>
+                    <TextFieldRow title="Brew Time" text={usingBrewTimer?formatTime(brewTimer):brew.time} onChange={(value) => {setUsingBrewTimer(false); setBrew({...brew, time: value})}}>
+                        <Ionicons name="ios-timer-sharp" size={25} color={brewTimerIsActive ? "#a00" : colors.interactive} onPress={toggleBrewTimer}/>
                     </TextFieldRow>
+                    {showBloom && 
+                        <TextFieldRow title="Bloom Time" text={usingBloomTimer?formatTime(bloomTimer):brew.bloom} onChange={(value) => {setUsingBloomTimer(false); setBrew({...brew, bloom: value})}}>
+                            <Ionicons name="ios-timer-sharp" size={25} color={bloomTimerIsActive ? "#a00" : colors.interactive} onPress={toggleBloomTimer}/>
+                        </TextFieldRow>
+                    }
                 </TableView>
                 <TableView header="Profile">
                     <SliderRow 

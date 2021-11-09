@@ -11,6 +11,7 @@ import { toDateString } from '../utils/Converter';
 
 // Assets
 import CoffeeBean from '../../assets/icons/coffeeBean.svg';
+import CoffeeGrounds from '../../assets/icons/coffeeGrounds.svg';
 
 // Component Imports
 import TastingWheel from './TastingWheel';
@@ -48,6 +49,12 @@ const Brew = ({ brew, colors, navigation, onLongPress, share }) => {
                         </View>
                         <Text style={{...styles.value, color: colors.text}}>{brew.coffee}</Text>
                         <Text style={{color: colors.text}}>{brew.coffee_unit}</Text>
+                    </View>
+                    <View style={styles.cardItem}>
+                        <View style={styles.iconContainer}>
+                            <CoffeeGrounds width={22} height={22} style={{color: "#714B33"}}/>
+                        </View>
+                        <Text style={{...styles.value, color: colors.text}}>{brew.grind_setting}</Text>
                     </View>
                     <View style={styles.cardItem}>
                         <View style={styles.iconContainer}>

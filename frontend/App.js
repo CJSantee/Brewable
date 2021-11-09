@@ -5,7 +5,7 @@ import { Asset } from 'expo-asset';
 import AppLoading from 'expo-app-loading';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
-import { createTables, populateBrewMethodsIfEmpty, populateFlavorsIfEmpty } from './ DatabaseUtils';
+import { createTables, checkForUpdate, populateBrewMethodsIfEmpty, populateFlavorsIfEmpty } from './ DatabaseUtils';
 
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
@@ -46,6 +46,7 @@ export default function App() {
   useEffect(() => {
     _lockScreenOrientation();
     createTables(db);
+    checkForUpdate(db);
     populateBrewMethodsIfEmpty(db);
     populateFlavorsIfEmpty(db);
   }, []);

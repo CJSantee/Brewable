@@ -68,12 +68,44 @@ const createTables = (db) => {
             id INTEGER PRIMARY KEY NOT NULL,
             flavor TEXT UNIQUE
           );`
-        )  
+        );
 
     },
     (e) => {console.log(e)},
     null);
 };
+
+const updateTables = (db) => {
+  // v1.1.0 -> Added Bloom to Brews
+  db.transaction((tx) => {
+    tx.executeSql(
+      `ALTER TABLE brews
+        ADD COLUMN bloom TEXT;`
+    );
+  },
+  (e) => console.log(e),
+  null);
+}
+
+const checkForUpdate = (db) => {
+  let sql = "";
+  db.transaction((tx) => {
+    tx.executeSql(
+      `SELECT sql
+        FROM sqlite_master
+        WHERE tbl_name = 'brews';`,[],
+      (_, { rows: { _array } }) => {
+        sql = _array[0].sql;
+        if (!sql.includes("bloom TEXT")) {
+          console.log("UPDATE");
+          updateTables(db);
+        }
+      }
+  );
+  },
+  (e) => console.log(e),
+  null);
+}
 
 const populateBeans = (db) => {
   db.transaction((tx) => {
@@ -215,4 +247,4 @@ const populateFlavorsIfEmpty = (db) => {
   () => {if (!dbExists) populateFlavors(db);});
 }
 
-export { createTables, populateBeans, populateBrews, populateRandomBrews, populateBrewMethodsIfEmpty, populateFlavorsIfEmpty };
+export { createTables, checkForUpdate, populateBeans, populateBrews, populateRandomBrews, populateBrewMethodsIfEmpty, populateFlavorsIfEmpty };
