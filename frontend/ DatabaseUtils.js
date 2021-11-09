@@ -97,7 +97,6 @@ const checkForUpdate = (db) => {
       (_, { rows: { _array } }) => {
         sql = _array[0].sql;
         if (!sql.includes("bloom TEXT")) {
-          console.log("UPDATE");
           updateTables(db);
         }
       }
@@ -105,6 +104,46 @@ const checkForUpdate = (db) => {
   },
   (e) => console.log(e),
   null);
+}
+
+const populateBeansFlavors = (db, flavorObjArr) => {
+  var dbFlavors = [];
+  for (let obj of flavorObjArr) {
+    dbFlavors.push(obj.flavor);
+  }
+
+  db.transaction((tx) => {
+    for (let beans of beansData) {
+      var flavors = beans.flavor_notes.split(',');
+      for (let flavor of flavors) {
+        if (flavor === "") break;
+        if(!dbFlavors.includes(flavor)) {
+          tx.executeSql(
+            `INSERT INTO flavors
+            (flavor) VALUES (?);`,
+            [flavor]
+          );
+        }
+      }
+    }
+  },
+  (e) => console.log(e),
+  null);
+}
+
+const selectBeansFlavorsForPopulate = (db) => {
+  var flavorObjArr; 
+  db.transaction((tx) => {
+    tx.executeSql(
+      "SELECT * FROM flavors;",
+      [],
+      (_, { rows: { _array } }) => {
+        flavorObjArr = _array;
+      }
+    );
+  },
+  (e) => console.log(e),
+  () => populateBeansFlavors(db, flavorObjArr));
 }
 
 const populateBeans = (db) => {
@@ -120,7 +159,7 @@ const populateBeans = (db) => {
     }
   },
   (e) => console.log(e),
-  null);
+  () => selectBeansFlavorsForPopulate(db));
 }
 
 const populateBrews = (db) => {

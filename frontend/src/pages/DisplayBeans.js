@@ -29,7 +29,7 @@ import Brew from '../components/Brew';
 import DraggableDrawer from '../components/DraggableDrawer';
 import Icon from '../components/Icon';
 import FullScreenModal from '../components/FullScreenModal';
-import { toBrewString } from '../utils/Converter';
+import { toBrewString, toDateString } from '../utils/Converter';
 
 const DisplayBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState({
@@ -54,8 +54,6 @@ const DisplayBeans = ({ route, navigation }) => {
     const brewRef = useRef();
 
     // Search State Variables
-    const [searchQuery, setSearchQuery] = useState(""); // UNUSED
-    const [searchResults, setSearchResults] = useState([]); // UNUSED
     const [sortBy, setSortBy] = useState("brew_date");
 
     const { beans_id } = route.params; // Beans_id for which beans to display
@@ -64,11 +62,8 @@ const DisplayBeans = ({ route, navigation }) => {
     const beansContainer = useRef();
 
     // Format roast_date
-    const options = { weekdate: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     function roastDate() {
-        if (beans.roast_date === "") return "";
-        let date = new Date(beans.roast_date);
-        return date.toLocaleDateString('en-US', options);
+        return toDateString(beans.roast_date);
     }
 
     // Compare function for sorting brews
@@ -314,9 +309,10 @@ const DisplayBeans = ({ route, navigation }) => {
                     <FontAwesome name={beans.favorite?"heart":"heart-o"} size={25} color={beans.favorite?"#a00": colors.placeholder}/>
                 </View>
             </View>
+            {beans.origin !== "" && 
             <View style={styles.row}>
                 <Text style={{fontSize: 18, color: colors.text}}>Origin: {beans.origin}</Text>
-            </View>
+            </View>}
             {Device.osVersion >= 13 && 
             <View style={styles.row}>
                 {roastDate()!==""&&<Text style={{fontSize: 16, color: colors.text}}>Roasted: {roastDate()}</Text>}

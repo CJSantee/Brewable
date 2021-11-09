@@ -174,7 +174,7 @@ const SelectFlavors = ({ route, navigation }) => {
 
     // Second useEffect without dependencies so only run once on render
     useEffect(() => {
-        if (route.params?.flavor_notes) { // If parent provides flavor_notes, update beans.flavor_notes
+        if (route.params?.flavor_notes && parent !== "SettingsPage") { // If parent provides flavor_notes, update beans.flavor_notes
             setPicked(new Set(route.params?.flavor_notes.split(',')));
         }
     },[])

@@ -130,5 +130,27 @@
         "weight": 12,
         "weight_unit": "oz",
         "flavor_notes": "Caramel,Honey,Clementine"  
+    },
+    {
+        "region": "Acatenango", 
+        "roaster": "Anodyne Coffee Roasting", 
+        "origin": "Guatemala La Hermosa", 
+        "roast_level": "", 
+        "roast_date": "2021-10-13T00:00:00", 
+        "price": 0, 
+        "weight": 310,
+        "weight_unit": "g",
+        "flavor_notes": ""
+    },
+    {
+        "region": "Copan", 
+        "roaster": "Alma Coffee", 
+        "origin": "Honduras", 
+        "roast_level": "Light", 
+        "roast_date": "2021-11-05T00:00:00", 
+        "price": 0, 
+        "weight": 12,
+        "weight_unit": "oz",
+        "flavor_notes": "Rosewater,Red Grape,Black Tea"  
     }
 ]

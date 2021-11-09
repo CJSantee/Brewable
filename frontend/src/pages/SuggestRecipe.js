@@ -20,6 +20,9 @@ import TableView from '../components/TableView';
 import RowItem from '../components/RowItem';
 import TastingWheel from '../components/TastingWheel';
 
+/*
+    TODO: Add Notes to suggestions
+*/
 
 function SuggestRecipe({ route, navigation }) {
     const { colors } = useTheme();
