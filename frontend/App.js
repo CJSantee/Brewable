@@ -5,7 +5,7 @@ import { Asset } from 'expo-asset';
 import AppLoading from 'expo-app-loading';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
-import { createTables, checkForUpdate, populateBrewMethodsIfEmpty, populateFlavorsIfEmpty } from './ DatabaseUtils';
+import { createTables, checkForUpdate, populateBrewMethodsIfEmpty, populateFlavorsIfEmpty } from './src/utils/DatabaseUtils';
 
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';

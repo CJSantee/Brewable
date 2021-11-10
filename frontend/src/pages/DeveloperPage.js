@@ -16,7 +16,7 @@ import { updateSampleData } from '../redux/actions';
 import Header from '../components/Header';
 import TableView from '../components/TableView';
 import RowItem from '../components/RowItem';
-import { populateBeans, populateRandomBrews } from '../../ DatabaseUtils';
+import { populateBeans, populateRandomBrews } from '../utils/DatabaseUtils';
 
 const DeveloperPage = ({ navigation }) => {
     const [numBeans, setNumBeans] = useState(0);

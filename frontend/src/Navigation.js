@@ -25,6 +25,7 @@ import DeveloperPage from './pages/DeveloperPage';
 import AboutPage from './pages/AboutPage';
 import SuggestRecipe from './pages/SuggestRecipe';
 import ReviewRecipe from './pages/ReviewRecipe';
+import TermsAndConditions from './pages/TermsAndConditions';
 
 const NavStack = createNativeStackNavigator();
 
@@ -40,6 +41,7 @@ const Navigation = () => {
                 <NavStack.Screen name="SettingsPage" component={SettingsPage}/>
                 <NavStack.Screen name="DeveloperPage" component={DeveloperPage}/>
                 <NavStack.Screen name="AboutPage" component={AboutPage}/>
+                <NavStack.Screen name="TermsAndConditions" component={TermsAndConditions}/>
                 <NavStack.Screen name="BrewMethods" component={BrewMethods}/>
                 <NavStack.Screen name="NewBeans" component={NewBeans}/>
                 <NavStack.Screen name="SelectFlavors" component={SelectFlavors}/>

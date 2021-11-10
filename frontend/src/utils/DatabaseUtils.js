@@ -1,7 +1,7 @@
-const beansData = require('./assets/data/Beans.json');
-const brewData = require('./assets/data/Brews.json');
-const brewMethodData = require('./assets/data/BrewMethods.json');
-const flavorData = require('./assets/data/Flavors.json');
+const beansData = require('../../assets/data/Beans.json');
+const brewData = require('../../assets/data/Brews.json');
+const brewMethodData = require('../../assets/data/BrewMethods.json');
+const flavorData = require('../../assets/data/Flavors.json');
 
 // CoffeeLab.db
 const createTables = (db) => {
