@@ -149,11 +149,6 @@ const SettingsPage = ({ navigation }) => {
                         <Text style={{color: colors.text}}>1.1.0</Text>
                     </RowItem>
                 </TableView>
-                <TableView header="Legal">
-                    <RowItem title={"Terms & Conditions"} text="" onPress={() => navigation.navigate("TermsAndConditions")}>
-                        <Feather name="chevron-right" size={16} color={colors.placeholder}/>
-                    </RowItem>
-                </TableView>
             </ScrollView>
         </View>
     );

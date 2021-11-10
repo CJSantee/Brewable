@@ -132,6 +132,9 @@ const NewBrew = ({ route, navigation }) => {
     }
 
     useEffect(() => {
+        if (route.params?.brew) { // For suggest brew
+            setBrew({...route.params.brew, rating: 0, date: new Date(), time: "00:00", favorite: 0});
+        }
         if (route.params?.brew_method) { // If parent provides brew_method, update brew.brew_method
             setBrew({...brew, brew_method: route.params.brew_method});
         }
@@ -169,6 +172,7 @@ const NewBrew = ({ route, navigation }) => {
                         title="Grind Setting"
                         text={brew.grind_setting}
                         onChange={(value) => setBrew({...brew, grind_setting: value})}
+                        keyboardType="decimal-pad"
                     />
                     <TextFieldRow
                         title="Coffee Amount"

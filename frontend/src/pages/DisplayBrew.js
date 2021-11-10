@@ -4,7 +4,8 @@ import {
     ScrollView,
     Text,
     StyleSheet,
-    Dimensions
+    Dimensions,
+    TouchableOpacity
 } from 'react-native';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { FontAwesome, Entypo, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
@@ -51,6 +52,18 @@ const DisplayBrew = ({ route, navigation }) => {
             return () => mounted = false;
         }, [])
     );
+
+    const SuggestRecipeButton = () => {
+        return (
+            <View style={{width: '100%', padding: 10, marginBottom: 5}}>
+                <TouchableOpacity onPress={() => navigation.navigate("ReviewRecipe", { brew: brew })}>
+                    <View style={{...styles.suggestRecipeButton, backgroundColor: colors.card, borderColor: colors.border}}>
+                        <Text style={{fontSize: 16, margin: 10, color: colors.text}}>Suggest New Recipe</Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
+        );  
+    }
 
     return (
         <View style={{...styles.container, backgroundColor: colors.background}}>
@@ -113,6 +126,7 @@ const DisplayBrew = ({ route, navigation }) => {
                     ))}
                 </View>
                 <TastingWheel style={styles.wheel} displayText={true} width={width} height={width} values={[brew.body, brew.aftertaste, brew.sweetness, brew.aroma, brew.flavor, brew.acidity]} />
+                <SuggestRecipeButton />
             </ScrollView>
         </View>
     );
@@ -157,11 +171,18 @@ const styles = StyleSheet.create({
     },
     wheel: {
         width: "100%",
-        height: "100%",
     },
     rating: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         marginVertical: 15
+    },
+    suggestRecipeButton: {
+        width: '100%',
+        alignSelf: 'center', 
+        borderWidth: 1, 
+        borderRadius: 15,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });

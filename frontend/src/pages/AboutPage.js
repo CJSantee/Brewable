@@ -13,7 +13,7 @@ function AboutPage({ navigation }) {
     return (
         <View style={styles.container}>
             <Header title="About" leftText="Back" leftChevron={true} leftOnPress={() => navigation.goBack()}/>
-            <View style={{ flex: 1, justifyContent: 'space-evenly', alignItems: 'center' }}>
+            <View style={{ flex: 1, justifyContent: 'space-evenly', alignItems: 'center', marginHorizontal: 15 }}>
                 <View style={styles.block}>
                     <Text style={{...styles.title, color: colors.text}}>Developer</Text>
                     <Text style={{...styles.subtitle, color: colors.text}}>Colin Santee</Text>
@@ -24,7 +24,7 @@ function AboutPage({ navigation }) {
                 </View>
                 <View style={styles.block}>
                     <Text style={{...styles.title, color: colors.text}}>Beta Testers</Text>
-                    <Text style={{fontSize: 14, color: colors.text}}>Thomas Clawson, Christopher Schneider, Johnathan Sottek</Text>
+                    <Text style={{fontSize: 14, color: colors.text}}>Thomas Clawson, Jeremiah Niehls, Christopher Schneider, Johnathan Sottek</Text>
                 </View>
             </View>
         </View> 

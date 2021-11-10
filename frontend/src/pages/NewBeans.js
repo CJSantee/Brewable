@@ -147,12 +147,12 @@ const NewBeans = ({ route, navigation }) => {
                 </TableView>
                 <TableView header="Bag">
                     <DatePickerRow title="Roast Date" value={beans.roast_date} onChange={(value) => {setBeans({...beans, roast_date: value});}}/>
-                    <TextFieldRow 
+                    {/* <TextFieldRow 
                         title="Price"
                         text={beans.price}
                         onChange={(value) => setBeans({...beans, price: value})}
                         keyboardType="decimal-pad"
-                    />
+                    /> */}
                     <TextFieldRow 
                         title="Weight"
                         text={beans.weight}

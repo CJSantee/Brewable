@@ -77,7 +77,7 @@ function SuggestRecipe({ route, navigation }) {
                     header="New" 
                     leftOnPress={() => navigation.navigate("NewBrew", { parent: "SuggestRecipe" })}
                     rightChildren={
-                        <TouchableOpacity onPress={() => navigation.navigate("NewBrew", { parent: "SuggestRecipe" })}>
+                        <TouchableOpacity onPress={() => navigation.navigate("NewBrew", { parent: "SuggestRecipe", brew: newBrew })}>
                             <Text style={{ fontSize: 12, color: colors.interactive }}>ADD BREW</Text>
                         </TouchableOpacity>}
                 >
@@ -105,6 +105,9 @@ function SuggestRecipe({ route, navigation }) {
                             <MaterialCommunityIcons name="timer" size={23} color="#4D814B"/>
                             <Text style={{...styles.value, color: colors.text}}>{newBrew.time}</Text>
                         </View>
+                    </View>
+                    <View style={{marginHorizontal: 10}}>
+                        <Text style={{color: colors.text}}>{newBrew.notes}</Text>
                     </View>
                 </TableView>
                 <View style={{width: '100%', alignItems: 'center'}}>

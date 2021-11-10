@@ -1,10 +1,29 @@
+function toTwoDigits(num) {
+    return Math.round(num * 10) / 10;
+}
+
+function limitOut(num) {
+    if (num < 50)
+        return 50;
+    if (num > 100)
+        return 100;
+    return num;
+}
+
+function limitTemp(temp, temp_unit) {
+    if (temp_unit === 'f')
+        return temp > 212 ? 212 : temp;
+    if (temp_unit === 'c')
+        return temp > 100 ? 100 : temp;
+}
+
 const issues = [
     {
         uid: "tooWeak",
         title: "Too Weak",
         subtitle: "(Thin/Watery)",
         fix: (brew) => {
-            return {...brew, coffee: brew.coffee+1, body: brew.body+10};
+            return {...brew, coffee: toTwoDigits(brew.coffee*1.025), body: limitOut(brew.body+15), notes: "Suggestion: Tighten the grind."};
         }
     }, 
     {
@@ -12,7 +31,7 @@ const issues = [
         title: "Too Strong",
         subtitle: "(Thick/Heavy)",
         fix: (brew) => {
-            return {...brew};
+            return {...brew, coffee: toTwoDigits(brew.coffee*0.975), body: limitOut(brew.body+15), notes: ""};
         }
     },
     {
@@ -20,7 +39,7 @@ const issues = [
         title: "Too Acidic",
         subtitle: "(Sour)",
         fix: (brew) => {
-            return {...brew};
+            return {...brew, grind_setting: parseFloat(brew.grind_setting)*0.975, temperature: limitTemp(brew.temperature+2, brew.temp_unit), acidity: limitOut(brew.acidity+15), notes: "" };
         }
     },
     {
@@ -28,39 +47,7 @@ const issues = [
         title: "Too Bitter",
         subtitle: "",
         fix: (brew) => {
-            return {...brew};
-        }
-    },
-    {
-        uid: "astringentQuality",
-        title: "Astringent Quality",
-        subtitle: "",
-        fix: (brew) => {
-            return {...brew};
-        }
-    },
-    {
-        uid: "filmyQuality",
-        title: "Filmy Quality",
-        subtitle: "",
-        fix: (brew) => {
-            return {...brew};
-        }
-    },
-    {
-        uid: "powderyQuality",
-        title: "Powdery Quality",
-        subtitle: "",
-        fix: (brew) => {
-            return {...brew};
-        }
-    },
-    {
-        uid: "burntQuality",
-        title: "Burnt Quality",
-        subtitle: "",
-        fix: (brew) => {
-            return {...brew};
+            return {...brew, coffee: toTwoDigits(brew.coffee*1.025), flavor: limitOut(brew.flavor+15), acidity: limitOut(brew.acidity+5), notes: ""};
         }
     },
     {
@@ -68,15 +55,7 @@ const issues = [
         title: "Muted Flavors",
         subtitle: "",
         fix: (brew) => {
-            return {...brew};
-        }
-    },
-    {
-        uid: "muddyCoffeeBed",
-        title: "Muddy Coffee Bed",
-        subtitle: "",
-        fix: (brew) => {
-            return {...brew};
+            return {...brew, coffee: toTwoDigits(brew.coffee*0.975), body: limitOut(brew.body+15), notes: "Beans could be old and stale."};
         }
     },
     {
@@ -84,7 +63,7 @@ const issues = [
         title: "Drawdown Too Slow",
         subtitle: "",
         fix: (brew) => {
-            return {...brew};
+            return {...brew, notes: ""};
         }
     },
     {
@@ -92,7 +71,7 @@ const issues = [
         title: "Drawdown Too Fast",
         subtitle: "",
         fix: (brew) => {
-            return {...brew};
+            return {...brew, notes: ""};
         }
     }
 ]
@@ -132,6 +111,7 @@ export function suggestIssues(brew) {
     // Add issues associated with acidity
     if (brew.acidity < 50) {
         suggestions.push(getIssue("tooAcidic"));
+        suggestions.push(getIssue("tooBitter"));
     }
     // Add issues associated with aroma
     if (brew.aroma < 50) {
@@ -139,9 +119,7 @@ export function suggestIssues(brew) {
     }
     // Add issues associated with body
     if (brew.body < 50) {
-        suggestions.push(getIssue("filmyQuality"));
-        suggestions.push(getIssue("powderyQuality"));
-        suggestions.push(getIssue("astringentQuality"));
+
     }
     // Add issues associated with sweetness
     if (brew.sweetness < 50) {
