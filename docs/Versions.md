@@ -33,3 +33,4 @@ Fixed bug re-initializing database everytime the app starts.
 - For Partners Page
 - Version Label in Settings
 - Design improvements on Display Beans page
+- Removed Price (Might be re-added with additional support in a later release)
