@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-    ScrollView,
     View,
     StyleSheet,
     Text,
@@ -12,6 +11,7 @@ import {
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { Feather, FontAwesome } from '@expo/vector-icons';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const {width, height} = Dimensions.get('window');
 
@@ -104,7 +104,7 @@ const NewBeans = ({ route, navigation }) => {
                 leftOnPress={() => navigation.goBack()} 
                 rightOnPress={() => addBeans()}
             />
-            <ScrollView>
+            <KeyboardAwareScrollView>
                 <View style={styles.photoContainer}>
                     {beans.photo_uri  
                     ?<TouchableOpacity onPress={() => navigation.navigate("SelectIcon", { parent: "NewBeans", selectedIcon: beans.photo_uri })}>
@@ -192,7 +192,7 @@ const NewBeans = ({ route, navigation }) => {
                         </View>
                     </TouchableOpacity>
                 </TableView>
-            </ScrollView>
+            </KeyboardAwareScrollView>
         </View>        
     );
 }

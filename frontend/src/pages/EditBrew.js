@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
     StyleSheet,
-    ScrollView,
     View,
     Text,
     TouchableOpacity,
     Alert
 } from 'react-native';
 import { Feather, Ionicons, FontAwesome } from '@expo/vector-icons';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { useFocusEffect, useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
@@ -130,7 +130,7 @@ const EditBrew = ({ route, navigation }) => {
     return (
         <View style={{width: "100%", height: "100%"}}>
             <Header title="Edit Brew" leftText="Cancel" rightText="Done" leftOnPress={() => navigation.navigate(parent, { brew_id: brew_id })} rightOnPress={() => updateBrew()}/>
-            <ScrollView style={{...styles.container, backgroundColor: colors.background}} keyboardDismissMode="on-drag">
+            <KeyboardAwareScrollView style={{...styles.container, backgroundColor: colors.background}} keyboardDismissMode="on-drag">
                 <TableView header="Info">
                     <RowItem
                         title="Beans"
@@ -273,7 +273,7 @@ const EditBrew = ({ route, navigation }) => {
                     </TouchableOpacity>
                     </View>
                 </TableView>
-            </ScrollView>
+            </KeyboardAwareScrollView>
             <ProfileModal showModal={showFlavorModal} setShowModal={setShowFlavorModal} title={modalValues.title} text={modalValues.text}/>
         </View>
     );

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-    ScrollView,
     View,
     StyleSheet,
     Text,
@@ -11,6 +10,7 @@ import {
 import { SegmentedControl } from 'react-native-ios-kit';
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { Feather, FontAwesome } from '@expo/vector-icons';
 
@@ -112,7 +112,7 @@ const EditBeans = ({ route, navigation }) => {
                 leftOnPress={() => navigation.goBack()} 
                 rightOnPress={() => updateBeans()}
             />
-            <ScrollView>
+            <KeyboardAwareScrollView>
                 <TouchableOpacity onPress={() => navigation.navigate("SelectIcon", { parent: "EditBeans", beans_id: beans.id, selectedIcon: beans.photo_uri })}>
                     <View style={{marginTop: 10, flexDirection: 'column', alignItems: 'center'}}>
                         <Icon uri={beans.photo_uri} size={(width/2)-55}/>
@@ -195,7 +195,7 @@ const EditBeans = ({ route, navigation }) => {
                     </TouchableOpacity>
                     </View>
                 </TableView>
-            </ScrollView>
+            </KeyboardAwareScrollView>
         </View>   
         
     );

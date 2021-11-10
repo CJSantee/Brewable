@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
     StyleSheet,
-    ScrollView,
     View,
     Text,
     TouchableOpacity,
@@ -10,6 +9,7 @@ import {
 import { Feather, Ionicons, FontAwesome } from '@expo/vector-icons';
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { acidity, aftertaste, aroma, body, flavor, overall, sweetness } from '../utils/Descriptions';
 
@@ -144,7 +144,7 @@ const NewBrew = ({ route, navigation }) => {
         <View style={{width: "100%", height: "100%"}}>
             <Header title="New Brew" leftText="Cancel" rightText="Done" leftOnPress={() => navigation.goBack()} rightOnPress={() => addBrew()}/>
 
-            <ScrollView style={{...styles.container, backgroundColor: colors.background}} keyboardDismissMode="on-drag">
+            <KeyboardAwareScrollView style={{...styles.container, backgroundColor: colors.background}} keyboardDismissMode="on-drag">
                 <TableView header="Info">
                     <RowItem
                         title="Beans"
@@ -290,7 +290,7 @@ const NewBrew = ({ route, navigation }) => {
                         </View>
                     </TouchableOpacity>
                 </TableView>
-            </ScrollView>
+            </KeyboardAwareScrollView>
 
             <ProfileModal showModal={showFlavorModal} setShowModal={setShowFlavorModal} title={modalValues.title} text={modalValues.text}/>
         </View>
