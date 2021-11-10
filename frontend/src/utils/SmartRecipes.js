@@ -23,7 +23,7 @@ const issues = [
         title: "Too Weak",
         subtitle: "(Thin/Watery)",
         fix: (brew) => {
-            return {...brew, coffee: toTwoDigits(brew.coffee*1.025), body: limitOut(brew.body+15), notes: "Suggestion: Tighten the grind."};
+            return {...brew, coffee: toTwoDigits(brew.coffee*1.025), body: limitOut(brew.body+15), flavor: limitOut(brew.flavor+15), notes: "Suggestion: Tighten the grind."};
         }
     }, 
     {
@@ -31,7 +31,7 @@ const issues = [
         title: "Too Strong",
         subtitle: "(Thick/Heavy)",
         fix: (brew) => {
-            return {...brew, coffee: toTwoDigits(brew.coffee*0.975), body: limitOut(brew.body+15), notes: ""};
+            return {...brew, coffee: toTwoDigits(brew.coffee*0.975), body: limitOut(brew.body+15), flavor: limitOut(brew.flavor+15), notes: ""};
         }
     },
     {
@@ -63,7 +63,7 @@ const issues = [
         title: "Drawdown Too Slow",
         subtitle: "",
         fix: (brew) => {
-            return {...brew, notes: ""};
+            return {...brew, notes: "Suggestion: Loosen the grind."};
         }
     },
     {
@@ -71,7 +71,7 @@ const issues = [
         title: "Drawdown Too Fast",
         subtitle: "",
         fix: (brew) => {
-            return {...brew, notes: ""};
+            return {...brew, notes: "Suggestion: Tighten the grind."};
         }
     }
 ]
