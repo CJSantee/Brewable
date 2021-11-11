@@ -34,3 +34,11 @@ Fixed bug re-initializing database everytime the app starts.
 - Version Label in Settings
 - Design improvements on Display Beans page
 - Removed Price (Might be re-added with additional support in a later release)
+
+# v1.1.1
+### Features:
+- Two New Bag Icons
+### Bug Fixes: 
+- Editing Brews
+### Other: 
+- Styling edits to RecipeRow

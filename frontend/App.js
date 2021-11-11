@@ -27,6 +27,8 @@ export default function App() {
       require('./assets/images/Bag_3.png'),
       require('./assets/images/Bag_4.png'),
       require('./assets/images/Bag_5.png'),
+      require('./assets/images/Bag_6.png'),
+      require('./assets/images/Bag_7.png'),
       require('./assets/images/Bag_Icon.png'),
       require('./assets/images/BeansBag.png'),
       require('./assets/images/CameraBag.png'),

@@ -46,11 +46,22 @@ const EditBrew = ({ route, navigation }) => {
     const { parent, brew_id } = route.params;
     const {colors} = useTheme(); // Color theme
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
+    
+    // Alert for missing Brew Info
+    const missingInfoAlert = () => {
+        Alert.alert(
+            "Missing Fields",
+            "Please select Beans and Brew Method",
+            [
+                {text: "OK"}
+            ]
+        )
+    }
 
     // Update brew in database
     const updateBrew = () => {
-        if (brew === null) {
-            console.log("error");
+        if (brew.beans_id === "" || brew.brew_method === "") {
+            missingInfoAlert();
             return false;
         }
     

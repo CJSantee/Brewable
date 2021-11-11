@@ -18,6 +18,10 @@ function Icon({uri, size, onRender}) {
                 return Asset.fromModule(require('../../assets/images/Bag_4.png')).uri;
             case "5":
                 return Asset.fromModule(require('../../assets/images/Bag_5.png')).uri;
+            case "6":
+                return Asset.fromModule(require('../../assets/images/Bag_6.png')).uri;
+            case "7":
+                return Asset.fromModule(require('../../assets/images/Bag_7.png')).uri;
             default:
                 return uri;
         }

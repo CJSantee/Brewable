@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
     View,
+    ScrollView,
     StyleSheet,
     TouchableOpacity,
     Image,
@@ -53,29 +54,37 @@ const SelectIcon = ({ route, navigation }) => {
                 leftChevron={true}  
             />}
             {cameraVisible?<BeansCamera onCancel={() => setCameraVisible(false)} setUri={setUri}/>
-            :<View style={{marginVertical: 15}}>
+            :<ScrollView>
                 <View style={styles.iconsList}>
-                    <TouchableOpacity onPress={() => setSelectedIcon("1")} style={{marginLeft: 15, padding: 15, borderRadius: 30, borderWidth: 2, borderColor: selectedIcon==="1"?colors.interactive:colors.background}}>
+                    <TouchableOpacity onPress={() => setSelectedIcon("1")} style={{...styles.iconContainer, borderColor: selectedIcon==="1"?colors.interactive:colors.background}}>
                         <Icon uri={"1"} size={imageSize}/>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setSelectedIcon("2")} style={{marginRight: 15, padding: 15, borderRadius: 30, borderWidth: 2, borderColor: selectedIcon==="2"?colors.interactive:colors.background}}>
+                    <TouchableOpacity onPress={() => setSelectedIcon("2")} style={{...styles.iconContainer, borderColor: selectedIcon==="2"?colors.interactive:colors.background}}>
                         <Icon uri={"2"} size={imageSize}/>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.iconsList}>
-                    <TouchableOpacity onPress={() => setSelectedIcon("3")} style={{marginLeft: 15, padding: 15, borderRadius: 30, borderWidth: 2, borderColor: selectedIcon==="3"?colors.interactive:colors.background}}>
+                    <TouchableOpacity onPress={() => setSelectedIcon("3")} style={{...styles.iconContainer, borderColor: selectedIcon==="3"?colors.interactive:colors.background}}>
                         <Icon uri={"3"} size={imageSize}/>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setSelectedIcon("4")} style={{marginRight: 15, padding: 15, borderRadius: 30, borderWidth: 2, borderColor: selectedIcon==="4"?colors.interactive:colors.background}}>
+                    <TouchableOpacity onPress={() => setSelectedIcon("4")} style={{...styles.iconContainer, borderColor: selectedIcon==="4"?colors.interactive:colors.background}}>
                         <Icon uri={"4"} size={imageSize}/>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.iconsList}>
-                    <TouchableOpacity onPress={() => setSelectedIcon("5")} style={{marginLeft: 15, padding: 15, borderRadius: 30, borderWidth: 2, borderColor: selectedIcon==="5"?colors.interactive:colors.background}}>
+                    <TouchableOpacity onPress={() => setSelectedIcon("5")} style={{...styles.iconContainer, borderColor: selectedIcon==="5"?colors.interactive:colors.background}}>
                         <Icon uri={"5"} size={imageSize}/>
                     </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setSelectedIcon("6")} style={{...styles.iconContainer, borderColor: selectedIcon==="6"?colors.interactive:colors.background}}>
+                        <Icon uri={"6"} size={imageSize}/>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.iconsList}>
+                    <TouchableOpacity onPress={() => setSelectedIcon("7")} style={{...styles.iconContainer, borderColor: selectedIcon==="7"?colors.interactive:colors.background}}>
+                        <Icon uri={"7"} size={imageSize}/>
+                    </TouchableOpacity>
                     {uri && !selectedIcon
-                    ?<View style={{marginRight: 15, padding: 15, borderRadius: 30, borderWidth: 2, borderColor: colors.interactive}}>
+                    ?<View style={{...styles.iconContainer, borderColor: colors.interactive}}>
                         <Image source={{uri: uri}} style={{
                             width: imageSize, height: imageSize, resizeMode: 'contain'}}/>
                     </View>
@@ -86,7 +95,7 @@ const SelectIcon = ({ route, navigation }) => {
                         </View>
                     </TouchableOpacity>}
                 </View>
-            </View>}
+            </ScrollView>}
         </View>
     );
 }
@@ -100,7 +109,12 @@ const styles = StyleSheet.create({
     iconsList: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'space-evenly',
         marginBottom: 15,
+    },
+    iconContainer: {
+        padding: 15, 
+        borderRadius: 30, 
+        borderWidth: 2,
     }
 });

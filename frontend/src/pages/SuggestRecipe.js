@@ -19,6 +19,7 @@ import Header from '../components/Header';
 import TableView from '../components/TableView';
 import RowItem from '../components/RowItem';
 import TastingWheel from '../components/TastingWheel';
+import RecipeRow from '../components/RecipeRow';
 
 /*
     TODO: Add Notes to suggestions
@@ -42,31 +43,7 @@ function SuggestRecipe({ route, navigation }) {
             <Header title="Recipe Suggestions" leftText="Back" leftChevron={true} leftOnPress={() => navigation.goBack()}/>
             <ScrollView>
                 <TableView header="Old">
-                    <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: 10}}>
-                        <View style={styles.item}>
-                            <Entypo name="water" size={23} color="#0069A7"/>
-                            <Text style={{...styles.value, color: colors.text}}>{brew.water}</Text>
-                            <Text style={{color: colors.text}}>{brew.water_unit}</Text>
-                        </View>
-                        <View style={styles.item}>
-                            <CoffeeBean width={23} height={23} style={{color: "#714B33"}}/>
-                            <Text style={{...styles.value, color: colors.text}}>{brew.coffee}</Text>
-                            <Text style={{color: colors.text}}>{brew.coffee_unit}</Text>
-                        </View>
-                        <View style={styles.item}>
-                            <CoffeeGrounds width={23} height={23} style={{color: "#714B33"}}/>
-                            <Text style={{...styles.value, color: colors.text}}>{brew.grind_setting}</Text>
-                        </View>
-                        <View style={styles.item}>
-                            <FontAwesome5 size={23} name="fire" color="#EB811E"/>
-                            <Text style={{...styles.value, color: colors.text}}>{brew.temperature}°</Text>
-                            <Text style={{color: colors.text}}>{brew.temp_unit}</Text>
-                        </View>
-                        <View style={styles.item}>
-                            <MaterialCommunityIcons name="timer" size={23} color="#4D814B"/>
-                            <Text style={{...styles.value, color: colors.text}}>{brew.time}</Text>
-                        </View>
-                    </View>
+                    <RecipeRow brew={brew}/>
                 </TableView>
                 <View style={{width: '100%', alignItems: 'center'}}>
                     <View style={{width: width/1.5, height: width/1.5}}>
@@ -81,34 +58,11 @@ function SuggestRecipe({ route, navigation }) {
                             <Text style={{ fontSize: 12, color: colors.interactive }}>ADD BREW</Text>
                         </TouchableOpacity>}
                 >
-                    <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: 10}}>
-                        <View style={styles.item}>
-                            <Entypo name="water" size={23} color="#0069A7"/>
-                            <Text style={{...styles.value, color: colors.text}}>{newBrew.water}</Text>
-                            <Text style={{color: colors.text}}>{newBrew.water_unit}</Text>
-                        </View>
-                        <View style={styles.item}>
-                            <CoffeeBean width={23} height={23} style={{color: "#714B33"}}/>
-                            <Text style={{...styles.value, color: colors.text}}>{newBrew.coffee}</Text>
-                            <Text style={{color: colors.text}}>{newBrew.coffee_unit}</Text>
-                        </View>
-                        <View style={styles.item}>
-                            <CoffeeGrounds width={23} height={23} style={{color: "#714B33"}}/>
-                            <Text style={{...styles.value, color: colors.text}}>{newBrew.grind_setting}</Text>
-                        </View>
-                        <View style={styles.item}>
-                            <FontAwesome5 size={23} name="fire" color="#EB811E"/>
-                            <Text style={{...styles.value, color: colors.text}}>{newBrew.temperature}°</Text>
-                            <Text style={{color: colors.text}}>{newBrew.temp_unit}</Text>
-                        </View>
-                        <View style={styles.item}>
-                            <MaterialCommunityIcons name="timer" size={23} color="#4D814B"/>
-                            <Text style={{...styles.value, color: colors.text}}>{newBrew.time}</Text>
-                        </View>
-                    </View>
+                    <RecipeRow brew={newBrew}/>
+                    {(newBrew.notes !== "") &&
                     <View style={{marginHorizontal: 10}}>
                         <Text style={{color: colors.text}}>{newBrew.notes}</Text>
-                    </View>
+                    </View>}
                 </TableView>
                 <View style={{width: '100%', alignItems: 'center'}}>
                     <View style={{width: width/1.5, height: width/1.5}}>

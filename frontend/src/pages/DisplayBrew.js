@@ -8,13 +8,12 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
-import { FontAwesome, Entypo, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
-import CoffeeBean from '../../assets/icons/coffeeBean.svg';
-import CoffeeGrounds from '../../assets/icons/coffeeGrounds.svg';
+import { FontAwesome } from '@expo/vector-icons';
 
 // Component Imports
 import TastingWheel from '../components/TastingWheel';
 import Header from '../components/Header';
+import RecipeRow from '../components/RecipeRow';
 
 let {height, width} = Dimensions.get('window');
 
@@ -89,31 +88,7 @@ const DisplayBrew = ({ route, navigation }) => {
                     <Text style={{fontSize: 18, color: colors.text}}>{brewDate()} - </Text>
                     <Text style={{fontSize: 18, color: colors.text}}>{brew.brew_method}</Text>
                 </View>
-                <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: 10}}>
-                    <View style={styles.item}>
-                        <Entypo name="water" size={23} color="#0069A7"/>
-                        <Text style={{...styles.value, color: colors.text}}>{brew.water}</Text>
-                        <Text style={{color: colors.text}}>{brew.water_unit}</Text>
-                    </View>
-                    <View style={styles.item}>
-                        <CoffeeBean width={23} height={23} style={{color: "#714B33"}}/>
-                        <Text style={{...styles.value, color: colors.text}}>{brew.coffee}</Text>
-                        <Text style={{color: colors.text}}>{brew.coffee_unit}</Text>
-                    </View>
-                    <View style={styles.item}>
-                        <CoffeeGrounds width={23} height={23} style={{color: "#714B33"}}/>
-                        <Text style={{...styles.value, color: colors.text}}>{brew.grind_setting}</Text>
-                    </View>
-                    <View style={styles.item}>
-                        <FontAwesome5 size={23} name="fire" color="#EB811E"/>
-                        <Text style={{...styles.value, color: colors.text}}>{brew.temperature}°</Text>
-                        <Text style={{color: colors.text}}>{brew.temp_unit}</Text>
-                    </View>
-                    <View style={styles.item}>
-                        <MaterialCommunityIcons name="timer" size={23} color="#4D814B"/>
-                        <Text style={{...styles.value, color: colors.text}}>{brew.time}</Text>
-                    </View>
-                </View>
+                <RecipeRow brew={brew}/>
                 <View style={styles.notes}>
                     <Text style={{fontSize: 15, color: colors.text}}>{brew.notes}</Text>
                 </View>
@@ -149,22 +124,12 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 0
     },
-    item: {
-        flexDirection: 'row',
-        marginHorizontal: 10,
-        marginVertical: 5,
-        alignItems: 'center'
-    },
     title: {
         fontWeight: 'bold',
         fontSize: 22,
     },
     subtitle: {
         fontSize: 22,
-    },
-    value: {
-        fontSize: 16,
-        marginLeft: 5
     },
     notes: {
         marginHorizontal: 10
