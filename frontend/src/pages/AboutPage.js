@@ -19,7 +19,7 @@ function AboutPage({ navigation }) {
                     <Text style={{...styles.subtitle, color: colors.text}}>Colin Santee</Text>
                 </View>
                 <View style={styles.block}>
-                    <Text style={{...styles.title, color: colors.text}}>Research</Text>
+                    <Text style={{...styles.title, color: colors.text}}>Special Thanks</Text>
                     <Text style={{...styles.subtitle, color: colors.text}}>Madelyne Brooks</Text>
                 </View>
                 <View style={styles.block}>
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     title: {
-        fontSize: 18,
+        fontSize: 17,
         margin: 2
     },
     subtitle: {
