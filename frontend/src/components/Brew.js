@@ -36,39 +36,44 @@ const Brew = ({ brew, colors, navigation, onLongPress, share }) => {
                     <View style={styles.cardItem}>
                         <Text style={{...styles.title, color: colors.text}}>{brew.brew_method}</Text>
                     </View>
+                    {brew.water !== 0 && brew.water !== "" && 
                     <View style={styles.cardItem}>
                         <View style={styles.iconContainer}>
                             <Entypo name="water" size={22} color="#0069A7"/>
                         </View>
                         <Text style={{...styles.value, color: colors.text}}>{brew.water}</Text>
                         <Text style={{color: colors.text}}>{brew.water_unit}</Text>
-                    </View>
+                    </View>}
+                    {brew.coffee !== 0 && brew.coffee !== "" && 
                     <View style={styles.cardItem}>
                         <View style={styles.iconContainer}>
                             <CoffeeBean width={22} height={22} style={{color: "#714B33"}}/>
                         </View>
                         <Text style={{...styles.value, color: colors.text}}>{brew.coffee}</Text>
                         <Text style={{color: colors.text}}>{brew.coffee_unit}</Text>
-                    </View>
+                    </View>}
+                    {brew.grind_setting !== 0 && brew.grind_setting !== "" && 
                     <View style={styles.cardItem}>
                         <View style={styles.iconContainer}>
                             <CoffeeGrounds width={22} height={22} style={{color: "#714B33"}}/>
                         </View>
                         <Text style={{...styles.value, color: colors.text}}>{brew.grind_setting}</Text>
-                    </View>
+                    </View>}
+                    {brew.temperature !== 0 && brew.temperature !== "" &&
                     <View style={styles.cardItem}>
                         <View style={styles.iconContainer}>
                             <FontAwesome5 name="fire" size={22} color="#EB811E"/>
                         </View>
                         <Text style={{...styles.value, color: colors.text}}>{brew.temperature}</Text>
                         <Text style={{color: colors.text}}>°{brew.temp_unit}</Text>
-                    </View>
+                    </View>}
+                    {brew.time !== "" &&
                     <View style={styles.cardItem}>
                         <View style={styles.iconContainer}>
                             <MaterialCommunityIcons name="timer" size={22} color="#4D814B"/>
                         </View>
                         <Text style={{...styles.value, color: colors.text}}>{brew.time}</Text>
-                    </View>
+                    </View>}
                     <View style={styles.rating}>
                         {Array(brew.rating).fill().map((_, idx)=>idx).map((value) => (
                             <FontAwesome key={value} name="star" size={18} color={'rgb(255,149,67)'}/>

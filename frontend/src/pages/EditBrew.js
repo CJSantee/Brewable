@@ -28,7 +28,7 @@ const EditBrew = ({ route, navigation }) => {
     const [brew, setBrew] = useState(
         {
             brew_method: "", 
-            grind_setting: "", 
+            grind_setting: 0, 
             coffee: 0, coffee_unit: "g", 
             water: 0, water_unit: "g", 
             temperature: 0, temp_unit: "f", 

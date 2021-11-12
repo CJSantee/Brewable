@@ -6,11 +6,6 @@ const flavorData = require('../../assets/data/Flavors.json');
 // CoffeeLab.db
 const createTables = (db) => {
     db.transaction((tx) => {
-        // tx.executeSql("DROP TABLE IF EXISTS beans;");
-        // tx.executeSql("DROP TABLE IF EXISTS brews;");
-        // tx.executeSql("DROP TABLE IF EXISTS brew_methods;");
-        // tx.executeSql("DROP TABLE IF EXISTS flavors;");
-
         tx.executeSql(
           `CREATE TABLE IF NOT EXISTS beans (
             id INTEGER PRIMARY KEY NOT NULL,
@@ -32,7 +27,7 @@ const createTables = (db) => {
         tx.executeSql(
           `CREATE TABLE IF NOT EXISTS brews (
               id INTEGER PRIMARY KEY NOT NULL,
-              grind_setting TEXT,
+              grind_setting REAL,
               water REAL,
               water_unit TEXT,
               coffee REAL,
@@ -41,6 +36,7 @@ const createTables = (db) => {
               temp_unit TEXT,
               brew_method TEXT,
               time TEXT,
+              bloom TEXT,
               date TEXT,
               notes TEXT,
               flavor INTEGER,
@@ -75,13 +71,86 @@ const createTables = (db) => {
     null);
 };
 
-const updateTables = (db) => {
-  // v1.1.0 -> Added Bloom to Brews
+const updateTables110 = (db) => {
+  // v1.1.0 -> Added 'bloom' to 'brews' table
   db.transaction((tx) => {
     tx.executeSql(
       `ALTER TABLE brews
         ADD COLUMN bloom TEXT;`
     );
+  },
+  (e) => console.log(e),
+  null);
+}
+
+const updateTables113 = (db) => {
+  // v1.1.3 -> Changed 'grind_setting' to type REAL in 'brews' table
+  console.log("Attempting update to 1.1.3");
+  db.transaction((tx) => {
+    tx.executeSql("PRAGMA foreign_keys=off;");
+  },
+  (e) => console.log(e),
+  null);
+  db.transaction((tx) => {
+    tx.executeSql("ALTER TABLE brews RENAME TO _brews_old;");
+    tx.executeSql(
+      `CREATE TABLE brews (
+        id INTEGER PRIMARY KEY NOT NULL,
+        grind_setting REAL,
+        water REAL, water_unit TEXT,
+        coffee REAL, coffee_unit TEXT,
+        temperature REAL, temp_unit TEXT,
+        brew_method TEXT,
+        time TEXT, bloom TEXT,
+        date TEXT,
+        notes TEXT,
+        flavor INTEGER,
+        acidity INTEGER,
+        aroma INTEGER,
+        body INTEGER,
+        sweetness INTEGER,
+        aftertaste INTEGER,
+        beans_id INTEGER,
+        favorite INTEGER,
+        rating INTEGER,
+        FOREIGN KEY (beans_id) REFERENCES beans(id) ON DELETE CASCADE
+      );`
+    );
+    tx.executeSql(
+      `INSERT INTO brews (
+        id, 
+        grind_setting, 
+        water, water_unit, 
+        coffee, coffee_unit, 
+        temperature, temp_unit, 
+        brew_method, 
+        time, bloom, 
+        date,
+        notes,
+        flavor, acidity, aroma, body, sweetness, aftertaste,
+        beans_id, 
+        favorite, rating)
+      SELECT 
+        id, 
+        grind_setting, 
+        water, water_unit, 
+        coffee, coffee_unit, 
+        temperature, temp_unit, 
+        brew_method, 
+        time, bloom, 
+        date,
+        notes,
+        flavor, acidity, aroma, body, sweetness, aftertaste,
+        beans_id, 
+        favorite, rating
+      FROM _brews_old;`
+    );
+  },
+  (e) => console.log(e),
+  () => console.log("UPDATED"));
+  db.transaction((tx) => {
+    tx.executeSql("PRAGMA foreign_keys=on;");
+    tx.executeSql("DROP TABLE _brews_old")
   },
   (e) => console.log(e),
   null);
@@ -97,7 +166,10 @@ const checkForUpdate = (db) => {
       (_, { rows: { _array } }) => {
         sql = _array[0].sql;
         if (!sql.includes("bloom TEXT")) {
-          updateTables(db);
+          updateTables110(db);
+        }
+        if (sql.includes("grind_setting TEXT")) {
+          updateTables113(db);
         }
       }
   );

@@ -28,7 +28,7 @@ const TextFieldRow = ({title, text, onChange, onEndEditing, keyboardType, childr
                     {(text !== "" && text !== 0 && !titleOnly) ? <Text style={{...styles.title, color: colors.text}}>{title}</Text> : <View/>}
                     <TextInput 
                         style={{...styles.text, color: activeTextColor||colors.text}} 
-                        value={text === 0 ? "" : text.toString()} 
+                        value={!text ? "" : text.toString()} 
                         placeholder={title}
                         placeholderTextColor={colors.placeholder}
                         onChangeText={onChange}

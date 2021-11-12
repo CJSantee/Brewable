@@ -133,7 +133,7 @@ const EditBeans = ({ route, navigation }) => {
             <Header 
                 title="Edit Beans" 
                 leftText="Cancel" rightText="Done" 
-                leftOnPress={() => navigation.navigate(parent, { beans_id: beans_id })} 
+                leftOnPress={() => navigation.goBack()} 
                 rightOnPress={() => updateBeans()}
             />
             <KeyboardAwareScrollView>
