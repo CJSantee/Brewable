@@ -85,9 +85,9 @@ const NewBrew = ({ route, navigation }) => {
             (tx) => {
                 tx.executeSql(`
                     INSERT INTO brews
-                    (grind_setting, water, water_unit, coffee, coffee_unit, temperature, temp_unit, brew_method, time, date, notes, flavor, acidity, aroma, body, sweetness, aftertaste, beans_id, favorite, rating)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-                    [brew.grind_setting, brew.water, brew.water_unit, brew.coffee, brew.coffee_unit, brew.temperature, brew.temp_unit, brew.brew_method, formatTime(), brew.date.toJSON(), brew.notes, brew.flavor, brew.acidity, brew.aroma, brew.body, brew.sweetness, brew.aftertaste, brew.beans_id, brew.favorite, brew.rating]);
+                    (grind_setting, water, water_unit, coffee, coffee_unit, temperature, temp_unit, brew_method, time, bloom, date, notes, flavor, acidity, aroma, body, sweetness, aftertaste, beans_id, favorite, rating)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+                    [brew.grind_setting, brew.water, brew.water_unit, brew.coffee, brew.coffee_unit, brew.temperature, brew.temp_unit, brew.brew_method, usingBrewTimer?formatTime(brewTimer):brew.time, usingBloomTimer?formatTime(bloomTimer):brew.bloom, brew.date.toJSON(), brew.notes, brew.flavor, brew.acidity, brew.aroma, brew.body, brew.sweetness, brew.aftertaste, brew.beans_id, brew.favorite, brew.rating]);
             },
             (e) => {console.log(e)},
             () => navigation.goBack()

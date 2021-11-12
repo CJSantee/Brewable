@@ -36,13 +36,23 @@ const SelectIcon = ({ route, navigation }) => {
         );
     }
 
-    useFocusEffect(
-        useCallback(() => {
-            if (route.params?.photo_uri) {
-                setSelectedIcon(route.params.photo_uri);
-            }
-        }, [route.params?.photo_uri])
-    );
+    useEffect(() => {
+        if (route.params?.photo_uri) {
+            setSelectedIcon(route.params.photo_uri);
+        }
+    }, [route.params?.photo_uri]);
+
+    function rightOnPress() {
+        if (parent === "NewBeans") {
+            navigation.navigate(parent, { photo_uri: selectedIcon?selectedIcon:uri });
+        }
+        else if (parent === "EditBeans") {
+            updateBeans();
+        }
+        else {
+            navigation.goBack();
+        }
+    }
 
     return (
         <View style={{height: "100%", width: "100%"}}>  
@@ -51,7 +61,7 @@ const SelectIcon = ({ route, navigation }) => {
                 leftText="Back"
                 leftOnPress={() => navigation.goBack()}
                 rightText="Done"
-                rightOnPress={() => updateBeans()} 
+                rightOnPress={rightOnPress} 
                 leftChevron={true}  
             />}
             {cameraVisible?<BeansCamera onCancel={() => setCameraVisible(false)} setUri={setUri}/>

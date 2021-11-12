@@ -3,7 +3,7 @@
     "name": "Craft Coffee",
     "slug": "craftCoffee",
     "privacy": "public",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "platforms": ["ios"],
     "githubUrl": "https://github.com/CJSantee/Craft-Coffee",
     "orientation": "portrait",
@@ -22,7 +22,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.cjsantee.craftCoffee",
-      "buildNumber": "1.1.1",
+      "buildNumber": "1.1.2",
       "infoPlist": {
         "NSCameraUsageDescription": "Allow Craft Coffee to use your camera",
         "NSPhotoLibraryAddUsageDescription": "Give Craft Coffee permission to save photos",

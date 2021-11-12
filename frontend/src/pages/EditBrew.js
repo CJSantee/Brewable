@@ -36,6 +36,7 @@ const EditBrew = ({ route, navigation }) => {
             notes: "", 
             date: new Date(), 
             time: "",
+            bloom: "",
             beans_id: 0, 
             rating: 0,
             roaster: "", region: ""
@@ -43,8 +44,9 @@ const EditBrew = ({ route, navigation }) => {
     ); // Brew state
     const [showFlavorModal, setShowFlavorModal] = useState(false);
     const [modalValues, setModalValues] = useState({title: "", text: ""});
+    const [showBloom, setShowBloom] = useState(false);
     const { parent, brew_id } = route.params;
-    const {colors} = useTheme(); // Color theme
+    const { colors } = useTheme(); // Color theme
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
     
     // Alert for missing Brew Info
@@ -127,7 +129,10 @@ const EditBrew = ({ route, navigation }) => {
                         WHERE brews.id = ?;`,
                         [brew_id],
                         (_, { rows: { _array } }) => {
-                            if (mounted) setBrew(_array[0]);
+                            if (mounted) {
+                                setBrew(_array[0]);
+                                setShowBloom(_array[0].bloom !== "");
+                            };
                         }
                     );
                 },
@@ -210,12 +215,22 @@ const EditBrew = ({ route, navigation }) => {
                         />
                     </TextFieldRow>
                 </TableView>
-                <TableView header="Time">
-                    <TextFieldRow
-                        title="Brew Time" text={brew.time} onChange={(value) => setBrew({...brew, time: value})}
-                    >
-                        <Ionicons name="ios-timer-sharp" size={25} color={colors.interactive}/>
+                <TableView 
+                    header="Time"
+                    rightChildren={
+                        <TouchableOpacity onPress={() => setShowBloom(!showBloom)}>
+                            <Feather name={showBloom?"chevron-up":"chevron-down"} size={16} color={colors.placeholder}/>     
+                        </TouchableOpacity>
+                    }
+                >
+                    <TextFieldRow title="Brew Time" text={brew.time} onChange={(value) => setBrew({...brew, time: value})}>
+                        <Ionicons name="ios-timer-sharp" size={25} color={colors.placeholder} />
                     </TextFieldRow>
+                    {showBloom && 
+                        <TextFieldRow title="Bloom Time" text={brew.bloom} onChange={(value) => setBrew({...brew, bloom: value})}>
+                            <Ionicons name="ios-timer-sharp" size={25} color={colors.placeholder} />
+                        </TextFieldRow>
+                    }
                 </TableView>
                 <TableView header="Profile">
                     <SliderRow 

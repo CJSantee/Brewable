@@ -14,6 +14,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import TastingWheel from '../components/TastingWheel';
 import Header from '../components/Header';
 import RecipeRow from '../components/RecipeRow';
+import { toDateString } from '../utils/Converter';
 
 let {height, width} = Dimensions.get('window');
 
@@ -21,13 +22,6 @@ const DisplayBrew = ({ route, navigation }) => {
     const [brew, setBrew] = useState({body: 0, aftertaste: 0, sweetness: 0, aroma: 0, flavor: 0, acidity: 0, rating: 0}); // Initial values for flavor wheel
     const { brew_id } = route.params; // Brew_id to retireve brew info
     const { colors } = useTheme(); // Color theme
-
-    const options = { weekdate: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    function brewDate() {
-        if (brew.date === "") return "";
-        let date = new Date(brew.date);
-        return date.toLocaleDateString('en-US', options);
-    }
 
     // Load brew by brew.id when component renders
     useFocusEffect(
@@ -85,7 +79,7 @@ const DisplayBrew = ({ route, navigation }) => {
                     </View>
                 </View>
                 <View style={styles.row}>
-                    <Text style={{fontSize: 18, color: colors.text}}>{brewDate()} - </Text>
+                    <Text style={{fontSize: 18, color: colors.text}}>{toDateString(brew.date)} - </Text>
                     <Text style={{fontSize: 18, color: colors.text}}>{brew.brew_method}</Text>
                 </View>
                 <RecipeRow brew={brew}/>
