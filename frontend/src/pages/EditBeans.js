@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
     View,
     StyleSheet,
@@ -8,7 +8,7 @@ import {
     Dimensions
 } from 'react-native';
 import { SegmentedControl } from 'react-native-ios-kit';
-import { useTheme } from '@react-navigation/native';
+import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -25,9 +25,21 @@ import Header from '../components/Header';
 import Icon from '../components/Icon';
 
 const EditBeans = ({ route, navigation }) => {
-    const [beans, setBeans] = useState(route.params.beans); // Retrieve beans data from parent
+    const [beans, setBeans] = useState({
+        region: "", 
+        roaster: "", 
+        origin: "", 
+        roast_level: "", 
+        roast_date: new Date(), 
+        price: 0, 
+        weight: 0, 
+        weight_unit: "g",
+        flavor_notes: ""
+    });
+
+    const [loadingBeans, setLoadingBeans] = useState(true); // Page initially loading state
+    const { parent, beans_id } = route.params; // Beans_id for which beans to display
     const {colors} = useTheme(); // Color theme
-    const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
 
     const missingInfoAlert = () => {
         Alert.alert(
@@ -83,7 +95,7 @@ const EditBeans = ({ route, navigation }) => {
             [
                 {
                     text: "Cancel",
-                    onPress: () => console.log("Cancel")
+                    onPress: () => {}
                 },
                 {
                     text: "Yes",
@@ -93,27 +105,39 @@ const EditBeans = ({ route, navigation }) => {
         )
     }
 
-    useEffect(() => {
-        if (route.params?.flavor_notes) { // If parent provides flavor_notes, update beans.flavor_notes
-            setBeans({ ...beans, flavor_notes: route.params.flavor_notes});
-        } else {
-            setBeans({ ...beans, flavor_notes: "" })
-        }
-        if (route.params?.photo_uri) {
-            setBeans({...beans, photo_uri: route.params.photo_uri});
-        }
-    }, [route.params?.flavor_notes, route.params?.photo_uri]);
+    useFocusEffect(
+        useCallback(() => {
+            let mounted = true;
+            db.transaction(
+                (tx) => {
+                    tx.executeSql(
+                        `SELECT * 
+                        FROM beans 
+                        WHERE id = ?;`,
+                        [beans_id],
+                        (_, { rows: { _array } }) => {
+                            if (mounted) {
+                                setBeans(_array[0]);
+                            }
+                        }
+                    );                    
+                },
+                (e) => console.log(e), () => setLoadingBeans(false)
+            );
+            return () => mounted = false;
+        }, [])
+    );
 
     return (
         <View style={{width: "100%", height: "100%"}}>
             <Header 
                 title="Edit Beans" 
                 leftText="Cancel" rightText="Done" 
-                leftOnPress={() => navigation.goBack()} 
+                leftOnPress={() => navigation.navigate(parent, { beans_id: beans_id })} 
                 rightOnPress={() => updateBeans()}
             />
             <KeyboardAwareScrollView>
-                <TouchableOpacity onPress={() => navigation.navigate("SelectIcon", { parent: "EditBeans", beans_id: beans.id, selectedIcon: beans.photo_uri })}>
+                <TouchableOpacity onPress={() => navigation.navigate("SelectIcon", { parent: "EditBeans", beans_id: beans.id, photo_uri: beans.photo_uri })}>
                     <View style={{marginTop: 10, flexDirection: 'column', alignItems: 'center'}}>
                         <Icon uri={beans.photo_uri} size={(width/2)-55}/>
                         <Text style={{color: colors.interactive, fontSize: 15, margin: 5}}>Edit Icon</Text>
@@ -143,12 +167,6 @@ const EditBeans = ({ route, navigation }) => {
                 </TableView>
                 <TableView header="Bag">
                     <DatePickerRow title="Roast Date" value={beans.roast_date} onChange={(value) => setBeans({...beans, roast_date: value})}/>
-                    {/* <TextFieldRow 
-                        title="Price"
-                        text={beans.price}
-                        onChange={(value) => setBeans({...beans, price: value})}
-                        keyboardType="decimal-pad"
-                    /> */}
                     <TextFieldRow 
                         title="Weight"
                         text={beans.weight}
@@ -166,18 +184,18 @@ const EditBeans = ({ route, navigation }) => {
                 </TableView>
                 <TableView header="Flavor">
                     <RowItem
-                        title="Flavor Notes"
-                        text=""
-                        onPress={() => navigation.navigate("SelectFlavors", { parent: "EditBeans", flavor_notes: beans.flavor_notes })}
+                        title="Flavor Notes" text=""
+                        onPress={() => navigation.navigate("SelectFlavors", { parent: "EditBeans", beans_id: beans.id, flavor_notes: beans.flavor_notes })}
                     >   
                         <Feather name="chevron-right" size={16} color={colors.placeholder}/>
                     </RowItem>
                     <View style={styles.flavors}>
-                        {beans.flavor_notes !== "" ? beans.flavor_notes.split(',').map((item) => 
+                        {beans.flavor_notes !== ""&&
+                        beans.flavor_notes.split(',').map((item) => 
                             <View key={item} style={{...styles.flavor, backgroundColor: colors.card, borderColor: colors.border}}>
                                 <Text style={{...styles.flavorText, color: colors.text}}>{item}</Text>
                             </View>
-                        ) : <View/>}
+                        )}
                     </View>
                 </TableView>
                 <TableView>

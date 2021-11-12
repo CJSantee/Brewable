@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
     View,
     ScrollView,
@@ -7,7 +7,7 @@ import {
     Image,
     Dimensions,
 } from 'react-native';
-import { useTheme } from '@react-navigation/native';
+import { useTheme, useFocusEffect } from '@react-navigation/native';
 
 import Header from '../components/Header';
 import BeansCamera from '../components/Camera';
@@ -26,22 +26,23 @@ const SelectIcon = ({ route, navigation }) => {
 
     const imageSize = (width/2)-55;
 
-    // Unused?
     const updateBeans = () => {
         db.transaction(
             (tx) => {
-                tx.executeSql("UPDATE beans SET photo_uri = ? WHERE id = ?;", [uri, beans_id]);
+                tx.executeSql("UPDATE beans SET photo_uri = ? WHERE id = ?;", [selectedIcon?selectedIcon:uri, beans_id]);
             },
             (e) => console.log(e),
             () => navigation.navigate(parent, { beans_id: beans_id })
         );
     }
 
-    useEffect(() => {
-        if (route.params?.selectedIcon) {
-            setSelectedIcon(route.params.selectedIcon);
-        }
-    }, [route.params?.selectedIcon])
+    useFocusEffect(
+        useCallback(() => {
+            if (route.params?.photo_uri) {
+                setSelectedIcon(route.params.photo_uri);
+            }
+        }, [route.params?.photo_uri])
+    );
 
     return (
         <View style={{height: "100%", width: "100%"}}>  
@@ -50,7 +51,7 @@ const SelectIcon = ({ route, navigation }) => {
                 leftText="Back"
                 leftOnPress={() => navigation.goBack()}
                 rightText="Done"
-                rightOnPress={() => navigation.navigate(parent, { photo_uri: selectedIcon?selectedIcon:uri })} 
+                rightOnPress={() => updateBeans()} 
                 leftChevron={true}  
             />}
             {cameraVisible?<BeansCamera onCancel={() => setCameraVisible(false)} setUri={setUri}/>

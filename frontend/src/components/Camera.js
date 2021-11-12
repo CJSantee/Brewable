@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
+import { 
+    StyleSheet, 
+    Text, 
+    View, 
+    TouchableOpacity, 
+    Dimensions,
+    Alert
+ } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 
@@ -35,7 +42,15 @@ function BeansCamera({ onCancel, setUri }) {
             }
             setUri(asset.uri);
         } else {
-            console.log("Missing permissions");
+            Alert.alert(
+                "Missing Permissions",
+                [
+                    {
+                        text: "Ok",
+                        onPress: () => {}
+                    }
+                ]
+            );
         }
     }
 

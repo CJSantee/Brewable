@@ -56,7 +56,7 @@ const DisplayBeans = ({ route, navigation }) => {
     // Search State Variables
     const [sortBy, setSortBy] = useState("brew_date");
 
-    const { beans_id } = route.params; // Beans_id for which beans to display
+    const { parent, beans_id } = route.params; // Beans_id for which beans to display
     const { colors } = useTheme(); // Color theme
 
     const beansContainer = useRef();
@@ -298,7 +298,7 @@ const DisplayBeans = ({ route, navigation }) => {
                 title="Beans" 
                 leftText="Back" rightText="Edit" 
                 leftOnPress={() => navigation.goBack()} 
-                rightOnPress={() => navigation.navigate("EditBeans", {beans: beans, flavor_notes: beans.flavor_notes})}/>
+                rightOnPress={() => navigation.navigate("EditBeans", { beans_id: beans.id })}/>
             <ScrollView style={{flex: 1}} ref={beansContainer} style={{backgroundColor: colors.background}}>
             <View style={styles.row}>
                 <View style={{flexDirection: 'row', width: width-45, flexWrap: 'wrap'}}>

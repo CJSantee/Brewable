@@ -87,7 +87,15 @@ const BrewMethods = ({ route, navigation }) => {
     // Add method to database
     const addBrewMethod = (method) => {
         if (method === "") {
-            console.log("Missing Value");
+            Alert.alert(
+                "Missing Method",
+                [
+                    {
+                        text: "Ok",
+                        onPress: () => {}
+                    }
+                ]
+            );
             return false;
         }
     

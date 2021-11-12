@@ -15,7 +15,7 @@ import SearchBar from '../components/SearchBar';
 
 const SelectFlavors = ({ route, navigation }) => {
     const [flavors, setFlavors] = useState([]); // Array of brew methods
-    const { parent } = route.params; // Selected brew_method and parent navigation page
+    const { parent, beans_id } = route.params; // Selected brew_method and parent navigation page
     const { colors } = useTheme(); // Color theme
     const [editing, setEditing]= useState(false); // Selecting methods to delete
     const [selected, setSelected] = useState(new Set()); // Set of currently selected brew_methods
@@ -120,13 +120,24 @@ const SelectFlavors = ({ route, navigation }) => {
             },
             (e) => console.log(e),
             () => {
-                selected.forEach((value) => { // BUG: Deleted items are still picked
+                selected.forEach((value) => { 
                     if (picked.has(value)) // If values being deleted are picked, unpick them -> Still not working
                         togglePicked(value);
                 });
                 toggleEditing(); // On success, stop editing
                 updateFlavors(); // Update the flavors list
             } 
+        );
+    }
+
+    // Update the beans in the database
+    const updateBeans = () => {
+        db.transaction(
+            (tx) => {
+                tx.executeSql("UPDATE beans SET flavor_notes = ? WHERE id = ?;", [flavorNotes(), beans_id]);
+            },
+            (e) => console.log(e),
+            () => navigation.navigate(parent, { beans_id: beans_id })
         );
     }
 
@@ -147,12 +158,21 @@ const SelectFlavors = ({ route, navigation }) => {
                 );
             },
             (e) => {console.log(e)},
-            updateFlavors
+            onRefresh
         );
     }
 
+    // For NewBeans, add flavor_notes
+    useFocusEffect(
+        useCallback(() => {
+            if (route.params?.flavor_notes) {
+                setPicked(new Set(route.params?.flavor_notes.split(',')));
+            }
+        }, [route.params?.flavor_notes])
+    );
+
     // Load the flavors from the database
-    const updateFlavors = useCallback(() => {
+    const onRefresh = useCallback(() => {
         let mounted = true;
         db.transaction((tx) => {
             tx.executeSql(
@@ -170,38 +190,42 @@ const SelectFlavors = ({ route, navigation }) => {
     },[]);
 
     // Retrieve the array of brew methods from database when component is mounted
-    useFocusEffect(updateFlavors);
+    useFocusEffect(onRefresh);
 
-    // Second useEffect without dependencies so only run once on render
-    useEffect(() => {
-        if (route.params?.flavor_notes && parent !== "SettingsPage") { // If parent provides flavor_notes, update beans.flavor_notes
-            setPicked(new Set(route.params?.flavor_notes.split(',')));
+    function rightOnPress() {
+        if (parent === "NewBeans") {
+            navigation.navigate(parent, { parent: "SelectFlavors", flavor_notes: flavorNotes() })
+        } else if (parent === "EditBeans") {
+            updateBeans();
         }
-    },[])
+        else {
+            toggleEditing();
+        }
+    }
 
     return (
         <View style={{height: "100%", width: "100%"}}>  
             <Header 
                 title="Flavors" 
                 leftText={editing?"Delete":"Back"}
-                rightText={editing?"Done":"Edit"}
-                leftOnPress={editing?deleteSelected:() => navigation.navigate(parent, { flavor_notes: flavorNotes() })} 
+                rightText={editing||parent==="EditBeans"||parent==="NewBeans"?"Done":"Edit"}
+                leftOnPress={editing?deleteSelected:() => navigation.goBack()} 
                 leftChevron={editing?false:true}  
-                rightOnPress={toggleEditing}
+                rightOnPress={rightOnPress}
                 plus={true} plusOnPress={newFlavorPrompt}
             />
             <SearchBar searchQuery={searchQuery} setSearchQuery={handleSearch}/> 
             <FlatList 
                 data={searchQuery===""?flavors:searchResults}
-                renderItem={(item) => 
+                renderItem={({item}) => 
                     <RowItem 
-                        title={item.item.flavor} text=""
-                        onPress={() => togglePicked(item.item.flavor)}
+                        title={item.flavor} text=""
+                        onPress={() => togglePicked(item.flavor)}
                         showSelect={editing}
-                        selected={selected.has(item.item.flavor)}
+                        selected={selected.has(item.flavor)}
                         toggleSelect={(value) => toggleSelected(value)}
                     >
-                        {picked.has(item.item.flavor)?<Feather name="check" size={20} color={colors.placeholder}/> : <View/>}
+                        {picked.has(item.flavor)&&<Feather name="check" size={20} color={colors.placeholder}/>}
                     </RowItem>  
                 }
                 keyExtractor={item => item.id.toString()}

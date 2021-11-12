@@ -245,7 +245,7 @@ const HomePage = ({ navigation }) => {
             />}
             {btmModal && 
             <FullScreenModal colors={colors} close={() => setBtmModal(false)}>
-                <TouchableOpacity onPress={() => navigation.navigate("EditBeans", {beans: selected, flavor_notes: selected.flavor_notes})}>
+                <TouchableOpacity onPress={() => navigation.navigate("EditBeans", { beans_id: selected.id, flavor_notes: selected.flavor_notes })}>
                     <View style={styles.menuItem}>
                         <Feather name="edit" size={22} color={colors.text}/>
                         <Text style={{...styles.menuText, color: colors.text}}>Edit</Text>
