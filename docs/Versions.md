@@ -42,3 +42,5 @@ Fixed bug re-initializing database everytime the app starts.
 - Editing Brews
 ### Other: 
 - Styling edits to RecipeRow
+
+# v1.1.3

@@ -220,7 +220,7 @@ const SelectFlavors = ({ route, navigation }) => {
                 renderItem={({item}) => 
                     <RowItem 
                         title={item.flavor} text=""
-                        onPress={() => togglePicked(item.flavor)}
+                        onPress={() => {if (parent == "NewBeans" || parent == "EditBeans") togglePicked(item.flavor)}}
                         showSelect={editing}
                         selected={selected.has(item.flavor)}
                         toggleSelect={(value) => toggleSelected(value)}

@@ -21,7 +21,7 @@ export default function Home() {
             </div>
 
             <h1 className={styles.title}>
-              Craft Coffee
+              {"Craft Coffee"}
             </h1>
 
             <p className={styles.description}>
