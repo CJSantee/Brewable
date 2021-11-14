@@ -146,7 +146,7 @@ const SettingsPage = ({ navigation }) => {
                         <Feather name="chevron-right" size={16} color={colors.placeholder}/>
                     </RowItem>
                     <RowItem title="Version" text="">
-                        <Text style={{color: colors.text}}>1.1.0</Text>
+                        <Text style={{color: colors.text}}>1.1.4</Text>
                     </RowItem>
                 </TableView>
             </ScrollView>

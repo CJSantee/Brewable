@@ -24,7 +24,7 @@ import DatePickerRow from '../components/DatePickerRow';
 import Header from '../components/Header';
 import Icon from '../components/Icon';
 
-const EditBeans = ({ route, navigation }) => {
+function EditBeans({ route, navigation }) {
     const [beans, setBeans] = useState({
         region: "", 
         roaster: "", 
@@ -34,12 +34,13 @@ const EditBeans = ({ route, navigation }) => {
         price: 0, 
         weight: 0, 
         weight_unit: "g",
-        flavor_notes: ""
+        flavor_notes: "",
+        favorite: 0,
     });
 
     const [loadingBeans, setLoadingBeans] = useState(true); // Page initially loading state
     const { parent, beans_id } = route.params; // Beans_id for which beans to display
-    const {colors} = useTheme(); // Color theme
+    const { colors } = useTheme(); // Color theme
 
     const missingInfoAlert = () => {
         Alert.alert(
@@ -207,7 +208,7 @@ const EditBeans = ({ route, navigation }) => {
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => setBeans({...beans, favorite: beans.favorite===0?1:0})} style={{flex: 1}}>
                         <View style={{...styles.bottomButton, backgroundColor: colors.card, borderColor: colors.border}}>
-                            <Text style={{color: colors.interactive, fontSize: 16, marginRight: 5}}>Favorite Beans</Text>
+                            <Text style={{color: colors.interactive, fontSize: 16, marginRight: 5}}>{beans.favorite===0?"Favorite":"Unfavorite"}</Text>
                             <FontAwesome name={beans.favorite===1?"heart":"heart-o"} color={colors.interactive} style={{marginLeft: 5}}/>
                         </View>
                     </TouchableOpacity>

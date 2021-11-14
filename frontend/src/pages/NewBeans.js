@@ -187,7 +187,7 @@ const NewBeans = ({ route, navigation }) => {
                 <TableView>
                     <TouchableOpacity onPress={() => setBeans({...beans, favorite: beans.favorite===0?1:0})} style={{flex: 1}}>
                         <View style={{...styles.bottomButton, backgroundColor: colors.card, borderColor: colors.border}}>
-                            <Text style={{color: colors.interactive, fontSize: 16, marginRight: 5}}>Favorite Beans</Text>
+                            <Text style={{color: colors.interactive, fontSize: 16, marginRight: 5}}>{beans.favorite===0?"Favorite":"Unfavorite"}</Text>
                             <FontAwesome name={beans.favorite===1?"heart":"heart-o"} color={colors.interactive}/>
                         </View>
                     </TouchableOpacity>

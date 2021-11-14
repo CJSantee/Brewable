@@ -293,8 +293,8 @@ const EditBrew = ({ route, navigation }) => {
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => setBrew({...brew, favorite: brew.favorite===0?1:0})} style={{flex: 1}}>
                         <View style={{...styles.bottomButton, backgroundColor: colors.card, borderColor: colors.border}}>
-                            <Text style={{color: colors.interactive, fontSize: 16, marginRight: 5}}>Favorite Brew</Text>
-                            <FontAwesome icon={brew.favorite===1?"heart":"heart-o"} color={colors.interactive} style={{marginLeft: 5}}/>
+                            <Text style={{color: colors.interactive, fontSize: 16, marginRight: 5}}>{brew.favorite===0?"Favorite":"Unfavorite"}</Text>
+                            <FontAwesome name={brew.favorite===1?"heart":"heart-o"} color={colors.interactive} style={{marginLeft: 5}}/>
                         </View>
                     </TouchableOpacity>
                     </View>

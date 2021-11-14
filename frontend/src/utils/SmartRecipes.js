@@ -39,7 +39,7 @@ const issues = [
         title: "Too Acidic",
         subtitle: "(Sour)",
         fix: (brew) => {
-            return {...brew, grind_setting: parseFloat(brew.grind_setting)*0.975, temperature: limitTemp(brew.temperature+2, brew.temp_unit), acidity: limitOut(brew.acidity+15), notes: "" };
+            return {...brew, grind_setting: toTwoDigits(parseFloat(brew.grind_setting)*0.975), temperature: limitTemp(brew.temperature+2, brew.temp_unit), acidity: limitOut(brew.acidity+15), notes: "" };
         }
     },
     {
@@ -111,7 +111,6 @@ export function suggestIssues(brew) {
     // Add issues associated with acidity
     if (brew.acidity < 50) {
         suggestions.push(getIssue("tooAcidic"));
-        suggestions.push(getIssue("tooBitter"));
     }
     // Add issues associated with aroma
     if (brew.aroma < 50) {
