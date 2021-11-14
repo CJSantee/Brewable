@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Craft Coffee</title>
+        <title>Brewable</title>
         <meta name="description" content="Brew and review coffee" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -21,11 +21,11 @@ export default function Home() {
             </div>
 
             <h1 className={styles.title}>
-              {"Craft Coffee"}
+              {"Brewable"}
             </h1>
 
             <p className={styles.description}>
-              Craft Coffee is an app for coffee lovers; made to help you keep track of the beans you buy and the brews you produce with them.
+              Brewable is an app for coffee lovers; made to help you keep track of the beans you buy and the brews you produce with them.
             </p>
 
             <div className={styles.image}>
