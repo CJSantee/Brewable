@@ -44,3 +44,6 @@ Fixed bug re-initializing database everytime the app starts.
 - Styling edits to RecipeRow
 
 # v1.1.3
+
+# v1.1.4
+Updated name to Brewable
