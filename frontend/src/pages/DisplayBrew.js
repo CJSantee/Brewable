@@ -30,7 +30,7 @@ const DisplayBrew = ({ route, navigation }) => {
             db.transaction(
                 (tx) => {
                     tx.executeSql(
-                        `SELECT brews.*, beans.roaster, beans.region 
+                        `SELECT brews.*, beans.roaster, beans.name 
                         FROM brews 
                         LEFT JOIN beans ON brews.beans_id = beans.id
                         WHERE brews.id = ?;`,
@@ -72,7 +72,7 @@ const DisplayBrew = ({ route, navigation }) => {
                 <View style={styles.row}>
                     <View style={{flexDirection: 'row', width: width-45, flexWrap: 'wrap'}}>
                         <Text style={{...styles.title, color: colors.text}}>{brew.roaster} </Text>
-                        <Text style={{...styles.subtitle, color: colors.text}}>{brew.region}</Text>
+                        <Text style={{...styles.subtitle, color: colors.text}}>{brew.name}</Text>
                     </View>
                     <View style={styles.favorite}>
                         <FontAwesome name={brew.favorite?"heart":"heart-o"} size={25} color={brew.favorite?"#a00":colors.placeholder}/>

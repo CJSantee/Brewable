@@ -49,9 +49,9 @@ const SelectBeans = ({ navigation, route }) => {
                 data={beans}
                 renderItem={({item}) => 
                     <RowItem 
-                        title={item.roaster + " - " + item.region} 
+                        title={item.roaster + " - " + item.name} 
                         text=""
-                        onPress={parent==="EditBrew"?() => updateBrew(item.id):() => navigation.navigate(parent, { beans_id: item.id, roaster: item.roaster, region: item.region })}>
+                        onPress={parent==="EditBrew"?() => updateBrew(item.id):() => navigation.navigate(parent, { beans_id: item.id, roaster: item.roaster, name: item.name })}>
                         {beans_id === item.id ? <Feather name="check" size={20} color={colors.placeholder}/> : <View/>}
                     </RowItem>}
                 keyExtractor={item => item.id.toString()}

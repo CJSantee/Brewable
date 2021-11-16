@@ -56,7 +56,7 @@ const Beans = ({beans, onLongPress, navigation}) => {
                 <Icon uri={beans.photo_uri} size={80}/>
                 <View style={{flexDirection: 'column', margin: 15}}>
                     <Text style={{fontWeight: 'bold', fontSize: 18, color: colors.text}}>{beans.roaster}</Text>
-                    <Text style={{fontSize: 16, color: colors.text}}>{beans.region}</Text>
+                    <Text style={{fontSize: 16, color: colors.text}}>{beans.name}</Text>
                 </View>
             </View>
         </TouchableOpacity>
@@ -78,12 +78,12 @@ const HomePage = ({ navigation }) => {
     const [searchResults, setSearchResults] = useState([]);
     const [sortBy, setSortBy] = useState("roast_date");
 
-    // Filter search queries by roaster and region
+    // Filter search queries by roaster and name
     function searchFilter(item, query) {
         query = query.toLowerCase();
         if (item.roaster.toLowerCase().includes(query))
             return true;
-        if (item.region.toLowerCase().includes(query))
+        if (item.name.toLowerCase().includes(query))
             return true;
         return false;        
     }
@@ -257,13 +257,13 @@ const HomePage = ({ navigation }) => {
                         <Text style={{...styles.menuText, color: colors.text}}>Share</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate("NewBrew", { beans_id: selected.id, roaster: selected.roaster, region: selected.region })}>
+                <TouchableOpacity onPress={() => navigation.navigate("NewBrew", { beans_id: selected.id, roaster: selected.roaster, name: selected.name })}>
                     <View style={{...styles.menuItem, borderBottomWidth: 1.5, borderColor: colors.border}}>
                         <Feather name="coffee" size={22} color={colors.text}/>
                         <Text style={{...styles.menuText, color: colors.text}}>New Brew</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => {Clipboard.setString(toBeansString(selected)); Alert.alert("Copied", `"${selected.roaster} - ${selected.region}" copied to clipboard`, [{text: "OK", onPress: () =>  setBtmModal(false)}])}}>
+                <TouchableOpacity onPress={() => {Clipboard.setString(toBeansString(selected)); Alert.alert("Copied", `"${selected.roaster} - ${selected.name}" copied to clipboard`, [{text: "OK", onPress: () =>  setBtmModal(false)}])}}>
                     <View style={styles.menuItem}>
                         <Feather name="copy" size={22} color={colors.text}/>
                         <Text style={{...styles.menuText, color: colors.text}}>Copy Beans to Clipboard</Text>

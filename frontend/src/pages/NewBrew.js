@@ -139,7 +139,7 @@ const NewBrew = ({ route, navigation }) => {
             setBrew({...brew, brew_method: route.params.brew_method});
         }
         if (route.params?.beans_id) { // If parent provides beans info update beans
-            setBrew({...brew, roaster: route.params.roaster, region: route.params.region, beans_id: route.params.beans_id});
+            setBrew({...brew, roaster: route.params.roaster, name: route.params.name, beans_id: route.params.beans_id});
         }
     }, [route.params?.brew_method, route.params?.beans_id]);
 
@@ -154,7 +154,7 @@ const NewBrew = ({ route, navigation }) => {
                         text=""
                         onPress={() => navigation.navigate("SelectBeans", {beans_id: brew.beans_id, parent: "NewBrew"})}
                     >   
-                        <Text style={{...styles.text, color: colors.placeholder}}>{brew.roaster} - {brew.region}</Text>
+                        <Text style={{...styles.text, color: colors.placeholder}}>{brew.roaster} - {brew.name}</Text>
                         <Feather name="chevron-right" size={16} color={colors.placeholder}/>
                     </RowItem>
                     <RowItem

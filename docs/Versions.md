@@ -47,3 +47,5 @@ Fixed bug re-initializing database everytime the app starts.
 
 # v1.1.4
 Updated name to Brewable
+
+# v1.2.0

@@ -1,6 +1,6 @@
 [
     {
-        "region": "Geta Bore", 
+        "name": "Geta Bore", 
         "roaster": "Metric", 
         "origin": "Ethiopia", 
         "roast_level": "", 
@@ -11,7 +11,7 @@
         "flavor_notes": "Jasmine,Lemon,Watermelon Candy"
     },
     {
-        "region": "Tana Luwu", 
+        "name": "Tana Luwu", 
         "roaster": "Kwizera", 
         "origin": "Indonesia", 
         "roast_level": "Medium", 
@@ -22,7 +22,7 @@
         "flavor_notes": "Cherry Jam,Sweet Potato Pie"
     },
     {
-        "region": "Bella Vista", 
+        "name": "Bella Vista", 
         "roaster": "MáQuina Coffee Roasters", 
         "origin": "Mexico", 
         "roast_level": "", 
@@ -33,7 +33,7 @@
         "flavor_notes": "Caramel,Creamy,Brown Sugar"  
     },
     {
-        "region": "San Fernando", 
+        "name": "San Fernando", 
         "roaster": "Wonderstate Coffee", 
         "origin": "Peru", 
         "roast_level": "Light", 
@@ -44,7 +44,7 @@
         "flavor_notes": "Fudge,Citrus,Nougat"  
     },
     {
-        "region": "Rutsiro Mushonyi", 
+        "name": "Rutsiro Mushonyi", 
         "roaster": "Sterling Coffee Roasters", 
         "origin": "Rwanda", 
         "roast_level": "", 
@@ -55,7 +55,7 @@
         "flavor_notes": "Dried Apples,Honey"  
     },
     {
-        "region": "Motherland", 
+        "name": "Motherland", 
         "roaster": "Red Bay Coffee", 
         "origin": "Burundi", 
         "roast_level": "Medium", 
@@ -66,7 +66,7 @@
         "flavor_notes": "Orange Blossom,Turbinado Sugar,Damson Plum"  
     },
     {
-        "region": "Worka Chelbessa Yirgacheffe", 
+        "name": "Worka Chelbessa Yirgacheffe", 
         "roaster": "Sight Glass", 
         "origin": "Ethiopia", 
         "roast_level": "", 
@@ -77,7 +77,7 @@
         "flavor_notes": "Peach,Boysenberry,Elderflower"  
     },
     {
-        "region": "Kubingo", 
+        "name": "Kubingo", 
         "roaster": "Brandywine Coffee Roasters", 
         "origin": "Burundi", 
         "roast_level": "", 
@@ -88,7 +88,7 @@
         "flavor_notes": "French Toast,Apple,Apricot Jam,Orange"  
     },
     {
-        "region": "Konga", 
+        "name": "Konga", 
         "roaster": "Irving Farm", 
         "origin": "Ethiopia", 
         "roast_level": "", 
@@ -99,7 +99,7 @@
         "flavor_notes": "White Peach,Jasmine,Tangerine"  
     },
     {
-        "region": "", 
+        "name": "", 
         "roaster": "Portland Coffee Roasters", 
         "origin": "Costa Rica", 
         "roast_level": "Light", 
@@ -110,7 +110,7 @@
         "flavor_notes": ""  
     },
     {
-        "region": "Amparo Maya", 
+        "name": "Amparo Maya", 
         "roaster": "Verve Coffee Roasters", 
         "origin": "Colombia", 
         "roast_level": "", 
@@ -121,7 +121,7 @@
         "flavor_notes": "Aprium,Cane Sugar,Lime"  
     },
     {
-        "region": "La Familia Guarnizo", 
+        "name": "La Familia Guarnizo", 
         "roaster": "Joe Coffee", 
         "origin": "Colombia", 
         "roast_level": "Light", 
@@ -132,7 +132,7 @@
         "flavor_notes": "Caramel,Honey,Clementine"  
     },
     {
-        "region": "Acatenango", 
+        "name": "Acatenango", 
         "roaster": "Anodyne Coffee Roasting", 
         "origin": "Guatemala La Hermosa", 
         "roast_level": "", 
@@ -143,7 +143,7 @@
         "flavor_notes": ""
     },
     {
-        "region": "Copan", 
+        "name": "Copan", 
         "roaster": "Alma Coffee", 
         "origin": "Honduras", 
         "roast_level": "Light", 

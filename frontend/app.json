@@ -3,7 +3,7 @@
     "name": "Brewable",
     "slug": "brewable",
     "privacy": "public",
-    "version": "1.1.4",
+    "version": "1.2.0",
     "platforms": ["ios"],
     "githubUrl": "https://github.com/CJSantee/Craft-Coffee",
     "orientation": "portrait",
@@ -22,7 +22,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.cjsantee.craftCoffee",
-      "buildNumber": "1.1.4",
+      "buildNumber": "1.2.0",
       "infoPlist": {
         "NSCameraUsageDescription": "Allow Brewable to use your camera",
         "NSPhotoLibraryAddUsageDescription": "Give Brewable permission to save photos",

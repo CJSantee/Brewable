@@ -39,7 +39,7 @@ const EditBrew = ({ route, navigation }) => {
             bloom: "",
             beans_id: 0, 
             rating: 0,
-            roaster: "", region: ""
+            roaster: "", name: ""
         }
     ); // Brew state
     const [showFlavorModal, setShowFlavorModal] = useState(false);
@@ -123,7 +123,7 @@ const EditBrew = ({ route, navigation }) => {
             db.transaction(
                 (tx) => {
                     tx.executeSql(
-                        `SELECT brews.*, beans.roaster, beans.region 
+                        `SELECT brews.*, beans.roaster, beans.name 
                         FROM brews 
                         LEFT JOIN beans ON brews.beans_id = beans.id
                         WHERE brews.id = ?;`,
@@ -153,7 +153,7 @@ const EditBrew = ({ route, navigation }) => {
                         text=""
                         onPress={() => navigation.navigate("SelectBeans", {beans_id: brew.beans_id, brew_id: brew_id, parent: "EditBrew"})}
                     >   
-                        <Text style={{...styles.text, color: colors.placeholder}}>{brew.roaster} - {brew.region}</Text>
+                        <Text style={{...styles.text, color: colors.placeholder}}>{brew.roaster} - {brew.name}</Text>
                         <Feather name="chevron-right" size={16} color={colors.placeholder}/>
                     </RowItem>
                     <RowItem

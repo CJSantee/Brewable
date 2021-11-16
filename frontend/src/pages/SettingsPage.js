@@ -9,7 +9,7 @@ import {
 import { useFocusEffect, useTheme } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux'
-import { updateWaterUnit, updateCoffeeUnit, updateTempUnit, updateRatio, updateTheme, updateAutofillRatio } from '../redux/actions';
+import { updateWaterUnit, updateCoffeeUnit, updateTempUnit, updateRatio, updateGrinder, updateTheme, updateAutofillRatio } from '../redux/actions';
 
 // Component Imports
 import { SegmentedControl, Stepper, Switch } from 'react-native-ios-kit';
@@ -25,6 +25,7 @@ import TextFieldRow from '../components/TextFieldRow';
 const SettingsPage = ({ navigation }) => {
     const { colors } = useTheme(); // Color theme
     const [ratio, setRatio] = useState("");
+    const [grinder, setGrinder] = useState("");
     const dispatch = useDispatch(); // Redux dispatch
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
 
@@ -61,9 +62,13 @@ const SettingsPage = ({ navigation }) => {
             val = 1.0;
         dispatch(updateRatio(val));
     }
+    function submitGrinder() {
+        dispatch(updateGrinder(grinder));
+    }
 
     useFocusEffect(useCallback(() => {
         setRatio(user_preferences.ratio);
+        setGrinder(user_preferences.grinder);
     }, []));
 
     return (
@@ -111,6 +116,12 @@ const SettingsPage = ({ navigation }) => {
                     >   
                         <Feather name="chevron-right" size={16} color={colors.placeholder}/>
                     </RowItem>
+                    <TextFieldRow 
+                        title="My Grinder"
+                        text={grinder}
+                        onChange={(value) => setGrinder(value)}
+                        onEndEditing={submitGrinder}
+                    />
                 </TableView>      
                 <TableView header="Autofill Ratio">
                     <TextFieldRow 
@@ -146,7 +157,7 @@ const SettingsPage = ({ navigation }) => {
                         <Feather name="chevron-right" size={16} color={colors.placeholder}/>
                     </RowItem>
                     <RowItem title="Version" text="">
-                        <Text style={{color: colors.text}}>1.1.4</Text>
+                        <Text style={{color: colors.text}}>1.2.0</Text>
                     </RowItem>
                 </TableView>
             </ScrollView>

@@ -35,7 +35,7 @@ function mapRating(value) {
 
 const NewBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState({
-        region: "", 
+        name: "", 
         roaster: "", 
         origin: "", 
         roast_level: "", 
@@ -72,9 +72,9 @@ const NewBeans = ({ route, navigation }) => {
             (tx) => {
                 tx.executeSql(`
                     INSERT INTO beans
-                    (region, roaster, origin, roast_level, roast_date, price, weight, weight_unit, flavor_notes, rating, photo_uri, favorite)
+                    (name, roaster, origin, roast_level, roast_date, price, weight, weight_unit, flavor_notes, rating, photo_uri, favorite)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-                    [beans.region, beans.roaster, beans.origin, beans.roast_level, beans.roast_date.toJSON(), beans.price, beans.weight, beans.weight_unit, beans.flavor_notes, mapRating(beans.rating), beans.photo_uri, beans.favorite]);
+                    [beans.name, beans.roaster, beans.origin, beans.roast_level, beans.roast_date.toJSON(), beans.price, beans.weight, beans.weight_unit, beans.flavor_notes, mapRating(beans.rating), beans.photo_uri, beans.favorite]);
             },
             (e) => {console.log(e)},
             () => navigation.goBack()
@@ -130,9 +130,9 @@ const NewBeans = ({ route, navigation }) => {
                         onChange={(value) => setBeans({...beans, roaster: value})}    
                     />
                     <TextFieldRow 
-                        title="Region"
-                        text={beans.region}
-                        onChange={(value) => setBeans({...beans, region: value})}    
+                        title="Name"
+                        text={beans.name}
+                        onChange={(value) => setBeans({...beans, name: value})}    
                     />
                     <TextFieldRow 
                         title="Origin"
@@ -147,12 +147,6 @@ const NewBeans = ({ route, navigation }) => {
                 </TableView>
                 <TableView header="Bag">
                     <DatePickerRow title="Roast Date" value={beans.roast_date} onChange={(value) => {setBeans({...beans, roast_date: value});}}/>
-                    {/* <TextFieldRow 
-                        title="Price"
-                        text={beans.price}
-                        onChange={(value) => setBeans({...beans, price: value})}
-                        keyboardType="decimal-pad"
-                    /> */}
                     <TextFieldRow 
                         title="Weight"
                         text={beans.weight}

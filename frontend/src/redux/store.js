@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import ExpoFileSystemStorage from 'redux-persist-expo-filesystem';
 import { createStore } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 

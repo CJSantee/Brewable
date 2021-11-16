@@ -26,7 +26,7 @@ import Icon from '../components/Icon';
 
 function EditBeans({ route, navigation }) {
     const [beans, setBeans] = useState({
-        region: "", 
+        name: "", 
         roaster: "", 
         origin: "", 
         roast_level: "", 
@@ -63,9 +63,9 @@ function EditBeans({ route, navigation }) {
             (tx) => {
                 tx.executeSql(`
                     UPDATE beans
-                    SET region = ?, roaster = ?, origin = ?, roast_level = ?, roast_date = ?, price = ?, weight = ?, weight_unit = ?, flavor_notes = ?, favorite = ?, photo_uri = ?
+                    SET name = ?, roaster = ?, origin = ?, roast_level = ?, roast_date = ?, price = ?, weight = ?, weight_unit = ?, flavor_notes = ?, favorite = ?, photo_uri = ?
                     WHERE id = ?;`,
-                    [beans.region, beans.roaster, beans.origin, beans.roast_level, new Date(beans.roast_date).toJSON(), beans.price, beans.weight, beans.weight_unit, beans.flavor_notes, beans.favorite, beans.photo_uri, beans.id]);
+                    [beans.name, beans.roaster, beans.origin, beans.roast_level, new Date(beans.roast_date).toJSON(), beans.price, beans.weight, beans.weight_unit, beans.flavor_notes, beans.favorite, beans.photo_uri, beans.id]);
             },
             (e) => {console.log(e)},
             () => navigation.navigate("DisplayBeans", { beans_id: beans.id }) // Go back on success
@@ -151,9 +151,9 @@ function EditBeans({ route, navigation }) {
                         onChange={(value) => setBeans({...beans, roaster: value})}    
                     />
                     <TextFieldRow 
-                        title="Region"
-                        text={beans.region}
-                        onChange={(value) => setBeans({...beans, region: value})}    
+                        title="Name"
+                        text={beans.name}
+                        onChange={(value) => setBeans({...beans, name: value})}    
                     />
                     <TextFieldRow 
                         title="Origin"

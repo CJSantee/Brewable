@@ -5,7 +5,6 @@ import {
     StyleSheet,
     TouchableOpacity
 } from 'react-native';
-import * as Device from 'expo-device';
 import { Entypo, MaterialCommunityIcons, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import { toDateString } from '../utils/Converter';
 
@@ -30,7 +29,7 @@ const Brew = ({ brew, colors, navigation, onLongPress, share }) => {
                 {profileValues()&&<View style={styles.wheel}>
                     <TastingWheel displayText={true} abbreviated={false} width="150" height="150" values={[brew.body, brew.aftertaste, brew.sweetness, brew.aroma, brew.flavor, brew.acidity]}/>
                     {share&&<Text style={{top: -10, fontWeight: 'bold', color: colors.text}}>{brew.roaster}</Text>}
-                    {share&&<Text style={{top: -5, color: colors.text}}>{brew.region}</Text>}
+                    {share&&<Text style={{top: -5, color: colors.text}}>{brew.name}</Text>}
                 </View>}
                 <View style={styles.leftItems}>
                     <View style={styles.cardItem}>
@@ -86,7 +85,7 @@ const Brew = ({ brew, colors, navigation, onLongPress, share }) => {
                 <View style={styles.favorite}>
                     <FontAwesome icon={brew.favorite?"heart":"heart-o"} size={18} color={brew.favorite?"#a00": colors.placeholder}/>
                 </View>
-                {Device.osVersion >= 13 && <Text style={{...styles.date, color: colors.text}}>{toDateString(brew.date)}</Text>}
+                <Text style={{...styles.date, color: colors.text}}>{toDateString(brew.date)}</Text>
             </View>
         </TouchableOpacity>
     );

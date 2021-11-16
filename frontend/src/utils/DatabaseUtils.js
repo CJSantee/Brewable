@@ -9,7 +9,7 @@ const createTables = (db) => {
         tx.executeSql(
           `CREATE TABLE IF NOT EXISTS beans (
             id INTEGER PRIMARY KEY NOT NULL,
-            region TEXT,
+            name TEXT,
             roaster TEXT,
             origin TEXT,
             roast_level TEXT,
@@ -156,6 +156,18 @@ const updateTables113 = (db) => {
   null);
 }
 
+const updateTables120 = (db) => {
+  // v1.2.0 -> Renamed 'region' to 'name' in 'beans' table
+  db.transaction((tx) => {
+    tx.executeSql(
+      `ALTER TABLE beans
+        RENAME COLUMN region TO name;`
+    );
+  },
+  (e) => console.log(e),
+  null);
+}
+
 const checkForUpdate = (db) => {
   let sql = "";
   db.transaction((tx) => {
@@ -172,7 +184,18 @@ const checkForUpdate = (db) => {
           updateTables113(db);
         }
       }
-  );
+    );
+    tx.executeSql(
+      `SELECT sql
+        FROM sqlite_master
+        WHERE tbl_name = 'beans';`,[],
+      (_, { rows: { _array } }) => {
+        sql = _array[0].sql;
+        if (sql.includes("region TEXT")) {
+          updateTables120(db);
+        }
+      }
+    );
   },
   (e) => console.log(e),
   null);
@@ -224,9 +247,9 @@ const populateBeans = (db) => {
       beans.roast_date = new Date(beans.roast_date).toJSON();
       tx.executeSql(
         `INSERT INTO beans
-        (region, roaster, origin, roast_date, price, roast_level, weight, weight_unit, flavor_notes, rating, photo_uri, favorite)
+        (name, roaster, origin, roast_date, price, roast_level, weight, weight_unit, flavor_notes, rating, photo_uri, favorite)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-        [beans.region, beans.roaster, beans.origin, beans.roast_date, beans.price, beans.roast_level, beans.weight, beans.weight_unit, beans.flavor_notes, randomInt(0,5), randomInt(1,7).toString(), randomInt(0,1)]
+        [beans.name, beans.roaster, beans.origin, beans.roast_date, beans.price, beans.roast_level, beans.weight, beans.weight_unit, beans.flavor_notes, randomInt(0,5), randomInt(1,7).toString(), randomInt(0,1)]
       );
     }
   },

@@ -6,8 +6,7 @@ import {
     Dimensions
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import * as Device from 'expo-device';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
 
 // IDEA: react-native-date-picker
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -33,7 +32,6 @@ const DatePickerRow = ({title, value, onChange}) => {
         }
       ]}>
         <Text style={{...styles.text, color: colors.placeholder}}>{title}</Text>
-        {Device.osVersion >= 13 ?
         <View style={title ? styles.rightPicker : styles.centerPicker}>
             <DateTimePicker
                 mode="date"
@@ -43,8 +41,7 @@ const DatePickerRow = ({title, value, onChange}) => {
                 style={{width: 320}}
                 themeVariant={user_preferences.theme.toLowerCase()}
             />
-        </View> : 
-        <Text style={{flex: 1, textAlign: title ? 'right' : 'center', fontSize: 11, color: colors.placeholder}}>update iOS for date</Text>} 
+        </View>
       </View>  
     );
 };

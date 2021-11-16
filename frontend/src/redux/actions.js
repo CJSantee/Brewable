@@ -4,6 +4,7 @@ export const UPDATE_COFFEE_UNIT = 'update/coffee_unit';
 export const UPDATE_TEMP_UNIT = 'update/temp_unit';
 export const UPDATE_AUTOFILL_RATIO = 'update/autofill_ratio';
 export const UPDATE_RATIO = 'update/ratio';
+export const UPDATE_GRINDER = 'update/grinder';
 export const UPDATE_THEME = 'update/theme';
 export const UPDATE_SAMPLE_DATA = 'update/sample_data';
 
@@ -39,6 +40,13 @@ export const updateRatio = value => (
     {
         type: UPDATE_RATIO,
         payload: value        
+    }
+);
+
+export const updateGrinder = value => (
+    {
+        type: UPDATE_GRINDER,
+        payload: value
     }
 );
 

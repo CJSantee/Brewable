@@ -33,7 +33,7 @@ import { toBrewString, toDateString } from '../utils/Converter';
 
 const DisplayBeans = ({ route, navigation }) => {
     const [beans, setBeans] = useState({
-        region: "", 
+        name: "", 
         roaster: "", 
         origin: "", 
         roast_level: "", 
@@ -144,7 +144,7 @@ const DisplayBeans = ({ route, navigation }) => {
         db.transaction(
             (tx) => {
                 tx.executeSql(
-                    `SELECT brews.*, beans.roaster, beans.region 
+                    `SELECT brews.*, beans.roaster, beans.name 
                     FROM brews 
                     LEFT JOIN beans 
                     ON brews.beans_id = beans.id 
@@ -242,7 +242,7 @@ const DisplayBeans = ({ route, navigation }) => {
             db.transaction(
                 (tx) => {
                     tx.executeSql(
-                        `SELECT brews.*, beans.roaster, beans.region 
+                        `SELECT brews.*, beans.roaster, beans.name 
                         FROM brews 
                         LEFT JOIN beans 
                         ON brews.beans_id = beans.id 
@@ -278,7 +278,7 @@ const DisplayBeans = ({ route, navigation }) => {
     const AddBrewButton = () => {
         return (
             <View style={{width: '100%', padding: 10, marginBottom: 5}}>
-                <TouchableOpacity onPress={() => navigation.navigate("NewBrew", { beans_id: beans.id, roaster: beans.roaster, region: beans.region })}>
+                <TouchableOpacity onPress={() => navigation.navigate("NewBrew", { beans_id: beans.id, roaster: beans.roaster, name: beans.name })}>
                     <View style={{...styles.addBrewsButton, backgroundColor: colors.card, borderColor: colors.border}}>
                         <Text style={{fontSize: 16, margin: 10, color: colors.text}}>Add Brew</Text>
                     </View>
@@ -303,7 +303,7 @@ const DisplayBeans = ({ route, navigation }) => {
             <View style={styles.row}>
                 <View style={{flexDirection: 'row', width: width-45, flexWrap: 'wrap'}}>
                     <Text style={{...styles.title, color: colors.text}}>{beans.roaster} </Text>
-                    <Text style={{...styles.subtitle, color: colors.text}}>{beans.region}</Text>
+                    <Text style={{...styles.subtitle, color: colors.text}}>{beans.name}</Text>
                 </View>
                 <View style={styles.favorite}>
                     <FontAwesome name={beans.favorite?"heart":"heart-o"} size={25} color={beans.favorite?"#a00": colors.placeholder}/>
@@ -313,10 +313,9 @@ const DisplayBeans = ({ route, navigation }) => {
             <View style={styles.row}>
                 <Text style={{fontSize: 18, color: colors.text}}>Origin: {beans.origin}</Text>
             </View>}
-            {Device.osVersion >= 13 && 
             <View style={styles.row}>
                 {roastDate()!==""&&<Text style={{fontSize: 16, color: colors.text}}>Roasted: {roastDate()}</Text>}
-            </View>}
+            </View>
             <View style={styles.flavors}>
                 {flavorNotes.map((item) => 
                     <View key={item } style={{...styles.flavor, backgroundColor: colors.card, borderColor: colors.border}}>

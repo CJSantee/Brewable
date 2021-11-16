@@ -4,6 +4,7 @@ import {
     UPDATE_TEMP_UNIT, 
     UPDATE_AUTOFILL_RATIO,
     UPDATE_RATIO, 
+    UPDATE_GRINDER,
     UPDATE_THEME, 
     UPDATE_SAMPLE_DATA 
 } from "./actions";
@@ -15,6 +16,7 @@ const initialState = {
         temp_unit: "f",
         autofill_ratio: false,
         ratio: 16,
+        grinder: "",
         theme: "Light"
     },
     sample_data: false,
@@ -62,6 +64,15 @@ const rootReducer = (state = initialState, action) => {
                 },
                 sample_data: state.sample_data
             }
+        case UPDATE_GRINDER: {
+            return {
+                user_preferences: {
+                    ...state.user_preferences,
+                    grinder: action.payload
+                },
+                sample_data: state.sample_data
+            }
+        }
         case UPDATE_THEME:
             return {
                 user_preferences: {
