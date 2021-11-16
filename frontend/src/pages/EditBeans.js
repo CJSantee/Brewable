@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import { SegmentedControl } from 'react-native-ios-kit';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { Feather, FontAwesome } from '@expo/vector-icons';

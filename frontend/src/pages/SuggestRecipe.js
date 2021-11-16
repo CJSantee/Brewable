@@ -9,21 +9,13 @@ import {
 } from 'react-native';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { suggestRecipe } from '../utils/SmartRecipes';
-import { Entypo, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
-import CoffeeBean from '../../assets/icons/coffeeBean.svg';
-import CoffeeGrounds from '../../assets/icons/coffeeGrounds.svg';
 
 let {height, width} = Dimensions.get('window');
 
 import Header from '../components/Header';
 import TableView from '../components/TableView';
-import RowItem from '../components/RowItem';
 import TastingWheel from '../components/TastingWheel';
 import RecipeRow from '../components/RecipeRow';
-
-/*
-    TODO: Add Notes to suggestions
-*/
 
 function SuggestRecipe({ route, navigation }) {
     const { colors } = useTheme();

@@ -14,8 +14,7 @@ import {
 } from 'react-native';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { FontAwesome, Feather, Octicons } from '@expo/vector-icons';
-
-import * as Device from 'expo-device';
+import { useSelector } from 'react-redux';
 import { captureRef } from 'react-native-view-shot';
 
 import * as Clipboard from 'expo-clipboard';
@@ -58,6 +57,7 @@ const DisplayBeans = ({ route, navigation }) => {
 
     const { parent, beans_id } = route.params; // Beans_id for which beans to display
     const { colors } = useTheme(); // Color theme
+    const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
 
     const beansContainer = useRef();
 
@@ -389,7 +389,7 @@ const DisplayBeans = ({ route, navigation }) => {
                         <Text style={{...styles.menuText, color: colors.text}}>Suggest New Recipe</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => {Clipboard.setString(toBrewString(selected)); Alert.alert("Copied", "Copied brew recipe to clipboard.", [{text: "OK", onPress: () =>  setShowModal(false)}])}}>
+                <TouchableOpacity onPress={() => {Clipboard.setString(toBrewString(selected, user_preferences.grinder)); Alert.alert("Copied", "Copied brew recipe to clipboard.", [{text: "OK", onPress: () =>  setShowModal(false)}])}}>
                     <View style={styles.menuItem}>
                         <Feather name="copy" size={22} color={colors.text}/>
                         <Text style={{...styles.menuText, color: colors.text}}>Copy Brew to Clipboard</Text>
