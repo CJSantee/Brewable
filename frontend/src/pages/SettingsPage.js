@@ -6,10 +6,11 @@ import {
     Alert,
     Text
 } from 'react-native';
+import * as Notifications from 'expo-notifications';
 import { useFocusEffect, useTheme } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux'
-import { updateWaterUnit, updateCoffeeUnit, updateTempUnit, updateRatio, updateGrinder, updateTheme, updateAutofillRatio } from '../redux/actions';
+import { updateWaterUnit, updateCoffeeUnit, updateTempUnit, updateRatio, updateGrinder, updateTheme, updateAutofillRatio, updateNotificationTime, updateNotificationsActive } from '../redux/actions';
 
 // Component Imports
 import { SegmentedControl, Stepper, Switch } from 'react-native-ios-kit';
@@ -17,10 +18,7 @@ import Header from '../components/Header';
 import TableView from '../components/TableView';
 import RowItem from '../components/RowItem';
 import TextFieldRow from '../components/TextFieldRow';
-
-/*
-    TODO: Add Name of Grinder to Settings Page, then use that in the recipe copy to clipboard.
-*/
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const SettingsPage = ({ navigation }) => {
     const { colors } = useTheme(); // Color theme
@@ -64,6 +62,47 @@ const SettingsPage = ({ navigation }) => {
     }
     function submitGrinder() {
         dispatch(updateGrinder(grinder));
+    }
+
+    async function scheduleNotification(date){
+        console.log("Scheduling Notification for "+date.toLocaleString());
+
+        const ret = await Notifications.scheduleNotificationAsync({
+            content: {
+                title: "Time to Brew!"
+            },
+            trigger: {
+                hour: date.getHours(),
+                minute: date.getMinutes(),
+                repeats: true
+            }
+        });
+    };
+
+    async function cancelAllScheduledNotifications() {
+        console.log("Canceling All Notifications");
+        await Notifications.cancelAllScheduledNotificationsAsync();
+    }
+
+    async function updateScheduledNotifications(date) {
+        await cancelAllScheduledNotifications();
+        scheduleNotification(date);
+    }
+
+    function dateOnChange(event, date) {
+        if (user_preferences.notifications_active)
+            updateScheduledNotifications(date);
+
+        dispatch(updateNotificationTime(date));
+    }
+    
+    function toggleNotifications(value) {
+        if (value) {
+            scheduleNotification(new Date(user_preferences.notification_time));
+        } else {
+            cancelAllScheduledNotifications();
+        }
+        dispatch(updateNotificationsActive(value));
     }
 
     useFocusEffect(useCallback(() => {
@@ -136,6 +175,27 @@ const SettingsPage = ({ navigation }) => {
                             onValueChange={(value) => dispatch(updateAutofillRatio(value))}
                         />
                     </TextFieldRow>
+                </TableView>
+                <TableView header="Brew Reminder">
+                    <RowItem
+                        title="" text=""
+                    >
+                        <View style={{flex: 1}}>
+                            <DateTimePicker 
+                                mode="time"
+                                value={new Date(user_preferences.notification_time)}
+                                display="default"          
+                                onChange={dateOnChange}
+                                style={{width: 320}}
+                                themeVariant={user_preferences.theme.toLowerCase()}
+                            />
+                        </View>
+                        <Switch 
+                            value={user_preferences.notifications_active}
+                            onValueChange={(value) => toggleNotifications(value)}
+                        />
+                    </RowItem>
+                    <RowItem title="Time" text={user_preferences.notification_time}/>
                 </TableView>
                 <TableView header="App">
                     <RowItem

@@ -81,6 +81,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
 });

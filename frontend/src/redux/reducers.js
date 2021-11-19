@@ -6,6 +6,8 @@ import {
     UPDATE_RATIO, 
     UPDATE_GRINDER,
     UPDATE_THEME, 
+    UPDATE_NOTIFICATION_TIME,
+    UPDATE_NOTIFICATIONS_ACTIVE,
     UPDATE_SAMPLE_DATA 
 } from "./actions";
 
@@ -17,7 +19,9 @@ const initialState = {
         autofill_ratio: false,
         ratio: 16,
         grinder: "",
-        theme: "Light"
+        theme: "Light",
+        notification_time: "",
+        notifications_active: false
     },
     sample_data: false,
 }
@@ -78,6 +82,22 @@ const rootReducer = (state = initialState, action) => {
                 user_preferences: {
                     ...state.user_preferences,
                     theme: action.payload
+                },
+                sample_data: state.sample_data
+            }
+        case UPDATE_NOTIFICATION_TIME:
+            return {
+                user_preferences: {
+                    ...state.user_preferences,
+                    notification_time: action.payload
+                },
+                sample_data: state.sample_data
+            }
+        case UPDATE_NOTIFICATIONS_ACTIVE:
+            return {
+                user_preferences: {
+                    ...state.user_preferences,
+                    notifications_active: action.payload
                 },
                 sample_data: state.sample_data
             }

@@ -5,7 +5,7 @@
     "privacy": "public",
     "version": "1.2.0",
     "platforms": ["ios"],
-    "githubUrl": "https://github.com/CJSantee/Craft-Coffee",
+    "githubUrl": "https://github.com/CJSantee/Brewable",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -47,6 +47,19 @@
         "wasm",
         "svg"
       ]
-    }
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#ffffff",
+          "sounds": [
+            "./assets/sounds/notification.wav"
+          ],
+          "mode": "production"
+        }
+      ]
+    ]
   }
 }

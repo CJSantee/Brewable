@@ -6,6 +6,8 @@ export const UPDATE_AUTOFILL_RATIO = 'update/autofill_ratio';
 export const UPDATE_RATIO = 'update/ratio';
 export const UPDATE_GRINDER = 'update/grinder';
 export const UPDATE_THEME = 'update/theme';
+export const UPDATE_NOTIFICATION_TIME = 'update/notification_time';
+export const UPDATE_NOTIFICATIONS_ACTIVE = 'update/notifications_active';
 export const UPDATE_SAMPLE_DATA = 'update/sample_data';
 
 export const updateWaterUnit = unit => (
@@ -53,6 +55,20 @@ export const updateGrinder = value => (
 export const updateTheme = value => (
     {
         type: UPDATE_THEME,
+        payload: value
+    }
+);
+
+export const updateNotificationTime = value => (
+    {
+        type: UPDATE_NOTIFICATION_TIME,
+        payload: value.toISOString()
+    }
+);
+
+export const updateNotificationsActive = value => (
+    {
+        type: UPDATE_NOTIFICATIONS_ACTIVE,
         payload: value
     }
 );
