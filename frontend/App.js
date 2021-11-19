@@ -5,7 +5,6 @@ import { Asset } from 'expo-asset';
 import AppLoading from 'expo-app-loading';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import * as Notifications from 'expo-notifications';
-import Constants from "expo-constants";
 import { createTables, checkForUpdate, populateBrewMethodsIfEmpty, populateFlavorsIfEmpty } from './src/utils/DatabaseUtils';
 
 import { PersistGate } from 'redux-persist/integration/react';
@@ -19,12 +18,12 @@ import Navigation from './src/Navigation';
 global.db = SQLite.openDatabase("CoffeeLab.db");
 
 Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: true,
-      shouldSetBadge: false,
-    }),
-  });
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
@@ -54,7 +53,6 @@ export default function App() {
 
   useEffect(() => {
     lockScreenOrientation();
-    registerForPushNotifications();
 
     notificationListener.current = Notifications.addNotificationReceivedListener();
     responseListener.current = Notifications.addNotificationResponseReceivedListener();
@@ -88,24 +86,4 @@ export default function App() {
 
 async function lockScreenOrientation() {
   await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
-}
-
-async function registerForPushNotifications() {
-  let token;
-  if (Constants.isDevice) {
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== 'granted') {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
-      return;
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-  } else {
-    alert('Must use physical device for Push Notifications');
-  }
-  return token;
 }

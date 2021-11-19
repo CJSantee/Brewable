@@ -211,7 +211,11 @@ const HomePage = ({ navigation }) => {
 
     return (
         <View style={{flex: 1, flexDirection: 'column', backgroundColor: colors.background}}>
-            <Header title="My Collection" leftText="Settings" rightText="New" leftOnPress={()=>navigation.navigate("SettingsPage")} rightOnPress={()=>setNewModal(!newModal)}/>
+            <Header 
+                title="My Collection" 
+                leftText="Settings" rightText="New" 
+                leftOnPress={()=>navigation.navigate("SettingsPage")} 
+                rightOnPress={()=>setNewModal(!newModal)}/>
             {newModal ? <NewModal navigation={navigation}/> : <View/>}
             {newModal ? null : <SearchBar searchQuery={searchQuery} setSearchQuery={handleSearch}/>}
             {newModal ? null : 

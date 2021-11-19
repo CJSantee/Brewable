@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
     View,
     StyleSheet,
@@ -9,11 +9,12 @@ import {
 import * as Notifications from 'expo-notifications';
 import { useFocusEffect, useTheme } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
+import Constants from "expo-constants";
 import { useSelector, useDispatch } from 'react-redux'
 import { updateWaterUnit, updateCoffeeUnit, updateTempUnit, updateRatio, updateGrinder, updateTheme, updateAutofillRatio, updateNotificationTime, updateNotificationsActive } from '../redux/actions';
 
 // Component Imports
-import { SegmentedControl, Stepper, Switch } from 'react-native-ios-kit';
+import { SegmentedControl, Switch } from 'react-native-ios-kit';
 import Header from '../components/Header';
 import TableView from '../components/TableView';
 import RowItem from '../components/RowItem';
@@ -65,40 +66,48 @@ const SettingsPage = ({ navigation }) => {
     }
 
     async function scheduleNotification(date){
-        console.log("Scheduling Notification for "+date.toLocaleString());
-
-        const ret = await Notifications.scheduleNotificationAsync({
-            content: {
-                title: "Time to Brew!"
-            },
-            trigger: {
-                hour: date.getHours(),
-                minute: date.getMinutes(),
-                repeats: true
-            }
-        });
+        try {
+            await Notifications.scheduleNotificationAsync({
+                content: {
+                    title: "Time to Brew!"
+                },
+                trigger: {
+                    hour: date.getHours(),
+                    minute: date.getMinutes(),
+                    repeats: true
+                }
+            });
+        } catch (e) {
+            console.log(e);
+        }    
     };
 
     async function cancelAllScheduledNotifications() {
-        console.log("Canceling All Notifications");
-        await Notifications.cancelAllScheduledNotificationsAsync();
+        try {
+            await Notifications.cancelAllScheduledNotificationsAsync();
+        } catch (e) {
+            console.log(e);
+        }
     }
 
-    async function updateScheduledNotifications(date) {
-        await cancelAllScheduledNotifications();
-        scheduleNotification(date);
+    function updateScheduledNotifications(date) {
+        cancelAllScheduledNotifications().then(
+            scheduleNotification(date)
+        );
     }
 
     function dateOnChange(event, date) {
         if (user_preferences.notifications_active)
             updateScheduledNotifications(date);
-
+        
         dispatch(updateNotificationTime(date));
     }
     
     function toggleNotifications(value) {
         if (value) {
-            scheduleNotification(new Date(user_preferences.notification_time));
+            registerForPushNotifications().then(
+                scheduleNotification(new Date(user_preferences.notification_time))
+            );
         } else {
             cancelAllScheduledNotifications();
         }
@@ -177,9 +186,7 @@ const SettingsPage = ({ navigation }) => {
                     </TextFieldRow>
                 </TableView>
                 <TableView header="Brew Reminder">
-                    <RowItem
-                        title="" text=""
-                    >
+                    <RowItem title="" text="">
                         <View style={{flex: 1}}>
                             <DateTimePicker 
                                 mode="time"
@@ -195,7 +202,6 @@ const SettingsPage = ({ navigation }) => {
                             onValueChange={(value) => toggleNotifications(value)}
                         />
                     </RowItem>
-                    <RowItem title="Time" text={user_preferences.notification_time}/>
                 </TableView>
                 <TableView header="App">
                     <RowItem
@@ -217,12 +223,31 @@ const SettingsPage = ({ navigation }) => {
                         <Feather name="chevron-right" size={16} color={colors.placeholder}/>
                     </RowItem>
                     <RowItem title="Version" text="">
-                        <Text style={{color: colors.text}}>1.2.0</Text>
+                        <Text style={{color: colors.text}}>1.2.1</Text>
                     </RowItem>
                 </TableView>
             </ScrollView>
         </View>
     );
+}
+
+async function registerForPushNotifications() {
+    let token;
+    if (Constants.isDevice) {
+        const { status: existingStatus } = await Notifications.getPermissionsAsync();
+        let finalStatus = existingStatus;
+        if (existingStatus !== 'granted') {
+            const { status } = await Notifications.requestPermissionsAsync();
+            finalStatus = status;
+        }
+        if (finalStatus !== 'granted') {
+            return;
+        }
+        token = (await Notifications.getExpoPushTokenAsync()).data;
+    } else {
+        alert('Must use physical device for Push Notifications');
+    }
+    return token;
 }
 
 const styles = StyleSheet.create({
