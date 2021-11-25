@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import {
     View,
     StyleSheet,
@@ -8,7 +8,7 @@ import {
     Alert
 } from 'react-native';
 
-import { Feather, FontAwesome } from '@expo/vector-icons';
+import { Feather, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 
@@ -58,6 +58,12 @@ const Beans = ({beans, onLongPress, navigation}) => {
                     <Text style={{fontWeight: 'bold', fontSize: 18, color: colors.text}}>{beans.roaster}</Text>
                     <Text style={{fontSize: 16, color: colors.text}}>{beans.name}</Text>
                 </View>
+                <TouchableOpacity
+                    style={{position: 'absolute', padding: 15, right: 0, top: 0}}
+                    onPress={() => onLongPress()}
+                >
+                    <FontAwesome5 name="ellipsis-h" size={18} color={colors.text}/>
+                </TouchableOpacity>
             </View>
         </TouchableOpacity>
     );
@@ -212,7 +218,7 @@ const HomePage = ({ navigation }) => {
     return (
         <View style={{flex: 1, flexDirection: 'column', backgroundColor: colors.background}}>
             <Header 
-                title="My Collection" 
+                title="My Collection"
                 leftText="Settings" rightText="New" 
                 leftOnPress={()=>navigation.navigate("SettingsPage")} 
                 rightOnPress={()=>setNewModal(!newModal)}/>
@@ -300,7 +306,7 @@ const styles = StyleSheet.create({
     beansRow: {
         width: "100%", 
         borderBottomWidth: 1,
-        padding: 15,
+        padding: 10,
         flexDirection: 'row',
         alignItems: 'center'
     },

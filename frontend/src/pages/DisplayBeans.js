@@ -211,6 +211,21 @@ const DisplayBeans = ({ route, navigation }) => {
         onShare(image);
     }
 
+    // Favorite Beans
+    const favoriteBeans = () => {
+        let val = beans.favorite;
+        // Update brew in database
+        db.transaction(
+            (tx) => {
+                tx.executeSql("UPDATE beans SET favorite = ? WHERE id = ?;", [val===0?1:0, beans.id])
+            }, 
+            (e) => console.log(e), 
+            null
+        );
+        // Update brew state within component
+        setBeans({...beans, favorite: val===0?1:0});
+    }
+
     // If share option in route, capture scroll view
     useFocusEffect(
         useCallback(() => {
@@ -305,9 +320,9 @@ const DisplayBeans = ({ route, navigation }) => {
                     <Text style={{...styles.title, color: colors.text}}>{beans.roaster} </Text>
                     <Text style={{...styles.subtitle, color: colors.text}}>{beans.name}</Text>
                 </View>
-                <View style={styles.favorite}>
+                <TouchableOpacity style={styles.favorite} onPress={() => favoriteBeans()}>
                     <FontAwesome name={beans.favorite?"heart":"heart-o"} size={25} color={beans.favorite?"#a00": colors.placeholder}/>
-                </View>
+                </TouchableOpacity>
             </View>
             {beans.origin !== "" && 
             <View style={styles.row}>
@@ -324,6 +339,12 @@ const DisplayBeans = ({ route, navigation }) => {
                 )}
             </View>
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', margin: 10}}>
+                <TouchableOpacity 
+                    onPress={() => captureBeans()}
+                    style={{position: 'absolute', right: 0, top: 0, paddingLeft: 15, paddingBottom: 15}}
+                >
+                    <Feather name="share" size={22} color={colors.text} />
+                </TouchableOpacity>
                 <Icon uri={beans.photo_uri} size={(width/3)*2} onRender={() => setIconRendered(true)}/>
                 <Text style={{color: colors.text}}>{beans.weight}{beans.weight_unit}</Text>
             </View>

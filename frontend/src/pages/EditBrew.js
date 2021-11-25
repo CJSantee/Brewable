@@ -49,6 +49,28 @@ const EditBrew = ({ route, navigation }) => {
     const { colors } = useTheme(); // Color theme
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
     
+    function convertStringToTime(value) {
+        let val;
+        if (value.length > 2 && !value.includes(":")) {
+            val = value.slice(0, 2) + ":" + value.slice(2);
+        } else {
+            val = value;
+        }
+        return val;
+    }
+
+    function brewTimeOnChange(value) {
+        if (value.length > 5)
+            return;
+        setBrew({...brew, time: convertStringToTime(value)});
+    }
+
+    function bloomTimeOnChange(value) {
+        if (value.length > 5)
+            return;
+        setBrew({...brew, bloom: convertStringToTime(value)});
+    }
+
     // Alert for missing Brew Info
     const missingInfoAlert = () => {
         Alert.alert(
@@ -223,11 +245,21 @@ const EditBrew = ({ route, navigation }) => {
                         </TouchableOpacity>
                     }
                 >
-                    <TextFieldRow title="Brew Time" text={brew.time} onChange={(value) => setBrew({...brew, time: value})}>
+                    <TextFieldRow 
+                        title="Brew Time" 
+                        text={brew.time} 
+                        onChange={brewTimeOnChange}
+                        keyboardType="decimal-pad"
+                    >
                         <Ionicons name="ios-timer-sharp" size={25} color={colors.placeholder} />
                     </TextFieldRow>
                     {showBloom && 
-                        <TextFieldRow title="Bloom Time" text={brew.bloom} onChange={(value) => setBrew({...brew, bloom: value})}>
+                        <TextFieldRow 
+                            title="Bloom Time" 
+                            text={brew.bloom} 
+                            onChange={bloomTimeOnChange}
+                            keyboardType="decimal-pad"
+                        >
                             <Ionicons name="ios-timer-sharp" size={25} color={colors.placeholder} />
                         </TextFieldRow>
                     }

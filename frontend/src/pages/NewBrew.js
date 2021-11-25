@@ -94,6 +94,30 @@ const NewBrew = ({ route, navigation }) => {
         );
     }
 
+    function convertStringToTime(value) {
+        let val;
+        if (value.length > 2 && !value.includes(":")) {
+            val = value.slice(0, 2) + ":" + value.slice(2);
+        } else {
+            val = value;
+        }
+        return val;
+    }
+
+    function brewTimeOnChange(value) {
+        setUsingBrewTimer(false);
+        if (value.length > 5)
+            return;
+        setBrew({...brew, time: convertStringToTime(value)});
+    }
+
+    function bloomTimeOnChange(value) {
+        setUsingBloomTimer(false);
+        if (value.length > 5)
+            return;
+        setBrew({...brew, bloom: convertStringToTime(value)});
+    }
+
     // Start / Stop Brew Timer
     const toggleBrewTimer = () => {
         setUsingBrewTimer(true);
@@ -225,11 +249,21 @@ const NewBrew = ({ route, navigation }) => {
                         </TouchableOpacity>
                     }
                 >
-                    <TextFieldRow title="Brew Time" text={usingBrewTimer?formatTime(brewTimer):brew.time} onChange={(value) => {setUsingBrewTimer(false); setBrew({...brew, time: value})}}>
+                    <TextFieldRow 
+                        title="Brew Time" 
+                        text={usingBrewTimer?formatTime(brewTimer):brew.time} 
+                        onChange={brewTimeOnChange}
+                        keyboardType="decimal-pad"
+                    >
                         <Ionicons name="ios-timer-sharp" size={25} color={brewTimerIsActive ? "#a00" : colors.interactive} onPress={toggleBrewTimer}/>
                     </TextFieldRow>
                     {showBloom && 
-                        <TextFieldRow title="Bloom Time" text={usingBloomTimer?formatTime(bloomTimer):brew.bloom} onChange={(value) => {setUsingBloomTimer(false); setBrew({...brew, bloom: value})}}>
+                        <TextFieldRow 
+                            title="Bloom Time" 
+                            text={usingBloomTimer?formatTime(bloomTimer):brew.bloom} 
+                            onChange={bloomTimeOnChange}
+                            keyboardType="decimal-pad"
+                        >
                             <Ionicons name="ios-timer-sharp" size={25} color={bloomTimerIsActive ? "#a00" : colors.interactive} onPress={toggleBloomTimer}/>
                         </TextFieldRow>
                     }

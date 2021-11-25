@@ -19,9 +19,23 @@ import { toDateString } from '../utils/Converter';
 let {height, width} = Dimensions.get('window');
 
 const DisplayBrew = ({ route, navigation }) => {
-    const [brew, setBrew] = useState({body: 0, aftertaste: 0, sweetness: 0, aroma: 0, flavor: 0, acidity: 0, rating: 0}); // Initial values for flavor wheel
+    const [brew, setBrew] = useState({id: 0, body: 0, aftertaste: 0, sweetness: 0, aroma: 0, flavor: 0, acidity: 0, favorite: 0, rating: 0}); // Initial values for flavor wheel
     const { brew_id } = route.params; // Brew_id to retireve brew info
     const { colors } = useTheme(); // Color theme
+
+    const onFavorite = () => {
+        let val = brew.favorite;
+        // Update brew in database
+        db.transaction(
+            (tx) => {
+                tx.executeSql("UPDATE brews SET favorite = ? WHERE id = ?;", [val===0?1:0, brew.id])
+            }, 
+            (e) => console.log(e), 
+            null
+        );
+        // Update brew state within component
+        setBrew({...brew, favorite: val===0?1:0});
+    }
 
     // Load brew by brew.id when component renders
     useFocusEffect(
@@ -74,9 +88,11 @@ const DisplayBrew = ({ route, navigation }) => {
                         <Text style={{...styles.title, color: colors.text}}>{brew.roaster} </Text>
                         <Text style={{...styles.subtitle, color: colors.text}}>{brew.name}</Text>
                     </View>
-                    <View style={styles.favorite}>
+                    <TouchableOpacity style={styles.favorite}
+                        onPress={() => onFavorite()}
+                    >
                         <FontAwesome name={brew.favorite?"heart":"heart-o"} size={25} color={brew.favorite?"#a00":colors.placeholder}/>
-                    </View>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.row}>
                     <Text style={{fontSize: 18, color: colors.text}}>{toDateString(brew.date)} - </Text>
