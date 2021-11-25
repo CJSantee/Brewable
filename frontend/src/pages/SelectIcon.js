@@ -67,11 +67,19 @@ const SelectIcon = ({ route, navigation }) => {
             {cameraVisible?<BeansCamera onCancel={() => setCameraVisible(false)} setUri={setUri}/>
             :<ScrollView>
                 <View style={styles.iconsList}>
-                    <TouchableOpacity onPress={() => setSelectedIcon("1")} style={{...styles.iconContainer, borderColor: selectedIcon==="1"?colors.interactive:colors.background}}>
-                        <Icon uri={"1"} size={imageSize}/>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setSelectedIcon("2")} style={{...styles.iconContainer, borderColor: selectedIcon==="2"?colors.interactive:colors.background}}>
-                        <Icon uri={"2"} size={imageSize}/>
+                    {uri && !selectedIcon
+                    ?<View style={{...styles.iconContainer, borderColor: colors.interactive}}>
+                        <Image source={{uri: uri}} style={{
+                            width: imageSize, height: imageSize, resizeMode: 'contain'}}/>
+                    </View>
+                    :<TouchableOpacity style={{marginLeft: 15, padding: 15}} onPress={() => {setCameraVisible(true); setSelectedIcon(null)}}>
+                        <View style={{width: imageSize, height: imageSize, backgroundColor: colors.border, borderRadius: imageSize/2, alignItems: 'center', justifyContent: 'center'}}>
+                            <Image source={require('../../assets/images/CameraBag.png')} style={{
+                                width: imageSize*0.7, height: imageSize*0.7, resizeMode: 'contain'}}/>
+                        </View>
+                    </TouchableOpacity>}
+                    <TouchableOpacity onPress={() => setSelectedIcon("9")} style={{...styles.iconContainer, borderColor: selectedIcon==="9"?colors.interactive:colors.background}}>
+                        <Icon uri={"9"} size={imageSize}/>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.iconsList}>
@@ -91,20 +99,20 @@ const SelectIcon = ({ route, navigation }) => {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.iconsList}>
+                    <TouchableOpacity onPress={() => setSelectedIcon("1")} style={{...styles.iconContainer, borderColor: selectedIcon==="1"?colors.interactive:colors.background}}>
+                        <Icon uri={"1"} size={imageSize}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setSelectedIcon("2")} style={{...styles.iconContainer, borderColor: selectedIcon==="2"?colors.interactive:colors.background}}>
+                        <Icon uri={"2"} size={imageSize}/>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.iconsList}>
                     <TouchableOpacity onPress={() => setSelectedIcon("7")} style={{...styles.iconContainer, borderColor: selectedIcon==="7"?colors.interactive:colors.background}}>
                         <Icon uri={"7"} size={imageSize}/>
                     </TouchableOpacity>
-                    {uri && !selectedIcon
-                    ?<View style={{...styles.iconContainer, borderColor: colors.interactive}}>
-                        <Image source={{uri: uri}} style={{
-                            width: imageSize, height: imageSize, resizeMode: 'contain'}}/>
-                    </View>
-                    :<TouchableOpacity style={{marginRight: 15, padding: 15}} onPress={() => {setCameraVisible(true); setSelectedIcon(null)}}>
-                        <View style={{width: imageSize, height: imageSize, backgroundColor: colors.border, borderRadius: imageSize/2, alignItems: 'center', justifyContent: 'center'}}>
-                            <Image source={require('../../assets/images/CameraBag.png')} style={{
-                                width: imageSize*0.7, height: imageSize*0.7, resizeMode: 'contain'}}/>
-                        </View>
-                    </TouchableOpacity>}
+                    <TouchableOpacity onPress={() => setSelectedIcon("8")} style={{...styles.iconContainer, borderColor: selectedIcon==="8"?colors.interactive:colors.background}}>
+                        <Icon uri={"8"} size={imageSize}/>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>}
         </View>

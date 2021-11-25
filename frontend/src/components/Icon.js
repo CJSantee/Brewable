@@ -22,6 +22,10 @@ function Icon({uri, size, onRender}) {
                 return Asset.fromModule(require('../../assets/images/Bag_6.png')).uri;
             case "7":
                 return Asset.fromModule(require('../../assets/images/Bag_7.png')).uri;
+            case "8":
+                return Asset.fromModule(require('../../assets/images/Bag_8.png')).uri;
+            case "9":
+                return Asset.fromModule(require('../../assets/images/Bag_9.png')).uri;
             default:
                 return uri;
         }

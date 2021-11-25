@@ -1,98 +1,218 @@
 [
     {
+        "flavor": "Chamomile"
+    },
+    {
+        "flavor": "Rose"
+    },
+    {
         "flavor": "Jasmine"
     },
     {
-        "flavor": "Lemon"
+        "flavor": "Blackberry"
     },
     {
-        "flavor": "Watermelon Candy"
+        "flavor": "Raspberry"
     },
     {
-        "flavor": "Cherry Jam"
+        "flavor": "Blueberry"
     },
     {
-        "flavor": "Sweet Potato Pie"
+        "flavor": "Strawberry"
     },
     {
-        "flavor": "Caramel"
+        "flavor": "Raisin"
     },
     {
-        "flavor": "Creamy"
+        "flavor": "Prune"
     },
     {
-        "flavor": "Brown Sugar"
+        "flavor": "Coconut"
     },
     {
-        "flavor": "Fudge"
+        "flavor": "Cherry"
     },
     {
-        "flavor": "Citrus"
+        "flavor": "Pomegranate"
     },
     {
-        "flavor": "Nougat"
+        "flavor": "Pineapple"
     },
     {
-        "flavor": "Dried Apples"
-    },
-    {
-        "flavor": "Honey"
-    },
-    {
-        "flavor": "Orange Blossom"
-    },
-    {
-        "flavor": "Turbinado Sugar"
-    },
-    {
-        "flavor": "Damson Plum"
-    },
-    {
-        "flavor": "Peach"
-    },
-    {
-        "flavor": "Boysenberry"
-    },
-    {
-        "flavor": "Elderflower"
-    },
-    {
-        "flavor": "French Toast"
+        "flavor": "Grape"
     },
     {
         "flavor": "Apple"
     },
     {
-        "flavor": "Apricot Jam"
+        "flavor": "Peach"
+    },
+    {
+        "flavor": "Pear"
+    },
+    {
+        "flavor": "Grapefruit"
     },
     {
         "flavor": "Orange"
     },
     {
-        "flavor": "White Peach"
-    },
-    {
-        "flavor": "Tangerine"
-    },
-    {
-        "flavor": "Aprium"
-    },
-    {
-        "flavor": "Cane Sugar"
+        "flavor": "Lemon"
     },
     {
         "flavor": "Lime"
     },
     {
-        "flavor": "Clementine"
+        "flavor": "Sour Aromatics"
     },
     {
-        "flavor": "Rosewater"
+        "flavor": "Acetic Acid"
     },
     {
-        "flavor": "Red Grape"
+        "flavor": "Butyric Acid"
     },
     {
-        "flavor": "Black Tea"
+        "flavor": "Isovaleric Acid"
+    },
+    {
+        "flavor": "Citric Acid"
+    },
+    {
+        "flavor": "Malic Acid"
+    },
+    {
+        "flavor": "Winey"
+    },
+    {
+        "flavor": "Whiskey"
+    },
+    {
+        "flavor": "Fermented"
+    },
+    {
+        "flavor": "Overripe"
+    },
+    {
+        "flavor": "Under-Ripe"
+    },
+    {
+        "flavor": "Peapod"
+    },
+    {
+        "flavor": "Fresh"
+    },
+    {
+        "flavor": "Dark Green"
+    },
+    {
+        "flavor": "Vegetative"
+    },
+    {
+        "flavor": "Hay-Like"
+    },
+    {
+        "flavor": "Herb-Like"
+    },
+    {
+        "flavor": "Stale"
+    },
+    {
+        "flavor": "Cardboard"
+    },
+    {
+        "flavor": "Papery"
+    },
+    {
+        "flavor": "Woody"
+    },
+    {
+        "flavor": "Moldy/Damp"
+    },
+    {
+        "flavor": "Musty/Dusty"
+    },
+    {
+        "flavor": "Animalic"
+    },
+    {
+        "flavor": "Meaty Brothy"
+    },
+    {
+        "flavor": "Phenolic"
+    },
+    {
+        "flavor": "Bitter"
+    },
+    {
+        "flavor": "Salty"
+    },
+    {
+        "flavor": "Medicinal"
+    },
+    {
+        "flavor": "Petroleum"
+    },
+    {
+        "flavor": "Skunky"
+    },
+    {
+        "flavor": "Rubber"
+    },
+    {
+        "flavor": "Acrid"
+    },
+    {
+        "flavor": "Ashy"
+    },
+    {
+        "flavor": "Smoky"
+    },
+    {
+        "flavor": "Brown, Roast"
+    },
+    {
+        "flavor": "Grain"
+    },
+    {
+        "flavor": "Malt"
+    },
+    {
+        "flavor": "Anise"
+    },
+    {
+        "flavor": "Nutmeg"
+    },
+    {
+        "flavor": "Cinnamon"
+    },
+    {
+        "flavor": "Clove"
+    },
+    {
+        "flavor": "Peanuts"
+    },
+    {
+        "flavor": "Hazelnut"
+    },
+    {
+        "flavor": "Almond"
+    },
+    {
+        "flavor": "Chocolate"
+    },
+    {
+        "flavor": "Dark Chocolate"
+    },
+    {
+        "flavor": "Molasses"
+    },
+    {
+        "flavor": "Maple Syrup"
+    },
+    {
+        "flavor": "Caramelized"
+    },
+    {
+        "flavor": "Honey"
     }
 ]

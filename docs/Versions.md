@@ -49,3 +49,10 @@ Fixed bug re-initializing database everytime the app starts.
 Updated name to Brewable
 
 # v1.2.0
+
+# v1.3.1
+Production Release (Hopefully...)
+- Added two new Beans Icons
+- Changed Time Input
+- Added more info buttons to open modals
+- Added share button and favorite toggle to display pages

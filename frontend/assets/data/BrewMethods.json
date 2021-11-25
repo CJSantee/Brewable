@@ -10,5 +10,20 @@
     },
     {
         "method": "Aeropress"
+    },
+    {
+        "method": "Cold Brew"
+    },
+    {
+        "method": "Drip"
+    },
+    {
+        "method": "Kalita Wave"
+    },
+    {
+        "method": "Moka Pot"
+    }, 
+    {
+        "method": "Siphon"
     }
 ]

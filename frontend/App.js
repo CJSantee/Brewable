@@ -15,7 +15,7 @@ import { store, persistor } from './src/redux/store';
 import Navigation from './src/Navigation';
 
 // Global declaration of SQLite Database
-global.db = SQLite.openDatabase("CoffeeLab.db");
+global.db = SQLite.openDatabase("Brewable.db");
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -39,6 +39,8 @@ export default function App() {
       require('./assets/images/Bag_5.png'),
       require('./assets/images/Bag_6.png'),
       require('./assets/images/Bag_7.png'),
+      require('./assets/images/Bag_8.png'),
+      require('./assets/images/Bag_9.png'),
       require('./assets/images/Bag_Icon.png'),
       require('./assets/images/BeansBag.png'),
       require('./assets/images/CameraBag.png'),
