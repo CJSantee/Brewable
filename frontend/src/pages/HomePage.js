@@ -62,7 +62,7 @@ const Beans = ({beans, onLongPress, navigation}) => {
                     style={{position: 'absolute', padding: 15, right: 0, top: 0}}
                     onPress={() => onLongPress()}
                 >
-                    <FontAwesome5 name="ellipsis-h" size={18} color={colors.text}/>
+                    <FontAwesome5 name="ellipsis-h" size={18} color={colors.placeholder}/>
                 </TouchableOpacity>
             </View>
         </TouchableOpacity>

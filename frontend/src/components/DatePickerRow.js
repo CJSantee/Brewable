@@ -2,16 +2,13 @@ import React from 'react';
 import {
     View,
     StyleSheet,
-    Text,
-    Dimensions
+    Text
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 
 // IDEA: react-native-date-picker
 import DateTimePicker from '@react-native-community/datetimepicker';
-
-let {height, width} = Dimensions.get('window');
 
 const DatePickerRow = ({title, value, onChange}) => {
     const { colors } = useTheme(); // Color theme
@@ -23,27 +20,26 @@ const DatePickerRow = ({title, value, onChange}) => {
     };
 
     return (
-      <View style={[styles.row,
-        {
+      <View 
+        style={{...styles.row,
             backgroundColor: colors.card, 
             borderTopWidth: StyleSheet.hairlineWidth,
             borderBottomWidth: StyleSheet.hairlineWidth,
             borderColor: colors.border,
-        }
-      ]}>
+            justifyContent: title ? 'space-between' : 'center'
+        }}
+      >
         <Text style={{...styles.text, color: colors.placeholder}}>{title}</Text>
-        <View style={title ? styles.rightPicker : styles.centerPicker}>
-            <DateTimePicker
-                mode="date"
-                value={new Date(value)}
-                display="default"          
-                onChange={setDate}
-                style={{width: 320}}
-                themeVariant={user_preferences.theme.toLowerCase()}
-            />
-        </View>
-      </View>  
-    );
+        <DateTimePicker
+            mode="date"
+            display="default"
+            value={new Date(value)}
+            onChange={setDate}
+            style={styles.datePicker}
+            themeVariant={user_preferences.theme.toLowerCase()}
+        />
+      </View>
+  );
 };
 
 export default DatePickerRow;
@@ -52,25 +48,15 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 15,
+    paddingLeft: 15,
+    paddingRight: 14,
     paddingVertical: 4,
     minHeight: 43
   },
-  centerPicker: {
-    position: 'absolute', 
-    right: 0, 
-    width: width/2, 
-    alignItems: 'center'
-  },
-  rightPicker: {
-    position: 'absolute',
-    right: "-54%"
-},
-  title: {
-    fontSize: 10,
+  datePicker: {
+    width: 125,
   },
   text: {
-    fontSize: 17,
-    fontWeight: '400'
+    fontSize: 17
   }
 });

@@ -100,7 +100,7 @@ const EditBrew = ({ route, navigation }) => {
                     [brew.grind_setting, brew.water, brew.water_unit, brew.coffee, brew.coffee_unit, brew.temperature, brew.temp_unit, brew.brew_method, brew.time, new Date(brew.date).toJSON(), brew.notes, brew.flavor, brew.acidity, brew.aroma, brew.body, brew.sweetness, brew.aftertaste, brew.beans_id, brew.favorite, brew.rating, brew.id]);
             },
             (e) => {console.log(e)},
-            () => navigation.navigate("DisplayBrew", { brew_id: brew.id })
+            () => navigation.navigate("DisplayBeans", { beans_id: brew.beans_id })
         );
     }
 
