@@ -25,7 +25,16 @@ export default function Home() {
             </h1>
 
             <p className={styles.description}>
-              Brewable is an app for coffee lovers; made to help you keep track of the beans you buy and the brews you produce with them.
+              Brewable is an app for coffee lovers; made to help you keep track of the beans you buy and the brews you make with them.
+            </p>
+            <p className={styles.features}>
+              Features:
+              <br/> &#128210; Keep track of your collection of coffee beans.
+              <br/> &#9749; Record your brews by adding a device and recipe.
+              <br/> &#11088; Rate your brews in six categories, establishing a flavor profile. 
+              <br/> &#128161; Receive suggestions for new recipes to improve your brews.
+              <br/> &#128248; Share photos of your beans and brews.
+              <br/> &#9200; Set daily reminders for brewing.
             </p>
 
             <div className={styles.image}>
@@ -37,8 +46,10 @@ export default function Home() {
           </div>
 
           <div className={styles.screenshots}>
-            <Image src="/iPhone13-HomePage.png" alt="Home Page Screenshot" width={1400*0.20} height={2700*0.20}/>
-            <Image src="/iPhone13-DisplayBeans.png" alt="Home Page Screenshot" width={1400*0.20} height={2700*0.20}/>
+            <Image src="/Screenshots/iPhone13-MyCollection.png" alt="Home Page Screenshot" width={1400*0.20} height={2700*0.20}/>
+            <Image src="/Screenshots/iPhone13-Beans.png" alt="Display Beans Page Screenshot" width={1400*0.20} height={2700*0.20}/>
+            <Image src="/Screenshots/iPhone13-Brew-Dark.png" alt="Display Brew Page Screenshot" width={1400*0.20} height={2700*0.20}/>
+            <Image src="/Screenshots/iPhone13-Suggestions-Dark.png" alt="Display Brew Page Screenshot" width={1400*0.20} height={2700*0.20}/>
           </div>
 
         </div>

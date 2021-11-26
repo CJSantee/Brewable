@@ -44,6 +44,12 @@
   font-size: 1.5rem;
 }
 
+.features {
+  margin: 2rem 0;
+  line-height: 1.5;
+  font-size: 1.25rem;
+}
+
 .grid {
   flex: 1;
   display: flex;

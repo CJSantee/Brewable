@@ -50,9 +50,14 @@ Updated name to Brewable
 
 # v1.2.0
 
-# v1.3.1
+# v1.3.0
 Production Release (Hopefully...)
 - Added two new Beans Icons
 - Changed Time Input
 - Added more info buttons to open modals
 - Added share button and favorite toggle to display pages
+
+# v1.3.1
+Take 2 at Production Relase...
+- Updated navigation on 'Done' for EditBeans and EditBrews
+- Updated styling for DatePickerRow (especially for larger screen sizes)
