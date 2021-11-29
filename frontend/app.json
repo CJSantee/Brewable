@@ -3,7 +3,7 @@
     "name": "Brewable",
     "slug": "brewable",
     "privacy": "public",
-    "version": "1.3.2",
+    "version": "1.3.3",
     "platforms": ["ios"],
     "githubUrl": "https://github.com/CJSantee/Brewable",
     "orientation": "portrait",
@@ -22,11 +22,11 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.cjsantee.craftCoffee",
-      "buildNumber": "1.3.2",
+      "buildNumber": "1.3.3",
       "infoPlist": {
-        "NSCameraUsageDescription": "Your camera is used capture image of coffee beans.",
-        "NSPhotoLibraryAddUsageDescription": "Images are saved in an album titled 'Brewable' on your device.",
-        "NSPhotoLibraryUsageDescription": "Images saved in the 'Brewable' album are used as icons for your coffee beans."
+        "NSCameraUsageDescription": "Your camera is used capture images of coffee beans.",
+        "NSPhotoLibraryAddUsageDescription": "Images are saved in 'Brewable' album on your device.",
+        "NSPhotoLibraryUsageDescription": "Images saved in 'Brewable' album are used as icons for your coffee beans."
       }
     },
     "web": {
