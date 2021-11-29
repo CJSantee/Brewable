@@ -21,7 +21,7 @@ import DisplayBrew from './pages/DisplayBrew';
 import EditBrew from './pages/EditBrew';
 import EditBeans from './pages/EditBeans';
 import SelectFlavors from './pages/SelectFlavors';
-import DeveloperPage from './pages/DeveloperPage';
+// import DeveloperPage from './pages/DeveloperPage';
 import AboutPage from './pages/AboutPage';
 import SuggestRecipe from './pages/SuggestRecipe';
 import ReviewRecipe from './pages/ReviewRecipe';
@@ -38,7 +38,6 @@ const Navigation = () => {
             <NavStack.Navigator screenOptions={{headerShown: false}}>
                 <NavStack.Screen name="HomePage" component={HomePage} />
                 <NavStack.Screen name="SettingsPage" component={SettingsPage}/>
-                <NavStack.Screen name="DeveloperPage" component={DeveloperPage}/>
                 <NavStack.Screen name="AboutPage" component={AboutPage}/>
                 <NavStack.Screen name="BrewMethods" component={BrewMethods}/>
                 <NavStack.Screen name="NewBeans" component={NewBeans}/>

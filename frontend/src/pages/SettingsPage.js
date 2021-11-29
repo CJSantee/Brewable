@@ -12,6 +12,7 @@ import { Feather } from '@expo/vector-icons';
 import Constants from "expo-constants";
 import { useSelector, useDispatch } from 'react-redux'
 import { updateWaterUnit, updateCoffeeUnit, updateTempUnit, updateRatio, updateGrinder, updateTheme, updateAutofillRatio, updateNotificationTime, updateNotificationsActive } from '../redux/actions';
+import * as WebBrowser from 'expo-web-browser';
 
 // Component Imports
 import { SegmentedControl, Switch } from 'react-native-ios-kit';
@@ -49,6 +50,10 @@ const SettingsPage = ({ navigation }) => {
                 }
             ]
         )
+    }
+
+    const openPrivacyPolicy = () => {
+        WebBrowser.openBrowserAsync('http://brewableapp.com/#/privacy');
     }
 
     function parseRatio(value) {
@@ -219,11 +224,11 @@ const SettingsPage = ({ navigation }) => {
                     <RowItem title="About" text="" onPress={() => navigation.navigate("AboutPage")}>
                         <Feather name="chevron-right" size={16} color={colors.placeholder}/>
                     </RowItem>
-                    <RowItem title="For Partners" text="" onPress={() => loginPartners()}>
+                    <RowItem title="Privacy Policy" text="" onPress={openPrivacyPolicy}>
                         <Feather name="chevron-right" size={16} color={colors.placeholder}/>
                     </RowItem>
                     <RowItem title="Version" text="">
-                        <Text style={{color: colors.text}}>1.3.1</Text>
+                        <Text style={{color: colors.text}}>1.0.0</Text>
                     </RowItem>
                 </TableView>
             </ScrollView>

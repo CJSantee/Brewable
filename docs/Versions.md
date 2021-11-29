@@ -61,3 +61,6 @@ Production Release (Hopefully...)
 Take 2 at Production Relase...
 - Updated navigation on 'Done' for EditBeans and EditBrews
 - Updated styling for DatePickerRow (especially for larger screen sizes)
+
+# v1.3.2
+Added Privacy Policy and removed 'For Partners' Page
