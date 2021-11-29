@@ -32,13 +32,13 @@ function BeansCamera({ onCancel, setUri }) {
         const {status} = await MediaLibrary.requestPermissionsAsync();
         if(status === "granted"){
             const asset = await MediaLibrary.createAssetAsync(photo);
-            const album = await MediaLibrary.getAlbumAsync('Coffee Lab');
+            const album = await MediaLibrary.getAlbumAsync('Brewable');
             if (album !== null) {
                 let assets = [];
                 assets.push(asset);
                 MediaLibrary.addAssetsToAlbumAsync(assets, album.id);
             } else {
-                MediaLibrary.createAlbumAsync('Coffee Lab', asset);
+                MediaLibrary.createAlbumAsync('Brewable', asset);
             }
             setUri(asset.uri);
         } else {
@@ -76,7 +76,6 @@ function BeansCamera({ onCancel, setUri }) {
                         <View style={styles.pictureButton}/>
                     </TouchableOpacity>
                 </View>
-                {/* <View style={styles.beansOutline}/> */}
             </Camera>
             :<Text>Grant access to camera</Text>}
         </View>
@@ -139,13 +138,5 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         borderWidth: 2,
         borderColor: 'rgba(0,0,0,0)',
-    },
-    beansOutline:{
-        position: 'absolute',
-        top: width/3,
-        alignSelf: 'center',
-        borderWidth: 3,
-        width: width/2,
-        height: height/2,
     }
 });

@@ -64,3 +64,6 @@ Take 2 at Production Relase...
 
 # v1.3.2
 Added Privacy Policy and removed 'For Partners' Page
+
+# v1.3.3
+Added permisions descriptions and changed ablum name for saved photos
