@@ -12,7 +12,9 @@ Brewable is an app for coffee lovers; made to help you keep track of the beans y
 - Share photos of your beans and brews.
 - Set daily reminders for brewing.
 
-<img src="./screenshots/withPhone/iPhone13-MyCollection.png" width="200">
-<img src="./screenshots/withPhone/iPhone13-Beans.png" width="200">
-<img src="./screenshots/withPhone/iPhone13-Brew-Dark.png" width="200">
-<img src="./screenshots/withPhone/iPhone13-Suggestions-Dark.png" width="200">
+<div float="left">
+    <img src="./screenshots/withPhone/iPhone13-MyCollection.png" width="200">
+    <img src="./screenshots/withPhone/iPhone13-Beans.png" width="200">
+    <img src="./screenshots/withPhone/iPhone13-Brew-Dark.png" width="200">
+    <img src="./screenshots/withPhone/iPhone13-Suggestions-Dark.png" width="200">
+</div>
