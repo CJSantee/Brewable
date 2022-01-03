@@ -67,7 +67,7 @@ function EditBeans({ route, navigation }) {
                     [beans.name, beans.roaster, beans.origin, beans.roast_level, new Date(beans.roast_date).toJSON(), beans.price, beans.weight, beans.weight_unit, beans.flavor_notes, beans.favorite, beans.photo_uri, beans.id]);
             },
             (e) => {console.log(e)},
-            () => navigation.navigate("HomePage") // Go back on success
+            () => navigation.navigate("ListBeans") // Go back on success
         );
     }
 
@@ -83,7 +83,7 @@ function EditBeans({ route, navigation }) {
                 [id])
             },
             (e) => console.log(e),
-            () => navigation.navigate("HomePage")
+            () => navigation.navigate("ListBeans")
         );
     }
 

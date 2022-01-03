@@ -122,13 +122,6 @@ class FullScreenModal extends Component {
 export default FullScreenModal;
 
 const styles = StyleSheet.create({
-    background: {
-        height: height,
-        width: width,
-        position: 'absolute',
-        top: 0,
-        backgroundColor: 'rgba(0,0,0,0.4)',
-    },
     animated: {
         flex: 1,
         position: 'absolute',

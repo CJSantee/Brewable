@@ -49,7 +49,7 @@ const Beans = ({beans, onLongPress, navigation}) => {
 
     return (
         <TouchableOpacity 
-            onPress={() => navigation.navigate("DisplayBeans", {beans_id: beans.id, parent: "HomePage"})}
+            onPress={() => navigation.navigate("DisplayBeans", {beans_id: beans.id, parent: "ListBeans"})}
             onLongPress={onLongPress}
         >
             <View style={{...styles.beansRow, borderColor: colors.border}}> 
@@ -69,7 +69,7 @@ const Beans = ({beans, onLongPress, navigation}) => {
     );
 }
 
-const HomePage = ({ navigation }) => {
+const ListBeans = ({ navigation }) => {
     const { colors } = useTheme(); // Theme colors
     const [newModal, setNewModal] = useState(false); // New Modal state
     const [btmModal, setBtmModal] = useState(false); // Bottom modal state
@@ -261,7 +261,7 @@ const HomePage = ({ navigation }) => {
                         <Text style={{...styles.menuText, color: colors.text}}>Edit</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate("DisplayBeans", {beans_id: selected.id, parent: "HomePage", share: true})}>
+                <TouchableOpacity onPress={() => navigation.navigate("DisplayBeans", {beans_id: selected.id, parent: "ListBeans", share: true})}>
                     <View style={styles.menuItem}>
                         <Feather name="share" size={22} color={colors.text}/>
                         <Text style={{...styles.menuText, color: colors.text}}>Share</Text>
@@ -296,7 +296,7 @@ const HomePage = ({ navigation }) => {
     );
 }
 
-export default HomePage;
+export default ListBeans;
 
 const styles = StyleSheet.create({
     newModal: {

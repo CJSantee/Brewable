@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import {
     View,
@@ -44,7 +44,13 @@ const SelectBeans = ({ navigation, route }) => {
 
     return (
         <View style={{height: "100%", width: "100%"}}>
-            <Header title="Select Beans" leftText="Back" leftOnPress={() => navigation.goBack()} leftChevron={true}/>
+            <Header 
+                title="Select Beans" 
+                leftText="Back" 
+                leftOnPress={() => navigation.goBack()} 
+                leftChevron={true}
+                plus={true} plusOnPress={() => navigation.navigate("NewBeans")}
+            />
             <FlatList 
                 data={beans}
                 renderItem={({item}) => 

@@ -19,12 +19,12 @@ function AboutPage({ navigation }) {
                     <Text style={{...styles.subtitle, color: colors.text}}>Colin Santee</Text>
                 </View>
                 <View style={styles.block}>
-                    <Text style={{...styles.title, color: colors.text}}>Special Thanks</Text>
-                    <Text style={{...styles.subtitle, color: colors.text}}>Madelyne Brooks</Text>
+                    <Text style={{...styles.title, color: colors.text}}>Beta Testers</Text>
+                    <Text style={{...styles.subtitle, color: colors.text}}>{`Jeremiah Niehls\nChristopher Schneider\nJohnathan Sottek`}</Text>
                 </View>
                 <View style={styles.block}>
-                    <Text style={{...styles.title, color: colors.text}}>Beta Testers</Text>
-                    <Text style={{fontSize: 14, color: colors.text}}>Thomas Clawson, Jeremiah Niehls, Christopher Schneider, Johnathan Sottek</Text>
+                    <Text style={{...styles.title, color: colors.text}}>Special Thanks</Text>
+                    <Text style={{...styles.subtitle, color: colors.text}}>Madelyne Brooks</Text>
                 </View>
             </View>
         </View> 
@@ -44,9 +44,11 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 17,
+        fontWeight: 'bold',
         margin: 2
     },
     subtitle: {
-        fontSize: 18
+        fontSize: 15,
+        textAlign: 'center'
     }
 });

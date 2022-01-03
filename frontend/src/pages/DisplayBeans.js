@@ -47,10 +47,12 @@ const DisplayBeans = ({ route, navigation }) => {
     const [loadingBrews, setLoadingBrews] = useState(true);
     const [refreshing, setRefreshing] = useState(false); // List refreshing state
     const [showModal, setShowModal] = useState(false);
+    const [showBrews, setShowBrews] = useState(false);
     const [iconRendered, setIconRendered] = useState(false); // Icon rendered state to waiting to share the screen
     const [selected, setSelected] = useState({});
 
     const brewRef = useRef();
+    const drawerRef = useRef();
 
     // Search State Variables
     const [sortBy, setSortBy] = useState("brew_date");
@@ -294,12 +296,24 @@ const DisplayBeans = ({ route, navigation }) => {
         return (
             <View style={{width: '100%', padding: 10, marginBottom: 5}}>
                 <TouchableOpacity onPress={() => navigation.navigate("NewBrew", { beans_id: beans.id, roaster: beans.roaster, name: beans.name })}>
-                    <View style={{...styles.addBrewsButton, backgroundColor: colors.card, borderColor: colors.border}}>
+                    <View style={{...styles.bottomButton, backgroundColor: colors.card, borderColor: colors.border}}>
                         <Text style={{fontSize: 16, margin: 10, color: colors.text}}>Add Brew</Text>
                     </View>
                 </TouchableOpacity>
             </View>
         );  
+    }
+
+    const ShowBrewsButton = () => {
+        return (
+            <View style={{width: '100%', padding: 10, marginBottom: 5}}>
+                <TouchableOpacity onPress={() => drawerRef.current.openDrawer()}>
+                    <View style={{...styles.bottomButton, backgroundColor: colors.card, borderColor: colors.border}}>
+                        <Text style={{fontSize: 16, margin: 10, color: colors.text}}>View Brews</Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
+        );
     }
 
     return (
@@ -348,9 +362,11 @@ const DisplayBeans = ({ route, navigation }) => {
                 <Icon uri={beans.photo_uri} size={(width/3)*2} onRender={() => setIconRendered(true)}/>
                 <Text style={{color: colors.text}}>{beans.weight}{beans.weight_unit}</Text>
             </View>
+
             </ScrollView>
-            {brews.length > 0 ?
-            <DraggableDrawer title="Brews" colors={colors}>
+            {brews.length > 0 ? <>
+            <ShowBrewsButton />
+            <DraggableDrawer title={beans.roaster+" - "+beans.name+"\nBrews"} colors={colors} ref={drawerRef}>
                 <View style={{width: '100%'}}>
                     <SegmentedControl
                         values={['Brew Date', 'Rating']}
@@ -378,10 +394,12 @@ const DisplayBeans = ({ route, navigation }) => {
                     ListFooterComponent={() => <AddBrewButton/>}
                 />
             </DraggableDrawer>
+            </>
             :loadingBrews ?
                 <ActivityIndicator size="large"/>
                 :<AddBrewButton/>}
             </>}
+
             <View ref={brewRef} style={{position: 'absolute', width: width, left: width}}>
                 {selected.id&&<Brew
                     brew={selected} 
@@ -483,7 +501,7 @@ const styles = StyleSheet.create({
     flavorText: {
         fontSize: 16
     },
-    addBrewsButton: {
+    bottomButton: {
         width: '100%',
         alignSelf: 'center', 
         borderWidth: 1, 

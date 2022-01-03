@@ -12,7 +12,7 @@ let {height, width} = Dimensions.get('window');
 
 const RATIO = 1;
 const tabHeight = 75;
-const topOffset = 150;
+const topOffset = height*0.12;
 
 class DraggableDrawer extends Component {
     constructor(props) {
@@ -47,6 +47,16 @@ class DraggableDrawer extends Component {
             [{ nativeEvent: { translationY: this._dragY } }],
             { listener: this._actionListener, useNativeDriver: USE_NATIVE_DRIVER }
         );
+    }
+
+    openDrawer() {
+        Animated.spring(this._translateYOffset, {
+            velocity: 0.5,
+            tension: 15,
+            friction: 5,
+            toValue: -(height-topOffset),
+            useNativeDriver: USE_NATIVE_DRIVER,
+        }).start();
     }
 
     _onHandlerStateChange = event => {
@@ -98,7 +108,7 @@ class DraggableDrawer extends Component {
                     ]}
                     onLayout={this._onLayout}>
                         <View style={{height: tabHeight, alignItems: 'center', justifyContent: 'center'}}>
-                            <Text style={{fontSize: 16, color: colors.text}}>{this.props.title}</Text>
+                            <Text style={{fontSize: 16, textAlign: 'center', color: colors.text}}>{this.props.title}</Text>
                         </View>
                         {children}
                 </Animated.View>
@@ -113,7 +123,7 @@ const styles = StyleSheet.create({
     drawer: {
         flex: 1,
         position: 'absolute',
-        top: height-tabHeight,
+        top: height, //remove tabHeight when ready
         width: width,
         height: height-(topOffset-tabHeight),
         borderTopStartRadius: 15,
