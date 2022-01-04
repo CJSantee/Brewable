@@ -125,7 +125,7 @@ const DeveloperPage = ({ navigation }) => {
 
     return (
         <View style={{width: "100%", height: "100%"}}>
-            <Header title="Partners" leftText="Back" leftChevron={true} leftOnPress={() => navigation.goBack()}/>
+            <Header title="Developer Page" leftText="Back" leftChevron={true} leftOnPress={() => navigation.goBack()}/>
             <ScrollView style={styles.container}>
                 <TableView header="App">
                     <RowItem title="Download Sample Data" text="" onPress={_downloadData}>

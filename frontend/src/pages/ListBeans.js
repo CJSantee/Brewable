@@ -218,7 +218,7 @@ const ListBeans = ({ navigation }) => {
     return (
         <View style={{flex: 1, flexDirection: 'column', backgroundColor: colors.background}}>
             <Header 
-                title="My Collection"
+                title="My Beans"
                 leftText="Settings" rightText="New" 
                 leftOnPress={()=>navigation.navigate("SettingsPage")} 
                 rightOnPress={()=>setNewModal(!newModal)}/>

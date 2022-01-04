@@ -3,7 +3,6 @@ import {
     View,
     StyleSheet,
     ScrollView,
-    Alert,
     Text
 } from 'react-native';
 import * as Notifications from 'expo-notifications';
@@ -28,29 +27,6 @@ const SettingsPage = ({ navigation }) => {
     const [grinder, setGrinder] = useState("");
     const dispatch = useDispatch(); // Redux dispatch
     const user_preferences = useSelector(state => state.user_preferences); // User preferences (Redux)
-
-    const loginPartners = () => {
-        Alert.prompt(
-            "Enter Password",
-            "",
-            [
-                {
-                    text: "Cancel",
-                    onPress: () => {}
-                },
-                {
-                    text: "Confirm",
-                    onPress: (value) => {
-                        if (value === "iLoveCoffee") {
-                            navigation.navigate("DeveloperPage");
-                        } else {
-                            Alert.alert("Incorrect Password");
-                        }
-                    }
-                }
-            ]
-        )
-    }
 
     const openPrivacyPolicy = () => {
         WebBrowser.openBrowserAsync('http://brewableapp.com/#/privacy');
