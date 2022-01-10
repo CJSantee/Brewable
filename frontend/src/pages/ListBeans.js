@@ -23,26 +23,10 @@ import { toBeansString } from '../utils/Converter';
 // Component Imports
 import { SegmentedControl } from 'react-native-ios-kit';
 import Header from '../components/Header';
-import RowItem from '../components/RowItem';
 import SearchBar from '../components/SearchBar';
 import Icon from '../components/Icon';
 import FullScreenModal from '../components/FullScreenModal';
-
-// Modal for listing new beans or brew
-const NewModal = ({ navigation }) => {
-    const {colors} = useTheme();
-
-    return (
-        <View style={{...styles.newModal, borderColor: colors.border}}>
-            <RowItem title="Beans" text="" onPress={() => navigation.navigate("NewBeans")}>
-                <Feather name="chevron-right" size={20} color={colors.interactive}/>
-            </RowItem>
-            <RowItem title="Brew" text="" onPress={() => navigation.navigate("NewBrew")}>
-                <Feather name="chevron-right" size={20} color={colors.interactive}/>
-            </RowItem>
-        </View>
-    );
-}
+import NewModal from '../components/NewModal';
 
 const Beans = ({beans, onLongPress, navigation}) => {
     const { colors } = useTheme();
@@ -221,10 +205,8 @@ const ListBeans = ({ navigation }) => {
                 title="My Beans"
                 leftText="Settings" rightText="New" 
                 leftOnPress={()=>navigation.navigate("SettingsPage")} 
-                rightOnPress={()=>setNewModal(!newModal)}/>
-            {newModal ? <NewModal navigation={navigation}/> : <View/>}
-            {newModal ? null : <SearchBar searchQuery={searchQuery} setSearchQuery={handleSearch}/>}
-            {newModal ? null : 
+                rightOnPress={()=>navigation.navigate("NewBeans")}/>
+            <SearchBar searchQuery={searchQuery} setSearchQuery={handleSearch}/>
             <View style={{backgroundColor: colors.card, borderBottomWidth: 1, borderColor: colors.border}}>
                 <SegmentedControl
                     values={['Roast Date', 'Alphabetical']}
@@ -238,7 +220,7 @@ const ListBeans = ({ navigation }) => {
                     }}
                     style={{marginHorizontal: 10, marginBottom: 10}}
                 />
-            </View>}
+            </View>
             {beans.length === 0 ? 
             <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                 <Text style={{color: colors.placeholder, fontSize: 18}}>No Beans</Text>
@@ -299,10 +281,6 @@ const ListBeans = ({ navigation }) => {
 export default ListBeans;
 
 const styles = StyleSheet.create({
-    newModal: {
-        zIndex: 1,
-        borderBottomWidth: 1
-    },
     beansRow: {
         width: "100%", 
         borderBottomWidth: 1,

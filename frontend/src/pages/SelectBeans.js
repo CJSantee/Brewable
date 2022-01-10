@@ -49,7 +49,8 @@ const SelectBeans = ({ navigation, route }) => {
                 leftText="Back" 
                 leftOnPress={() => navigation.goBack()} 
                 leftChevron={true}
-                plus={true} plusOnPress={() => navigation.navigate("NewBeans")}
+                rightText="New"
+                rightOnPress={() => navigation.navigate("NewBeans")}
             />
             <FlatList 
                 data={beans}

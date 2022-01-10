@@ -10,10 +10,10 @@ import {
     TouchableOpacity,
     Share,
     PixelRatio,
-    Alert
+    Alert,
 } from 'react-native';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
-import { FontAwesome, Feather, Octicons } from '@expo/vector-icons';
+import { FontAwesome, Feather } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import { captureRef } from 'react-native-view-shot';
 

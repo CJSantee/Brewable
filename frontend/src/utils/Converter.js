@@ -12,3 +12,10 @@ export function toDateString(_date) {
     let date = new Date(_date);
     return date.toLocaleDateString('en-US', options);
 }
+
+export function toSimpleDate(_date) {
+    const options = { month: '2-digit', day: '2-digit' };
+    if (_date === "") return "";
+    let date = new Date(_date);
+    return date.toLocaleDateString('en-US', options);
+}

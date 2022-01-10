@@ -14,7 +14,7 @@ function RecipeRow({ brew }) {
     const { colors } = useTheme();
 
     return (
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 10 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 10, flex: 1 }}>
             {brew.water !== 0 && brew.water !== "" && 
             <View style={styles.item}>
                 <Entypo name="water" size={20} color="#0069A7"/>
