@@ -4,12 +4,12 @@ import {
     StyleSheet,
     Alert,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import Header from '../components/Header';
 
-function AboutPage({ navigation }) {
+export default function AboutPage({ navigation }) {
     const { colors } = useTheme();
 
     const loginPartners = () => {
@@ -57,8 +57,6 @@ function AboutPage({ navigation }) {
         </View> 
     );
 }
-
-export default AboutPage;
 
 const styles = StyleSheet.create({
     container: {

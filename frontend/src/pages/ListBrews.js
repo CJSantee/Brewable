@@ -10,7 +10,7 @@ import {
     Share,
     PixelRatio,
 } from 'react-native';
-import { Feather, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
+import { Feather, FontAwesome } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { captureRef } from 'react-native-view-shot';
@@ -24,44 +24,10 @@ import { SegmentedControl } from 'react-native-ios-kit';
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 import Brew from '../components/Brew';
-import RecipeRow from '../components/RecipeRow';
-import Stars from '../components/Stars';
+import BrewRow from '../components/BrewRow';
+
 import FullScreenModal from '../components/FullScreenModal';
-import { toBrewString, toSimpleDate } from '../utils/Converter';
-
-const BrewRow = ({brew, onLongPress, navigation}) => {
-    const { colors } = useTheme();
-
-    return (
-        <TouchableOpacity 
-            onPress={() => navigation.navigate("DisplayBrew", { brew_id: brew.id, parent: "Brews" })}
-            onLongPress={onLongPress}
-        >
-            <View style={{...styles.brewRow, borderColor: colors.border}}> 
-                <View style={{flexDirection: 'column', width: '100%'}}>
-                    <View style={{flexDirection: 'row'}}>
-                        <Text style={{fontWeight: 'bold'}}>{brew.roaster}{" "}</Text>
-                        <Text>{brew.name}</Text>
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                        <Text>{brew.brew_method}{" "}</Text>
-                        <Text>{toSimpleDate(brew.date)}</Text>
-                    </View>
-                    <View style={{width: '100%', alignItems: 'center', marginTop: 10}}>
-                        <Stars width={'80%'} size={20} value={brew.rating}/>
-                    </View>
-                    <RecipeRow brew={brew}/>
-                </View>
-                <TouchableOpacity
-                    style={{position: 'absolute', padding: 15, right: 0, top: 0}}
-                    onPress={() => onLongPress()}
-                >
-                    <FontAwesome5 name="ellipsis-h" size={18} color={colors.placeholder}/>
-                </TouchableOpacity>
-            </View>
-        </TouchableOpacity>
-    );
-}
+import { toBrewString } from '../utils/Converter';
 
 const ListBrews = ({ navigation }) => {
     const { colors } = useTheme(); // Theme colors
@@ -336,13 +302,6 @@ const styles = StyleSheet.create({
     newModal: {
         zIndex: 1,
         borderBottomWidth: 1
-    },
-    brewRow: {
-        width: "100%", 
-        borderBottomWidth: 1,
-        padding: 10,
-        flexDirection: 'row',
-        alignItems: 'center',
     },
     text: {
         fontSize: 18,
