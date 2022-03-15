@@ -1,65 +1,61 @@
 {
-  "expo": {
-    "name": "Brewable",
-    "slug": "brewable",
-    "privacy": "public",
-    "version": "1.4.0",
-    "platforms": ["ios"],
-    "githubUrl": "https://github.com/CJSantee/Brewable",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "asset/*"
-    ],
-    "ios": {
-      "supportsTablet": false,
-      "bundleIdentifier": "com.cjsantee.craftCoffee",
-      "buildNumber": "1.4.0",
-      "infoPlist": {
-        "NSCameraUsageDescription": "Your camera is used capture images of coffee beans.",
-        "NSPhotoLibraryAddUsageDescription": "Images are saved in 'Brewable' album on your device.",
-        "NSPhotoLibraryUsageDescription": "Images saved in 'Brewable' album are used as icons for your coffee beans."
-      }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "packagerOpts": {
-      "config": "metro.config.js",
-      "sourceExts": [
-        "expo.ts",
-        "expo.tsx",
-        "expo.js",
-        "expo.jsx",
-        "ts",
-        "tsx",
-        "js",
-        "jsx",
-        "json",
-        "wasm",
-        "svg"
-      ]
-    },
-    "plugins": [
-      [
-        "expo-notifications",
-        {
-          "icon": "./assets/icon.png",
-          "color": "#ffffff",
-          "sounds": [
-            "./assets/sounds/notification.wav"
-          ],
-          "mode": "production"
-        }
-      ]
-    ]
-  }
+    "expo": {
+        "name": "Brewable",
+        "slug": "brewable",
+        "privacy": "public",
+        "version": "1.4.0",
+        "platforms": ["ios"],
+        "githubUrl": "https://github.com/CJSantee/Brewable",
+        "orientation": "portrait",
+        "icon": "./assets/icon.png",
+        "splash": {
+            "image": "./assets/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "updates": {
+            "fallbackToCacheTimeout": 0
+        },
+        "assetBundlePatterns": ["asset/*"],
+        "ios": {
+            "supportsTablet": false,
+            "bundleIdentifier": "com.cjsantee.craftCoffee",
+            "buildNumber": "1.4.1",
+            "infoPlist": {
+                "NSCameraUsageDescription": "Your camera is used capture images of coffee beans.",
+                "NSPhotoLibraryAddUsageDescription": "Images are saved in 'Brewable' album on your device.",
+                "NSPhotoLibraryUsageDescription": "Images saved in 'Brewable' album are used as icons for your coffee beans."
+            }
+        },
+        "web": {
+            "favicon": "./assets/favicon.png"
+        },
+        "packagerOpts": {
+            "config": "metro.config.js",
+            "sourceExts": [
+                "expo.ts",
+                "expo.tsx",
+                "expo.js",
+                "expo.jsx",
+                "ts",
+                "tsx",
+                "js",
+                "jsx",
+                "json",
+                "wasm",
+                "svg"
+            ]
+        },
+        "plugins": [
+            [
+                "expo-notifications",
+                {
+                    "icon": "./assets/icon.png",
+                    "color": "#ffffff",
+                    "sounds": ["./assets/sounds/notification.wav"],
+                    "mode": "production"
+                }
+            ]
+        ]
+    }
 }

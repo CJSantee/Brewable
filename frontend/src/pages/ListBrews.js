@@ -119,7 +119,7 @@ const ListBrews = ({ navigation }) => {
         );
         // Update brew state within component
         setBrews(brews.map(brew => (brew.id === id ? {...brew, favorite: brew.favorite===0?1:0}:brew)));
-        setSelected({...selected, favorite: val===0?1:0})
+        setSelected({...selected, favorite: selected.favorite===0?1:0})
     }
 
     // Delete Brew

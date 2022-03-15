@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { 
-    StyleSheet, 
-    Text, 
-    View, 
-    TouchableOpacity, 
+import React, { useState, useEffect, useRef } from "react";
+import {
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
     Dimensions,
-    Alert
- } from 'react-native';
-import { Camera } from 'expo-camera';
-import * as MediaLibrary from 'expo-media-library';
+    Alert,
+} from "react-native";
+import { Camera } from "expo-camera";
+import * as MediaLibrary from "expo-media-library";
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 
 function BeansCamera({ onCancel, setUri }) {
     const [hasPermission, setHasPermission] = useState(null); // Permission state
@@ -25,59 +25,62 @@ function BeansCamera({ onCancel, setUri }) {
             _handleSave(photo.uri);
             onCancel();
         }
-    }
+    };
 
     // Async Function for saving photo to Coffee Lab album
-    const _handleSave = async(photo) => {
-        const {status} = await MediaLibrary.requestPermissionsAsync();
-        if(status === "granted"){
+    const _handleSave = async (photo) => {
+        const { status } = await MediaLibrary.requestPermissionsAsync();
+        if (status === "granted") {
             const asset = await MediaLibrary.createAssetAsync(photo);
-            const album = await MediaLibrary.getAlbumAsync('Brewable');
+            const album = await MediaLibrary.getAlbumAsync("Brewable");
             if (album !== null) {
                 let assets = [];
                 assets.push(asset);
                 MediaLibrary.addAssetsToAlbumAsync(assets, album.id);
             } else {
-                MediaLibrary.createAlbumAsync('Brewable', asset);
+                MediaLibrary.createAlbumAsync("Brewable", asset);
             }
             setUri(asset.uri);
         } else {
-            Alert.alert(
-                "Missing Permissions",
-                [
-                    {
-                        text: "Ok",
-                        onPress: () => {}
-                    }
-                ]
-            );
+            Alert.alert("Missing Permissions", [
+                {
+                    text: "Ok",
+                    onPress: () => {},
+                },
+            ]);
         }
-    }
+    };
 
     // Request access to Camera
     useEffect(() => {
         (async () => {
-        const { status } = await Camera.requestPermissionsAsync();
-        setHasPermission(status === 'granted');
+            const { status } = await Camera.requestPermissionsAsync();
+            setHasPermission(status === "granted");
         })();
     }, []);
 
     return (
         <View style={styles.container}>
-            {hasPermission?
-            <Camera style={styles.camera} type={type} ref={camera}>
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity
-                        style={styles.cancelButton}
-                        onPress={onCancel}>
-                        <Text style={styles.text}>Cancel</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.pictureButtonOutline} onPress={_takePhoto}>
-                        <View style={styles.pictureButton}/>
-                    </TouchableOpacity>
-                </View>
-            </Camera>
-            :<Text>Grant access to camera</Text>}
+            {hasPermission ? (
+                <Camera style={styles.camera} type={type} ref={camera}>
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity
+                            style={styles.cancelButton}
+                            onPress={onCancel}
+                        >
+                            <Text style={styles.text}>Cancel</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.pictureButtonOutline}
+                            onPress={_takePhoto}
+                        >
+                            <View style={styles.pictureButton} />
+                        </TouchableOpacity>
+                    </View>
+                </Camera>
+            ) : (
+                <Text>Grant access to camera</Text>
+            )}
         </View>
     );
 }
@@ -90,53 +93,53 @@ const styles = StyleSheet.create({
     },
     camera: {
         flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'flex-end'
+        flexDirection: "column",
+        justifyContent: "flex-end",
     },
     buttonContainer: {
-        backgroundColor: 'rgba(0,0,0,0.3)',
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingVertical: 15
+        backgroundColor: "rgba(0,0,0,0.3)",
+        justifyContent: "center",
+        alignItems: "center",
+        paddingVertical: 15,
     },
     cancelButton: {
-        position: 'absolute',
-        alignSelf: 'flex-start',
-        alignItems: 'center',
-        margin: 15
+        position: "absolute",
+        alignSelf: "flex-start",
+        alignItems: "center",
+        margin: 15,
     },
     flipButton: {
-        position: 'absolute',
-        alignSelf: 'flex-end',
-        alignItems: 'center',
-        margin: 15
+        position: "absolute",
+        alignSelf: "flex-end",
+        alignItems: "center",
+        margin: 15,
     },
     text: {
         fontSize: 18,
-        color: 'white',
+        color: "white",
     },
     cameraCancelButton: {
-        position: 'absolute',
+        position: "absolute",
         left: 50,
     },
     pictureButtonOutline: {
-        alignItems: 'center',
-        backgroundColor: 'rgba(0,0,0,0)',
+        alignItems: "center",
+        backgroundColor: "rgba(0,0,0,0)",
         borderRadius: 50,
         borderWidth: 5,
-        borderColor: 'white',
+        borderColor: "white",
         width: 75,
         height: 75,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
         zIndex: 3,
     },
     pictureButton: {
-        backgroundColor: 'white',
+        backgroundColor: "white",
         width: 55,
         height: 55,
         borderRadius: 50,
         borderWidth: 2,
-        borderColor: 'rgba(0,0,0,0)',
-    }
+        borderColor: "rgba(0,0,0,0)",
+    },
 });

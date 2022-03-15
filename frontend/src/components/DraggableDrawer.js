@@ -1,18 +1,15 @@
-import React, { Component } from 'react';
-import { Animated, StyleSheet, Text, View, Dimensions } from 'react-native';
+import React, { Component } from "react";
+import { Animated, StyleSheet, Text, View, Dimensions } from "react-native";
 
-import {
-    PanGestureHandler,
-    State,
-} from 'react-native-gesture-handler';
+import { PanGestureHandler, State } from "react-native-gesture-handler";
 
-import { USE_NATIVE_DRIVER } from '../../config';
+import { USE_NATIVE_DRIVER } from "../../config";
 
-let {height, width} = Dimensions.get('window');
+let { height, width } = Dimensions.get("window");
 
 const RATIO = 1;
 const tabHeight = 75;
-const topOffset = height*0.12;
+const topOffset = height * 0.12;
 
 class DraggableDrawer extends Component {
     constructor(props) {
@@ -33,19 +30,22 @@ class DraggableDrawer extends Component {
         this._reverseLastScrollY = Animated.multiply(
             new Animated.Value(-1),
             this._lastScrollY
-          );
+        );
 
         this._translateYOffset = new Animated.Value(1);
         this._transY = Animated.add(
             this._translateYOffset,
             Animated.add(this._dragY, this._reverseLastScrollY)
-            ).interpolate({
-                inputRange: [0, 1],
-                outputRange: [0, 1],
-            });
+        ).interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, 1],
+        });
         this._onGestureEvent = Animated.event(
             [{ nativeEvent: { translationY: this._dragY } }],
-            { listener: this._actionListener, useNativeDriver: USE_NATIVE_DRIVER }
+            {
+                listener: this._actionListener,
+                useNativeDriver: USE_NATIVE_DRIVER,
+            }
         );
     }
 
@@ -54,25 +54,26 @@ class DraggableDrawer extends Component {
             velocity: 0.5,
             tension: 15,
             friction: 5,
-            toValue: -(height-topOffset),
+            toValue: -(height - topOffset),
             useNativeDriver: USE_NATIVE_DRIVER,
         }).start();
     }
 
-    _onHandlerStateChange = event => {
+    _onHandlerStateChange = (event) => {
         if (event.nativeEvent.oldState === State.ACTIVE) {
             let { translationY } = event.nativeEvent;
             translationY -= this._lastScrollYValue;
             const dragToss = 0.05;
             const endOffsetY =
-            event.nativeEvent.translationY + dragToss * event.nativeEvent.velocityY;
+                event.nativeEvent.translationY +
+                dragToss * event.nativeEvent.velocityY;
 
             let toValue = 0;
             if (endOffsetY < 0) {
-                toValue = -(height-topOffset);
+                toValue = -(height - topOffset);
             } else if (endOffsetY > 0) {
                 toValue = 0;
-            } 
+            }
 
             this._translateYOffset.extractOffset();
             this._translateYOffset.setValue(translationY);
@@ -88,7 +89,7 @@ class DraggableDrawer extends Component {
             }).start();
         }
     };
-   
+
     render() {
         const { children, colors } = this.props;
         return (
@@ -96,7 +97,8 @@ class DraggableDrawer extends Component {
                 {...this.props}
                 activeOffsetY={[-10, 10]}
                 onGestureEvent={this._onGestureEvent}
-                onHandlerStateChange={this._onHandlerStateChange}>
+                onHandlerStateChange={this._onHandlerStateChange}
+            >
                 <Animated.View
                     style={[
                         styles.drawer,
@@ -104,13 +106,28 @@ class DraggableDrawer extends Component {
                             backgroundColor: colors.background,
                             borderColor: colors.border,
                             transform: [{ translateY: this._transY }],
-                        }
+                        },
                     ]}
-                    onLayout={this._onLayout}>
-                        <View style={{height: tabHeight, alignItems: 'center', justifyContent: 'center'}}>
-                            <Text style={{fontSize: 16, textAlign: 'center', color: colors.text}}>{this.props.title}</Text>
-                        </View>
-                        {children}
+                    onLayout={this._onLayout}
+                >
+                    <View
+                        style={{
+                            height: tabHeight,
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }}
+                    >
+                        <Text
+                            style={{
+                                fontSize: 16,
+                                textAlign: "center",
+                                color: colors.text,
+                            }}
+                        >
+                            {this.props.title}
+                        </Text>
+                    </View>
+                    {children}
                 </Animated.View>
             </PanGestureHandler>
         );
@@ -122,14 +139,14 @@ export default DraggableDrawer;
 const styles = StyleSheet.create({
     drawer: {
         flex: 1,
-        position: 'absolute',
+        position: "absolute",
         top: height, //remove tabHeight when ready
         width: width,
-        height: height-(topOffset-tabHeight),
+        height: height - (topOffset - tabHeight),
         borderTopStartRadius: 15,
         borderTopEndRadius: 15,
         borderTopWidth: 1,
         borderLeftWidth: 1,
         borderRightWidth: 1,
-    }
+    },
 });

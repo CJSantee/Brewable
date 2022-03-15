@@ -1,22 +1,22 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback } from "react";
 import {
     View,
     StyleSheet,
     ScrollView,
     ActivityIndicator,
     Alert,
-    Text
-} from 'react-native';
-import { useTheme, useFocusEffect } from '@react-navigation/native';
-import { Feather } from '@expo/vector-icons';
-import { useSelector, useDispatch } from 'react-redux'
-import { updateSampleData } from '../redux/actions';
+    Text,
+} from "react-native";
+import { useTheme, useFocusEffect } from "@react-navigation/native";
+import { Feather } from "@expo/vector-icons";
+import { useSelector, useDispatch } from "react-redux";
+import { updateSampleData } from "../redux/actions";
 
 // Component Imports
-import Header from '../components/Header';
-import TableView from '../components/TableView';
-import RowItem from '../components/RowItem';
-import { populateBeans, populateRandomBrews } from '../utils/DatabaseUtils';
+import Header from "../components/Header";
+import TableView from "../components/TableView";
+import RowItem from "../components/RowItem";
+import { populateBeans, populateRandomBrews } from "../utils/DatabaseUtils";
 
 const DeveloperPage = ({ navigation }) => {
     const [numBeans, setNumBeans] = useState(0);
@@ -24,7 +24,7 @@ const DeveloperPage = ({ navigation }) => {
     const [loading, setLoading] = useState(false);
     const { colors } = useTheme(); // Color theme
     const dispatch = useDispatch(); // Redux dispatch
-    const sample_data = useSelector(state => state.sample_data);
+    const sample_data = useSelector((state) => state.sample_data);
 
     const _downloadData = () => {
         if (sample_data) return;
@@ -34,31 +34,38 @@ const DeveloperPage = ({ navigation }) => {
             [
                 {
                     text: "Cancel",
-                    onPress: () => {setLoading(false)}
+                    onPress: () => {
+                        setLoading(false);
+                    },
                 },
                 {
                     text: "Yes",
                     onPress: () => {
                         setLoading(true);
                         populateBeans(db);
-                        populateRandomBrews(db, (value) => {setLoading(value); dispatch(updateSampleData(true));});
+                        populateRandomBrews(db, (value) => {
+                            setLoading(value);
+                            dispatch(updateSampleData(true));
+                        });
                         onRefresh(true);
-                    }
-                }
+                    },
+                },
             ]
         );
-    }
+    };
 
     const deleteAll = () => {
         // Delete from database
         db.transaction(
             (tx) => {
                 tx.executeSql(
-                `DELETE
-                FROM beans;`);
+                    `DELETE
+                FROM beans;`
+                );
                 tx.executeSql(
                     `DELETE
-                    FROM brews;`);
+                    FROM brews;`
+                );
             },
             (e) => console.log(e),
             () => {
@@ -66,7 +73,7 @@ const DeveloperPage = ({ navigation }) => {
                 dispatch(updateSampleData(false));
             }
         );
-    }
+    };
 
     const _confirmDelete = () => {
         Alert.alert(
@@ -75,17 +82,17 @@ const DeveloperPage = ({ navigation }) => {
             [
                 {
                     text: "Cancel",
-                    onPress: () => {}
+                    onPress: () => {},
                 },
                 {
                     text: "Yes",
                     onPress: () => {
                         deleteAll();
-                    }
-                }
+                    },
+                },
             ]
         );
-    }
+    };
 
     function onRefresh(mounted) {
         db.transaction(
@@ -97,7 +104,7 @@ const DeveloperPage = ({ navigation }) => {
                     (_, { rows: { _array } }) => {
                         if (mounted) {
                             setNumBeans(_array[0].count);
-                        };
+                        }
                     }
                 );
                 tx.executeSql(
@@ -107,11 +114,12 @@ const DeveloperPage = ({ navigation }) => {
                     (_, { rows: { _array } }) => {
                         if (mounted) {
                             setNumBrews(_array[0].count);
-                        };
+                        }
                     }
-                );                        
+                );
             },
-            (e) => console.log(e), null
+            (e) => console.log(e),
+            null
         );
     }
 
@@ -119,42 +127,69 @@ const DeveloperPage = ({ navigation }) => {
         useCallback(() => {
             let mounted = true;
             onRefresh(mounted);
-            return () => mounted = false;
+            return () => (mounted = false);
         }, [])
     );
 
     return (
-        <View style={{width: "100%", height: "100%"}}>
-            <Header title="Developer Page" leftText="Back" leftChevron={true} leftOnPress={() => navigation.goBack()}/>
+        <View style={{ width: "100%", height: "100%" }}>
+            <Header
+                title='Developer Page'
+                leftText='Back'
+                leftChevron={true}
+                leftOnPress={() => navigation.goBack()}
+            />
             <ScrollView style={styles.container}>
-                <TableView header="App">
-                    <RowItem title="Download Sample Data" text="" onPress={_downloadData}>
-                        {loading?
-                        <ActivityIndicator size="small"/> 
-                        :sample_data?
-                            <Feather name="check" size={20} color={colors.placeholder}/>
-                            :<Feather name="download" size={20} color={colors.placeholder}/>}
+                <TableView header='App'>
+                    <RowItem
+                        title='Download Sample Data'
+                        text=''
+                        onPress={_downloadData}
+                    >
+                        {loading ? (
+                            <ActivityIndicator size='small' />
+                        ) : sample_data ? (
+                            <Feather
+                                name='check'
+                                size={20}
+                                color={colors.placeholder}
+                            />
+                        ) : (
+                            <Feather
+                                name='download'
+                                size={20}
+                                color={colors.placeholder}
+                            />
+                        )}
                     </RowItem>
-                    <RowItem title="Delete All Beans" text="" onPress={_confirmDelete}>
-                            <Feather name="trash-2" size={20} color={colors.destructive}/>
+                    <RowItem
+                        title='Delete All Beans'
+                        text=''
+                        onPress={_confirmDelete}
+                    >
+                        <Feather
+                            name='trash-2'
+                            size={20}
+                            color={colors.destructive}
+                        />
                     </RowItem>
-                    <RowItem title="Beans" text="">
-                        <Text style={{color: colors.text}}>{numBeans}</Text>
+                    <RowItem title='Beans' text=''>
+                        <Text style={{ color: colors.text }}>{numBeans}</Text>
                     </RowItem>
-                    <RowItem title="Brews" text="">
-                        <Text style={{color: colors.text}}>{numBrews}</Text>
+                    <RowItem title='Brews' text=''>
+                        <Text style={{ color: colors.text }}>{numBrews}</Text>
                     </RowItem>
                 </TableView>
             </ScrollView>
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1, 
-        marginBottom: 25
-    }
+        flex: 1,
+        marginBottom: 25,
+    },
 });
 
 export default DeveloperPage;

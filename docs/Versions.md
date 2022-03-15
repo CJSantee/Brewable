@@ -66,4 +66,7 @@ Take 2 at Production Relase...
 Added Privacy Policy and removed 'For Partners' Page
 
 # v1.3.3
-Added permisions descriptions and changed ablum name for saved photos
+Added permisions descriptions and changed ablum name for saved photos - Published to App Store
+
+# v1.4.0
+Updated UI
