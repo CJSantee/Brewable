@@ -46,7 +46,6 @@ const DisplayBeans = ({ route, navigation }) => {
     const [loadingBrews, setLoadingBrews] = useState(true);
     const [refreshing, setRefreshing] = useState(false); // List refreshing state
     const [showModal, setShowModal] = useState(false);
-    const [showBrews, setShowBrews] = useState(false);
     const [iconRendered, setIconRendered] = useState(false); // Icon rendered state to waiting to share the screen
     const [selected, setSelected] = useState({});
 
@@ -134,6 +133,9 @@ const DisplayBeans = ({ route, navigation }) => {
         );
     };
 
+    /**
+     * Delete Confirmation - Promp before deleting brew
+     */
     const deleteConfirmation = () => {
         Alert.alert(
             "Confirm Delete",

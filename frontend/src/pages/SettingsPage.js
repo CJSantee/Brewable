@@ -220,7 +220,11 @@ const SettingsPage = ({ navigation }) => {
                             <DateTimePicker
                                 mode='time'
                                 value={
-                                    new Date(user_preferences.notification_time)
+                                    user_preferences.notification_time
+                                        ? new Date(
+                                              user_preferences.notification_time
+                                          )
+                                        : new Date()
                                 }
                                 display='default'
                                 onChange={dateOnChange}
