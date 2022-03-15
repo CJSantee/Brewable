@@ -84,7 +84,10 @@ function EditBeans({ route, navigation }) {
         );
     };
 
-    // Delete Beans
+    /**
+     * Delete Beans
+     * @param {number} id
+     */
     const onDelete = (id) => {
         // Delete from database
         db.transaction(
@@ -101,7 +104,9 @@ function EditBeans({ route, navigation }) {
         );
     };
 
-    // Delete confirmation prompt
+    /**
+     * Delete Confirmation Alert
+     */
     const deleteConfirmation = () => {
         Alert.alert(
             "Confirm Delete",

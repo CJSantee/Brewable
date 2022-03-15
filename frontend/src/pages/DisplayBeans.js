@@ -16,7 +16,6 @@ import { useTheme, useFocusEffect } from "@react-navigation/native";
 import { FontAwesome, Feather } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { captureRef } from "react-native-view-shot";
-
 import * as Clipboard from "expo-clipboard";
 
 let { height, width } = Dimensions.get("window");

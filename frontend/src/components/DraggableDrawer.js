@@ -127,7 +127,7 @@ class DraggableDrawer extends Component {
                             {this.props.title}
                         </Text>
                     </View>
-                    {children}
+                    <View style={styles.container}>{children}</View>
                 </Animated.View>
             </PanGestureHandler>
         );
@@ -148,5 +148,8 @@ const styles = StyleSheet.create({
         borderTopWidth: 1,
         borderLeftWidth: 1,
         borderRightWidth: 1,
+    },
+    container: {
+        height: height - topOffset - tabHeight,
     },
 });
