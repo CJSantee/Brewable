@@ -277,7 +277,12 @@ const NewBeans = ({ route, navigation }) => {
                                         borderColor: colors.border,
                                     }}
                                 >
-                                    <Text style={styles.flavorText}>
+                                    <Text
+                                        style={{
+                                            ...styles.flavorText,
+                                            color: colors.text,
+                                        }}
+                                    >
                                         {item}
                                     </Text>
                                 </View>

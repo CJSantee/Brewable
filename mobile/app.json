@@ -20,7 +20,7 @@
         "ios": {
             "supportsTablet": false,
             "bundleIdentifier": "com.cjsantee.craftCoffee",
-            "buildNumber": "1.4.1",
+            "buildNumber": "1.4.2",
             "infoPlist": {
                 "NSCameraUsageDescription": "Your camera is used capture images of coffee beans.",
                 "NSPhotoLibraryAddUsageDescription": "Images are saved in 'Brewable' album on your device.",
