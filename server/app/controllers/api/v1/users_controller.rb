@@ -1,8 +1,14 @@
 class Api::V1::UsersController < ApplicationController
+	skip_before_action :authenticate, only: [:create]
 
 	# GET /api/v1/users
 	def index
 		render json: User.all.to_json(:only => [:id, :email, :first_name, :last_name, :phone]), status: :ok
+	end
+
+	def show
+		@user = User.find(params[:id])
+		render json: @user.to_json(:only => [:id, :first_name, :last_name, :email, :phone]), status: :ok
 	end
 
 	# POST /api/v1/users
