@@ -17,7 +17,7 @@ class Api::V1::UsersController < ApplicationController
 		if @user.save
 			payload = { user_id: @user.id }
 			token = create_token(payload)
-			render json: { access_token: token, user_id: @user.id }, status: :created
+			render json: { access_token: token, user_id: @user.id, first_name: @user.first_name, last_name: @user.last_name }, status: :created
 		else
 			render json: @user.errors, status: :unprocessable_entity
 		end

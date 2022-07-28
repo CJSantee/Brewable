@@ -5,13 +5,15 @@ let AuthContext = React.createContext(null);
 
 // AuthProvider Component
 export default function AuthProvider({ children }) {
-  let [userId, setUserId] = useState(null);
+  const [username, setUsername] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   let register = (formValues, callback, fail) => {
     return authProvider.register(
       formValues,
-      ({ user_id }) => {
+      ({ user_id, first_name, last_name }) => {
         setUserId(user_id);
+        setUsername(`${first_name} ${last_name}`);
         callback();
       },
       (error) => {
@@ -21,13 +23,17 @@ export default function AuthProvider({ children }) {
   };
 
   let login = (formValues, callback) => {
-    return authProvider.login(formValues, ({ user_id }) => {
-      setUserId(user_id);
-      callback();
-    });
+    return authProvider.login(
+      formValues,
+      ({ user_id, first_name, last_name }) => {
+        setUserId(user_id);
+        setUsername(`${first_name} ${last_name}`);
+        callback();
+      }
+    );
   };
 
-  let signout = (callback) => {
+  const signout = (callback) => {
     return authProvider.signout(() => {
       setUserId(null);
       callback();
@@ -43,6 +49,7 @@ export default function AuthProvider({ children }) {
 
   let value = {
     userId,
+    username,
     refresh,
     register,
     login,

@@ -5,10 +5,10 @@ import { API_URL } from "../config";
 // TODO: store token with Cookies instead of localstorage to preserve after page refresh
 function authHeaders() {
   const user = JSON.parse(localStorage.getItem("user"));
-  if (user && user.token) {
+  if (user && user.access_token) {
     return {
       headers: {
-        Authorization: user.token,
+        Authorization: user.access_token,
       },
     };
   } else {
@@ -38,11 +38,21 @@ const verifyPhone = (phone) => {
 const authProvider = {
   isAuthenticated: false,
   register(formValues, success, fail) {
+    const { first_name, last_name, email, phone, password } = formValues;
+    const body = {
+      user: {
+        first_name,
+        last_name,
+        email: verifyEmail(email),
+        phone: verifyPhone(phone),
+        password,
+      },
+    };
     axios
-      .post(API_URL + "/users", { user: formValues })
+      .post(API_URL + "/users", body)
       .then((res) => {
         const parseRes = res.data;
-        if (parseRes.token) {
+        if (parseRes.access_token) {
           localStorage.setItem("user", JSON.stringify(parseRes));
           authProvider.isAuthenticated = true;
           success(parseRes);
@@ -51,7 +61,8 @@ const authProvider = {
         }
       })
       .catch((err) => {
-        fail(err);
+        const { response } = err;
+        fail(response.data);
       });
   },
   login(formValues, callback) {
@@ -69,7 +80,7 @@ const authProvider = {
       .post(API_URL + "/login", body)
       .then((res) => {
         const parseRes = res.data;
-        if (parseRes.token) {
+        if (parseRes.access_token) {
           localStorage.setItem("user", JSON.stringify(parseRes));
           authProvider.isAuthenticated = true;
           callback(parseRes);

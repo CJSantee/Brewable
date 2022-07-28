@@ -20,6 +20,12 @@ export default function Header() {
     auth.refresh();
   }, []);
 
+  const logout = () => {
+    auth.signout(() => {
+      // do nothing
+    });
+  };
+
   return (
     <>
       <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'>
@@ -35,7 +41,7 @@ export default function Header() {
                 </Nav>
                 <Nav>
                   <NavDropdown
-                    title='Colin Santee'
+                    title={auth.username}
                     className='mr-2'
                     id='collasible-nav-dropdown'
                   >
@@ -50,9 +56,7 @@ export default function Header() {
                     <NavDropdown.Item href='#action/3.4'>
                       Settings
                     </NavDropdown.Item>
-                    <NavDropdown.Item onClick={() => auth.signout()}>
-                      Logout
-                    </NavDropdown.Item>
+                    <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
                   </NavDropdown>
                 </Nav>
               </Navbar.Collapse>
