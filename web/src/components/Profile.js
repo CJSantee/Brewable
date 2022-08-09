@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "./AuthProvider";
+import { useAuth } from "../hooks/useAuth";
 import { api } from "../utils/api";
 import Modal from "react-bootstrap/Modal";
 
 export default function Profile() {
   const [user, setUser] = useState(null);
   const [showNameModal, setShowNameModal] = useState(false);
-  const auth = useAuth();
+  const { auth } = useAuth();
 
   useEffect(() => {
-    if (auth.userId) {
-      api.get(`/users/${auth.userId}`, setUser);
+    const fetchData = async () => {
+      const { data } = await api.get(`/users/${auth.user?.user_id}`);
+      setUser(data);
+    };
+    if (auth?.user) {
+      fetchData();
     }
-  }, [auth.userId]);
+  }, []);
 
   const formatPhone = (phone) => {
     const areaCode = phone.substring(2, 5);
@@ -55,8 +59,7 @@ export default function Profile() {
             </ul>
           </div>
           <NameModal
-            first_name={user.first_name}
-            last_name={user.last_name}
+            user={user}
             show={showNameModal}
             setShow={setShowNameModal}
           />
@@ -66,18 +69,29 @@ export default function Profile() {
   );
 }
 
-function NameModal({ first_name, last_name, show, setShow }) {
+function NameModal({
+  user: { id: user_id, first_name, last_name },
+  show,
+  setShow,
+}) {
   const [firstName, setFirstName] = useState(first_name);
   const [lastName, setLastName] = useState(last_name);
 
-  const postUpdate = () => {};
+  const postUpdate = () => {
+    api.patch(`/users/${user_id}`, {
+      user: {
+        first_name: firstName,
+        last_name: lastName,
+      },
+    });
+  };
 
   return (
     <Modal show={show} onHide={() => setShow(false)}>
       <div className='modal-body'>
         <div className='mb-3'>
           <label htmlFor='first_name' className='form-label'>
-            First Name
+            First Name {user_id}
           </label>
           <input
             type='text'

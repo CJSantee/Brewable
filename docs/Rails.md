@@ -14,3 +14,9 @@ Drop and Create 'development' and 'test' Databases
 
 Start Server at Port 5000
 `rails s -p 5000`
+
+Postgres Commands
+`brew services start|stop|restart postgresql`
+
+Create default db
+`createdb colin`

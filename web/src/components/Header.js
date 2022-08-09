@@ -6,46 +6,38 @@ import Container from "react-bootstrap/Container";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import SignInModal from "./SignInModal";
 import SignUpModal from "./SignUpModal";
-import { useAuth } from "./AuthProvider";
+import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
 
-  const auth = useAuth();
-
-  const user = JSON.parse(localStorage.getItem("user"));
-
-  useEffect(() => {
-    auth.refresh();
-  }, []);
-
-  const logout = () => {
-    auth.signout(() => {
-      // do nothing
-    });
-  };
+  const { auth, logout } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <>
       <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'>
         <Container fluid className='px-5'>
-          <Navbar.Brand href='/'>Brewable</Navbar.Brand>
-          {user ? (
+          <Navbar.Brand onClick={() => navigate("/")}>Brewable</Navbar.Brand>
+          {auth.user ? (
             <>
               <Navbar.Toggle aria-controls='responsive-navbar-nav' />
               <Navbar.Collapse id='responsive-navbar-nav'>
                 <Nav className='me-auto'>
-                  <Nav.Link href='#features'>Beans</Nav.Link>
-                  <Nav.Link href='#pricing'>Brews</Nav.Link>
+                  <Nav.Link onClick={() => navigate("/beans")}>Beans</Nav.Link>
+                  <Nav.Link onClick={() => navigate("/brews")}>Brews</Nav.Link>
                 </Nav>
                 <Nav>
                   <NavDropdown
-                    title={auth.username}
+                    title={auth.user.first_name + " " + auth.user.last_name}
                     className='mr-2'
                     id='collasible-nav-dropdown'
                   >
-                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                    <NavDropdown.Item onClick={() => navigate("/profile")}>
+                      Profile
+                    </NavDropdown.Item>
                     <NavDropdown.Item href='#action/3.2'>
                       My Beans
                     </NavDropdown.Item>

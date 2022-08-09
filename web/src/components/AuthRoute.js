@@ -1,24 +1,14 @@
-import { useEffect } from "react";
-import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "./AuthProvider";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
-export default function AuthRoute({ children }) {
-  const auth = useAuth();
+export default function AuthRoute() {
+  const { auth } = useAuth();
   const location = useLocation();
 
-  useEffect(() => {
-    auth.refresh();
-  }, []);
-
-  const user = JSON.parse(localStorage.getItem("user"));
-
-  if (!user) {
-    return (
-      <div>
-        <h3>Login to view content</h3>
-      </div>
-    );
-    // return <Navigate to='/login' state={{ from: location }} replace />;
+  // TODO: Add acls
+  if (auth?.access_token) {
+    return <Outlet />;
+  } else {
+    return <Navigate to='/' state={{ from: location }} />;
   }
-  return children;
 }

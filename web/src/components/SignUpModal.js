@@ -5,8 +5,8 @@ import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import * as Yup from "yup";
 import { Formik } from "formik";
-import { useState } from "react";
-import { useAuth } from "./AuthProvider";
+import { useEffect, useState } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 const schema = Yup.object().shape({
   first_name: Yup.string().required("First name is required"),
@@ -19,7 +19,15 @@ export default function SignUpModal({ show, setShow, showSignIn }) {
   const [showPassword, setShowPassword] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
-  const auth = useAuth();
+  const { register, persist, setPersist } = useAuth();
+
+  const togglePersist = () => {
+    setPersist((prev) => !prev);
+  };
+
+  useEffect(() => {
+    localStorage.setItem("persist", persist);
+  }, [persist]);
 
   return (
     <>
@@ -34,17 +42,13 @@ export default function SignUpModal({ show, setShow, showSignIn }) {
           <div className='m-3 border rounded'>
             <Formik
               validationSchema={schema}
-              onSubmit={(values, actions) => {
-                auth.register(
-                  values,
-                  () => setShow(false),
-                  (res) => {
-                    setShowAlert(true);
-                    actions.setErrors({
-                      email: res.email ? "This email is already in use." : null,
-                    });
-                  }
-                );
+              onSubmit={async (values, actions) => {
+                const { alerts, errors } = await register(values);
+                if (Object.keys(errors).length) {
+                  actions.setErrors(errors);
+                } else {
+                  setShow(false);
+                }
                 actions.setSubmitting(false);
               }}
               initialValues={{
@@ -106,6 +110,7 @@ export default function SignUpModal({ show, setShow, showSignIn }) {
                       name='phone'
                       value={values.phone}
                       onChange={handleChange}
+                      isInvalid={!!errors.phone}
                     />
                     <Form.Control.Feedback type='invalid'>
                       {errors.phone}
@@ -134,11 +139,28 @@ export default function SignUpModal({ show, setShow, showSignIn }) {
                     </Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group className='m-3'>
+                    <div className='form-check'>
+                      <input
+                        className='form-check-input'
+                        type='checkbox'
+                        checked={persist}
+                        onChange={togglePersist}
+                        id='flexCheckDefault'
+                      />
+                      <label
+                        className='form-check-label'
+                        htmlFor='flexCheckDefault'
+                      >
+                        Remember me
+                      </label>
+                    </div>
+                  </Form.Group>
+                  <Form.Group className='m-3'>
                     <button
                       type='submit'
                       className='btn btn-success w-100 rounded-lg'
                     >
-                      Sign in
+                      Sign Up
                     </button>
                   </Form.Group>
                 </Form>
