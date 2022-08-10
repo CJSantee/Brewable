@@ -27,8 +27,11 @@ jobs:
         working-directory: web
 
       - name: Build project
-        run: echo 'brew.brewableapp.com' > ./build/CNAME && gh-pages -d build
+        run: npm run build
         working-directory: web
+
+      - name: Add CNAME
+        run: echo 'brew.brewableapp.com' > ./web/build/CNAME
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v2
