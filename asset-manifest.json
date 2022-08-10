@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/Brewable/static/css/main.7a1efa36.css",
-    "main.js": "/Brewable/static/js/main.a77d993c.js",
-    "static/js/787.d1d4a2c2.chunk.js": "/Brewable/static/js/787.d1d4a2c2.chunk.js",
-    "index.html": "/Brewable/index.html",
-    "main.7a1efa36.css.map": "/Brewable/static/css/main.7a1efa36.css.map",
-    "main.a77d993c.js.map": "/Brewable/static/js/main.a77d993c.js.map",
-    "787.d1d4a2c2.chunk.js.map": "/Brewable/static/js/787.d1d4a2c2.chunk.js.map"
+    "main.css": "/home/static/css/main.7a1efa36.css",
+    "main.js": "/home/static/js/main.f53d10e4.js",
+    "static/js/787.d1d4a2c2.chunk.js": "/home/static/js/787.d1d4a2c2.chunk.js",
+    "index.html": "/home/index.html",
+    "main.7a1efa36.css.map": "/home/static/css/main.7a1efa36.css.map",
+    "main.f53d10e4.js.map": "/home/static/js/main.f53d10e4.js.map",
+    "787.d1d4a2c2.chunk.js.map": "/home/static/js/787.d1d4a2c2.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.7a1efa36.css",
-    "static/js/main.a77d993c.js"
+    "static/js/main.f53d10e4.js"
   ]
 }
