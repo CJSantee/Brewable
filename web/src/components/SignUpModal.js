@@ -2,7 +2,6 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
-import Alert from "react-bootstrap/Alert";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { useEffect, useState } from "react";
@@ -17,7 +16,6 @@ const schema = Yup.object().shape({
 
 export default function SignUpModal({ show, setShow, showSignIn }) {
   const [showPassword, setShowPassword] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
 
   const { register, persist, setPersist } = useAuth();
 
@@ -31,9 +29,6 @@ export default function SignUpModal({ show, setShow, showSignIn }) {
 
   return (
     <>
-      <Alert show={showAlert} variant='danger'>
-        <Alert.Heading>That email is taken.</Alert.Heading>
-      </Alert>
       <Modal show={show} onHide={() => setShow(false)}>
         <div className='p-3 bg-600'>
           <div className='d-flex justify-content-center m-2'>
@@ -43,7 +38,7 @@ export default function SignUpModal({ show, setShow, showSignIn }) {
             <Formik
               validationSchema={schema}
               onSubmit={async (values, actions) => {
-                const { alerts, errors } = await register(values);
+                const { errors } = await register(values);
                 if (Object.keys(errors).length) {
                   actions.setErrors(errors);
                 } else {

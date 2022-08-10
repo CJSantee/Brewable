@@ -9,6 +9,7 @@ export default function PersistLogin() {
   const { auth, persist } = useAuth();
 
   useEffect(() => {
+    console.log("PersistLogin");
     let mounted = true;
 
     const verifyRefreshToken = async () => {
@@ -24,7 +25,7 @@ export default function PersistLogin() {
     !auth?.access_token && persist ? verifyRefreshToken() : setIsLoading(false);
 
     return () => (mounted = false);
-  }, []);
+  }, [auth?.access_token, persist, refresh]);
 
   return (
     <>{!persist ? <Outlet /> : isLoading ? <p>Loading...</p> : <Outlet />}</>

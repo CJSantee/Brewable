@@ -16,7 +16,7 @@ export default function Profile() {
     if (auth?.user) {
       fetchData();
     }
-  }, []);
+  }, [auth.user]);
 
   const formatPhone = (phone) => {
     const areaCode = phone.substring(2, 5);

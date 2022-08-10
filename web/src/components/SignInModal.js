@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useAuth } from "../hooks/useAuth";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 
@@ -14,8 +14,6 @@ export default function SignInModal({ show, setShow, showSignUp }) {
   const auth = useAuth();
 
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
 
   const togglePersist = () => {
     auth.setPersist((prev) => !prev);
@@ -31,7 +29,7 @@ export default function SignInModal({ show, setShow, showSignUp }) {
       password,
     };
 
-    const { alerts, errors } = await auth.login(values);
+    const { errors } = await auth.login(values);
     if (Object.keys(errors).length) {
       setErrorMsg(errors?.message);
     } else {
