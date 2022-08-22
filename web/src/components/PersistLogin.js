@@ -9,14 +9,13 @@ export default function PersistLogin() {
   const { auth, persist } = useAuth();
 
   useEffect(() => {
-    console.log("PersistLogin");
     let mounted = true;
 
     const verifyRefreshToken = async () => {
       try {
         await refresh();
       } catch (err) {
-        console.errror(err);
+        console.log(err);
       } finally {
         mounted && setIsLoading(false);
       }

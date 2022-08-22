@@ -29,7 +29,15 @@ export default function Header() {
                   <Nav.Link onClick={() => navigate("/beans")}>Beans</Nav.Link>
                   <Nav.Link onClick={() => navigate("/brews")}>Brews</Nav.Link>
                 </Nav>
-                <Nav>
+                <Nav className='align-items-center'>
+                  <Nav.Item>
+                    <button
+                      className='btn btn-sm btn-outline-light'
+                      onClick={() => navigate("/new")}
+                    >
+                      New
+                    </button>
+                  </Nav.Item>
                   <NavDropdown
                     title={auth.user.first_name + " " + auth.user.last_name}
                     className='mr-2'

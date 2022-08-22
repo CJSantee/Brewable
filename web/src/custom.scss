@@ -4,5 +4,16 @@
   cursor: pointer;
 }
 
+.mh-300px {
+  max-height: 300px;
+}
+
+.img-user {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
 // Import Bootstrap and its default variables
 @import "~bootstrap/scss/bootstrap.scss";

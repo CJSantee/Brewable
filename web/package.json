@@ -4,6 +4,7 @@
   "homepage": "https://brew.brewableapp.com",
   "private": true,
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.150.0",
     "@fortawesome/fontawesome-svg-core": "^6.1.2",
     "@fortawesome/free-solid-svg-icons": "^6.1.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
@@ -12,6 +13,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
     "bootstrap": "^5.1.3",
+    "crypto-js": "^4.1.1",
     "formik": "^2.2.9",
     "react": "^18.2.0",
     "react-bootstrap": "^2.4.0",

@@ -4,9 +4,12 @@ import { Routes, Route, Outlet } from "react-router-dom";
 
 import Header from "./components/Header";
 import AuthRoute from "./components/AuthRoute";
-import Profile from "./components/Profile";
+import Profile from "./pages/Profile";
 import PersistLogin from "./components/PersistLogin";
 import PageNotFound from "./pages/ PageNotFound";
+import New from "./pages/New";
+import NewBeans from "./pages/NewBeans";
+import Beans from "./pages/Beans";
 
 export default function App() {
   return (
@@ -14,7 +17,9 @@ export default function App() {
       <Route path='/' element={<Layout />}>
         <Route element={<PersistLogin />}>
           <Route element={<AuthRoute />}>
+            <Route path='beans' element={<Beans />} />
             <Route path='profile' element={<Profile />} />
+            <Route path='new/*' element={<NewRoutes />} />
           </Route>
         </Route>
         <Route path='*' element={<PageNotFound />} />
@@ -29,5 +34,14 @@ function Layout() {
       <Header />
       <Outlet />
     </div>
+  );
+}
+
+function NewRoutes() {
+  return (
+    <Routes>
+      <Route path='/' element={<New />} />
+      <Route path='/beans' element={<NewBeans />} />
+    </Routes>
   );
 }

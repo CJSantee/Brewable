@@ -11,35 +11,25 @@ const api = {
     let errors = [];
     return { data, alerts, errors };
   },
-  post(url, data, callback) {
-    axios
-      .post(API_URL + url, data)
-      .then((res) => {
-        callback(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  async post(url, data) {
+    const res = await axios.post(API_URL + url, data, {
+      withCredentials: true,
+    });
+    return { data: res.data };
   },
-  patch(url, data, callback) {
-    axios
-      .patch(API_URL + url, data)
-      .then((res) => {
-        callback(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  async patch(url, data) {
+    const res = await axios.patch(API_URL + url, data, {
+      withCredentials: true,
+    });
+    return { data: res.data };
   },
-  delete(url, callback, data) {
-    axios
-      .delete(API_URL + url, { data })
-      .then((res) => {
-        callback(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  async postPhoto(url, photo, contentType) {
+    const res = await axios.put(url, photo, {
+      headers: {
+        "Content-Type": contentType,
+      },
+    });
+    return { data: res.data };
   },
 };
 
