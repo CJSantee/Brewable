@@ -2,25 +2,7 @@ import React, { createContext, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../config";
 import { useNavigate } from "react-router-dom";
-
-const verifyEmail = (email) => {
-  const emailRegex = /\w+@\w+\.\w{2,}/g;
-  return emailRegex.test(email) ? email : null;
-};
-
-const verifyPhone = (phone) => {
-  let verifiedPhone;
-  // US Numbers only
-  const strippedPhone = phone.replace(/[^0-9]/g, "");
-  if (strippedPhone.length === 11) {
-    verifiedPhone = `+${strippedPhone}`;
-  } else if (strippedPhone.length === 10) {
-    verifiedPhone = `+1${strippedPhone}`;
-  } else {
-    verifiedPhone = null;
-  }
-  return verifiedPhone;
-};
+import { verifyEmail, verifyPhone } from "../utils/verify";
 
 const AuthContext = createContext(null);
 
@@ -153,7 +135,7 @@ export function AuthProvider({ children }) {
         withCredentials: true,
       });
     } catch (err) {
-      console.error(err);
+      console.log(err);
     }
   };
 

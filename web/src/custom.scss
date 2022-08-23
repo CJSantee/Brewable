@@ -15,5 +15,22 @@
   border-radius: 50%;
 }
 
+.square {
+  position: relative;
+  width: 100%;
+}
+
+.square::after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
+.square-content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
 // Import Bootstrap and its default variables
 @import "~bootstrap/scss/bootstrap.scss";

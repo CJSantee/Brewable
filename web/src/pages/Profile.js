@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { api } from "../utils/api";
 import Modal from "react-bootstrap/Modal";
+import { verifyEmail, verifyPhone } from "../utils/verify";
 
 export default function Profile() {
   const [user, setUser] = useState(null);
@@ -46,6 +47,8 @@ export default function Profile() {
     if (file) {
       reader.readAsDataURL(file);
     }
+
+    setChangesMade(true);
   }
 
   async function onUpdateUser() {
@@ -83,12 +86,16 @@ export default function Profile() {
           <div className='h-100 py-4'>
             <div className='card h-100 justify-content-evenly align-items-center'>
               {user.image ? (
-                <div className='w-50'>
-                  <img
-                    className='img-user'
-                    src={image || user.image.sourceUrl}
-                    alt={`${user.first_name}-${user.last_name}-avatar`}
-                  />
+                <div className='w-75'>
+                  <div className='square'>
+                    <div className='square-content'>
+                      <img
+                        className='img-user'
+                        src={image || user.image.sourceUrl}
+                        alt={`${user.first_name}-${user.last_name}-avatar`}
+                      />
+                    </div>
+                  </div>
                 </div>
               ) : (
                 <p>No Avatar</p>
@@ -159,16 +166,27 @@ export default function Profile() {
           Update
         </button>
       </div>
-      <NameModal user={user} show={showNameModal} setShow={setShowNameModal} />
+      <NameModal
+        user={user}
+        show={showNameModal}
+        setShow={setShowNameModal}
+        onUpdate={({ first_name, last_name }) => {
+          setUser({ ...user, first_name, last_name });
+        }}
+      />
       <ContactModal
         user={user}
         show={showContactModal}
         setShow={setShowContactModal}
+        onUpdate={({ email, phone }) => {
+          setUser({ ...user, email, phone });
+        }}
       />
       <PasswordModal
         user={user}
         show={showPasswordModal}
         setShow={setShowPasswordModal}
+        onUpdate={() => {}}
       />
     </div>
   );
@@ -178,17 +196,39 @@ function NameModal({
   user: { id: user_id, first_name, last_name },
   show,
   setShow,
+  onUpdate,
 }) {
-  const [firstName, setFirstName] = useState(first_name);
-  const [lastName, setLastName] = useState(last_name);
+  const [firstName, setFirstName] = useState(first_name || "");
+  const [lastName, setLastName] = useState(last_name || "");
+  const [contactError, setContactError] = useState("");
 
+  const resetModal = () => {
+    setShow(false); // Close Modal
+    contactError("");
+  };
+
+  /**
+   * @description Patch user first_name and last_name
+   */
   const postUpdate = async () => {
-    await api.patch(`/users/${user_id}`, {
+    if (!firstName) {
+      setContactError("First Name is Required.");
+      return;
+    }
+
+    const { data, ok } = await api.patch(`/users/${user_id}`, {
       user: {
         first_name: firstName,
         last_name: lastName,
       },
     });
+
+    if (!ok) {
+      return;
+    }
+
+    onUpdate(data); // Send updated user data
+    resetModal();
   };
 
   return (
@@ -202,8 +242,14 @@ function NameModal({
             type='text'
             className='form-control'
             value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            onChange={(e) => {
+              setContactError("");
+              setFirstName(e.target.value);
+            }}
           />
+          {contactError && (
+            <div className='invalid-feedback d-block'>{contactError}</div>
+          )}
         </div>
         <div className='mb-3'>
           <label htmlFor='last_name' className='form-label'>
@@ -218,7 +264,11 @@ function NameModal({
           />
         </div>
         <div className='d-flex justify-content-center'>
-          <button onClick={postUpdate} className='btn btn-primary'>
+          <button
+            onClick={postUpdate}
+            className='btn btn-primary'
+            disabled={firstName === first_name && lastName === last_name}
+          >
             Update
           </button>
         </div>
@@ -227,16 +277,73 @@ function NameModal({
   );
 }
 
-function ContactModal({ user: { id: user_id, email, phone }, show, setShow }) {
-  const [userEmail, setUserEmail] = useState(email);
-  const [userPhone, setUserPhone] = useState(phone);
+function ContactModal({
+  user: { id: user_id, email, phone },
+  show,
+  setShow,
+  onUpdate,
+}) {
+  const [userEmail, setUserEmail] = useState(email || "");
+  const [emailError, setEmailError] = useState("");
+  const [userPhone, setUserPhone] = useState(phone || "");
+  const [phoneError, setPhoneError] = useState("");
+
+  const resetModal = () => {
+    setShow(false);
+    setEmailError("");
+    setPhoneError("");
+  };
+
+  const isValid = () => {
+    let valid = true;
+    if (userEmail && !verifyEmail(userEmail)) {
+      setEmailError("Email is invalid.");
+      valid = false;
+    }
+    if (userPhone && !verifyPhone(userPhone)) {
+      setPhoneError("Phone is invalid.");
+      valid = false;
+    }
+    return valid;
+  };
 
   const postUpdate = async () => {
-    await api.patch(`/users/${user_id}`, {
+    if (!isValid()) {
+      return;
+    }
+
+    const { data, ok } = await api.patch(`/users/${user_id}`, {
       user: {
-        email,
+        email: verifyEmail(userEmail),
+        phone: verifyPhone(userPhone),
       },
     });
+
+    if (!ok) {
+      const { email, phone } = data;
+      if (email) {
+        let message;
+        if (email[0] === "has already been taken") {
+          message = "Email is already in use.";
+        } else {
+          message = email.join(", ");
+        }
+        setEmailError(message);
+      }
+      if (phone) {
+        let message;
+        if (phone[0] === "has already been taken") {
+          message = "Email is already in use.";
+        } else {
+          message = phone.join(", ");
+        }
+        setPhoneError(message);
+      }
+      return;
+    }
+
+    onUpdate(data);
+    resetModal();
   };
 
   return (
@@ -252,6 +359,9 @@ function ContactModal({ user: { id: user_id, email, phone }, show, setShow }) {
             value={userEmail}
             onChange={(e) => setUserEmail(e.target.value)}
           />
+          {emailError && (
+            <div className='invalid-feedback d-block'>{emailError}</div>
+          )}
         </div>
         <div className='mb-3'>
           <label htmlFor='phone' className='form-lable'>
@@ -263,9 +373,16 @@ function ContactModal({ user: { id: user_id, email, phone }, show, setShow }) {
             value={userPhone}
             onChange={(e) => setUserPhone(e.target.value)}
           />
+          {phoneError && (
+            <div className='invalid-feedback d-block'>{phoneError}</div>
+          )}
         </div>
         <div className='d-flex justify-content-center'>
-          <button onClick={postUpdate} className='btn btn-primary'>
+          <button
+            onClick={postUpdate}
+            className='btn btn-primary'
+            disabled={userEmail === email && userPhone === phone}
+          >
             Update
           </button>
         </div>

@@ -18,10 +18,14 @@ const api = {
     return { data: res.data };
   },
   async patch(url, data) {
-    const res = await axios.patch(API_URL + url, data, {
-      withCredentials: true,
-    });
-    return { data: res.data };
+    try {
+      const res = await axios.patch(API_URL + url, data, {
+        withCredentials: true,
+      });
+      return { data: res.data, ok: true };
+    } catch (err) {
+      return { data: err.response.data, ok: false };
+    }
   },
   async postPhoto(url, photo, contentType) {
     const res = await axios.put(url, photo, {
