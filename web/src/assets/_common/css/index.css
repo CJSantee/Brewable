@@ -10,6 +10,10 @@
   cursor: pointer;
 }
 
+.max-w-80px {
+  max-width: 80px;
+}
+
 .max-w-260px {
   max-width: 260px;
 }
