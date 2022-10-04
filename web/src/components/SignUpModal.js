@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 
 const schema = Yup.object().shape({
+  username: Yup.string().required("Username is required"),
   first_name: Yup.string().required("First name is required"),
   last_name: Yup.string().required("Last name is required"),
   email: Yup.string().required("Email is required"),
@@ -47,43 +48,59 @@ export default function SignUpModal({ show, setShow, showSignIn }) {
                 actions.setSubmitting(false);
               }}
               initialValues={{
+                username: "",
                 first_name: "",
                 last_name: "",
                 email: "",
-                phone: "",
                 password: "",
               }}
             >
               {({ handleSubmit, handleChange, values, touched, errors }) => (
                 <Form onSubmit={handleSubmit}>
                   <Form.Group className='m-3'>
-                    <Form.Label>First Name</Form.Label>
+                    <Form.Label>Username</Form.Label>
                     <Form.Control
                       type='text'
-                      name='first_name'
-                      value={values.first_name}
+                      name='username'
+                      value={values.username}
                       onChange={handleChange}
-                      isValid={touched.first_name && !errors.first_name}
-                      isInvalid={!!errors.first_name}
+                      isValid={touched.username && !errors.username}
+                      isInvalid={!!errors.username}
                     />
                     <Form.Control.Feedback type='invalid'>
-                      {errors.first_name}
+                      {errors.username}
                     </Form.Control.Feedback>
                   </Form.Group>
-                  <Form.Group className='m-3'>
-                    <Form.Label>Last Name</Form.Label>
-                    <Form.Control
-                      type='text'
-                      name='last_name'
-                      value={values.last_name}
-                      onChange={handleChange}
-                      isValid={touched.last_name && !errors.last_name}
-                      isInvalid={!!errors.last_name}
-                    />
-                    <Form.Control.Feedback type='invalid'>
-                      {errors.last_name}
-                    </Form.Control.Feedback>
-                  </Form.Group>
+                  <div className='d-flex m-3'>
+                    <Form.Group className='me-1'>
+                      <Form.Label>First Name</Form.Label>
+                      <Form.Control
+                        type='text'
+                        name='first_name'
+                        value={values.first_name}
+                        onChange={handleChange}
+                        isValid={touched.first_name && !errors.first_name}
+                        isInvalid={!!errors.first_name}
+                      />
+                      <Form.Control.Feedback type='invalid'>
+                        {errors.first_name}
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group className='ms-1'>
+                      <Form.Label>Last Name</Form.Label>
+                      <Form.Control
+                        type='text'
+                        name='last_name'
+                        value={values.last_name}
+                        onChange={handleChange}
+                        isValid={touched.last_name && !errors.last_name}
+                        isInvalid={!!errors.last_name}
+                      />
+                      <Form.Control.Feedback type='invalid'>
+                        {errors.last_name}
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                  </div>
                   <Form.Group className='m-3'>
                     <Form.Label>Email</Form.Label>
                     <Form.Control
@@ -96,19 +113,6 @@ export default function SignUpModal({ show, setShow, showSignIn }) {
                     />
                     <Form.Control.Feedback type='invalid'>
                       {errors.email}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                  <Form.Group className='m-3'>
-                    <Form.Label>Phone</Form.Label>
-                    <Form.Control
-                      type='tel'
-                      name='phone'
-                      value={values.phone}
-                      onChange={handleChange}
-                      isInvalid={!!errors.phone}
-                    />
-                    <Form.Control.Feedback type='invalid'>
-                      {errors.phone}
                     </Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group className='m-3'>
@@ -153,7 +157,7 @@ export default function SignUpModal({ show, setShow, showSignIn }) {
                   <Form.Group className='m-3'>
                     <button
                       type='submit'
-                      className='btn btn-success w-100 rounded-lg'
+                      className='btn btn-primary w-100 rounded-lg'
                     >
                       Sign Up
                     </button>

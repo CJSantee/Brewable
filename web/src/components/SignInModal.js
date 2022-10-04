@@ -112,7 +112,7 @@ export default function SignInModal({ show, setShow, showSignUp }) {
             </div>
             <div className='form-group m-3'>
               <button
-                className='btn btn-success w-100 rounded-lg'
+                className='btn btn-primary w-100 rounded-lg'
                 onClick={login}
               >
                 Sign In

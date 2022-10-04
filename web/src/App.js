@@ -1,5 +1,3 @@
-import "./App.css";
-
 import { Routes, Route, Outlet } from "react-router-dom";
 
 import Header from "./components/Header";
@@ -9,6 +7,7 @@ import PersistLogin from "./components/PersistLogin";
 import PageNotFound from "./pages/ PageNotFound";
 import New from "./pages/New";
 import NewBeans from "./pages/NewBeans";
+import AllBeans from "./pages/AllBeans";
 import Beans from "./pages/Beans";
 
 export default function App() {
@@ -17,7 +16,7 @@ export default function App() {
       <Route path='/' element={<Layout />}>
         <Route element={<PersistLogin />}>
           <Route element={<AuthRoute />}>
-            <Route path='beans' element={<Beans />} />
+            <Route path='beans/*' element={<BeansRoutes />} />
             <Route path='profile' element={<Profile />} />
             <Route path='new/*' element={<NewRoutes />} />
           </Route>
@@ -34,6 +33,15 @@ function Layout() {
       <Header />
       <Outlet />
     </div>
+  );
+}
+
+function BeansRoutes() {
+  return (
+    <Routes>
+      <Route path='/' element={<AllBeans />} />
+      <Route path='/:beansId' element={<Beans />} />
+    </Routes>
   );
 }
 
