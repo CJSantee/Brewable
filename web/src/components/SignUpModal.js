@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const schema = Yup.object().shape({
   username: Yup.string().required("Username is required"),
@@ -19,6 +20,7 @@ export default function SignUpModal({ show, setShow, showSignIn }) {
   const [showPassword, setShowPassword] = useState(false);
 
   const { register, persist, setPersist } = useAuth();
+  const navigate = useNavigate();
 
   const togglePersist = () => {
     setPersist((prev) => !prev);
@@ -39,11 +41,12 @@ export default function SignUpModal({ show, setShow, showSignIn }) {
             <Formik
               validationSchema={schema}
               onSubmit={async (values, actions) => {
-                const { errors } = await register(values);
+                const { redirect_url, errors } = await register(values);
                 if (Object.keys(errors).length) {
                   actions.setErrors(errors);
                 } else {
                   setShow(false);
+                  navigate(redirect_url, { replace: false });
                 }
                 actions.setSubmitting(false);
               }}

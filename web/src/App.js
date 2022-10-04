@@ -9,6 +9,7 @@ import New from "./pages/New";
 import NewBeans from "./pages/NewBeans";
 import AllBeans from "./pages/AllBeans";
 import Beans from "./pages/Beans";
+import User from "./pages/User";
 
 export default function App() {
   return (
@@ -17,7 +18,7 @@ export default function App() {
         <Route element={<PersistLogin />}>
           <Route element={<AuthRoute />}>
             <Route path='beans/*' element={<BeansRoutes />} />
-            <Route path='profile' element={<Profile />} />
+            <Route path='/:username/*' element={<User />} />
             <Route path='new/*' element={<NewRoutes />} />
           </Route>
         </Route>

@@ -10,19 +10,27 @@ import SignInModal from "./SignInModal";
 import SignUpModal from "./SignUpModal";
 // Hooks
 import { useAuth } from "../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
   const [showOffcanvas, setShowOffcanvas] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
 
   const { auth, logout } = useAuth();
-  const navigate = useNavigate();
 
   const closeWith = (fxn) => {
     setShowOffcanvas(false);
     fxn();
+  };
+
+  const onSubmitSearch = (e) => {
+    e.preventDefault();
+    window.location.href = `/${searchInput}`;
+  };
+
+  const onSearchInput = (e) => {
+    setSearchInput(e.target.value);
   };
 
   return (
@@ -31,8 +39,9 @@ export default function Header() {
         <a className='navbar-brand ms-3' href='/'>
           <img src={icon} width='55' height='55' alt='Brewable Icon' />
         </a>
-        <form action='' className='form-inline'>
+        <form action='submit' onSubmit={onSubmitSearch} className='form-inline'>
           <input
+            onChange={onSearchInput}
             type='text'
             className='form-control rounded-pill bg-light'
             placeholder='Search Brewable...'
@@ -40,7 +49,7 @@ export default function Header() {
         </form>
         <button
           onClick={() => setShowOffcanvas(true)}
-          className='btn btn-outline-secondary d-flex d-sm-none me-3'
+          className='btn btn-outline-secondary d-flex d-sm-none mx-3'
         >
           <FontAwesomeIcon icon={faBars} size='xl' />
         </button>

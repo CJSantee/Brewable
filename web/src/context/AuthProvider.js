@@ -1,7 +1,6 @@
 import React, { createContext, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../config";
-import { useNavigate } from "react-router-dom";
 import { verifyEmail, verifyPhone } from "../utils/verify";
 
 const AuthContext = createContext(null);
@@ -12,8 +11,6 @@ export function AuthProvider({ children }) {
   const [persist, setPersist] = useState(
     JSON.parse(localStorage.getItem("persist")) || false
   );
-
-  const navigate = useNavigate();
 
   const updatePersist = (newPersist) => {
     setPersist(newPersist);
@@ -36,6 +33,7 @@ export function AuthProvider({ children }) {
         password,
       },
     };
+    let redirect_url;
     let alerts = [];
     let errors = {};
     try {
@@ -52,6 +50,7 @@ export function AuthProvider({ children }) {
         message: "Account created.",
         timeout: 3000,
       });
+      redirect_url = `/${user.username}`;
     } catch (err) {
       updatePersist(false);
       alerts.push({
@@ -80,7 +79,7 @@ export function AuthProvider({ children }) {
       }
     }
 
-    return { alerts, errors };
+    return { redirect_url, alerts, errors };
   };
 
   const login = async ({ userIdentifier, password }) => {
@@ -91,6 +90,7 @@ export function AuthProvider({ children }) {
       phone,
       password,
     };
+    let redirect_url;
     let alerts = [];
     let errors = {};
     try {
@@ -107,7 +107,7 @@ export function AuthProvider({ children }) {
         message: "Logged In User.",
         timeout: 3000,
       });
-      navigate("/", { replace: true });
+      redirect_url = `/${user.username}`;
     } catch (err) {
       updatePersist(false);
       alerts.push({
@@ -123,8 +123,7 @@ export function AuthProvider({ children }) {
         errors.message = "User not found.";
       }
     }
-
-    return { alerts, errors };
+    return { redirect_url, alerts, errors };
   };
 
   const logout = async () => {
