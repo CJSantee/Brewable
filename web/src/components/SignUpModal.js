@@ -1,17 +1,19 @@
+// Components
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
+// Libraries
 import * as Yup from "yup";
 import { Formik } from "formik";
+// Hooks
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
 const schema = Yup.object().shape({
   username: Yup.string().required("Username is required"),
-  first_name: Yup.string().required("First name is required"),
-  last_name: Yup.string().required("Last name is required"),
+  name: Yup.string().required("Full name is required"),
   email: Yup.string().required("Email is required"),
   password: Yup.string().required("Password is required"),
 });
@@ -52,8 +54,7 @@ export default function SignUpModal({ show, setShow, showSignIn }) {
               }}
               initialValues={{
                 username: "",
-                first_name: "",
-                last_name: "",
+                name: "",
                 email: "",
                 password: "",
               }}
@@ -74,36 +75,20 @@ export default function SignUpModal({ show, setShow, showSignIn }) {
                       {errors.username}
                     </Form.Control.Feedback>
                   </Form.Group>
-                  <div className='d-flex m-3'>
-                    <Form.Group className='me-1'>
-                      <Form.Label>First Name</Form.Label>
-                      <Form.Control
-                        type='text'
-                        name='first_name'
-                        value={values.first_name}
-                        onChange={handleChange}
-                        isValid={touched.first_name && !errors.first_name}
-                        isInvalid={!!errors.first_name}
-                      />
-                      <Form.Control.Feedback type='invalid'>
-                        {errors.first_name}
-                      </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group className='ms-1'>
-                      <Form.Label>Last Name</Form.Label>
-                      <Form.Control
-                        type='text'
-                        name='last_name'
-                        value={values.last_name}
-                        onChange={handleChange}
-                        isValid={touched.last_name && !errors.last_name}
-                        isInvalid={!!errors.last_name}
-                      />
-                      <Form.Control.Feedback type='invalid'>
-                        {errors.last_name}
-                      </Form.Control.Feedback>
-                    </Form.Group>
-                  </div>
+                  <Form.Group className='m-3'>
+                    <Form.Label>Full Name</Form.Label>
+                    <Form.Control
+                      type='text'
+                      name='name'
+                      value={values.name}
+                      onChange={handleChange}
+                      isValid={touched.name && !errors.name}
+                      isInvalid={!!errors.name}
+                    />
+                    <Form.Control.Feedback type='invalid'>
+                      {errors.name}
+                    </Form.Control.Feedback>
+                  </Form.Group>
                   <Form.Group className='m-3'>
                     <Form.Label>Email</Form.Label>
                     <Form.Control

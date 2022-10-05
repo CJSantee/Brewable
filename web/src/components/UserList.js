@@ -69,9 +69,7 @@ function User({ user, user_id, updateUser }) {
           alt='profile'
         />
         <div className='m-2'>
-          <h2 className='fs-4 m-0'>
-            {user.first_name} {user.last_name}
-          </h2>
+          <h2 className='fs-4 m-0'>{user.name}</h2>
           <h2 className='fs-5 m-0 text-muted me-1'>{user.username}</h2>
         </div>
       </div>

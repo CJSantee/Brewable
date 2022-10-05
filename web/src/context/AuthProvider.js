@@ -17,17 +17,11 @@ export function AuthProvider({ children }) {
     localStorage.setItem("persist", newPersist);
   };
 
-  const register = async ({
-    first_name,
-    last_name,
-    email,
-    phone,
-    password,
-  }) => {
+  const register = async ({ username, name, email, phone, password }) => {
     const body = {
       user: {
-        first_name,
-        last_name,
+        username,
+        name,
         email: verifyEmail(email),
         phone: verifyPhone(phone),
         password,
