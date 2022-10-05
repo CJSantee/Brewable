@@ -29,12 +29,13 @@ export default function SignInModal({ show, setShow, showSignUp }) {
       password,
     };
 
-    const { errors } = await auth.login(values);
+    const { redirect_url, errors } = await auth.login(values);
     if (Object.keys(errors).length) {
       setErrorMsg(errors?.message);
     } else {
       setShow(false);
-      navigate("/profile", { replace: true });
+      console.log(redirect_url);
+      navigate(redirect_url, { replace: true });
     }
   };
 

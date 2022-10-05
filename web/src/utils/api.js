@@ -15,7 +15,10 @@ const api = {
     const res = await axios.post(API_URL + url, data, {
       withCredentials: true,
     });
-    return { data: res.data };
+    return {
+      data: res.data,
+      success: res.status === 201 || res.status === 200,
+    };
   },
   async patch(url, data) {
     try {
