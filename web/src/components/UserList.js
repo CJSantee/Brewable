@@ -14,7 +14,6 @@ export default function UserList({ user_id, list, updateUser }) {
   useEffect(() => {
     setLoading(true);
     const getUsers = async () => {
-      console.log("getUsers");
       const { data } = await api.get(`/users/${user_id}/${list}`);
       setUsers(data);
       setLoading(false);
@@ -32,7 +31,12 @@ export default function UserList({ user_id, list, updateUser }) {
         <h2 className='text-muted text-uppercase fs-5'>{list}</h2>
       </div>
       {users.map((user) => (
-        <User user={user} user_id={auth.user.user_id} updateUser={updateUser} />
+        <User
+          key={user.user_id}
+          user={user}
+          user_id={auth.user.user_id}
+          updateUser={updateUser}
+        />
       ))}
     </div>
   );
@@ -46,17 +50,14 @@ function User({ user, user_id, updateUser }) {
     updateUser();
   };
   const follow = async () => {
-    followUser(user_id, user.id).then(toggleFollowingAndUpdate);
+    followUser(user_id, user.user_id).then(toggleFollowingAndUpdate);
   };
   const unfollow = async () => {
-    unfollowUser(user_id, user.id).then(toggleFollowingAndUpdate);
+    unfollowUser(user_id, user.user_id).then(toggleFollowingAndUpdate);
   };
 
   return (
-    <div
-      key={user.id}
-      className='d-flex justify-content-between align-items-center'
-    >
+    <div className='d-flex justify-content-between align-items-center'>
       <div
         onClick={() => {
           window.location.href = `/${user.username}`;
@@ -73,7 +74,7 @@ function User({ user, user_id, updateUser }) {
           <h2 className='fs-5 m-0 text-muted me-1'>{user.username}</h2>
         </div>
       </div>
-      {user_id !== user.id &&
+      {user_id !== user.user_id &&
         (following ? (
           <button onClick={unfollow} className='btn btn-outline-primary ms-1'>
             Unfollow

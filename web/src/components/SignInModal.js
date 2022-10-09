@@ -9,7 +9,7 @@ export default function SignInModal({ show, setShow, showSignUp }) {
   const [userIdentifier, setUserIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [alerts, setAlerts] = useState([]);
 
   const auth = useAuth();
 
@@ -29,13 +29,13 @@ export default function SignInModal({ show, setShow, showSignUp }) {
       password,
     };
 
-    const { redirect_url, errors } = await auth.login(values);
-    if (Object.keys(errors).length) {
-      setErrorMsg(errors?.message);
-    } else {
+    const { redirect_url, alerts: login_alerts } = await auth.login(values);
+    if (redirect_url) {
       setShow(false);
-      console.log(redirect_url);
       navigate(redirect_url, { replace: true });
+    }
+    if (login_alerts) {
+      setAlerts(login_alerts);
     }
   };
 
@@ -45,7 +45,7 @@ export default function SignInModal({ show, setShow, showSignUp }) {
     setUserIdentifier("");
     setPassword("");
     setShowPassword(false);
-    setErrorMsg("");
+    setAlerts([]);
   };
 
   return (
@@ -55,17 +55,24 @@ export default function SignInModal({ show, setShow, showSignUp }) {
           <div className='d-flex justify-content-center m-2'>
             <h3>Sign in to Brewable</h3>
           </div>
-          {errorMsg && (
-            <div className='d-flex m-3 bg-danger bg-opacity-10 border border-danger rounded justify-content-between align-items-center'>
-              <p className='m-3'>{errorMsg}</p>
+          {alerts.map((alert, idx) => (
+            <div
+              key={idx}
+              className={`d-flex m-3 bg-${alert.type} bg-opacity-10 border border-${alert.type} rounded justify-content-between align-items-center`}
+            >
+              <p className='m-3'>{alert.message}</p>
               <span
                 className='cursor-pointer p-3'
-                onClick={() => setErrorMsg("")}
+                onClick={() =>
+                  setAlerts(
+                    alerts.filter((alt) => alt.message !== alert.message)
+                  )
+                }
               >
                 <FontAwesomeIcon icon={faX} size='sm' />
               </span>
             </div>
-          )}
+          ))}
           <div className='m-3 border rounded'>
             <div className='form-group m-3'>
               <label>Email or phone</label>
