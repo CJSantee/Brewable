@@ -2,6 +2,7 @@ import React, { createContext, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../config";
 import { verifyEmail, verifyPhone } from "../utils/verify";
+import { api } from "../utils/api";
 
 const AuthContext = createContext(null);
 
@@ -31,12 +32,7 @@ export function AuthProvider({ children }) {
     let alerts = [];
     let errors = {};
     try {
-      const res = await axios.post(API_URL + "/users", body, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      });
+      const res = await api.post("/users", body);
       const { access_token, user } = res.data;
       setAuth({ access_token, user });
       alerts.push({
@@ -84,52 +80,37 @@ export function AuthProvider({ children }) {
       phone,
       password,
     };
+
     let redirect_url;
     let alerts = [];
-    let errors = {};
-    try {
-      const res = await axios.post(API_URL + "/auth", body, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      });
-      const { access_token, user } = res.data;
+    let errors = [];
+
+    const { data, error } = await api.post("/auth", body);
+
+    if (data && !error) {
+      const { access_token, user } = data;
       setAuth({ access_token, user });
-      alerts.push({
-        type: "success",
-        message: "Logged In User.",
-        timeout: 3000,
-      });
       redirect_url = `/${user.username}`;
-    } catch (err) {
+    } else {
       updatePersist(false);
+    }
+
+    if (error) {
+      errors.push(error);
       alerts.push({
-        type: "warning",
-        message: "Sign up failed.",
+        type: "danger",
+        message: error.message,
         timeout: 3000,
       });
-      const response = err.response.data;
-      const { message } = response;
-      if (message === "Authentication Failed") {
-        errors.message = "Incorrect login or password.";
-      } else if (message === "Could not find user") {
-        errors.message = "User not found.";
-      }
     }
+
     return { redirect_url, alerts, errors };
   };
 
   const logout = async () => {
     setAuth({});
     updatePersist(false);
-    try {
-      await axios.delete(API_URL + "/auth", {
-        withCredentials: true,
-      });
-    } catch (err) {
-      console.log(err);
-    }
+    await api.delete("/auth");
   };
 
   return (

@@ -2,15 +2,15 @@
 import { useEffect, useState } from "react";
 import { Route, Routes, useNavigate, useParams } from "react-router-dom";
 // Utils
-import { api } from "../utils/api";
-import { followUser, unfollowUser } from "../services/users";
+import { followUser, getByUsername, unfollowUser } from "../services/users";
 // Components
 import PageNotFound from "./ PageNotFound";
 import UserList from "../components/UserList";
+import EditProfileModal from "../components/EditProfileModal";
 // Assets
 import placeholder from "../assets/image-placeholder-612x612.jpeg";
 import { useAuth } from "../hooks/useAuth";
-import EditProfileModal from "../components/EditProfileModal";
+import Loading from "../components/Loading";
 
 export default function User() {
   const params = useParams();
@@ -22,44 +22,47 @@ export default function User() {
   const [showEditProfile, setShowEditProfile] = useState(false);
 
   const updateUser = async () => {
-    const { data } = await api.get(`/users?query=${params.username}`);
-    if (data?.length) {
-      setUser(data[0]);
-    }
+    const user = await getByUsername(params.username);
+    setUser(user);
   };
 
   useEffect(() => {
     setLoading(true);
     const getUser = async () => {
-      await updateUser();
+      const user = await getByUsername(params.username);
+      setUser(user);
       setLoading(false);
     };
     getUser();
   }, []);
 
   const follow = async () => {
-    if (auth.user.user_id === user.id) {
+    if (auth.user.user_id === user.user_id) {
       return;
     }
-    followUser(auth.user.user_id, user.id).then(updateUser);
+    followUser(auth.user.user_id, user.user_id).then(updateUser);
   };
   const unfollow = async () => {
-    if (auth.user.user_id === user.id) {
+    if (auth.user.user_id === user.user_id) {
       return;
     }
-    unfollowUser(auth.user.user_id, user.id).then(updateUser);
+    unfollowUser(auth.user.user_id, user.user_id).then(updateUser);
   };
 
   if (loading) {
-    return <h3>Loading...</h3>;
+    return (
+      <div className='d-flex h-100 justify-content-center align-items-center'>
+        <Loading size={"lg"} />
+      </div>
+    );
   }
   if (!user) {
     return <PageNotFound />;
   }
   return (
     <>
-      <div className='row m-0 p-0'>
-        <div className='col-12 col-md-4 col-lg-3 p-2 vh-100 border-end'>
+      <div className='row h-100 m-0 p-0'>
+        <div className='col-12 col-md-4 col-lg-3 p-2 border-end'>
           <div className='d-flex justify-content-center'>
             <img
               src={placeholder}
@@ -72,7 +75,7 @@ export default function User() {
               <h2 className='fs-4 m-0'>{user.name}</h2>
               <h2 className='fs-5 m-0 text-muted me-1'>{user.username}</h2>
             </div>
-            {auth.user.user_id === user.id ? (
+            {auth.user.user_id === user.user_id ? (
               <button
                 onClick={() => setShowEditProfile(true)}
                 className='btn btn-outline-secondary ms-1'
@@ -118,6 +121,11 @@ export default function User() {
               {" following"}
             </p>
           </div>
+          {auth.user.user_id === user.user_id && user.roles.includes("admin") && (
+            <div className='position-fixed bottom-0 m-2 cursor-pointer'>
+              <p className='text-muted m-0'>Roles/Permissions</p>
+            </div>
+          )}
         </div>
         <div className='col-12 col-md-8 col-lg-9'>
           <Routes>
@@ -126,7 +134,7 @@ export default function User() {
               path='/followers'
               element={
                 <UserList
-                  user_id={user.id}
+                  user_id={user.user_id}
                   list='followers'
                   updateUser={updateUser}
                 />
@@ -136,7 +144,7 @@ export default function User() {
               path='/following'
               element={
                 <UserList
-                  user_id={user.id}
+                  user_id={user.user_id}
                   list='following'
                   updateUser={updateUser}
                 />
@@ -203,6 +211,9 @@ function Posts() {
           </p>
         </li>
       </ul>
+      <button className='btn btn-outline-primary position-fixed bottom-0 end-0 m-3'>
+        Post Brew
+      </button>
     </div>
   );
 }
