@@ -1,6 +1,4 @@
 import React, { createContext, useState } from "react";
-import axios from "axios";
-import { API_URL } from "../config";
 import { verifyEmail, verifyPhone } from "../utils/verify";
 import { api } from "../utils/api";
 

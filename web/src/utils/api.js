@@ -1,4 +1,3 @@
-import axios from "axios";
 import { API_URL } from "../config";
 
 const NETWORK_ERROR = {
@@ -85,14 +84,14 @@ const api = {
       return NETWORK_ERROR;
     }
   },
-  async postPhoto(url, photo, contentType) {
-    const res = await axios.put(url, photo, {
-      headers: {
-        "Content-Type": contentType,
-      },
-    });
-    return { data: res.data };
-  },
+  // async postPhoto(url, photo, contentType) {
+  //   const res = await axios.put(url, photo, {
+  //     headers: {
+  //       "Content-Type": contentType,
+  //     },
+  //   });
+  //   return { data: res.data };
+  // },
 };
 
 export { api };

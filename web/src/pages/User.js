@@ -1,16 +1,18 @@
 // Hooks
 import { useEffect, useState } from "react";
-import { Route, Routes, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 // Utils
 import { followUser, getByUsername, unfollowUser } from "../services/users";
 // Components
-import PageNotFound from "./ PageNotFound";
+import PageNotFound from "./PageNotFound";
 import UserList from "../components/UserList";
 import EditProfileModal from "../components/EditProfileModal";
+import Loading from "../components/Loading";
+import { Route, Routes } from "react-router-dom";
 // Assets
 import placeholder from "../assets/image-placeholder-612x612.jpeg";
-import { useAuth } from "../hooks/useAuth";
-import Loading from "../components/Loading";
+import { getAllPostsForUser } from "../services/posts";
 
 export default function User() {
   const params = useParams();
@@ -96,7 +98,7 @@ export default function User() {
             )}
           </div>
           <div className='d-flex m-2'>
-            <p>Full-time software engineer, part-time coffee snob.</p>
+            <p>{user.bio}</p>
           </div>
           <div className='d-flex justify-content-evenly'>
             <p
@@ -129,7 +131,7 @@ export default function User() {
         </div>
         <div className='col-12 col-md-8 col-lg-9'>
           <Routes>
-            <Route path='/' element={<Posts />} />
+            <Route path='/' element={<Posts user_id={auth.user.user_id} />} />
             <Route
               path='/followers'
               element={
@@ -158,8 +160,22 @@ export default function User() {
   );
 }
 
-function Posts() {
+function Posts({ user_id }) {
   const [viewing, setViewing] = useState("feed");
+  const [posts, setPosts] = useState([]);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getPosts = async () => {
+      const posts = await getAllPostsForUser(user_id);
+
+      if (posts) {
+        setPosts(posts);
+      }
+    };
+    getPosts();
+  }, []);
 
   return (
     <div className='m-2'>
@@ -211,9 +227,43 @@ function Posts() {
           </p>
         </li>
       </ul>
-      <button className='btn btn-outline-primary position-fixed bottom-0 end-0 m-3'>
+      <div className='d-flex flex-column'>
+        {posts.map((post) => (
+          <Post key={post.post_id} post={post} />
+        ))}
+      </div>
+      <button
+        onClick={() => navigate("/new/post")}
+        className='btn btn-outline-primary position-fixed bottom-0 end-0 m-3'
+      >
         Post Brew
       </button>
+    </div>
+  );
+}
+
+function Post({ post }) {
+  return (
+    <div className='d-flex flex-fill justify-content-start align-items-start max-w-600px my-2'>
+      <img
+        src={placeholder}
+        className='border rounded-circle max-w-60px'
+        alt=''
+      />
+      <div className='d-flex flex-fill flex-column mx-2'>
+        <div className='d-flex justify-content-between mb-1'>
+          <div className='d-flex'>
+            <p className='fs-6 fw-bold m-0'>{post.name}</p>
+            <p className='fs-6 text-muted m-0 ms-1'>@{post.username}</p>
+            <p className='fs-6 text-muted m-0'>
+              <span className='mx-2'>·</span>
+              {post.display_time}
+            </p>
+          </div>
+          <span>···</span>
+        </div>
+        <p className='fs-6'>{post.caption}</p>
+      </div>
     </div>
   );
 }

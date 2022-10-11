@@ -4,12 +4,13 @@ import Header from "./components/Header";
 import AuthRoute from "./components/AuthRoute";
 import Profile from "./pages/Profile";
 import PersistLogin from "./components/PersistLogin";
-import PageNotFound from "./pages/ PageNotFound";
+import PageNotFound from "./pages/PageNotFound";
 import New from "./pages/New";
 import NewBeans from "./pages/NewBeans";
 import AllBeans from "./pages/AllBeans";
 import Beans from "./pages/Beans";
 import User from "./pages/User";
+import NewPost from "./pages/NewPost";
 
 export default function App() {
   return (
@@ -51,6 +52,7 @@ function NewRoutes() {
     <Routes>
       <Route path='/' element={<New />} />
       <Route path='/beans' element={<NewBeans />} />
+      <Route path='/post' element={<NewPost />} />
     </Routes>
   );
 }

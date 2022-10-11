@@ -1,4 +1,13 @@
 $primary: #1e408d;
 
+// Define max-width classes
+$widths: (60, 80, 260, 300, 600);
+
+@each $width in $widths {
+  .max-w-#{$width}px {
+    max-width: #{$width}px;
+  }
+}
+
 // Import Bootstrap and its default variables
 @import "~bootstrap/scss/bootstrap.scss";

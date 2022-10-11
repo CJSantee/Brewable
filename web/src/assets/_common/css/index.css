@@ -9,19 +9,3 @@
 .cursor-pointer {
   cursor: pointer;
 }
-
-.max-w-80px {
-  max-width: 80px;
-}
-
-.max-w-260px {
-  max-width: 260px;
-}
-
-.max-w-300px {
-  max-width: 300px;
-}
-
-.max-w-600px {
-  max-width: 600px;
-}
