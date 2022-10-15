@@ -1,6 +1,6 @@
 import React, { createContext, useState } from "react";
 import { verifyEmail, verifyPhone } from "../utils/verify";
-import { api } from "../utils/api";
+import api from "../utils/api";
 
 const AuthContext = createContext(null);
 

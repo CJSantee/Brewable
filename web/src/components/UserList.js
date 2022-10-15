@@ -1,9 +1,15 @@
+// Hooks
 import { useEffect, useState } from "react";
-import { api } from "../utils/api";
-
-import placeholder from "../assets/image-placeholder-612x612.jpeg";
 import { useAuth } from "../hooks/useAuth";
-import { followUser, unfollowUser } from "../services/users";
+// Assets
+import placeholder from "../assets/image-placeholder-612x612.jpeg";
+// Services
+import {
+  followUser,
+  getFollowers,
+  getFollowing,
+  unfollowUser,
+} from "../services/users";
 
 export default function UserList({ user_id, list, updateUser }) {
   const [users, setUsers] = useState([]);
@@ -14,8 +20,11 @@ export default function UserList({ user_id, list, updateUser }) {
   useEffect(() => {
     setLoading(true);
     const getUsers = async () => {
-      const { data } = await api.get(`/users/${user_id}/${list}`);
-      setUsers(data);
+      const { users } =
+        list === "followers"
+          ? await getFollowers(user_id)
+          : await getFollowing(user_id);
+      setUsers(users);
       setLoading(false);
     };
     getUsers();

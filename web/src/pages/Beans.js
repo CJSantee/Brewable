@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { api } from "../utils/api";
+import api from "../utils/api";
 
 export default function Beans() {
   const params = useParams();

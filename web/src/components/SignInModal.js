@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import Modal from "react-bootstrap/Modal";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
+import ResponsiveModal from "./ResponsiveModal";
 
 export default function SignInModal({ show, setShow, showSignUp }) {
   const [userIdentifier, setUserIdentifier] = useState("");
@@ -50,7 +50,7 @@ export default function SignInModal({ show, setShow, showSignUp }) {
 
   return (
     <>
-      <Modal show={show} onHide={resetModal}>
+      <ResponsiveModal show={show} onHide={resetModal}>
         <div className='p-3 bg-600'>
           <div className='d-flex justify-content-center m-2'>
             <h3>Sign in to Brewable</h3>
@@ -143,7 +143,7 @@ export default function SignInModal({ show, setShow, showSignUp }) {
             </div>
           </div>
         </div>
-      </Modal>
+      </ResponsiveModal>
     </>
   );
 }

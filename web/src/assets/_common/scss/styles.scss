@@ -1,12 +1,20 @@
 $primary: #1e408d;
 
 // Define max-width classes
-$widths: (60, 80, 260, 300, 600);
+$widths: (60, 80, 260, 300, 400, 600);
 
 @each $width in $widths {
   .max-w-#{$width}px {
     max-width: #{$width}px;
   }
+
+  .min-w-#{$width}px {
+    min-width: #{$width}px;
+  }
+}
+
+.bg-dark-transparent {
+  background-color: rgba(#212529, 0.5);
 }
 
 // Import Bootstrap and its default variables

@@ -5,13 +5,18 @@ import { useAuth } from "../hooks/useAuth";
 import { newPost } from "../services/posts";
 // Assets
 import placeholder from "../assets/image-placeholder-612x612.jpeg";
+import { useNavigate } from "react-router-dom";
 
 export default function NewPost() {
   const [caption, setCaption] = useState("");
   const { auth } = useAuth();
+  const navigate = useNavigate();
 
-  const post = () => {
-    newPost(auth.user.user_id, caption);
+  const post = async () => {
+    const { success } = await newPost(auth.user.user_id, caption);
+    if (success) {
+      navigate("/");
+    }
   };
 
   return (

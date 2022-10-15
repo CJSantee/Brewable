@@ -6,7 +6,7 @@ const { api } = require("../utils/api");
  * @param {string} caption
  */
 const newPost = async (user_id, caption) => {
-  const { data } = api.post(`/users/${user_id}/posts`, {
+  return await api.post(`/users/${user_id}/posts`, {
     caption,
   });
 };

@@ -1,6 +1,6 @@
 // Components
-import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import ResponsiveModal from "./ResponsiveModal";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 // Libraries
@@ -34,7 +34,7 @@ export default function SignUpModal({ show, setShow, showSignIn }) {
 
   return (
     <>
-      <Modal show={show} onHide={() => setShow(false)}>
+      <ResponsiveModal show={show} onHide={() => setShow(false)}>
         <div className='p-3 bg-600'>
           <div className='d-flex justify-content-center m-2'>
             <h3>Sign Up for Brewable</h3>
@@ -170,7 +170,7 @@ export default function SignUpModal({ show, setShow, showSignIn }) {
             </div>
           </div>
         </div>
-      </Modal>
+      </ResponsiveModal>
     </>
   );
 }

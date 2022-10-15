@@ -1,13 +1,29 @@
-import Modal from "react-bootstrap/Modal";
+// Hooks
 import { useState } from "react";
+// Services
+import { updateUser } from "../services/users";
+// Components
+import ResponsiveModal from "./ResponsiveModal";
 
-export default function EditProfileModal({ show, setShow }) {
-  const [name, setName] = useState("");
-  const [bio, setBio] = useState("");
+export default function EditProfileModal({ show, setShow, user, onUpdate }) {
+  const [name, setName] = useState(user?.name || "");
+  const [bio, setBio] = useState(user?.bio || "");
+
+  const hideModal = () => {
+    setShow(false);
+  };
+
+  const update = async () => {
+    const { success } = await updateUser({ user_id: user.user_id, name, bio });
+    if (success) {
+      hideModal();
+      onUpdate();
+    }
+  };
 
   return (
-    <Modal show={show} onHide={() => setShow(false)}>
-      <div className='p-3 bg-600'>
+    <ResponsiveModal show={show} onHide={hideModal}>
+      <div className='w-100 p-3'>
         <div className='d-flex justify-content-center m-2'>
           <h3>Edit Profile</h3>
         </div>
@@ -23,18 +39,22 @@ export default function EditProfileModal({ show, setShow }) {
           </div>
           <div className='form-group m-3'>
             <label className='text-muted text-uppercase'>Bio</label>
-            <textarea className='form-control' />
+            <textarea
+              className='form-control'
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+            />
           </div>
           <div className='form-group m-3'>
             <button
               className='btn btn-primary w-100 rounded-lg'
-              onClick={() => {}}
+              onClick={update}
             >
               Update
             </button>
           </div>
         </div>
       </div>
-    </Modal>
+    </ResponsiveModal>
   );
 }

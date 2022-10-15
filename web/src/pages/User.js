@@ -155,7 +155,12 @@ export default function User() {
           </Routes>
         </div>
       </div>
-      <EditProfileModal show={showEditProfile} setShow={setShowEditProfile} />
+      <EditProfileModal
+        show={showEditProfile}
+        setShow={setShowEditProfile}
+        user={user}
+        onUpdate={updateUser}
+      />
     </>
   );
 }

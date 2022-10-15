@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { api } from "../utils/api";
+import api from "../utils/api";
 import Modal from "react-bootstrap/Modal";
 import { verifyEmail, verifyPhone } from "../utils/verify";
 

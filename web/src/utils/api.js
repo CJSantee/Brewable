@@ -6,6 +6,7 @@ const NETWORK_ERROR = {
     code: "ERR_CONNECTION_REFUSED",
     message: "Server connection failed.",
   },
+  success: false,
 };
 
 /*
@@ -16,82 +17,50 @@ const NETWORK_ERROR = {
 	failure or if anything prevented the request from completing.
 */
 
+/**
+ * @description calls JavaScript fetch()
+ * @param {string} url
+ * @param {object} options
+ * @returns
+ */
+async function callFetch(url, options = {}) {
+  const { method = "GET", body = {}, headers } = options;
+
+  const params = {
+    method,
+    credentials: "include",
+    body: method === "GET" ? undefined : JSON.stringify(body),
+    headers: {
+      "Content-Type": "application/json",
+      ...headers,
+    },
+  };
+
+  let response;
+  try {
+    response = await fetch(`${API_URL}${url}`, params);
+  } catch (err) {
+    return NETWORK_ERROR;
+  }
+
+  const responseData = await response.json();
+
+  return { data: responseData, success: response.ok };
+}
+
 const api = {
   async get(url) {
-    try {
-      const response = await fetch(API_URL + url, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const responseJSON = await response.json();
-      if (!responseJSON.data && !responseJSON.error) {
-        return { data: responseJSON };
-      } else {
-        return responseJSON;
-      }
-    } catch (err) {
-      console.error("[API.GET]", err);
-      return NETWORK_ERROR;
-    }
+    return callFetch(url);
   },
   async post(url, data) {
-    try {
-      const response = await fetch(API_URL + url, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      return response.json();
-    } catch (err) {
-      console.error("[API.POST]", err);
-      return NETWORK_ERROR;
-    }
+    return callFetch(url, { method: "POST", body: data });
   },
   async patch(url, data) {
-    try {
-      const response = await fetch(API_URL + url, {
-        method: "PATCH",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      return response.json();
-    } catch (err) {
-      console.error("[API.PATCH]", err);
-      return NETWORK_ERROR;
-    }
+    return callFetch(url, { method: "PATCH", body: data });
   },
   async delete(url) {
-    try {
-      const response = await fetch(API_URL + url, {
-        method: "DELETE",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      return response.json();
-    } catch (err) {
-      console.error("[API.DELETE]", err);
-      return NETWORK_ERROR;
-    }
+    return callFetch(url, { method: "DELETE" });
   },
-  // async postPhoto(url, photo, contentType) {
-  //   const res = await axios.put(url, photo, {
-  //     headers: {
-  //       "Content-Type": contentType,
-  //     },
-  //   });
-  //   return { data: res.data };
-  // },
 };
 
-export { api };
+export default api;
