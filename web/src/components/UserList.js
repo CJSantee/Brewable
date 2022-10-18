@@ -4,47 +4,34 @@ import { useAuth } from "../hooks/useAuth";
 // Assets
 import placeholder from "../assets/image-placeholder-612x612.jpeg";
 // Services
-import {
-  followUser,
-  getFollowers,
-  getFollowing,
-  unfollowUser,
-} from "../services/users";
+import { followUser, unfollowUser } from "../services/users";
+// Components
+import Loading from "./Loading";
 
-export default function UserList({ user_id, list, updateUser }) {
-  const [users, setUsers] = useState([]);
+export default function UserList({ users, title, onUpdate }) {
   const [loading, setLoading] = useState(false);
 
   const { auth } = useAuth();
 
-  useEffect(() => {
-    setLoading(true);
-    const getUsers = async () => {
-      const { users } =
-        list === "followers"
-          ? await getFollowers(user_id)
-          : await getFollowing(user_id);
-      setUsers(users);
-      setLoading(false);
-    };
-    getUsers();
-  }, [user_id, list]);
-
   if (loading) {
-    return <h3>Loading...</h3>;
+    return (
+      <div className='d-flex h-100 justify-content-center align-items-center'>
+        <Loading size={"lg"} />
+      </div>
+    );
   }
 
   return (
     <div>
       <div className='d-flex justify-content-center m-2'>
-        <h2 className='text-muted text-uppercase fs-5'>{list}</h2>
+        <h2 className='text-muted text-uppercase fs-5'>{title}</h2>
       </div>
-      {users.map((user) => (
+      {users?.map((user) => (
         <User
           key={user.user_id}
           user={user}
           user_id={auth.user.user_id}
-          updateUser={updateUser}
+          onUpdate={onUpdate}
         />
       ))}
     </div>

@@ -45,7 +45,11 @@ async function callFetch(url, options = {}) {
 
   const responseData = await response.json();
 
-  return { data: responseData, success: response.ok };
+  return {
+    data: responseData.error ? null : responseData,
+    error: responseData.error,
+    success: response.ok,
+  };
 }
 
 const api = {

@@ -6,10 +6,14 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 // Components
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import SignInModal from "./SignInModal";
-import SignUpModal from "./SignUpModal";
+import ResponsiveModal from "./ResponsiveModal";
+import SignInForm from "./SignInForm";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import SignUpForm from "./SignUpForm";
 // Hooks
 import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const [showSignIn, setShowSignIn] = useState(false);
@@ -18,6 +22,7 @@ export default function Header() {
   const [searchInput, setSearchInput] = useState("");
 
   const { auth, logout } = useAuth();
+  const navigate = useNavigate();
 
   const closeWith = (fxn) => {
     setShowOffcanvas(false);
@@ -55,11 +60,28 @@ export default function Header() {
         </button>
         <div className='d-none d-sm-flex ms-auto mx-3'>
           {auth.user ? (
-            <>
-              <button onClick={logout} className='btn btn-outline-primary'>
-                Log Out
+            <div className='d-flex align-items-center justify-content-center'>
+              <button
+                onClick={() => navigate("/new/post")}
+                className='btn btn-outline-primary me-2'
+              >
+                Share Brew
               </button>
-            </>
+              <DropdownButton variant='primary' title={auth.user.name}>
+                <Dropdown.Item
+                  onClick={() => navigate(`/${auth.user.username}`)}
+                >
+                  Profile
+                </Dropdown.Item>
+                {auth.user.roles.includes("admin") && (
+                  <Dropdown.Item onClick={() => navigate("/admin")}>
+                    Admin
+                  </Dropdown.Item>
+                )}
+                <Dropdown.Divider />
+                <Dropdown.Item onClick={logout}>Log Out</Dropdown.Item>
+              </DropdownButton>
+            </div>
           ) : (
             <>
               <button onClick={() => setShowSignIn(true)} className='btn mr-2'>
@@ -75,17 +97,24 @@ export default function Header() {
           )}
         </div>
       </nav>
-
-      <SignInModal
-        show={showSignIn}
-        setShow={setShowSignIn}
-        showSignUp={() => setShowSignUp(true)}
-      />
-      <SignUpModal
-        show={showSignUp}
-        setShow={setShowSignUp}
-        showSignIn={() => setShowSignIn(true)}
-      />
+      <ResponsiveModal show={showSignIn} onHide={() => setShowSignIn(false)}>
+        <SignInForm
+          onSignIn={() => setShowSignIn(false)}
+          onSignUp={() => {
+            setShowSignIn(false);
+            setShowSignUp(true);
+          }}
+        />
+      </ResponsiveModal>
+      <ResponsiveModal show={showSignUp} onHide={() => setShowSignUp(false)}>
+        <SignUpForm
+          onSignUp={() => setShowSignUp(false)}
+          onSignIn={() => {
+            setShowSignUp(false);
+            setShowSignIn(true);
+          }}
+        />
+      </ResponsiveModal>
       <Offcanvas
         show={showOffcanvas}
         onHide={() => setShowOffcanvas(false)}

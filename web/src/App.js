@@ -2,7 +2,6 @@ import { Routes, Route, Outlet } from "react-router-dom";
 
 import Header from "./components/Header";
 import AuthRoute from "./components/AuthRoute";
-import Profile from "./pages/Profile";
 import PersistLogin from "./components/PersistLogin";
 import PageNotFound from "./pages/PageNotFound";
 import New from "./pages/New";
@@ -11,16 +10,24 @@ import AllBeans from "./pages/AllBeans";
 import Beans from "./pages/Beans";
 import User from "./pages/User";
 import NewPost from "./pages/NewPost";
+import SignIn from "./pages/SignIn";
+import Home from "./pages/Home";
+import Admin from "./pages/Admin";
 
 export default function App() {
   return (
     <Routes>
       <Route path='/' element={<Layout />}>
         <Route element={<PersistLogin />}>
+          <Route path='/' element={<Home />} />
+          <Route path='/signin' element={<SignIn />} />
+          <Route path='/:username/*' element={<User />} />
           <Route element={<AuthRoute />}>
             <Route path='beans/*' element={<BeansRoutes />} />
-            <Route path='/:username/*' element={<User />} />
             <Route path='new/*' element={<NewRoutes />} />
+          </Route>
+          <Route element={<AuthRoute roles={["admin"]} />}>
+            <Route path='/admin' element={<Admin />} />
           </Route>
         </Route>
         <Route path='*' element={<PageNotFound />} />

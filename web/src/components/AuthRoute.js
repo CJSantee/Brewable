@@ -1,14 +1,18 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
-export default function AuthRoute() {
+export default function AuthRoute({ roles }) {
   const { auth } = useAuth();
   const location = useLocation();
 
-  // TODO: Add acls
-  if (auth?.access_token) {
-    return <Outlet />;
-  } else {
+  // Not logged in
+  if (!auth.access_token) {
     return <Navigate to='/' state={{ from: location }} />;
   }
+  // Does not have the correct role
+  if (roles?.length && !roles.every((role) => auth.user.roles.includes(role))) {
+    return <Navigate to='/' state={{ from: location }} />;
+  }
+
+  return <Outlet />;
 }

@@ -8,8 +8,10 @@ $widths: (60, 80, 260, 300, 400, 600);
     max-width: #{$width}px;
   }
 
-  .min-w-#{$width}px {
-    min-width: #{$width}px;
+  @media (min-width: #{$width}px) {
+    .min-w-#{$width}px {
+      min-width: #{$width}px;
+    }
   }
 }
 
@@ -19,3 +21,9 @@ $widths: (60, 80, 260, 300, 400, 600);
 
 // Import Bootstrap and its default variables
 @import "~bootstrap/scss/bootstrap.scss";
+
+@each $name, $color in $theme-colors {
+  .bg-hover-#{$name}:hover {
+    background-color: $color;
+  }
+}

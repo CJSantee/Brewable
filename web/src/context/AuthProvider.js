@@ -16,7 +16,14 @@ export function AuthProvider({ children }) {
     localStorage.setItem("persist", newPersist);
   };
 
-  const register = async ({ username, name, email, phone, password }) => {
+  const register = async ({
+    username,
+    name,
+    email,
+    phone,
+    password,
+    rememberMe,
+  }) => {
     const body = {
       user: {
         username,
@@ -26,51 +33,35 @@ export function AuthProvider({ children }) {
         password,
       },
     };
+
     let redirect_url;
     let alerts = [];
-    let errors = {};
-    try {
-      const res = await api.post("/users", body);
-      const { access_token, user } = res.data;
+    let errors = [];
+
+    const { data, error, success } = await api.post("/users", body);
+
+    if (success) {
+      const { access_token, user } = data;
       setAuth({ access_token, user });
-      alerts.push({
-        type: "success",
-        message: "Account created.",
-        timeout: 3000,
-      });
+      updatePersist(rememberMe);
       redirect_url = `/${user.username}`;
-    } catch (err) {
+    } else {
       updatePersist(false);
-      alerts.push({
-        type: "warning",
-        message: "Sign up failed.",
-        timeout: 3000,
+    }
+
+    if (error) {
+      Object.keys(error).forEach((err) => {
+        let message = `${err} is already in use.`;
+        errors.push({
+          [err]: message.charAt(0).toUpperCase() + message.slice(1),
+        });
       });
-      const { email, phone } = err.response.data;
-      if (email) {
-        let message;
-        if (email[0] === "has already been taken") {
-          message = "Email is already in use.";
-        } else {
-          message = email.join(", ");
-        }
-        errors.email = message;
-      }
-      if (phone) {
-        let message;
-        if (phone[0] === "has already been taken") {
-          message = "Email is already in use.";
-        } else {
-          message = phone.join(", ");
-        }
-        errors.phone = message;
-      }
     }
 
     return { redirect_url, alerts, errors };
   };
 
-  const login = async ({ userIdentifier, password }) => {
+  const login = async ({ userIdentifier, password, rememberMe }) => {
     const email = verifyEmail(userIdentifier);
     const phone = verifyPhone(userIdentifier);
     const body = {
@@ -83,11 +74,12 @@ export function AuthProvider({ children }) {
     let alerts = [];
     let errors = [];
 
-    const { data, error } = await api.post("/auth", body);
+    const { data, error, success } = await api.post("/auth", body);
 
-    if (data && !error) {
+    if (success) {
       const { access_token, user } = data;
       setAuth({ access_token, user });
+      updatePersist(rememberMe);
       redirect_url = `/${user.username}`;
     } else {
       updatePersist(false);

@@ -10,6 +10,7 @@ export default function PersistLogin() {
 
   useEffect(() => {
     let mounted = true;
+    setIsLoading(true);
 
     const verifyRefreshToken = async () => {
       try {

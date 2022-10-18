@@ -1,4 +1,4 @@
-const { api } = require("../utils/api");
+import api from "../utils/api";
 
 /**
  * @description Create a new post for a user

@@ -1,9 +1,15 @@
 // Hooks
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 // Utils
-import { followUser, getByUsername, unfollowUser } from "../services/users";
+import {
+  followUser,
+  getByUsername,
+  getFollowers,
+  getFollowing,
+  unfollowUser,
+} from "../services/users";
 // Components
 import PageNotFound from "./PageNotFound";
 import UserList from "../components/UserList";
@@ -12,11 +18,13 @@ import Loading from "../components/Loading";
 import { Route, Routes } from "react-router-dom";
 // Assets
 import placeholder from "../assets/image-placeholder-612x612.jpeg";
+// Services
 import { getAllPostsForUser } from "../services/posts";
 
 export default function User() {
   const params = useParams();
   const { auth } = useAuth();
+  const location = useLocation();
   const navigate = useNavigate();
 
   const [user, setUser] = useState(null);
@@ -39,17 +47,45 @@ export default function User() {
   }, []);
 
   const follow = async () => {
-    if (auth.user.user_id === user.user_id) {
+    if (!auth.user) {
+      navigate("/signin");
       return;
     }
-    followUser(auth.user.user_id, user.user_id).then(updateUser);
+    if (auth.user?.user_id === user.user_id) {
+      return;
+    }
+    followUser(auth.user?.user_id, user.user_id).then(updateUser);
   };
   const unfollow = async () => {
     if (auth.user.user_id === user.user_id) {
       return;
     }
-    unfollowUser(auth.user.user_id, user.user_id).then(updateUser);
+    unfollowUser(auth.user?.user_id, user.user_id).then(updateUser);
   };
+
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+    const getUsers = async (section) => {
+      switch (section) {
+        case "following":
+          const { users: following } = await getFollowing(user.user_id);
+          setUsers(following);
+          return;
+        case "followers":
+          const { users: followers } = await getFollowers(user.user_id);
+          setUsers(followers);
+          return;
+        default:
+          return [];
+      }
+    };
+    const loc = location.pathname.split("/");
+    const section = loc[loc.length - 1];
+    getUsers(section);
+  }, [location]);
 
   if (loading) {
     return (
@@ -77,7 +113,7 @@ export default function User() {
               <h2 className='fs-4 m-0'>{user.name}</h2>
               <h2 className='fs-5 m-0 text-muted me-1'>{user.username}</h2>
             </div>
-            {auth.user.user_id === user.user_id ? (
+            {auth.user?.user_id === user.user_id ? (
               <button
                 onClick={() => setShowEditProfile(true)}
                 className='btn btn-outline-secondary ms-1'
@@ -123,22 +159,17 @@ export default function User() {
               {" following"}
             </p>
           </div>
-          {auth.user.user_id === user.user_id && user.roles.includes("admin") && (
-            <div className='position-fixed bottom-0 m-2 cursor-pointer'>
-              <p className='text-muted m-0'>Roles/Permissions</p>
-            </div>
-          )}
         </div>
         <div className='col-12 col-md-8 col-lg-9'>
           <Routes>
-            <Route path='/' element={<Posts user_id={auth.user.user_id} />} />
+            <Route path='/' element={<Posts user_id={user?.user_id} />} />
             <Route
               path='/followers'
               element={
                 <UserList
-                  user_id={user.user_id}
-                  list='followers'
-                  updateUser={updateUser}
+                  users={users}
+                  title='followers'
+                  onUpdate={updateUser}
                 />
               }
             />
@@ -146,9 +177,9 @@ export default function User() {
               path='/following'
               element={
                 <UserList
-                  user_id={user.user_id}
-                  list='following'
-                  updateUser={updateUser}
+                  users={users}
+                  title='following'
+                  onUpdate={updateUser}
                 />
               }
             />
@@ -174,7 +205,6 @@ function Posts({ user_id }) {
   useEffect(() => {
     const getPosts = async () => {
       const posts = await getAllPostsForUser(user_id);
-
       if (posts) {
         setPosts(posts);
       }
@@ -237,12 +267,6 @@ function Posts({ user_id }) {
           <Post key={post.post_id} post={post} />
         ))}
       </div>
-      <button
-        onClick={() => navigate("/new/post")}
-        className='btn btn-outline-primary position-fixed bottom-0 end-0 m-3'
-      >
-        Post Brew
-      </button>
     </div>
   );
 }
