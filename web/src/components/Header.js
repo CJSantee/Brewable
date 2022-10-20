@@ -79,7 +79,14 @@ export default function Header() {
                   </Dropdown.Item>
                 )}
                 <Dropdown.Divider />
-                <Dropdown.Item onClick={logout}>Log Out</Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => {
+                    logout();
+                    navigate("/");
+                  }}
+                >
+                  Log Out
+                </Dropdown.Item>
               </DropdownButton>
             </div>
           ) : (

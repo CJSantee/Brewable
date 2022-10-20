@@ -20,6 +20,14 @@ const updateUser = async ({ id, user_id = id, name, bio }) => {
 };
 
 /**
+ * @description
+ */
+const getAllUsers = async () => {
+  const { data: users } = await api.get("/users");
+  return users;
+};
+
+/**
  * @description Returns user data for given username
  * @param {string} username
  * @returns {object} user
@@ -76,6 +84,7 @@ const unfollowUser = async (follower_id, followed_id) => {
 
 export {
   updateUser,
+  getAllUsers,
   getByUsername,
   getFollowers,
   getFollowing,

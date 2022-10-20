@@ -1,5 +1,5 @@
 // Hooks
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 // Assets
 import placeholder from "../assets/image-placeholder-612x612.jpeg";
@@ -7,6 +7,9 @@ import placeholder from "../assets/image-placeholder-612x612.jpeg";
 import { followUser, unfollowUser } from "../services/users";
 // Components
 import Loading from "./Loading";
+import { useNavigate } from "react-router-dom";
+import SplitButton from "react-bootstrap/SplitButton";
+import Dropdown from "react-bootstrap/Dropdown";
 
 export default function UserList({ users, title, onUpdate }) {
   const [loading, setLoading] = useState(false);
@@ -32,54 +35,84 @@ export default function UserList({ users, title, onUpdate }) {
           user={user}
           user_id={auth.user.user_id}
           onUpdate={onUpdate}
+          showAdminOptions={auth.user.roles.includes("admin")}
         />
       ))}
     </div>
   );
 }
 
-function User({ user, user_id, updateUser }) {
+function User({ user, user_id, onUpdate, showAdminOptions }) {
   const [following, setFollowing] = useState(user.following);
+  const navigate = useNavigate();
 
-  const toggleFollowingAndUpdate = () => {
+  const toggleFollowing = () => {
+    if (following) {
+      unfollowUser(user_id, user.user_id);
+    } else {
+      followUser(user_id, user.user_id);
+    }
     setFollowing(!following);
-    updateUser();
-  };
-  const follow = async () => {
-    followUser(user_id, user.user_id).then(toggleFollowingAndUpdate);
-  };
-  const unfollow = async () => {
-    unfollowUser(user_id, user.user_id).then(toggleFollowingAndUpdate);
+    onUpdate();
   };
 
   return (
-    <div className='d-flex justify-content-between align-items-center'>
+    <div className='d-flex justify-content-between align-items-center bg-hover-light p-2 rounded'>
       <div
-        onClick={() => {
-          window.location.href = `/${user.username}`;
-        }}
+        onClick={() => navigate(`/${user.username}`)}
         className='d-flex align-items-center cursor-pointer'
       >
         <img
           src={placeholder}
-          className='border rounded-circle max-w-80px'
+          className='border rounded-circle max-w-60px'
           alt='profile'
         />
         <div className='m-2'>
-          <h2 className='fs-4 m-0'>{user.name}</h2>
-          <h2 className='fs-5 m-0 text-muted me-1'>{user.username}</h2>
+          <h2 className='fs-5 m-0'>{user.name}</h2>
+          <h2 className='fs-6 m-0 text-muted me-1'>{user.username}</h2>
         </div>
       </div>
-      {user_id !== user.user_id &&
-        (following ? (
-          <button onClick={unfollow} className='btn btn-outline-primary ms-1'>
-            Unfollow
-          </button>
-        ) : (
-          <button onClick={follow} className='btn btn-primary ms-1'>
-            Follow
-          </button>
-        ))}
+      {user_id !== user.user_id && (
+        <FollowButton
+          user={user}
+          following={following}
+          showAdminOptions={showAdminOptions}
+          toggleFollowing={toggleFollowing}
+        />
+      )}
     </div>
   );
+}
+
+function FollowButton({ user, following, showAdminOptions, toggleFollowing }) {
+  const { switchLogin } = useAuth();
+  const navigate = useNavigate();
+
+  const login = async () => {
+    const { redirect_url } = await switchLogin(user);
+    if (redirect_url) {
+      navigate(redirect_url);
+    }
+  };
+
+  if (showAdminOptions) {
+    return (
+      <SplitButton
+        onClick={toggleFollowing}
+        title={following ? "Unfollow" : "Follow"}
+        variant='primary'
+      >
+        <Dropdown.Item onClick={login}>Log In</Dropdown.Item>
+        <Dropdown.Divider />
+        <Dropdown.Item>Archive</Dropdown.Item>
+        <Dropdown.Item>Delete</Dropdown.Item>
+      </SplitButton>
+    );
+  } else {
+    return (
+      <button className={`btn btn-${following ? "outline" : null}primary`}>
+        {following ? "Unfollow" : "Follow"}
+      </button>
+    );
+  }
 }

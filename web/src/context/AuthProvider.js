@@ -103,9 +103,35 @@ export function AuthProvider({ children }) {
     await api.delete("/auth");
   };
 
+  const switchLogin = async ({ user_id }) => {
+    await logout();
+
+    let redirect_url;
+
+    const { data, success } = await api.post("/backdoor", { user_id });
+
+    if (success) {
+      const { access_token, user } = data;
+      setAuth({ access_token, user });
+      updatePersist(true);
+      redirect_url = `/${user.username}`;
+    }
+
+    return { redirect_url };
+  };
+
   return (
     <AuthContext.Provider
-      value={{ auth, setAuth, persist, setPersist, register, login, logout }}
+      value={{
+        auth,
+        setAuth,
+        persist,
+        setPersist,
+        register,
+        login,
+        logout,
+        switchLogin,
+      }}
     >
       {children}
     </AuthContext.Provider>

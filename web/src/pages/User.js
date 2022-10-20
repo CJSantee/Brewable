@@ -22,7 +22,7 @@ import placeholder from "../assets/image-placeholder-612x612.jpeg";
 import { getAllPostsForUser } from "../services/posts";
 
 export default function User() {
-  const params = useParams();
+  const { username } = useParams();
   const { auth } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
@@ -32,19 +32,19 @@ export default function User() {
   const [showEditProfile, setShowEditProfile] = useState(false);
 
   const updateUser = async () => {
-    const user = await getByUsername(params.username);
+    const user = await getByUsername(username);
     setUser(user);
   };
 
   useEffect(() => {
     setLoading(true);
     const getUser = async () => {
-      const user = await getByUsername(params.username);
+      const user = await getByUsername(username);
       setUser(user);
       setLoading(false);
     };
     getUser();
-  }, []);
+  }, [username]);
 
   const follow = async () => {
     if (!auth.user) {
