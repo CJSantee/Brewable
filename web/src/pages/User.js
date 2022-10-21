@@ -20,6 +20,7 @@ import { Route, Routes } from "react-router-dom";
 import placeholder from "../assets/image-placeholder-612x612.jpeg";
 // Services
 import { getAllPostsForUser } from "../services/posts";
+import PostsList from "../components/PostsList";
 
 export default function User() {
   const { username } = useParams();
@@ -141,7 +142,7 @@ export default function User() {
               onClick={() => navigate(`/${user.username}`)}
               className='text-muted text-decoration-none cursor-pointer'
             >
-              <span className='text-dark'>513</span>
+              <span className='text-dark'>{user.posts_count}</span>
               {" brews"}
             </p>
             <p
@@ -197,10 +198,7 @@ export default function User() {
 }
 
 function Posts({ user_id }) {
-  const [viewing, setViewing] = useState("feed");
   const [posts, setPosts] = useState([]);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const getPosts = async () => {
@@ -212,87 +210,5 @@ function Posts({ user_id }) {
     getPosts();
   }, []);
 
-  return (
-    <div className='m-2'>
-      <ul className='nav border-bottom border-2'>
-        <li className='nav-item cursor-pointer'>
-          <p
-            onClick={() => setViewing("feed")}
-            className={`nav-link ${
-              viewing === "feed" ? "border-bottom border-2 border-primary" : ""
-            } m-0`}
-          >
-            Feed
-          </p>
-        </li>
-        <li className='nav-item cursor-pointer'>
-          <p
-            onClick={() => setViewing("photos")}
-            className={`nav-link ${
-              viewing === "photos"
-                ? "border-bottom border-2 border-primary"
-                : ""
-            } m-0`}
-          >
-            Photos
-          </p>
-        </li>
-        <li className='nav-item cursor-pointer'>
-          <p
-            onClick={() => setViewing("locations")}
-            className={`nav-link ${
-              viewing === "locations"
-                ? "border-bottom border-2 border-primary"
-                : ""
-            } m-0`}
-          >
-            Locations
-          </p>
-        </li>
-        <li className='nav-item cursor-pointer'>
-          <p
-            onClick={() => setViewing("reviews")}
-            className={`nav-link ${
-              viewing === "reviews"
-                ? "border-bottom border-2 border-primary"
-                : ""
-            } m-0`}
-          >
-            Reviews
-          </p>
-        </li>
-      </ul>
-      <div className='d-flex flex-column'>
-        {posts.map((post) => (
-          <Post key={post.post_id} post={post} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function Post({ post }) {
-  return (
-    <div className='d-flex flex-fill justify-content-start align-items-start max-w-600px my-2'>
-      <img
-        src={placeholder}
-        className='border rounded-circle max-w-60px'
-        alt=''
-      />
-      <div className='d-flex flex-fill flex-column mx-2'>
-        <div className='d-flex justify-content-between mb-1'>
-          <div className='d-flex'>
-            <p className='fs-6 fw-bold m-0'>{post.name}</p>
-            <p className='fs-6 text-muted m-0 ms-1'>@{post.username}</p>
-            <p className='fs-6 text-muted m-0'>
-              <span className='mx-2'>·</span>
-              {post.display_time}
-            </p>
-          </div>
-          <span>···</span>
-        </div>
-        <p className='fs-6'>{post.caption}</p>
-      </div>
-    </div>
-  );
+  return <PostsList posts={posts} />;
 }

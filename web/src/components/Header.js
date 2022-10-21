@@ -41,9 +41,9 @@ export default function Header() {
   return (
     <>
       <nav className='navbar box-shadow bg-white justify-content-between justify-content-sm-start'>
-        <a className='navbar-brand ms-3' href='/'>
+        <span className='navbar-brand ms-3' onClick={() => navigate("/")}>
           <img src={icon} width='55' height='55' alt='Brewable Icon' />
-        </a>
+        </span>
         <form action='submit' onSubmit={onSubmitSearch} className='form-inline'>
           <input
             onChange={onSearchInput}
@@ -62,7 +62,7 @@ export default function Header() {
           {auth.user ? (
             <div className='d-flex align-items-center justify-content-center'>
               <button
-                onClick={() => navigate("/new/post")}
+                onClick={() => navigate("/post/new")}
                 className='btn btn-outline-primary me-2'
               >
                 Share Brew
