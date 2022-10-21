@@ -2,12 +2,13 @@ import api from "../utils/api";
 import { useAuth } from "./useAuth";
 
 const useRefreshToken = () => {
-  const { setAuth } = useAuth();
+  const { setAuth, setPersist } = useAuth();
 
   const refresh = async () => {
-    const { data } = await api.get("/refresh");
-    if (!data) {
-      return null;
+    const { data, success } = await api.get("/refresh");
+    if (!success) {
+      setPersist(false);
+      return;
     }
     setAuth((prev) => {
       const { access_token, user } = data;

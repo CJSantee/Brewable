@@ -9,7 +9,7 @@ import NewBeans from "./pages/NewBeans";
 import AllBeans from "./pages/AllBeans";
 import Beans from "./pages/Beans";
 import User from "./pages/User";
-import NewPost from "./pages/NewPost";
+import Post from "./pages/Post";
 import SignIn from "./pages/SignIn";
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
@@ -17,14 +17,14 @@ import Admin from "./pages/Admin";
 export default function App() {
   return (
     <Routes>
-      <Route path='/' element={<Layout />}>
+      <Route element={<Layout />}>
         <Route element={<PersistLogin />}>
           <Route path='/' element={<Home />} />
           <Route path='/signin' element={<SignIn />} />
           <Route path='/:username/*' element={<User />} />
           <Route element={<AuthRoute />}>
             <Route path='beans/*' element={<BeansRoutes />} />
-            <Route path='new/*' element={<NewRoutes />} />
+            <Route path='post/:uuid' element={<Post />} />
           </Route>
           <Route element={<AuthRoute roles={["admin"]} />}>
             <Route path='/admin' element={<Admin />} />
@@ -59,7 +59,6 @@ function NewRoutes() {
     <Routes>
       <Route path='/' element={<New />} />
       <Route path='/beans' element={<NewBeans />} />
-      <Route path='/post' element={<NewPost />} />
     </Routes>
   );
 }

@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { verifyEmail, verifyPhone } from "../utils/verify";
 import api from "../utils/api";
 
@@ -11,10 +11,13 @@ export function AuthProvider({ children }) {
     JSON.parse(localStorage.getItem("persist")) || false
   );
 
-  const updatePersist = (newPersist) => {
-    setPersist(newPersist);
-    localStorage.setItem("persist", newPersist);
-  };
+  // Update local storage with persist
+  useEffect(() => {
+    const curr = JSON.parse(localStorage.getItem("persist"));
+    if (curr !== persist) {
+      localStorage.setItem("persist", persist);
+    }
+  }, [persist]);
 
   const register = async ({
     username,
@@ -43,10 +46,10 @@ export function AuthProvider({ children }) {
     if (success) {
       const { access_token, user } = data;
       setAuth({ access_token, user });
-      updatePersist(rememberMe);
+      setPersist(rememberMe);
       redirect_url = `/${user.username}`;
     } else {
-      updatePersist(false);
+      setPersist(false);
     }
 
     if (error) {
@@ -79,10 +82,10 @@ export function AuthProvider({ children }) {
     if (success) {
       const { access_token, user } = data;
       setAuth({ access_token, user });
-      updatePersist(rememberMe);
+      setPersist(rememberMe);
       redirect_url = `/${user.username}`;
     } else {
-      updatePersist(false);
+      setPersist(false);
     }
 
     if (error) {
@@ -99,7 +102,7 @@ export function AuthProvider({ children }) {
 
   const logout = async () => {
     setAuth({});
-    updatePersist(false);
+    setPersist(false);
     await api.delete("/auth");
   };
 
@@ -113,7 +116,7 @@ export function AuthProvider({ children }) {
     if (success) {
       const { access_token, user } = data;
       setAuth({ access_token, user });
-      updatePersist(true);
+      setPersist(true);
       redirect_url = `/${user.username}`;
     }
 

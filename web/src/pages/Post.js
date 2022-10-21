@@ -1,19 +1,38 @@
 // Hooks
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
+import { useNavigate, useParams } from "react-router-dom";
 // Utils
-import { newPost } from "../services/posts";
+import { getPostByUuid, newPost, updatePost } from "../services/posts";
 // Assets
 import placeholder from "../assets/image-placeholder-612x612.jpeg";
-import { useNavigate } from "react-router-dom";
 
-export default function NewPost() {
-  const [caption, setCaption] = useState("");
+export default function Post() {
+  const { uuid } = useParams();
+
   const { auth } = useAuth();
   const navigate = useNavigate();
 
-  const post = async () => {
-    const { success } = await newPost(auth.user.user_id, caption);
+  const [editing, setEditing] = useState(uuid !== "new");
+  const [post, setPost] = useState({
+    caption: "",
+  });
+
+  useEffect(() => {
+    const getPost = async () => {
+      const data = await getPostByUuid(uuid);
+      setPost(data);
+    };
+    if (uuid && uuid !== "new") {
+      setEditing(true);
+      getPost();
+    }
+  }, [uuid]);
+
+  const onPost = async () => {
+    const { success } = editing
+      ? await updatePost(post)
+      : await newPost(auth.user.user_id, post.caption);
     if (success) {
       navigate("/");
     }
@@ -43,15 +62,15 @@ export default function NewPost() {
               <textarea
                 name='caption'
                 className='form-control bg-light m-1 rounded'
-                value={caption}
-                onChange={(e) => setCaption(e.target.value)}
+                value={post.caption}
+                onChange={(e) => setPost({ ...post, caption: e.target.value })}
                 cols='30'
                 rows='10'
               />
             </div>
             <div className='d-flex justify-content-end align-items-center'>
-              <button onClick={post} className='btn btn-primary m-1'>
-                Post
+              <button onClick={onPost} className='btn btn-primary m-1'>
+                {editing ? "Update" : "Post"}
               </button>
             </div>
           </div>

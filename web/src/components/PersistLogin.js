@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import useRefreshToken from "../hooks/useRefreshToken";
+import Loading from "./Loading";
 
 export default function PersistLogin() {
   const [isLoading, setIsLoading] = useState(true);
@@ -13,13 +14,8 @@ export default function PersistLogin() {
     setIsLoading(true);
 
     const verifyRefreshToken = async () => {
-      try {
-        await refresh();
-      } catch (err) {
-        console.log(err);
-      } finally {
-        mounted && setIsLoading(false);
-      }
+      await refresh();
+      mounted && setIsLoading(false);
     };
 
     !auth?.access_token && persist ? verifyRefreshToken() : setIsLoading(false);
@@ -28,6 +24,16 @@ export default function PersistLogin() {
   }, [auth?.access_token, persist, refresh]);
 
   return (
-    <>{!persist ? <Outlet /> : isLoading ? <p>Loading...</p> : <Outlet />}</>
+    <>
+      {!persist ? (
+        <Outlet />
+      ) : isLoading ? (
+        <div className='d-flex h-100 justify-content-center align-items-center'>
+          <Loading size={"lg"} />
+        </div>
+      ) : (
+        <Outlet />
+      )}
+    </>
   );
 }
