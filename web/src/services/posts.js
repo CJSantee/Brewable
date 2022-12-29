@@ -1,5 +1,10 @@
 import api from "../utils/api";
 
+const getAllPosts = async () => {
+  const { data: posts } = await api.get("/posts");
+  return posts;
+};
+
 /**
  * @description Get a post with it's uuid
  * @param {string} post_uuid
@@ -51,4 +56,11 @@ const archivePost = async (user_id, post_id) => {
   return await api.delete(`/users/${user_id}/posts/${post_id}`);
 };
 
-export { getPostByUuid, newPost, updatePost, getAllPostsForUser, archivePost };
+export {
+  getAllPosts,
+  getPostByUuid,
+  newPost,
+  updatePost,
+  getAllPostsForUser,
+  archivePost,
+};

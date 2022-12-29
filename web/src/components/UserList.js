@@ -95,6 +95,8 @@ function FollowButton({ user, following, showAdminOptions, toggleFollowing }) {
     }
   };
 
+  const makeAdmin = async () => {};
+
   if (showAdminOptions) {
     return (
       <SplitButton
@@ -103,6 +105,7 @@ function FollowButton({ user, following, showAdminOptions, toggleFollowing }) {
         variant='primary'
       >
         <Dropdown.Item onClick={login}>Log In</Dropdown.Item>
+        <Dropdown.Item onClick={makeAdmin}>Make Admin</Dropdown.Item>
         <Dropdown.Divider />
         <Dropdown.Item>Archive</Dropdown.Item>
         <Dropdown.Item>Delete</Dropdown.Item>

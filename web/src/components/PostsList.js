@@ -4,20 +4,24 @@ import placeholder from "../assets/image-placeholder-612x612.jpeg";
 import React, { useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import Form from "react-bootstrap/Form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { archivePost } from "../services/posts";
 
 export default function PostsList({ posts }) {
   return (
     <div className='d-flex flex-column align-items-center'>
-      {posts.map((post) => (
-        <Post key={post.post_id} post={post} />
-      ))}
+      {posts?.length &&
+        posts.map((post) => <Post key={post.post_id} post={post} />)}
     </div>
   );
 }
 
 function Post({ post }) {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  const isProfilePage = pathname === `/${post.username}`;
+
   return (
     <div className='d-flex justify-content-start align-items-start min-w-600px bg-hover-light p-2 rounded'>
       <img
@@ -28,7 +32,16 @@ function Post({ post }) {
       <div className='d-flex flex-fill flex-column mx-2'>
         <div className='d-flex justify-content-between mb-1'>
           <div className='d-flex'>
-            <p className='fs-6 fw-bold m-0'>{post.name}</p>
+            <p
+              onClick={() => {
+                if (!isProfilePage) navigate(`/${post.username}`);
+              }}
+              className={`fs-6 fw-bold m-0 ${
+                isProfilePage ? "" : "cursor-pointer hover-underline"
+              }`}
+            >
+              {post.name}
+            </p>
             <p className='fs-6 text-muted m-0 ms-1'>@{post.username}</p>
             <p className='fs-6 text-muted m-0'>
               <span className='mx-2'>·</span>
@@ -36,6 +49,9 @@ function Post({ post }) {
             </p>
             {post.edited && (
               <p className='fs-6 text-muted m-0 ms-1'>(edited)</p>
+            )}
+            {post.archived_at && (
+              <p className='fs-6 text-danger m-0 ms-1'>!archived!</p>
             )}
           </div>
           <PostOptions
@@ -110,8 +126,7 @@ function PostOptions({ user_id, post_id, post_uuid }) {
         <Dropdown.Item onClick={() => navigate(`/post/${post_uuid}`)}>
           Edit
         </Dropdown.Item>
-        <Dropdown.Item eventKey='2'>Archive</Dropdown.Item>
-        <Dropdown.Item eventKey='3'>Delete</Dropdown.Item>
+        <Dropdown.Item onClick={onArchive}>Archive</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );

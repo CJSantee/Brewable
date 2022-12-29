@@ -1,5 +1,7 @@
 import api from "../utils/api";
 
+const assignRole = async () => {};
+
 /**
  * @description Updates a user's name or bio
  * @param {object} user
