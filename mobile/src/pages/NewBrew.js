@@ -16,7 +16,7 @@ import {
 } from "../utils/Descriptions";
 
 // Component Imports
-import { SegmentedControl } from "react-native-ios-kit";
+// import { SegmentedControl } from "react-native-ios-kit";
 import Header from "../components/Header";
 import TableView from "../components/TableView";
 import RowItem from "../components/RowItem";
@@ -300,7 +300,7 @@ const NewBrew = ({ route, navigation }) => {
                         }
                         keyboardType='decimal-pad'
                     >
-                        <SegmentedControl
+                        {/* <SegmentedControl
                             values={["g", "oz"]}
                             selectedIndex={["g", "oz"].indexOf(
                                 user_preferences.coffee_unit
@@ -310,7 +310,7 @@ const NewBrew = ({ route, navigation }) => {
                             }
                             style={{ width: 100 }}
                             theme={{ primaryColor: colors.interactive }}
-                        />
+                        /> */}
                     </TextFieldRow>
                     <TextFieldRow
                         title='Water Amount'
@@ -318,7 +318,7 @@ const NewBrew = ({ route, navigation }) => {
                         onChange={(value) => setBrew({ ...brew, water: value })}
                         keyboardType='decimal-pad'
                     >
-                        <SegmentedControl
+                        {/* <SegmentedControl
                             values={["g", "oz", "ml"]}
                             selectedIndex={["g", "oz", "ml"].indexOf(
                                 user_preferences.water_unit
@@ -328,7 +328,7 @@ const NewBrew = ({ route, navigation }) => {
                             }
                             style={{ width: 100 }}
                             theme={{ primaryColor: colors.interactive }}
-                        />
+                        /> */}
                     </TextFieldRow>
                     <TextFieldRow
                         title='Temperature'
@@ -338,7 +338,7 @@ const NewBrew = ({ route, navigation }) => {
                         }
                         keyboardType='decimal-pad'
                     >
-                        <SegmentedControl
+                        {/* <SegmentedControl
                             values={["f", "c"]}
                             selectedIndex={["f", "c"].indexOf(
                                 user_preferences.temp_unit
@@ -348,7 +348,7 @@ const NewBrew = ({ route, navigation }) => {
                             }
                             style={{ width: 100 }}
                             theme={{ primaryColor: colors.interactive }}
-                        />
+                        /> */}
                     </TextFieldRow>
                 </TableView>
                 <TableView

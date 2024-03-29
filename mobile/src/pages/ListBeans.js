@@ -21,7 +21,7 @@ import { toBeansString } from "../utils/Converter";
 */
 
 // Component Imports
-import { SegmentedControl } from "react-native-ios-kit";
+// import { SegmentedControl } from "react-native-ios-kit";
 import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
 import Icon from "../components/Icon";
@@ -275,7 +275,7 @@ const ListBeans = ({ navigation }) => {
                     borderColor: colors.border,
                 }}
             >
-                <SegmentedControl
+                {/* <SegmentedControl
                     values={["Roast Date", "Alphabetical"]}
                     selectedIndex={0}
                     onValueChange={(value, index) => {
@@ -286,7 +286,7 @@ const ListBeans = ({ navigation }) => {
                         }
                     }}
                     style={{ marginHorizontal: 10, marginBottom: 10 }}
-                />
+                /> */}
             </View>
             {beans.length === 0 ? (
                 <View

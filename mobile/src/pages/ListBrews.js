@@ -19,7 +19,7 @@ import * as Clipboard from "expo-clipboard";
 let { height, width } = Dimensions.get("window");
 
 // Component Imports
-import { SegmentedControl } from "react-native-ios-kit";
+// import { SegmentedControl } from "react-native-ios-kit";
 import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
 import Brew from "../components/Brew";
@@ -262,7 +262,7 @@ const ListBrews = ({ navigation }) => {
                     borderColor: colors.border,
                 }}
             >
-                <SegmentedControl
+                {/* <SegmentedControl
                     values={["Brew Date", "Rating"]}
                     selectedIndex={0}
                     onValueChange={(value, index) => {
@@ -273,7 +273,7 @@ const ListBrews = ({ navigation }) => {
                         }
                     }}
                     style={{ marginHorizontal: 10, marginBottom: 10 }}
-                />
+                /> */}
             </View>
             {brews.length === 0 ? (
                 <View
