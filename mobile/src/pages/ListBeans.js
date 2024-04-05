@@ -1,11 +1,11 @@
 import React, { useCallback, useState, useRef, useEffect } from "react";
 import {
-    View,
-    StyleSheet,
-    FlatList,
-    Text,
-    TouchableOpacity,
-    Alert,
+  View,
+  StyleSheet,
+  FlatList,
+  Text,
+  TouchableOpacity,
+  Alert,
 } from "react-native";
 
 import { Feather, FontAwesome, FontAwesome5 } from "@expo/vector-icons";
@@ -29,253 +29,242 @@ import FullScreenModal from "../components/FullScreenModal";
 import NewModal from "../components/NewModal";
 
 const Beans = ({ beans, onLongPress, navigation }) => {
-    const { colors } = useTheme();
+  const { colors } = useTheme();
 
-    return (
+  return (
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate("DisplayBeans", {
+          beans_id: beans.id,
+          parent: "ListBeans",
+        })
+      }
+      onLongPress={onLongPress}
+    >
+      <View style={{ ...styles.beansRow, borderColor: colors.border }}>
+        <Icon uri={beans.photo_uri} size={80} />
+        <View style={{ flexDirection: "column", margin: 15 }}>
+          <Text
+            style={{
+              fontWeight: "bold",
+              fontSize: 18,
+              color: colors.text,
+            }}
+          >
+            {beans.roaster}
+          </Text>
+          <Text style={{ fontSize: 16, color: colors.text }}>{beans.name}</Text>
+        </View>
         <TouchableOpacity
-            onPress={() =>
-                navigation.navigate("DisplayBeans", {
-                    beans_id: beans.id,
-                    parent: "ListBeans",
-                })
-            }
-            onLongPress={onLongPress}
+          style={{
+            position: "absolute",
+            padding: 15,
+            right: 0,
+            top: 0,
+          }}
+          onPress={() => onLongPress()}
         >
-            <View style={{ ...styles.beansRow, borderColor: colors.border }}>
-                <Icon uri={beans.photo_uri} size={80} />
-                <View style={{ flexDirection: "column", margin: 15 }}>
-                    <Text
-                        style={{
-                            fontWeight: "bold",
-                            fontSize: 18,
-                            color: colors.text,
-                        }}
-                    >
-                        {beans.roaster}
-                    </Text>
-                    <Text style={{ fontSize: 16, color: colors.text }}>
-                        {beans.name}
-                    </Text>
-                </View>
-                <TouchableOpacity
-                    style={{
-                        position: "absolute",
-                        padding: 15,
-                        right: 0,
-                        top: 0,
-                    }}
-                    onPress={() => onLongPress()}
-                >
-                    <FontAwesome5
-                        name='ellipsis-h'
-                        size={18}
-                        color={colors.placeholder}
-                    />
-                </TouchableOpacity>
-            </View>
+          <FontAwesome5
+            name="ellipsis-h"
+            size={18}
+            color={colors.placeholder}
+          />
         </TouchableOpacity>
-    );
+      </View>
+    </TouchableOpacity>
+  );
 };
 
 const ListBeans = ({ navigation }) => {
-    const { colors } = useTheme(); // Theme colors
-    const [newModal, setNewModal] = useState(false); // New Modal state
-    const [btmModal, setBtmModal] = useState(false); // Bottom modal state
-    const [selected, setSelected] = useState({});
-    const [beans, setBeans] = useState([]); // Beans array
-    const [refreshing, setRefreshing] = useState(false);
+  const { colors } = useTheme(); // Theme colors
+  const [newModal, setNewModal] = useState(false); // New Modal state
+  const [btmModal, setBtmModal] = useState(false); // Bottom modal state
+  const [selected, setSelected] = useState({});
+  const [beans, setBeans] = useState([]); // Beans array
+  const [refreshing, setRefreshing] = useState(false);
 
-    const ref_flatlist = useRef();
+  const ref_flatlist = useRef();
 
-    // Search state variables
-    const [searchQuery, setSearchQuery] = useState("");
-    const [searchResults, setSearchResults] = useState([]);
-    const [sortBy, setSortBy] = useState("roast_date");
+  // Search state variables
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [sortBy, setSortBy] = useState("roast_date");
 
-    // Filter search queries by roaster and name
-    function searchFilter(item, query) {
-        query = query.toLowerCase();
-        if (item.roaster.toLowerCase().includes(query)) return true;
-        if (item.name.toLowerCase().includes(query)) return true;
-        return false;
-    }
+  // Filter search queries by roaster and name
+  function searchFilter(item, query) {
+    query = query.toLowerCase();
+    if (item.roaster.toLowerCase().includes(query)) return true;
+    if (item.name.toLowerCase().includes(query)) return true;
+    return false;
+  }
 
-    // Update search query state and filter results
-    function handleSearch(newSearchQuery) {
-        setSearchQuery(newSearchQuery);
-        setSearchResults(
-            beans.filter((item) => searchFilter(item, newSearchQuery))
-        );
-    }
-
-    // Compare function for sorting beans
-    const compare = useCallback(
-        (a, b) => {
-            if (sortBy === "alphabetical")
-                return a.roaster.localeCompare(b.roaster, "en");
-            if (sortBy === "roast_date") {
-                a = new Date(a.roast_date).setHours(0, 0, 0, 0);
-                b = new Date(b.roast_date).setHours(0, 0, 0, 0);
-                if (a < b) return 1;
-                if (a > b) return -1;
-                return 0;
-            }
-            return a - b;
-        },
-        [sortBy]
+  // Update search query state and filter results
+  function handleSearch(newSearchQuery) {
+    setSearchQuery(newSearchQuery);
+    setSearchResults(
+      beans.filter((item) => searchFilter(item, newSearchQuery))
     );
+  }
 
-    // Set Brew as Favorite
-    const onFavorite = (id) => {
-        let val = 0;
-        beans.forEach((beans) => {
-            if (beans.id === id) val = beans.favorite;
-        });
-        // Update brew in database
-        db.transaction(
-            (tx) => {
-                tx.executeSql("UPDATE beans SET favorite = ? WHERE id = ?;", [
-                    val === 0 ? 1 : 0,
-                    id,
-                ]);
-            },
-            (e) => console.log(e),
-            null
-        );
-        // Update brew state within component
-        setBeans(
-            beans.map((beans) =>
-                beans.id === id
-                    ? { ...beans, favorite: val === 0 ? 1 : 0 }
-                    : beans
-            )
-        );
-        setSelected({ ...selected, favorite: val === 0 ? 1 : 0 });
-    };
+  // Compare function for sorting beans
+  const compare = useCallback(
+    (a, b) => {
+      if (sortBy === "alphabetical")
+        return a.roaster.localeCompare(b.roaster, "en");
+      if (sortBy === "roast_date") {
+        a = new Date(a.roast_date).setHours(0, 0, 0, 0);
+        b = new Date(b.roast_date).setHours(0, 0, 0, 0);
+        if (a < b) return 1;
+        if (a > b) return -1;
+        return 0;
+      }
+      return a - b;
+    },
+    [sortBy]
+  );
 
-    // Delete Beans
-    const onDelete = (id) => {
-        // Delete from database
-        db.transaction(
-            (tx) => {
-                tx.executeSql(
-                    `DELETE
+  // Set Brew as Favorite
+  const onFavorite = (id) => {
+    let val = 0;
+    beans.forEach((beans) => {
+      if (beans.id === id) val = beans.favorite;
+    });
+    // Update brew in database
+    db.transaction(
+      (tx) => {
+        tx.executeSql("UPDATE beans SET favorite = ? WHERE id = ?;", [
+          val === 0 ? 1 : 0,
+          id,
+        ]);
+      },
+      (e) => console.log(e),
+      null
+    );
+    // Update brew state within component
+    setBeans(
+      beans.map((beans) =>
+        beans.id === id ? { ...beans, favorite: val === 0 ? 1 : 0 } : beans
+      )
+    );
+    setSelected({ ...selected, favorite: val === 0 ? 1 : 0 });
+  };
+
+  // Delete Beans
+  const onDelete = (id) => {
+    // Delete from database
+    db.transaction(
+      (tx) => {
+        tx.executeSql(
+          `DELETE
                 FROM beans
                 WHERE id = ?;`,
-                    [id]
-                );
-            },
-            (e) => console.log(e),
-            () => {
-                onRefresh();
-                setBtmModal(false);
-                setSelected({});
+          [id]
+        );
+      },
+      (e) => console.log(e),
+      () => {
+        onRefresh();
+        setBtmModal(false);
+        setSelected({});
+      }
+    );
+  };
+
+  const deleteConfirmation = () => {
+    Alert.alert(
+      "Confirm Delete",
+      "Are you sure you want to permanently delete these beans? You can’t undo this action.",
+      [
+        {
+          text: "Cancel",
+          onPress: () => {},
+        },
+        {
+          text: "Yes",
+          onPress: () => onDelete(selected.id),
+        },
+      ]
+    );
+  };
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    db.transaction(
+      (tx) => {
+        tx.executeSql("SELECT * FROM beans;", [], (_, { rows: { _array } }) => {
+          setBeans(_array.sort(compare));
+        });
+      },
+      (e) => console.log(e),
+      () => setRefreshing(false)
+    );
+  };
+
+  // Retrieve list of beans when component mounts
+  useFocusEffect(
+    useCallback(() => {
+      let mounted = true;
+      setNewModal(false);
+      setBtmModal(false);
+      setRefreshing(true);
+      db.transaction(
+        (tx) => {
+          tx.executeSql(
+            "SELECT * FROM beans;",
+            [],
+            (_, { rows: { _array } }) => {
+              if (mounted) setBeans(_array.sort(compare));
             }
-        );
-    };
+          );
+        },
+        (e) => console.log(e),
+        () => setRefreshing(false)
+      );
+      return () => (mounted = false);
+    }, [])
+  );
 
-    const deleteConfirmation = () => {
-        Alert.alert(
-            "Confirm Delete",
-            "Are you sure you want to permanently delete these beans? You can’t undo this action.",
-            [
-                {
-                    text: "Cancel",
-                    onPress: () => {},
-                },
-                {
-                    text: "Yes",
-                    onPress: () => onDelete(selected.id),
-                },
-            ]
-        );
-    };
+  const renderItem = useCallback(
+    ({ item, index }) => (
+      <Beans
+        beans={item}
+        onDelete={onDelete}
+        onLongPress={() => {
+          setSelected(item);
+          setBtmModal(true);
+        }}
+        navigation={navigation}
+      />
+    ),
+    []
+  );
 
-    const onRefresh = () => {
-        setRefreshing(true);
-        db.transaction(
-            (tx) => {
-                tx.executeSql(
-                    "SELECT * FROM beans;",
-                    [],
-                    (_, { rows: { _array } }) => {
-                        setBeans(_array.sort(compare));
-                    }
-                );
-            },
-            (e) => console.log(e),
-            () => setRefreshing(false)
-        );
-    };
+  const keyExtractor = useCallback((item) => item.id.toString(), []);
 
-    // Retrieve list of beans when component mounts
-    useFocusEffect(
-        useCallback(() => {
-            let mounted = true;
-            setNewModal(false);
-            setBtmModal(false);
-            setRefreshing(true);
-            db.transaction(
-                (tx) => {
-                    tx.executeSql(
-                        "SELECT * FROM beans;",
-                        [],
-                        (_, { rows: { _array } }) => {
-                            if (mounted) setBeans(_array.sort(compare));
-                        }
-                    );
-                },
-                (e) => console.log(e),
-                () => setRefreshing(false)
-            );
-            return () => (mounted = false);
-        }, [])
-    );
-
-    const renderItem = useCallback(
-        ({ item, index }) => (
-            <Beans
-                beans={item}
-                onDelete={onDelete}
-                onLongPress={() => {
-                    setSelected(item);
-                    setBtmModal(true);
-                }}
-                navigation={navigation}
-            />
-        ),
-        []
-    );
-
-    const keyExtractor = useCallback((item) => item.id.toString(), []);
-
-    return (
-        <View
-            style={{
-                flex: 1,
-                flexDirection: "column",
-                backgroundColor: colors.background,
-            }}
-        >
-            <Header
-                title='My Beans'
-                leftText='Settings'
-                rightText='New'
-                leftOnPress={() => navigation.navigate("SettingsPage")}
-                rightOnPress={() => navigation.navigate("NewBeans")}
-            />
-            <SearchBar
-                searchQuery={searchQuery}
-                setSearchQuery={handleSearch}
-            />
-            <View
-                style={{
-                    backgroundColor: colors.card,
-                    borderBottomWidth: 1,
-                    borderColor: colors.border,
-                }}
-            >
-                {/* <SegmentedControl
+  return (
+    <View
+      style={{
+        flex: 1,
+        flexDirection: "column",
+        backgroundColor: colors.background,
+      }}
+    >
+      <Header
+        title="My Beans"
+        leftText="Settings"
+        rightText="New"
+        leftOnPress={() => navigation.navigate("SettingsPage")}
+        rightOnPress={() => navigation.navigate("NewBeans")}
+      />
+      <SearchBar searchQuery={searchQuery} setSearchQuery={handleSearch} />
+      <View
+        style={{
+          backgroundColor: colors.card,
+          borderBottomWidth: 1,
+          borderColor: colors.border,
+        }}
+      >
+        {/* <SegmentedControl
                     values={["Roast Date", "Alphabetical"]}
                     selectedIndex={0}
                     onValueChange={(value, index) => {
@@ -287,32 +276,32 @@ const ListBeans = ({ navigation }) => {
                     }}
                     style={{ marginHorizontal: 10, marginBottom: 10 }}
                 /> */}
-            </View>
-            {beans.length === 0 ? (
-                <View
-                    style={{
-                        flex: 1,
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >
-                    <Text style={{ color: colors.placeholder, fontSize: 18 }}>
-                        No Beans
-                    </Text>
-                </View>
-            ) : (
-                <FlatList
-                    ref={ref_flatlist}
-                    data={searchQuery === "" ? beans : searchResults}
-                    renderItem={renderItem}
-                    maxToRenderPerBatch={6}
-                    initialNumToRender={3}
-                    keyExtractor={keyExtractor}
-                    refreshing={refreshing}
-                    onRefresh={onRefresh}
-                />
-            )}
-            {btmModal && (
+      </View>
+      {beans.length === 0 ? (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Text style={{ color: colors.placeholder, fontSize: 18 }}>
+            No Beans
+          </Text>
+        </View>
+      ) : (
+        <FlatList
+          ref={ref_flatlist}
+          data={searchQuery === "" ? beans : searchResults}
+          renderItem={renderItem}
+          maxToRenderPerBatch={6}
+          initialNumToRender={3}
+          keyExtractor={keyExtractor}
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+        />
+      )}
+      {/* {btmModal && (
                 <FullScreenModal
                     colors={colors}
                     close={() => setBtmModal(false)}
@@ -469,51 +458,51 @@ const ListBeans = ({ navigation }) => {
                         </View>
                     </TouchableOpacity>
                 </FullScreenModal>
-            )}
-        </View>
-    );
+            )} */}
+    </View>
+  );
 };
 
 export default ListBeans;
 
 const styles = StyleSheet.create({
-    beansRow: {
-        width: "100%",
-        borderBottomWidth: 1,
-        padding: 10,
-        flexDirection: "row",
-        alignItems: "center",
-    },
-    text: {
-        fontSize: 18,
-    },
-    btmModal: {
-        position: "absolute",
-        bottom: 0,
-        width: "100%",
-        borderWidth: 1,
-        borderTopStartRadius: 15,
-        borderTopEndRadius: 15,
-        flexDirection: "column",
-        justifyContent: "space-between",
-    },
-    modalRow: {
-        width: "100%",
-        height: 50,
-        flexDirection: "row",
-        alignItems: "center",
-    },
-    modalText: {
-        fontSize: 18,
-    },
-    menuItem: {
-        flexDirection: "row",
-        alignItems: "center",
-        paddingHorizontal: 10,
-        paddingVertical: 15,
-    },
-    menuText: {
-        fontSize: 18,
-        marginLeft: 10,
-    },
+  beansRow: {
+    width: "100%",
+    borderBottomWidth: 1,
+    padding: 10,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  text: {
+    fontSize: 18,
+  },
+  btmModal: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    borderWidth: 1,
+    borderTopStartRadius: 15,
+    borderTopEndRadius: 15,
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+  modalRow: {
+    width: "100%",
+    height: 50,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  modalText: {
+    fontSize: 18,
+  },
+  menuItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    paddingVertical: 15,
+  },
+  menuText: {
+    fontSize: 18,
+    marginLeft: 10,
+  },
 });

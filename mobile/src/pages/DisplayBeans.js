@@ -582,7 +582,7 @@ const DisplayBeans = ({ route, navigation }) => {
           />
         )}
       </View>
-      {showModal && (
+      {/* {showModal && (
         <FullScreenModal
           colors={colors}
           close={() => setShowModal(false)}
@@ -731,7 +731,7 @@ const DisplayBeans = ({ route, navigation }) => {
             </View>
           </TouchableOpacity>
         </FullScreenModal>
-      )}
+      )} */}
     </View>
   );
 };
