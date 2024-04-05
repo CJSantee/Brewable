@@ -7,7 +7,7 @@ import {
     Alert,
     Dimensions,
 } from "react-native";
-import { SegmentedControl } from "react-native-ios-kit";
+// import { SegmentedControl } from "react-native-ios-kit";
 import { useTheme, useFocusEffect } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -232,7 +232,7 @@ function EditBeans({ route, navigation }) {
                         }
                         keyboardType='decimal-pad'
                     >
-                        <SegmentedControl
+                        {/* <SegmentedControl
                             values={["g", "oz"]}
                             selectedIndex={["g", "oz"].indexOf(
                                 beans.weight_unit
@@ -242,7 +242,7 @@ function EditBeans({ route, navigation }) {
                             }
                             style={{ width: 100 }}
                             theme={{ primaryColor: colors.interactive }}
-                        />
+                        /> */}
                     </TextFieldRow>
                 </TableView>
                 <TableView header='Flavor'>

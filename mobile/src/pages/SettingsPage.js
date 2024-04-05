@@ -19,7 +19,7 @@ import {
 import * as WebBrowser from "expo-web-browser";
 
 // Component Imports
-import { SegmentedControl, Switch } from "react-native-ios-kit";
+import { Switch } from "react-native-ios-kit";
 import Header from "../components/Header";
 import TableView from "../components/TableView";
 import RowItem from "../components/RowItem";
@@ -117,7 +117,7 @@ const SettingsPage = ({ navigation }) => {
             <ScrollView style={styles.container}>
                 <TableView header='Unit Preferences'>
                     <RowItem title='Coffee' text=''>
-                        <SegmentedControl
+                        {/* <SegmentedControl
                             values={["g", "oz"]}
                             selectedIndex={["g", "oz"].indexOf(
                                 user_preferences.coffee_unit
@@ -126,10 +126,10 @@ const SettingsPage = ({ navigation }) => {
                                 dispatch(updateCoffeeUnit(value))
                             }
                             style={{ width: 100 }}
-                        />
+                        /> */}
                     </RowItem>
                     <RowItem title='Water' text=''>
-                        <SegmentedControl
+                        {/* <SegmentedControl
                             values={["g", "oz", "ml"]}
                             selectedIndex={["g", "oz", "ml"].indexOf(
                                 user_preferences.water_unit
@@ -138,10 +138,10 @@ const SettingsPage = ({ navigation }) => {
                                 dispatch(updateWaterUnit(value))
                             }
                             style={{ width: 100 }}
-                        />
+                        /> */}
                     </RowItem>
                     <RowItem title='Temperature' text=''>
-                        <SegmentedControl
+                        {/* <SegmentedControl
                             values={["f", "c"]}
                             selectedIndex={["f", "c"].indexOf(
                                 user_preferences.temp_unit
@@ -150,7 +150,7 @@ const SettingsPage = ({ navigation }) => {
                                 dispatch(updateTempUnit(value))
                             }
                             style={{ width: 100 }}
-                        />
+                        /> */}
                     </RowItem>
                 </TableView>
                 <TableView header='My Data'>
@@ -242,7 +242,7 @@ const SettingsPage = ({ navigation }) => {
                 </TableView>
                 <TableView header='App'>
                     <RowItem title='Theme' text=''>
-                        <SegmentedControl
+                        {/* <SegmentedControl
                             values={["Light", "Dark"]}
                             selectedIndex={["Light", "Dark"].indexOf(
                                 user_preferences.theme
@@ -251,7 +251,7 @@ const SettingsPage = ({ navigation }) => {
                                 dispatch(updateTheme(value))
                             }
                             style={{ width: 150 }}
-                        />
+                        /> */}
                     </RowItem>
                 </TableView>
                 <TableView header='info'>

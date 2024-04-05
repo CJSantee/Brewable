@@ -16,7 +16,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 const { width, height } = Dimensions.get("window");
 
 // Component Imports
-import { SegmentedControl } from "react-native-ios-kit";
+// import { SegmentedControl } from "react-native-ios-kit";
 import TableView from "../components/TableView";
 import TextFieldRow from "../components/TextFieldRow";
 import DatePickerRow from "../components/DatePickerRow";
@@ -236,7 +236,7 @@ const NewBeans = ({ route, navigation }) => {
                         }
                         keyboardType='decimal-pad'
                     >
-                        <SegmentedControl
+                        {/* <SegmentedControl
                             values={["g", "oz"]}
                             selectedIndex={["g", "oz"].indexOf(
                                 user_preferences.coffee_unit
@@ -246,7 +246,7 @@ const NewBeans = ({ route, navigation }) => {
                             }
                             style={{ width: 100 }}
                             theme={{ primaryColor: colors.interactive }}
-                        />
+                        /> */}
                     </TextFieldRow>
                 </TableView>
                 <TableView header='Flavor'>

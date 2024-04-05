@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Animated, StyleSheet, Text, View, Dimensions } from "react-native";
 
-import { PanGestureHandler, State } from "react-native-gesture-handler";
+import { GestureHandlerRootView, PanGestureHandler, State } from "react-native-gesture-handler";
 
 import { USE_NATIVE_DRIVER } from "../../config";
 
@@ -93,6 +93,7 @@ class DraggableDrawer extends Component {
     render() {
         const { children, colors } = this.props;
         return (
+          <GestureHandlerRootView>
             <PanGestureHandler
                 {...this.props}
                 activeOffsetY={[-10, 10]}
@@ -130,6 +131,7 @@ class DraggableDrawer extends Component {
                     <View style={styles.container}>{children}</View>
                 </Animated.View>
             </PanGestureHandler>
+          </GestureHandlerRootView>
         );
     }
 }
